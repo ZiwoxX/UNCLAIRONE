@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>10 C.1 GANK</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #1a0b2e 0%, #0f1419 100%);
+      min-height: 100vh;
+      color: #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      font-weight: 600;
+      font-size: 2.5rem;
+      letter-spacing: 1.5px;
+      color: #ffffff;
+      text-shadow: 0 0 10px #6a44d8;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 25px;
+      width: 100%;
+      max-width: 1300px;
+    }
+
+    .card {
+      background: linear-gradient(145deg, #2a1b3d, #1a1a2e);
+      border-radius: 25px;
+      box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.5),
+                  -8px -8px 20px rgba(106, 68, 216, 0.1);
+      overflow: hidden;
+      color: #e0e0e0;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 25px;
+      border: 1px solid #4a3c7a;
+
+      /* Animasi awal */
+      opacity: 0;
+      transform: translateY(20px);
+      animation-fill-mode: forwards;
+    }
+
+    .card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 12px 12px 30px rgba(0,0,0,0.7),
+                  -12px -12px 30px rgba(106, 68, 216, 0.2);
+    }
+
+    .card.animate {
+      animation-name: fadeSlideUp;
+      animation-duration: 0.6s;
+      animation-timing-function: ease-out;
+    }
+
+    @keyframes fadeSlideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .photo {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 25px #6a44d8;
+      border: 4px solid #7e62ff;
+      margin-bottom: 20px;
+      background-color: #3d2c66;
+    }
+
+    .name {
+      font-weight: 600;
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      text-align: center;
+      color: #ffffff;
+    }
+
+    .info {
+      font-size: 0.95rem;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .label {
+      font-weight: 600;
+      color: #bdb6f0;
+    }
+
+    /* Style link Instagram */
+    .instagram-link {
+      color: #bdb6f0;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 5px;
+      position: relative;
+      padding-left: 22px;
+    }
+
+    .instagram-link::before {
+      content: url('https://cdn-icons-png.flaticon.com/16/2111/2111463.png');
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+    }
+
+    .instagram-link:hover {
+      color: #7e62ff;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 20px;
+      }
+      .photo {
+        width: 110px;
+        height: 110px;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>UNCLAIRONE BEBENG</h1>
+  <div class="container" id="studentContainer"></div>
+
+  <script>
+    const students = [
+      {name: "Ainun Mardiansyah", age: 17, hobby: "Bermain Sepak Bola", instagram: "4inunranii_", photo: "image/Ainun.jpg"},
+      {name: "Akifa Naila", age: 18, hobby: "Membaca Buku", instagram: "akiipanaila", photo: "image/Naila.jpg"},
+      {name: "Akil Maula S", age: 16, hobby: "Mancing", instagram: "kikiuuuz", photo: "image/Akil.jpg"},
+      {name: "Amirah Zafirah", age: 16, hobby: "Bernyanyi", instagram: "shasy.444", photo: "image/Amirah.jpg"},
+      {name: "Andi Naurah", age: 17, hobby: "Bermain Gitar", instagram: "nauurahkhalilah", photo: "image/Naura.jpg"},
+      {name: "Anindya Ainun", age: 18, hobby: "Fotografi", instagram: "_anindyainun", photo: "https://randomuser.me/api/portraits/men/6.jpg"},
+      {name: "Annisa Maylafaiza", age: 17, hobby: "Menari", instagram: "annisamaylaa_", photo: "image/Anisa.jpg"},
+      {name: "Aprilia Hastikasari", age: 17, hobby: "Bebeng", instagram: "liaaahyy", photo: "image/April.jpg"},
+      {name: "Clarinta Amabel", age: 16, hobby: "Main ML", instagram: "claebell", photo: "image/Claring.jpg"},
+      {name: "Dhia Syarafana", age: 18, hobby: "Slowmotion", instagram: "syeradelrey", photo: "image/Dhia.jpg"},
+      {name: "Fitri", age: 17, hobby: "Mendengarkan Musik", instagram: "ffitri1_", photo: "image/Titi.jpg"},
+      {name: "Hodia", age: 16, hobby: "Nonton Windah", instagram: "odiaa_a", photo: "image/Odi.jpg"},
+      {name: "Husnul Khatimah", age: 18, hobby: "Main sama Rasya", instagram: "hsnllkhtmh__", photo: "image/Husnul.jpg"},
+      {name: "Miftahul", age: 17, hobby: "Minta Hotspot", instagram: "miftahuljannah1507_", photo: "image/Mita.jpg"},
+      {name: "Fathur Jibriel", age: 16, hobby: "Basket", instagram: "ndadapateuy", photo: "image/patur.jpg"},
+      {name: "Muh.Ibrahim", age: 17, hobby: "Paskib", instagram: "ibe_6610", photo: "image/Ibe.jpg"},
+      {name: "Muh.Tsaqiff", age: 18, hobby: "Main epep", instagram: "muhtsaqiffal", photo: "image/Tsaqif.jpg"},
+      {name: "Muh.Alif Falah Jordan", age: 16, hobby: "Basket", instagram: "_alipjrdan", photo: "https://randomuser.me/api/portraits/women/18.jpg"},
+      {name: "Muh.Faiz Aswin", age: 17, hobby: "Bewan sama Akil", instagram: "mhmmdfaizz28", photo: "image/Faiz.jpg"},
+      {name: "Kink Muflih", age: 18, hobby: "Nonton Anime", instagram: "muflih_zaky", photo: "https://randomuser.me/api/portraits/men/20.jpg"},
+      {name: "M.Raihaan", age: 17, hobby: "Memancing", instagram: "rhnzki_16", photo: "image/Rehan.jpg"},
+      {name: "Nagym", age: 16, hobby: "Tidur", instagram: "nagymm_", photo: "image/Nagym.jpg"},
+      {name: "Naufal Qawwiy", age: 15, hobby: "Daki Gunung", instagram: "naufalqawiyy", photo: "image/nopal.jpg"},
+      {name: "Nur Nadya Afifah", age: 18, hobby: "Mengaji", instagram: "dyaafifah_", photo: "image/Afifah.jpg"},
+      {name: "Nurfadillah Quinsya", age: 16, hobby: "Meditasi", instagram: "nurfdilhqsya_", photo: "https://randomuser.me/api/portraits/men/25.jpg"},
+      {name: "Qonitha Cleonima", age: 17, hobby: "Silat", instagram: "qoniitataa", photo: "image/Qoni.jpg"},
+      {name: "Rafailah Andini", age: 18, hobby: "Nda tau", instagram: "rafailahandini", photo: "image/dini.jpg"},
+      {name: "Raihanah Nadira", age: 17, hobby: "Nonton yutub", instagram: "raihanadiraa", photo: "image/Raihana.jpg"},
+      {name: "Rasya Az'Zahra", age: 16, hobby: "Basket", instagram: "rasya_azzahra", photo: "image/Rasya.jpg"},
+      {name: "Aulia", age: 17, hobby: "Menggambar", instagram: "auliaaa_dn", photo: "image/aulia.jpg"},
+      {name: "ACOK NI BOS", age: 18, hobby: "Bermain Bola", instagram: "rrezxkyy30", photo: "https://randomuser.me/api/portraits/men/31.jpg"},
+      {name: "Syifa BTR", age: 16, hobby: "nda tau", instagram: "syfabhtr_", photo: "image/Cipa.jpg"},
+      {name: "Vanezia", age: 17, hobby: "Menari", instagram: "vvsloav_19", photo: "https://randomuser.me/api/portraits/men/33.jpg"},
+      {name: "Wilyam", age: 18, hobby: "Apa ya", instagram: "ultraawill", photo: "image/Wilyam.jpg"},
+      {name: "Zahra Mauaja", age: 17, hobby: "Apa yak", instagram: "zhrmdkyya", photo: "image/Yaya.jpg"},
+      {name: "Zyqri Al Farezqhi", age: 16, hobby: "main roblox", instagram: "zyqrialfarezqhi18", photo: "image/Zyqri.jpg"},
+    ];
+
+    const container = document.getElementById('studentContainer');
+
+    students.forEach((s, index) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      card.innerHTML = `
+        <img class="photo" src="${s.photo}" alt="Foto ${s.name}" />
+        <div class="name">${s.name}</div>
+        <div class="info"><span class="label">Umur:</span> ${s.age} tahun</div>
+        <div class="info"><span class="label">Hobi:</span> ${s.hobby}</div>
+        <div class="info">
+          <span class="label">Instagram:</span> 
+          <a href="https://instagram.com/${s.instagram}" target="_blank" class="instagram-link">@${s.instagram}</a>
+        </div>
+      `;
+
+      container.appendChild(card);
+
+      setTimeout(() => {
+        card.classList.add('animate');
+      }, index * 100);
+    });
+  </script>
+</body>
+</html>
