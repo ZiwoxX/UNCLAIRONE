@@ -19,6 +19,28 @@
       padding: 20px;
     }
 
+    /* CSS BARU UNTUK HYPERLINK DI KIRI ATAS */
+    .home-link {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        color: #bdb6f0;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        padding: 5px 10px;
+        border-radius: 8px;
+        background: rgba(106, 68, 216, 0.2);
+        transition: background 0.3s, color 0.3s;
+        z-index: 2; /* Pastikan di atas konten lain */
+    }
+
+    .home-link:hover {
+        background: #6a44d8;
+        color: #ffffff;
+    }
+    /* AKHIR CSS HYPERLINK */
+
     h1 {
       margin-bottom: 30px;
       font-weight: 700;
@@ -50,7 +72,7 @@
       align-items: center;
       padding: 25px;
       border: 1px solid #4a3c7a;
-      cursor: pointer; /* Menandakan elemen bisa diklik */
+      cursor: pointer; 
 
       opacity: 0;
       transform: translateY(20px);
@@ -106,13 +128,11 @@
       margin-bottom: 5px;
     }
 
-    /* Label Umum (Umur & Hobi) */
     .label {
       font-weight: 600;
       color: #bdb6f0;
     }
     
-    /* KELAS BARU: Hanya untuk Label Instagram */
     .ig-label {
       display: block; 
       text-align: center;
@@ -142,7 +162,7 @@
       text-decoration: underline;
     }
 
-    /* --- Style Modal / Pop-up (FIX PERATAAN DI SINI) --- */
+    /* --- Style Modal / Pop-up --- */
     .modal {
       position: fixed;
       z-index: 1;
@@ -154,17 +174,15 @@
       backdrop-filter: blur(5px);
       animation: fadeIn 0.3s;
       
-      /* PERBAIKAN: Gunakan Flexbox untuk centering */
-      display: none; /* Awalnya sembunyi, akan diset ke 'flex' oleh JS */
-      justify-content: center; /* Pusat horizontal */
-      align-items: center; /* Pusat vertikal */
-      overflow-y: auto; /* Memungkinkan modal untuk discroll jika terlalu tinggi */
+      display: none; 
+      justify-content: center; 
+      align-items: center; 
+      overflow-y: auto; 
       padding: 10px;
     }
 
     .modal-content {
       background: linear-gradient(160deg, #2a1b3d 5%, #151525 100%);
-      /* Hapus margin: 5% auto; karena sudah diatur oleh Flexbox di .modal */
       padding: 30px;
       border-radius: 25px;
       box-shadow: 0 0 50px rgba(106, 68, 216, 0.8);
@@ -175,9 +193,8 @@
       animation: slideIn 0.4s ease-out;
       border: 2px solid #6a44d8;
 
-      /* FIX MOBILE VIEW */
-      max-height: 95vh; /* Batasi tinggi agar tidak melebihi viewport */
-      overflow-y: auto; /* Buat konten modal bisa digulir */
+      max-height: 95vh; 
+      overflow-y: auto; 
     }
 
     @keyframes fadeIn {
@@ -345,10 +362,15 @@
       h1 {
         font-size: 2rem;
       }
+      /* Sesuaikan posisi link di mobile */
+      .home-link {
+        top: 10px;
+        left: 10px;
+        font-size: 0.9rem;
+      }
+
       .modal-content {
-          /* Hapus margin: 10% auto; */
           padding: 20px;
-          /* Ganti width agar lebih pas di mobile */
           width: 95%; 
       }
       .modal-name {
@@ -372,6 +394,8 @@
   </style>
 </head>
 <body>
+  <a href="https://xcerdas1.vercel.app/" class="home-link">Home / Beranda</a>
+
   <h1>UNCLAIRONE BEBENG</h1>
   <div class="container" id="studentContainer"></div>
 
@@ -418,7 +442,7 @@
         photo: "image/Ainun.jpg",
         religion: "Islam",
         organization: "Paskibra", 
-        gallery: ["image/Ainun.jpg", "image/Naila.jpg", "image/Akil.jpg"]
+        gallery: ["image/Ainun.jpg", "Foto Lainnya XC1/1.Ainun Mardi/AinunM1.jpeg", "Foto Lainnya XC1/1.Ainun Mardi/AinunM2.jpeg",]
       },
       {
         name: "Akifa Naila",
@@ -428,7 +452,7 @@
         photo: "image/Naila.jpg",
         religion: "Islam",
         organization: "OSIS",
-        gallery: ["image/Naila.jpg", "image/Amirah.jpg", "image/Naura.jpg"]
+        gallery: ["image/Naila.jpg",]
       },
       {name: "Akil Maula S", age: 16, hobby: "Mancing", instagram: "kikiuuuz", photo: "image/Akil.jpg", religion: "Islam", organization: "SEGA", gallery: ["Foto Lainnya XC1/3.Akil/Akil.jpg", "Foto Lainnya XC1/3.Akil/Akil1.jpg", "Foto Lainnya XC1/3.Akil/Akil2.jpg",]},
       {name: "Amirah Zafirah", age: 16, hobby: "Yapping", instagram: "amirahpspra", photo: "image/Amirah.jpg", religion: "Islam", organization: "Paskibra", gallery: ["image/Amirah.jpg"]},
@@ -514,7 +538,6 @@
             galleryGrid.appendChild(img);
         });
 
-        // PERUBAHAN JS: Gunakan 'flex' agar CSS Flexbox centering bekerja
         modal.style.display = 'flex'; 
     }
 
