@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>10 C.1 GANK</title>
+  <title>10 C.1 GANK - Detail Siswa</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
     body {
       margin: 0;
@@ -21,7 +21,7 @@
 
     h1 {
       margin-bottom: 30px;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 2.5rem;
       letter-spacing: 1.5px;
       color: #ffffff;
@@ -36,6 +36,7 @@
       max-width: 1300px;
     }
 
+    /* Modifikasi Card: Tambah kursor pointer */
     .card {
       background: linear-gradient(145deg, #2a1b3d, #1a1a2e);
       border-radius: 25px;
@@ -49,8 +50,8 @@
       align-items: center;
       padding: 25px;
       border: 1px solid #4a3c7a;
+      cursor: pointer; /* Menandakan elemen bisa diklik */
 
-      /* Animasi awal */
       opacity: 0;
       transform: translateY(20px);
       animation-fill-mode: forwards;
@@ -91,7 +92,7 @@
     }
 
     .name {
-      font-weight: 600;
+      font-weight: 700;
       font-size: 1.3rem;
       margin-bottom: 10px;
       text-align: center;
@@ -102,38 +103,232 @@
       font-size: 0.95rem;
       line-height: 1.4;
       text-align: center;
+      margin-bottom: 5px;
     }
 
+    /* PERUBAHAN CSS: Label Umum (Umur & Hobi) */
     .label {
       font-weight: 600;
       color: #bdb6f0;
+      /* Dibiarkan default display: inline; */
+    }
+    
+    /* KELAS BARU: Hanya untuk Label Instagram */
+    .ig-label {
+      display: block; /* Ini yang membuat link Instagram pindah ke baris baru */
+      text-align: center;
+      margin-bottom: 2px;
     }
 
-    /* Style link Instagram */
+    /* --- Style Instagram Link --- */
     .instagram-link {
       color: #bdb6f0;
       text-decoration: none;
       font-weight: 600;
-      margin-left: 5px;
-      position: relative;
-      padding-left: 22px;
+      
+      /* Menggunakan Flexbox untuk perataan vertikal ikon dan teks */
+      display: inline-flex; 
+      align-items: center; 
+      justify-content: center; /* Memusatkan link di tengah kartu */
     }
 
     .instagram-link::before {
       content: url('https://cdn-icons-png.flaticon.com/16/2111/2111463.png');
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
       width: 16px;
       height: 16px;
+      margin-right: 6px; 
     }
+    /* --- AKHIR Style Instagram Link --- */
 
     .instagram-link:hover {
       color: #7e62ff;
       text-decoration: underline;
     }
 
+    /* --- Style Modal / Pop-up --- */
+    .modal {
+      display: none; 
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.8); 
+      backdrop-filter: blur(5px);
+      animation: fadeIn 0.3s;
+    }
+
+    .modal-content {
+      background: linear-gradient(160deg, #2a1b3d 5%, #151525 100%);
+      margin: 5% auto; 
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 0 50px rgba(106, 68, 216, 0.8);
+      width: 90%;
+      max-width: 800px;
+      position: relative;
+      color: #e0e0e0;
+      animation: slideIn 0.4s ease-out;
+      border: 2px solid #6a44d8;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+        from { transform: translateY(-50px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    .close-btn {
+      color: #bbb;
+      float: right;
+      font-size: 35px;
+      font-weight: bold;
+      transition: color 0.3s;
+      cursor: pointer;
+    }
+
+    .close-btn:hover,
+    .close-btn:focus {
+      color: #7e62ff;
+      text-decoration: none;
+    }
+
+    .modal-header {
+      text-align: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #4a3c7a;
+      padding-bottom: 10px;
+    }
+
+    .modal-photo {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid #7e62ff;
+      box-shadow: 0 0 30px rgba(106, 68, 216, 0.5);
+      margin-bottom: 15px;
+    }
+
+    .modal-name {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #ffffff;
+    }
+
+    .modal-details {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 10px;
+      background: #1a1a2e;
+      border-left: 5px solid #6a44d8;
+    }
+
+    .modal-details p {
+        margin: 0;
+        line-height: 1.6;
+    }
+    
+    .modal-details .label {
+        color: #7e62ff;
+        font-weight: 700;
+        width: 100px;
+        display: inline-block;
+    }
+
+    /* Style Galeri Foto */
+    .photo-gallery {
+      margin-top: 30px;
+    }
+    .photo-gallery h3 {
+        color: #bdb6f0;
+        border-bottom: 1px solid #4a3c7a;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 10px;
+    }
+    .gallery-img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+      border: 2px solid #4a3c7a;
+      cursor: pointer;
+    }
+    .gallery-img:hover {
+      transform: scale(1.05);
+      border-color: #7e62ff;
+    }
+
+    /* --- Style LightBox/Full-Screen Viewer --- */
+    .lightbox {
+      display: none; 
+      position: fixed;
+      z-index: 10; 
+      
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.9);
+      animation: fadeIn 0.3s;
+      
+      justify-content: center; 
+      align-items: center; 
+    }
+
+    .lightbox-content {
+      width: auto; 
+      height: auto;
+      max-width: 90%; 
+      max-height: 90vh; 
+      
+      display: block;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(106, 68, 216, 0.5);
+      animation: zoomIn 0.4s;
+      
+      margin: auto; 
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .lightbox-close-btn {
+      position: absolute;
+      top: 15px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .lightbox-close-btn:hover,
+    .lightbox-close-btn:focus {
+      color: #7e62ff;
+    }
+    
     @media (max-width: 480px) {
       .card {
         padding: 20px;
@@ -145,6 +340,27 @@
       h1 {
         font-size: 2rem;
       }
+      .modal-content {
+          margin: 10% auto;
+          padding: 20px;
+      }
+      .modal-name {
+          font-size: 1.5rem;
+      }
+      .modal-photo {
+          width: 100px;
+          height: 100px;
+      }
+      .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .lightbox-content {
+        max-width: 95%; 
+        max-height: 90vh; 
+      }
+      .lightbox {
+        padding-top: 0; 
+      }
     }
   </style>
 </head>
@@ -152,62 +368,170 @@
   <h1>UNCLAIRONE BEBENG</h1>
   <div class="container" id="studentContainer"></div>
 
+  <div id="studentModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <div class="modal-header">
+        <img id="modalPhoto" class="modal-photo" src="" alt="" title="" /> 
+        <h2 id="modalName" class="modal-name"></h2>
+      </div>
+      
+      <div class="modal-details">
+        <p><span class="label">Umur:</span> <span id="modalAge"></span> tahun</p>
+        <p><span class="label">Hobi:</span> <span id="modalHobby"></span></p>
+        <p><span class="label">Instagram:</span> 
+          <a id="modalInstagramLink" href="#" target="_blank" class="instagram-link">@<span id="modalInstagramHandle"></span></a>
+        </p>
+        <p><span class="label">Agama:</span> <span id="modalReligion"></span></p>
+        <p><span class="label">Organisasi:</span> <span id="modalOrganization"></span></p>
+      </div>
+
+      <div class="photo-gallery">
+          <h3>Galeri Foto Lainnya (Klik untuk memperbesar)</h3>
+          <div class="gallery-grid" id="modalGallery">
+              </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="lightbox" class="lightbox">
+    <span class="lightbox-close-btn">&times;</span>
+    <img class="lightbox-content" id="lightboxImage" alt="" title=""> 
+  </div>
+
+
   <script>
+    // Data Siswa (Fakultas diganti Agama, Jenis Kelamin diganti Organisasi)
     const students = [
-      {name: "Ainun Mardiansyah", age: 16, hobby: "Gatahu", instagram: "4inunranii_", photo: "image/Ainun.jpg"},
-      {name: "Akifa Naila", age: 16, hobby: "Minta hotspot", instagram: "akiipanaila", photo: "image/Naila.jpg"},
-      {name: "Akil Maula S", age: 16, hobby: "Mancing", instagram: "kikiuuuz", photo: "image/Akil.jpg"},
-      {name: "Amirah Zafirah", age: 16, hobby: "Yapping", instagram: "amirahpspra", photo: "image/Amirah.jpg"},
-      {name: "Andi Naurah", age: 16, hobby: "Nonton Windah", instagram: "nauurahkhalilah", photo: "image/Naura.jpg"},
-      {name: "Anindya Ainun", age: 16, hobby: "gatau", instagram: "_anindyainun", photo: "https://randomuser.me/api/portraits/men/6.jpg"},
-      {name: "Annisa Maylafaiza", age: 16, hobby: "Minta Hotspots", instagram: "annisamaylaa_", photo: "image/Anisa.jpg"},
-      {name: "Aprilia Hastikasari", age: 16, hobby: "Bebeng", instagram: "liaaahyy", photo: "image/April.jpg"},
-      {name: "Clarinta Amabel", age: 16, hobby: "Main ML", instagram: "claebell", photo: "image/Claring.jpg"},
-      {name: "Dhia Syarafana", age: 16, hobby: "Slowmotion", instagram: "syeradelrey", photo: "image/Dhia.jpg"},
-      {name: "Fitri", age: 16, hobby: "yapping", instagram: "ffitri1_", photo: "image/Titi.jpg"},
-      {name: "Hodia", age: 16, hobby: "Nonton Windah", instagram: "odiaa_a", photo: "image/Odi.jpg"},
-      {name: "Husnul Khatimah", age: 16, hobby: "Main sama Rasya", instagram: "hsnllkhtmh__", photo: "image/Husnul.jpg"},
-      {name: "Miftahul", age: 16, hobby: "Minta Hotspot", instagram: "miftahuljannah1507_", photo: "image/Mita.jpg"},
-      {name: "Fathur Jibriel", age: 16, hobby: "Basket", instagram: "ndadapateuy", photo: "image/patur.jpg"},
-      {name: "Muh.Ibrahim", age: 16, hobby: "Paskib", instagram: "ibe_6610", photo: "image/Ibe.jpg"},
-      {name: "Muh.Tsaqiff", age: 16, hobby: "Main epep", instagram: "muhtsaqiffal", photo: "image/Tsaqif.jpg"},
-      {name: "Muh.Alif Falah Jordan", age: 16, hobby: "Basket", instagram: "_alipjrdan", photo: "image/Alip.jpg"},
-      {name: "Muh.Faiz Aswin", age: 16, hobby: "Bewan sama Akil", instagram: "mhmmdfaizz28", photo: "image/Faiz.jpg"},
-      {name: "Kink Muflih", age: 16, hobby: "Nonton Anime", instagram: "muflih_zaky", photo: "image/Mupli.jpg"},
-      {name: "M.Raihaan", age: 16, hobby: "Topup Dm", instagram: "rhnzki_16", photo: "image/Rehan.jpg"},
-      {name: "Nagym", age: 16, hobby: "Tidur", instagram: "nagymm_", photo: "image/Nagym.jpg"},
-      {name: "Naufal Qawwiy", age: 15, hobby: "Daki Gunung", instagram: "naufalqawiyy", photo: "image/nopal.jpg"},
-      {name: "Nur Nadya Afifah", age: 16, hobby: "Mengaji", instagram: "dyaafifah_", photo: "image/Afifah.jpg"},
-      {name: "Nurfadillah Quinsya", age: 16, hobby: "Meditasi", instagram: "nurfdilhqsya_", photo: "image/Nyonyo.jpg"},
-      {name: "Qonitha Cleonima", age: 16, hobby: "Silat", instagram: "qoniitataa", photo: "image/Qoni.jpg"},
-      {name: "Rafailah Andini", age: 16, hobby: "Nda tau", instagram: "rafailahandini", photo: "image/dini.jpg"},
-      {name: "Raihanah Nadira", age: 16, hobby: "Nonton yutub", instagram: "raihanadiraa", photo: "image/Raihana.jpg"},
-      {name: "Rasya Az'Zahra", age: 16, hobby: "Basket", instagram: "rasya_azzahra", photo: "image/Rasyaa.jpg"},
-      {name: "Aulia", age: 16, hobby: "Menggambar", instagram: "auliaaa_dn", photo: "image/Aul.jpg"},
-      {name: "ACOK NI BOS", age: 16, hobby: "main Bola", instagram: "rrezxkyy30", photo: "image/Aco.jpg"},
-      {name: "Syifa BTR", age: 16, hobby: "nda tau", instagram: "syfabhtr_", photo: "image/Cipa.jpg"},
-      {name: "Vanezia", age: 15, hobby: "Menari", instagram: "vvsloav_19", photo: "https://randomuser.me/api/portraits/men/33.jpg"},
-      {name: "Wilyam", age: 16, hobby: "Apa ya", instagram: "ultraawill", photo: "image/Wilyam.jpg"},
-      {name: "Zahra Mauaja", age: 16, hobby: "Apa yak", instagram: "zhrmdkyya", photo: "image/Yayaa.jpg"},
-      {name: "Zyqri Al Farezqhi", age: 16, hobby: "main roblox", instagram: "zyqrialfarezqhi18", photo: "image/Zyqri.jpg"},
+      {
+        name: "Ainun Mardiansyah",
+        age: 16,
+        hobby: "Gatahu",
+        instagram: "4inunranii_",
+        photo: "image/Ainun.jpg",
+        religion: "Islam",
+        organization: "KITS/Inteens", 
+        gallery: ["Foto Lainnya XC1/1.Ainun Mardi/AinunM1.jpeg", "Foto Lainnya XC1/1.Ainun Mardi/AinunM2.jpeg",]
+      },
+      {
+        name: "Akifa Naila",
+        age: 16,
+        hobby: "Minta hotspot",
+        instagram: "akiipanaila",
+        photo: "image/Naila.jpg",
+        religion: "Islam",
+        organization: "UNIONE",
+        gallery: ["image/Naila.jpg",]
+      },
+      {name: "Akil Maula S", age: 16, hobby: "Mancing", instagram: "kikiuuuz", photo: "image/Akil.jpg", religion: "Islam", organization: "SEGA", gallery: ["Foto Lainnya XC1/3.Akil/Akil.jpg", "Foto Lainnya XC1/3.Akil/Akil1.jpg", "Foto Lainnya XC1/3.Akil/Akil2.jpg",]},
+      {name: "Amirah Zafirah", age: 16, hobby: "Yapping", instagram: "amirahpspra", photo: "image/Amirah.jpg", religion: "Islam", organization: "Paskibra", gallery: ["image/Amirah.jpg"]},
+      {name: "Andi Naurah", age: 16, hobby: "Nonton Windah", instagram: "nauurahkhalilah", photo: "image/Naura.jpg", religion: "Islam", organization: "KITS/Sega/Sanggar Seni", gallery: ["image/Naura.jpg"]},
+      {name: "Anindya Ainun", age: 16, hobby: "gatau", instagram: "_anindyainun", photo: "https://randomuser.me/api/portraits/men/6.jpg", religion: "Islam", organization: "Smansa Voice", gallery: ["https://randomuser.me/api/portraits/men/6.jpg", "image/Claring.jpg"]},
+      {name: "Annisa Maylafaiza", age: 16, hobby: "Minta Hotspots", instagram: "annisamaylaa_", photo: "image/Anisa.jpg", religion: "Islam", organization: "Tidak Ada", gallery: ["image/Anisa.jpg"]},
+      {name: "Aprilia Hastikasari", age: 16, hobby: "Bebeng", instagram: "liaaahyy", photo: "image/April.jpg", religion: "Islam", organization: "Pramuka", gallery: ["image/April.jpg",]},
+      {name: "Clarinta Amabel", age: 16, hobby: "Main ML", instagram: "claebell", photo: "image/Claring.jpg", religion: "Protestan", organization: "KITS/Inteens/Sega/PPKS", gallery: ["image/Claring.jpg",]},
+      {name: "Dhia Syarafana", age: 16, hobby: "Slowmotion", instagram: "syeradelrey", photo: "image/Dhia.jpg", religion: "Islam", organization: "Tidak Ada", gallery: ["image/Dhia.jpg"]},
+      {name: "Fitri", age: 16, hobby: "yapping", instagram: "ffitri1_", photo: "image/Titi.jpg", religion: "Islam", organization: "Tidak Ada", gallery: ["image/Titi.jpg"]},
+      {name: "Hodia", age: 16, hobby: "Nonton Windah", instagram: "odiaa_a", photo: "image/Odi.jpg", religion: "Protestan", organization: "Sega/OSIS/Inteens", gallery: ["image/Odi.jpg"]},
+      {name: "Husnul Khatimah", age: 16, hobby: "Main sama Rasya", instagram: "hsnllkhtmh__", photo: "image/Husnul.jpg", religion: "Islam", organization: "Pramuka", gallery: ["image/Husnul.jpg",]},
+      {name: "Miftahul", age: 16, hobby: "Minta Hotspot", instagram: "miftahuljannah1507_", photo: "image/Mita.jpg", religion: "Islam", organization: "Paskibra", gallery: ["image/Mita.jpg",]},
+      {name: "Fathur Jibriel", age: 15, hobby: "Basket", instagram: "ndadapateuy", photo: "image/patur.jpg", religion: "Islam", organization: "Basket", gallery: ["image/patur.jpg", "image/Ibe.jpg"]},
+      {name: "Muh.Ibrahim", age: 15, hobby: "Takraw", instagram: "ibe_6610", photo: "image/Ibe.jpg", religion: "Islam", organization: "Paskibra", gallery: ["Foto Lainnya XC1/16.Ibrahim/Ibe1.jpeg", "Foto Lainnya XC1/16.Ibrahim/Ibe2.jpeg", "Foto Lainnya XC1/16.Ibrahim/Ibe3.jpeg", "Foto Lainnya XC1/16.Ibrahim/Ibe4.jpeg",]},
+      {name: "Muh.Tsaqiff", age: 15, hobby: "Main epep", instagram: "muhtsaqiffal", photo: "image/Tsaqif.jpg", religion: "Islam", organization: "Smansa Voice", gallery: ["image/Tsaqif.jpg",]},
+      {name: "Muh.Alif Falah Jordan", age: 15, hobby: "Basket", instagram: "_alipjrdan", photo: "image/Alip.jpg", religion: "Islam", organization: "Basket", gallery: ["Foto Lainnya XC1/18.Alif/Alif1.jpeg", "Foto Lainnya XC1/18.Alif/Alif2.jpeg"]},
+      {name: "Muh.Faiz Aswin", age: 15, hobby: "Bewan sama Akil", instagram: "mhmmdfaizz28", photo: "image/Faiz.jpg", religion: "Islam", organization: "Tidak Ada", gallery: ["image/Faiz.jpg",]},
+      {name: "Kink Muflih", age: 15, hobby: "Nonton Anime", instagram: "muflih_zaky", photo: "image/Mupli.jpg", religion: "Islam", organization: "Tidak Ada", gallery: ["image/Mupli.jpg",]},
+      {name: "M.Raihaan", age: 15, hobby: "Topup Dm", instagram: "rhnzki_16", photo: "image/Rehan.jpg", religion: "Islam", organization: "Putra Putri Smansa", gallery: ["image/Rehan.jpg",]},
+      {name: "Nagym", age: 15, hobby: "Tidur", instagram: "nagymm_", photo: "image/Nagym.jpg", religion: "Islam", organization: "KITS", gallery: ["image/Nagym.jpg",]},
+      {name: "Naufal Qawwiy", age: 15, hobby: "Daki Gunung", instagram: "naufalqawiyy", photo: "image/nopal.jpg", religion: "Islam", organization: "Wasipalah", gallery: ["Foto Lainnya XC1/23.Naufal/Naufal1.jpeg", "Foto Lainnya XC1/23.Naufal/Naufal2.jpeg"]},
+      {name: "Nur Nadya Afifah", age: 16, hobby: "Mengaji", instagram: "dyaafifah_", photo: "image/Afifah.jpg", religion: "Islam", organization: "Komunitas Pelajar Muslim", gallery: ["image/Afifah.jpg",]},
+      {name: "Nurfadillah Quinsya", age: 16, hobby: "Meditasi", instagram: "nurfdilhqsya_", photo: "image/Nyonyo.jpg", religion: "Islam", organization: "Sanggar Seni", gallery: ["image/Nyonyo.jpg",]},
+      {name: "Qonitha Cleonima", age: 16, hobby: "Silat", instagram: "qoniitataa", photo: "image/Qoni.jpeg", religion: "Islam", organization: "Paskibra", gallery: ["image/Qoni.jpeg", "Foto Lainnya XC1/26.Qonita/Qoni.jpg"]},
+      {name: "Rafailah Andini", age: 16, hobby: "Nda tau", instagram: "rafailahandini", photo: "image/dini.jpg", religion: "Islam", organization: "OSIS/PMR", gallery: ["image/dini.jpg",]},
+      {name: "Raihanah Nadira", age: 16, hobby: "Nonton yutub", instagram: "raihanadiraa", photo: "image/Raihana.jpg", religion: "Islam", organization: "Sega/Sanggar Seni", gallery: ["image/Raihana.jpg",]},
+      {name: "Rasya Az'Zahra", age: 16, hobby: "Basket", instagram: "rasya_azzahra", photo: "image/Rasyaa.jpg", religion: "Islam", organization: "Basket", gallery: ["image/Rasyaa.jpg",]},
+      {name: "Aulia", age: 16, hobby: "Menggambar", instagram: "auliaaa_dn", photo: "image/Aul.jpg", religion: "Islam", organization: "Paskibra", gallery: ["image/Aul.jpg", "image/Aco.jpg"]},
+      {name: "ACOK NI BOS", age: 15, hobby: "main Bola", instagram: "rrezxkyy30", photo: "image/Aco.jpeg", religion: "Islam", organization: "OSIS/Paskibra", gallery: ["Foto Lainnya XC1/31.Aco/Aco1.jpeg", "image/Aco.jpg"]},
+      {name: "Syifa BTR", age: 16, hobby: "nda tau", instagram: "syfabhtr_", photo: "image/Cipa.jpg", religion: "Islam", organization: "KITS/Inteens/Sanggar/PPS", gallery: ["Foto Lainnya XC1/32.Cipa/Cipa1.jpeg", "Foto Lainnya XC1/32.Cipa/Cipa2.jpeg", "Foto Lainnya XC1/32.Cipa/Cipa3.jpeg", "Foto Lainnya XC1/32.Cipa/Cipa.jpg", "Foto Lainnya XC1/32.Cipa/Cipa1.jpg", "Foto Lainnya XC1/32.Cipa/Cipa2.jpg", "Foto Lainnya XC1/32.Cipa/Cipa3.jpg", "Foto Lainnya XC1/32.Cipa/Cipa4.jpg", "Foto Lainnya XC1/32.Cipa/Cipa5.jpg", "Foto Lainnya XC1/32.Cipa/Cipa6.jpg",]},
+      {name: "Vanezia", age: 15, hobby: "Menari", instagram: "vvsloav_19", photo: "https://randomuser.me/api/portraits/men/33.jpg", religion: "Islam", organization: "Sanggar Seni", gallery: ["https://randomuser.me/api/portraits/men/33.jpg", "image/Wilyam.jpg"]},
+      {name: "Wilyam", age: 15, hobby: "Apa ya", instagram: "ultraawill", photo: "image/Wilyam.jpg", religion: "Katolik", organization: "Smansa Voice", gallery: ["Foto Lainnya XC1/34.Wilyam/Wilyam1.jpeg", "Foto Lainnya XC1/34.Wilyam/Wilyam2.jpeg", "Foto Lainnya XC1/34.Wilyam/Wilyam3.jpeg",]},
+      {name: "Zahra Mauaja", age: 16, hobby: "Apa yak", instagram: "zhrmdkyya", photo: "image/Yayaa.jpg", religion: "Islam", organization: "Tahfidz", gallery: ["image/Yayaa.jpg",]},
+      {name: "Zyqri Al Farezqhi", age: 15, hobby: "main roblox", instagram: "zyqrialfarezqhi18", photo: "image/Zyqri.jpg", religion: "Islam", organization: "KITS/PMR", gallery: ["image/Zyqri.jpg",]},
     ];
 
     const container = document.getElementById('studentContainer');
+    const modal = document.getElementById('studentModal');
+    const modalCloseBtn = document.querySelector('.close-btn');
+    
+    // Elemen LightBox
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImage');
+    const lightboxCloseBtn = document.querySelector('.lightbox-close-btn');
 
+    // Fungsi untuk membuka LightBox
+    function openLightBox(src) {
+        lightboxImg.src = src;
+        lightbox.style.display = 'flex'; 
+    }
+
+    // Fungsi untuk menampilkan modal siswa
+    function showStudentDetails(student) {
+        document.getElementById('modalPhoto').src = student.photo;
+        document.getElementById('modalName').textContent = student.name;
+        document.getElementById('modalAge').textContent = student.age;
+        document.getElementById('modalHobby').textContent = student.hobby;
+        
+        // Mengambil dan menampilkan data Agama
+        document.getElementById('modalReligion').textContent = student.religion || 'Tidak Diketahui';
+        // PERUBAHAN DI SINI: Mengambil dan menampilkan data Organisasi (mantan Jenis Kelamin)
+        document.getElementById('modalOrganization').textContent = student.organization || 'Tidak Diketahui';
+        
+        const igLink = document.getElementById('modalInstagramLink');
+        igLink.href = `https://instagram.com/${student.instagram}`;
+        document.getElementById('modalInstagramHandle').textContent = student.instagram;
+
+        const galleryGrid = document.getElementById('modalGallery');
+        galleryGrid.innerHTML = ''; 
+
+        const galleryPhotos = student.gallery || [student.photo];
+        
+        galleryPhotos.forEach((url, index) => {
+            const img = document.createElement('img');
+            img.className = 'gallery-img';
+            img.src = url;
+            img.alt = `Foto ${student.name} ${index + 1}`;
+            
+            img.addEventListener('click', (e) => {
+                e.stopPropagation(); 
+                openLightBox(url); 
+            });
+
+            galleryGrid.appendChild(img);
+        });
+
+        modal.style.display = 'block';
+    }
+
+    // Loop untuk membuat kartu siswa
     students.forEach((s, index) => {
       const card = document.createElement('div');
       card.className = 'card';
+      card.setAttribute('data-index', index); 
 
       card.innerHTML = `
-        <img class="photo" src="${s.photo}" alt="Foto ${s.name}" />
+        <img class="photo" src="${s.photo}" alt="Foto ${s.name}" title="" />
         <div class="name">${s.name}</div>
         <div class="info"><span class="label">Umur:</span> ${s.age} tahun</div>
         <div class="info"><span class="label">Hobi:</span> ${s.hobby}</div>
         <div class="info">
-          <span class="label">Instagram:</span> 
+          <span class="label ig-label">Instagram:</span> 
           <a href="https://instagram.com/${s.instagram}" target="_blank" class="instagram-link">@${s.instagram}</a>
         </div>
       `;
+
+      card.addEventListener('click', () => {
+          showStudentDetails(students[index]);
+      });
 
       container.appendChild(card);
 
@@ -215,6 +539,26 @@
         card.classList.add('animate');
       }, index * 100);
     });
+
+    // Menutup Modal saat tombol (x) diklik
+    modalCloseBtn.onclick = function() {
+      modal.style.display = 'none';
+    }
+
+    // Menutup LightBox saat tombol (x) diklik
+    lightboxCloseBtn.onclick = function() {
+        lightbox.style.display = 'none';
+    }
+
+    // Menutup Modal atau LightBox saat mengklik di luar area
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+      if (event.target == lightbox) {
+          lightbox.style.display = 'none';
+      }
+    }
   </script>
 </body>
 </html>
