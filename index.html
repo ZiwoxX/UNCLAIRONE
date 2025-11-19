@@ -106,16 +106,15 @@
       margin-bottom: 5px;
     }
 
-    /* PERUBAHAN CSS: Label Umum (Umur & Hobi) */
+    /* Label Umum (Umur & Hobi) */
     .label {
       font-weight: 600;
       color: #bdb6f0;
-      /* Dibiarkan default display: inline; */
     }
     
     /* KELAS BARU: Hanya untuk Label Instagram */
     .ig-label {
-      display: block; /* Ini yang membuat link Instagram pindah ke baris baru */
+      display: block; 
       text-align: center;
       margin-bottom: 2px;
     }
@@ -125,11 +124,9 @@
       color: #bdb6f0;
       text-decoration: none;
       font-weight: 600;
-      
-      /* Menggunakan Flexbox untuk perataan vertikal ikon dan teks */
       display: inline-flex; 
       align-items: center; 
-      justify-content: center; /* Memusatkan link di tengah kartu */
+      justify-content: center; 
     }
 
     .instagram-link::before {
@@ -145,24 +142,29 @@
       text-decoration: underline;
     }
 
-    /* --- Style Modal / Pop-up --- */
+    /* --- Style Modal / Pop-up (FIX PERATAAN DI SINI) --- */
     .modal {
-      display: none; 
       position: fixed;
       z-index: 1;
       left: 0;
       top: 0;
       width: 100%;
       height: 100%;
-      overflow: auto;
       background-color: rgba(0, 0, 0, 0.8); 
       backdrop-filter: blur(5px);
       animation: fadeIn 0.3s;
+      
+      /* PERBAIKAN: Gunakan Flexbox untuk centering */
+      display: none; /* Awalnya sembunyi, akan diset ke 'flex' oleh JS */
+      justify-content: center; /* Pusat horizontal */
+      align-items: center; /* Pusat vertikal */
+      overflow-y: auto; /* Memungkinkan modal untuk discroll jika terlalu tinggi */
+      padding: 10px;
     }
 
     .modal-content {
       background: linear-gradient(160deg, #2a1b3d 5%, #151525 100%);
-      margin: 5% auto; 
+      /* Hapus margin: 5% auto; karena sudah diatur oleh Flexbox di .modal */
       padding: 30px;
       border-radius: 25px;
       box-shadow: 0 0 50px rgba(106, 68, 216, 0.8);
@@ -172,6 +174,10 @@
       color: #e0e0e0;
       animation: slideIn 0.4s ease-out;
       border: 2px solid #6a44d8;
+
+      /* FIX MOBILE VIEW */
+      max-height: 95vh; /* Batasi tinggi agar tidak melebihi viewport */
+      overflow-y: auto; /* Buat konten modal bisa digulir */
     }
 
     @keyframes fadeIn {
@@ -281,7 +287,6 @@
       display: none; 
       position: fixed;
       z-index: 10; 
-      
       left: 0;
       top: 0;
       width: 100%;
@@ -341,8 +346,10 @@
         font-size: 2rem;
       }
       .modal-content {
-          margin: 10% auto;
+          /* Hapus margin: 10% auto; */
           padding: 20px;
+          /* Ganti width agar lebih pas di mobile */
+          width: 95%; 
       }
       .modal-name {
           font-size: 1.5rem;
@@ -401,7 +408,7 @@
 
 
   <script>
-    // Data Siswa (Fakultas diganti Agama, Jenis Kelamin diganti Organisasi)
+    // Data Siswa
     const students = [
       {
         name: "Ainun Mardiansyah",
@@ -410,8 +417,8 @@
         instagram: "4inunranii_",
         photo: "image/Ainun.jpg",
         religion: "Islam",
-        organization: "KITS/Inteens", 
-        gallery: ["Foto Lainnya XC1/1.Ainun Mardi/AinunM1.jpeg", "Foto Lainnya XC1/1.Ainun Mardi/AinunM2.jpeg",]
+        organization: "Paskibra", 
+        gallery: ["image/Ainun.jpg", "image/Naila.jpg", "image/Akil.jpg"]
       },
       {
         name: "Akifa Naila",
@@ -420,8 +427,8 @@
         instagram: "akiipanaila",
         photo: "image/Naila.jpg",
         religion: "Islam",
-        organization: "UNIONE",
-        gallery: ["image/Naila.jpg",]
+        organization: "OSIS",
+        gallery: ["image/Naila.jpg", "image/Amirah.jpg", "image/Naura.jpg"]
       },
       {name: "Akil Maula S", age: 16, hobby: "Mancing", instagram: "kikiuuuz", photo: "image/Akil.jpg", religion: "Islam", organization: "SEGA", gallery: ["Foto Lainnya XC1/3.Akil/Akil.jpg", "Foto Lainnya XC1/3.Akil/Akil1.jpg", "Foto Lainnya XC1/3.Akil/Akil2.jpg",]},
       {name: "Amirah Zafirah", age: 16, hobby: "Yapping", instagram: "amirahpspra", photo: "image/Amirah.jpg", religion: "Islam", organization: "Paskibra", gallery: ["image/Amirah.jpg"]},
@@ -481,9 +488,7 @@
         document.getElementById('modalAge').textContent = student.age;
         document.getElementById('modalHobby').textContent = student.hobby;
         
-        // Mengambil dan menampilkan data Agama
         document.getElementById('modalReligion').textContent = student.religion || 'Tidak Diketahui';
-        // PERUBAHAN DI SINI: Mengambil dan menampilkan data Organisasi (mantan Jenis Kelamin)
         document.getElementById('modalOrganization').textContent = student.organization || 'Tidak Diketahui';
         
         const igLink = document.getElementById('modalInstagramLink');
@@ -509,7 +514,8 @@
             galleryGrid.appendChild(img);
         });
 
-        modal.style.display = 'block';
+        // PERUBAHAN JS: Gunakan 'flex' agar CSS Flexbox centering bekerja
+        modal.style.display = 'flex'; 
     }
 
     // Loop untuk membuat kartu siswa
