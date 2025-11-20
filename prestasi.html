@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Prestasi Kelas X CERDAS 1</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        :root {
+            --primary-color: #575c84;
+            --secondary-color: #686e9d;
+            --tertiary-color: #e06bd5;
+            --quaternary-color: #18fff3;
+            --quinary-color: #ff775c;
+            --senary-color: #ff4359;
+            --septenary-color: #76ffb0;
+            --bg: #4b39c6;
+            --bg1: #e06bd5;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1e1e1e 50%, #4b39c6 100%);
+            background-size: 400% 400%; /* Untuk animasi gradient */
+            animation: gradientRotate 10s ease-in-out infinite; /* Efek baru: gradient berputar */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        @keyframes gradientRotate {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Background partikel bintang dengan twinkling dan parallax */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: twinkle 2s infinite alternate, parallax 20s linear infinite; /* Tambahan parallax */
+            z-index: -1;
+        }
+
+        @keyframes twinkle {
+            0% {opacity: 0.5;}
+            100% {opacity: 1;}
+        }
+
+        @keyframes parallax {
+            0% {transform: translateY(0);}
+            100% {transform: translateY(-50px);}
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px 40px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 40px 0 rgba(31, 38, 135, 0.5);
+            position: relative;
+            /* Animasi slide-down saat load */
+            animation: slideDown 1.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        header h1 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--tertiary-color), var(--quaternary-color), var(--quinary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 
+                0 0 10px rgba(0, 0, 0, 0.2),  /* Layer hitam dikurangi untuk lebih terang */
+                0 0 20px rgba(75, 57, 198, 0.7), /* Ungu lebih terang dan dominan */
+                0 0 30px rgba(224, 107, 213, 0.5); /* Pink lebih visible */
+            margin: 0;
+            overflow: hidden; /* Untuk efek typing */
+            white-space: nowrap;
+            border-right: 3px solid var(--quaternary-color); /* Cursor typing */
+            animation: typing 3s steps(30, end) ease-out, glow 2.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 
+                    0 0 10px rgba(0, 0, 0, 0.2),
+                    0 0 20px rgba(75, 57, 198, 0.7),
+                    0 0 30px rgba(224, 107, 213, 0.5);
+            }
+            to {
+                text-shadow: 
+                    0 0 12px rgba(0, 0, 0, 0.3),  /* Variasi kecil untuk kedalaman */
+                    0 0 25px rgba(75, 57, 198, 0.8),
+                    0 0 35px rgba(224, 107, 213, 0.6);
+            }
+        }
+
+        header p {
+            font-size: 1.4rem;
+            margin-top: 15px;
+            font-weight: 300;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            /* Animasi fade-in untuk subtitle */
+            animation: fadeIn 2s ease-out 0.5s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            /* Animasi fade-in untuk container */
+            animation: fadeIn 2s ease-out 1s both;
+        }
+
+        .prestasi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .prestasi-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 50px 0 rgba(31, 38, 135, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px 30px 40px;
+            text-align: center;
+            transition: all 0.3s ease-out; /* Lebih smooth dan clean: durasi dikurangi, easing diperhalus */
+            will-change: transform; /* Untuk performa GPU */
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease-out forwards; /* Easing lebih smooth */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden; /* Untuk efek shimmer dan ripple */
+        }
+
+        .prestasi-card:nth-child(1) { animation-delay: 0.2s; }
+        .prestasi-card:nth-child(2) { animation-delay: 0.4s; }
+        .prestasi-card:nth-child(3) { animation-delay: 0.6s; }
+        .prestasi-card:nth-child(4) { animation-delay: 0.8s; }
+        .prestasi-card:nth-child(5) { animation-delay: 1s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .prestasi-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 25px 80px 0 rgba(31, 38, 135, 0.6), 0 0 40px rgba(224, 107, 213, 0.5);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        /* Efek shimmer pada hover (efek baru) */
+        .prestasi-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease-out;
+        }
+
+        .prestasi-card:hover::after {
+            left: 100%;
+        }
+
+        /* Efek ripple pada hover */
+        .prestasi-card::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.5s ease-out, height 0.5s ease-out; /* Lebih smooth */
+        }
+
+        .prestasi-card:hover::before {
+            width: 200px; /* Dioptimalkan: dikurangi dari 300px ke 200px agar tidak terlalu besar */
+            height: 200px; /* Dioptimalkan: dikurangi dari 300px ke 200px agar tidak terlalu besar */
+        }
+
+        .prestasi-card i {
+            font-size: 4rem;
+            color: var(--tertiary-color);
+            margin-bottom: 25px;
+            text-shadow: 0 0 20px rgba(224, 107, 213, 0.8);
+            /* Animasi pulse dan floating lebih smooth */
+            animation: pulse 2s ease-out infinite, floating 3s ease-out infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes floating {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .prestasi-card h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0 0 20px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .prestasi-card p {
+            font-size: 1.1rem;
+            opacity: 0.85;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 80px;
+            background: linear-gradient(to top, rgba(75, 57, 198, 0.9) 0%, rgba(224, 107, 213, 0.9) 100%);
+            color: #fff;
+            box-shadow: 0 -10px 40px 0 rgba(31, 38, 135, 0.5);
+            /* Animasi fade-in untuk footer */
+            animation: fadeIn 2s ease-out 1.5s both;
+        }
+
+        footer p {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        /* Responsif */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+            header p {
+                font-size: 1.2rem;
+            }
+            .prestasi-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .prestasi-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Prestasi Kelas X CERDAS 1</h1>
+        <p>Meski baru terbentuk kurang dari tiga bulan, kami sudah menorehkan prestasi membanggakan saat mengikuti Classmeet 2025.</p>
+    </header>
+
+    <div class="container">
+        <div class="prestasi-grid">
+            <div class="prestasi-card">
+                <i class="fas fa-running"></i>
+                <h3>Juara 1 Lomba Senam Classmeet 2025</h3>
+                <p>Kelas X CERDAS 1 berhasil meraih juara pertama dalam lomba senam.</p>
+            </div>
+            <div class="prestasi-card">
+                <i class="fas fa-chess"></i>
+                <h3>Juara 1 Lomba Catur Classmeet 2025</h3>
+                <p>Strategi cerdas dan ketepatan gerakan yang dimiliki oleh Mufli Zaky berhasil membawa kelas kami menjadi juara pertama dalam lomba catur.</p>
+            </div>
+            <div class="prestasi-card">
+                <i class="fas fa-feather-alt"></i>
+                <h3>Juara 2 Lomba Cipta Puisi Classmeet 2025</h3>
+                <p>Kreativitas puisi yang dibacakan oleh Amirah Zafirah membuat kelas kami meraih juara kedua dengan kata-kata yang menyentuh hati.</p>
+            </div>
+            <div class="prestasi-card">
+                <i class="fas fa-trophy"></i>
+                <h3>Juara 3 Deville</h3>
+                <p>Meskipun awalnya kami hanya ingin bersenang-senang tanpa target juara, kelas kami justru berhasil meraih Juara 3 berkat kekompakan dan kerja keras.</p>
+            </div>
+            <div class="prestasi-card">
+                <i class="fas fa-broom"></i>
+                <h3>Juara 1 Kebersihan Kelas</h3>
+                <p>Kelas kami dinobatkan sebagai yang terbersih diantara kelas yang lain, menunjukkan disiplin dan kepedulian terhadap lingkungan.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Kelas X CERDAS 1. Dibuat dengan bangga dan semangat juara!</p>
+    </footer>
+</body>
+</html>
