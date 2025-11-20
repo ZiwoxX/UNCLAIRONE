@@ -63,6 +63,29 @@
             100% {transform: translateY(-50px);}
         }
 
+        /* Tambahan partikel floating (desktop only) */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 2px, transparent 2px);
+            background-size: 100px 100px;
+            animation: float 10s ease-in-out infinite; /* Partikel floating */
+            z-index: -2;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
         header {
             text-align: center;
             padding: 60px 20px 40px 20px;
@@ -169,8 +192,6 @@
             transition: all 0.3s ease-out; /* Lebih smooth dan clean: durasi dikurangi, easing diperhalus */
             will-change: transform; /* Untuk performa GPU */
             opacity: 0;
-            transform: translateY(50px);
-            animation: fadeInUp 1s ease-out forwards; /* Easing lebih smooth */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -178,16 +199,34 @@
             overflow: hidden; /* Untuk efek shimmer dan ripple */
         }
 
-        .prestasi-card:nth-child(1) { animation-delay: 0.2s; }
-        .prestasi-card:nth-child(2) { animation-delay: 0.4s; }
-        .prestasi-card:nth-child(3) { animation-delay: 0.6s; }
-        .prestasi-card:nth-child(4) { animation-delay: 0.8s; }
-        .prestasi-card:nth-child(5) { animation-delay: 1s; }
+        /* Tambahan animasi slide-in dari samping */
+        .prestasi-card:nth-child(odd) {
+            animation: slideInLeft 1s ease-out forwards; /* Slide dari kiri untuk card ganjil */
+        }
 
-        @keyframes fadeInUp {
+        .prestasi-card:nth-child(even) {
+            animation: slideInRight 1s ease-out forwards; /* Slide dari kanan untuk card genap */
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
             }
         }
 
@@ -237,8 +276,8 @@
             color: var(--tertiary-color);
             margin-bottom: 25px;
             text-shadow: 0 0 20px rgba(224, 107, 213, 0.8);
-            /* Animasi pulse dan floating lebih smooth */
-            animation: pulse 2s ease-out infinite, floating 3s ease-out infinite;
+            /* Animasi pulse dan floating lebih smooth, tambah bounce */
+            animation: pulse 2s ease-out infinite, floating 3s ease-out infinite, bounce 2s ease-out 1s both;
         }
 
         @keyframes pulse {
@@ -259,6 +298,19 @@
             }
             50% {
                 transform: translateY(-10px);
+            }
+        }
+
+        /* Tambahan animasi bounce untuk ikon */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
             }
         }
 
@@ -286,8 +338,19 @@
             background: linear-gradient(to top, rgba(75, 57, 198, 0.9) 0%, rgba(224, 107, 213, 0.9) 100%);
             color: #fff;
             box-shadow: 0 -10px 40px 0 rgba(31, 38, 135, 0.5);
-            /* Animasi fade-in untuk footer */
-            animation: fadeIn 2s ease-out 1.5s both;
+            /* Tambahan animasi fade-in dengan rotate */
+            animation: fadeInRotate 2s ease-out 1.5s both;
+        }
+
+        @keyframes fadeInRotate {
+            from {
+                opacity: 0;
+                transform: rotate(-5deg);
+            }
+            to {
+                opacity: 1;
+                transform: rotate(0deg);
+            }
         }
 
         footer p {
@@ -297,20 +360,57 @@
 
         /* Responsif */
         @media (max-width: 768px) {
+            body {
+                animation: none; /* Hapus gradient berputar di mobile */
+            }
+            body::before {
+                animation: none; /* Hapus twinkle dan parallax di mobile */
+            }
+            body::after {
+                display: none; /* Hapus partikel floating di mobile */
+            }
+            header {
+                animation: none; /* Hapus slideDown di mobile */
+            }
             header h1 {
-                font-size: 2rem; /* Dikurangi lebih lanjut untuk mobile */
-                white-space: normal; /* Izinkan wrap */
-                word-wrap: break-word; /* Pecah kata panjang jika perlu */
+                font-size: 2rem;
+                white-space: normal;
+                word-wrap: break-word;
+                animation: typing 3s steps(30, end) ease-out; /* Tetap typing, hapus glow untuk performa */
             }
             header p {
                 font-size: 1.2rem;
+                animation: none; /* Hapus fadeIn di mobile */
             }
-            .prestasi-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
+            .container {
+                animation: none; /* Hapus fadeIn di mobile */
             }
-            .prestasi-card {
-                padding: 20px;
+            .prestasi-card:nth-child(odd),
+            .prestasi-card:nth-child(even) {
+                animation: fadeInUp 1s ease-out forwards; /* Kembali ke fadeInUp di mobile */
+                animation-delay: 0s; /* Hapus delay untuk performa */
+            }
+            .prestasi-card i {
+                animation: pulse 2s ease-out infinite; /* Tetap pulse, hapus bounce dan floating */
+            }
+            footer {
+                animation: none; /* Hapus fadeInRotate di mobile */
+            }
+            .prestasi-card:hover {
+                transform: translateY(-10px) scale(1.02); /* Kurangi efek hover untuk performa */
+            }
+            .prestasi-card::after,
+            .prestasi-card::before {
+                display: none; /* Hapus shimmer dan ripple di mobile */
+            }
+        }
+
+        /* Untuk pengguna yang sensitif terhadap animasi */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
@@ -318,7 +418,7 @@
 <body>
     <header>
         <h1>Prestasi Kelas X CERDAS 1</h1>
-        <p>Meski baru terbentuk kurang dari tiga bulan, kami sudah menorehkan prestasi membanggakan saat mengikuti Classmeet 2025.</p>
+        <p>Meski baru terbentuk kurang dari tiga bulan, kami sudah menorehkan prestasi membanggakan di Classmeet 2025.</p>
     </header>
 
     <div class="container">
@@ -326,24 +426,30 @@
             <div class="prestasi-card">
                 <i class="fas fa-running"></i>
                 <h3>Juara 1 Lomba Senam Classmeet 2025</h3>
-                <p>Kelas X CERDAS 1 berhasil meraih juara pertama dalam lomba senam dengan performa yang mengagumkan dan semangat tinggi.</p>
+                <p>Kelas X CERDAS 1 berhasil meraih juara pertama dalam lomba Senam Anak Indonesia Hebat.</p>
             </div>
             <div class="prestasi-card">
                 <i class="fas fa-chess"></i>
                 <h3>Juara 1 Lomba Catur Classmeet 2025</h3>
-                <p>Strategi cerdas dan ketepatan gerakan membawa kami ke puncak sebagai juara pertama dalam lomba catur.</p>
+                <p>Strategi cerdas dan ketepatan gerakan yang dimiliki oleh Mufli Zaky berhasil membawa kelas kami menjadi juara pertama dalam lomba catur.</p>
             </div>
             <div class="prestasi-card">
                 <i class="fas fa-feather-alt"></i>
                 <h3>Juara 2 Lomba Cipta Puisi Classmeet 2025</h3>
-                <p>Kreativitas puisi kami mendapat apresiasi tinggi, meraih juara kedua dengan kata-kata yang menyentuh hati.</p>
+                <p>Kreativitas puisi yang dibacakan oleh Amirah Zafirah membuat kelas kami meraih juara kedua dengan kata-kata yang menyentuh hati.</p>
             </div>
             <div class="prestasi-card">
                 <i class="fas fa-trophy"></i>
                 <h3>Juara 3 Deville</h3>
-                <p>Prestasi gemilang di kompetisi Deville, menempati posisi ketiga dengan inovasi dan kerja keras.</p>
+                <p>Meskipun awalnya kami hanya ingin bersenang-senang tanpa target juara, kelas kami justru berhasil meraih Juara 3 berkat kekompakan dan kerja keras.</p>
             </div>
             <div class="prestasi-card">
                 <i class="fas fa-broom"></i>
                 <h3>Juara 1 Kebersihan Kelas</h3>
-                <p>K
+                <p>Kelas kami dinobatkan sebagai yang terbersih diantara kelas yang lain, menunjukkan disiplin dan kepedulian terhadap lingkungan.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Kelas X CERDAS 1. Dibuat dengan bangga dan semangat juara
