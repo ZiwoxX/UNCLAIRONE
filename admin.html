@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Upload Galeri</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1a0b2e 0%, #0f1419 100%);
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        h1 {
+            color: #ffffff;
+            margin-bottom: 30px;
+        }
+        .container {
+            background: linear-gradient(145deg, #2a1b3d, #1a1a2e);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(106, 68, 216, 0.4);
+            width: 100%;
+            max-width: 500px;
+        }
+        input, button, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #4a3c7a;
+            box-sizing: border-box;
+            font-size: 16px;
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+        }
+        button {
+            background-color: #6a44d8;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover:not(:disabled) {
+            background-color: #7e62ff;
+        }
+        button:disabled {
+            background-color: #4a3c7a;
+            cursor: not-allowed;
+        }
+        #message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+        }
+        .success {
+            background-color: #4CAF50;
+        }
+        .error {
+            background-color: #f44336;
+        }
+        .logout-btn {
+            background-color: #f44336;
+            margin-top: 20px;
+        }
+        .logout-btn:hover {
+            background-color: #d32f2f;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #3d2c66;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .progress {
+            height: 15px;
+            background-color: #6a44d8;
+            width: 0%;
+            border-radius: 8px;
+            transition: width 0.3s;
+            text-align: center;
+            font-size: 10px;
+            line-height: 15px;
+        }
+    </style>
+    
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+</head>
+<body>
+    <div id="authContainer" class="container">
+        <h1>Admin Login</h1>
+        <input type="email" id="email" placeholder="Email Admin">
+        <input type="password" id="password" placeholder="Password Admin">
+        <button id="loginBtn">Login</button>
+        <p id="authMessage" style="color: #f44336; text-align: center;"></p>
+    </div>
+
+    <div id="uploadContainer" class="container" style="display: none;">
+        <h1>Upload Galeri Foto Siswa</h1>
+        <p>Login Berhasil! Selamat datang, Admin.</p>
+        
+        <form id="uploadForm">
+            <select id="studentSelect" required>
+                <option value="" disabled selected>Pilih Siswa...</option>
+                </select>
+            
+            <input type="file" id="fileInput" accept="image/*" required>
+            
+            <div class="progress-bar">
+                <div class="progress" id="progressBar"></div>
+            </div>
+            
+            <button type="submit" id="submitBtn">Upload dan Simpan ke Galeri</button>
+        </form>
+        
+        <div id="message"></div>
+        <button id="logoutBtn" class="logout-btn">Logout</button>
+    </div>
+
+    <script>
+        // =================================================
+        // ⚠️ LANGKAH 1: KONFIGURASI FIREBASE (HARUS DIGANTI!)
+        // =================================================
+        const firebaseConfig = {
+              apiKey: "AIzaSyAnouQgMTahiA0R3pyKb6n_qHYFhX4tfgU",
+              authDomain: "website-25711.firebaseapp.com",
+              databaseURL: "https://website-25711-default-rtdb.asia-southeast1.firebasedatabase.app",
+              projectId: "website-25711",
+              storageBucket: "website-25711.appspot.com",
+              messagingSenderId: "38660762483",
+              appId: "1:38660762483:web:8f0fa0be46a2e901ceb306",
+              measurementId: "G-6VB4PRBFYV"
+        };
+
+        // Inisialisasi Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = app.auth();
+        const db = app.firestore();
+        const storage = app.storage();
+
+        // Data Siswa (Sama seperti di index.html, hanya butuh nama)
+        const students = [
+            "Ainun Mardiansyah", "Akifa Naila", "Akil Maula S", "Amirah Zafirah", "Andi Naurah", 
+            "Anindya Ainun", "Annisa Maylafaiza", "Aprilia Hastikasari", "Clarinta Amabel", "Dhia Syarafana", 
+            "Fitri", "Hodia", "Husnul Khatimah", "Miftahul", "Fathur Jibriel", "Muh.Ibrahim", 
+            "Muh.Tsaqiff", "Muh.Alif Falah Jordan", "Muh.Faiz Aswin", "Kink Muflih", "M.Raihaan", 
+            "Nagym", "Naufal Qawwiy", "Nur Nadya Afifah", "Nurfadillah Quinsya", "Qonitha Cleonima", 
+            "Rafailah Andini", "Raihanah Nadira", "Rasya Az'Zahra", "Aulia", "ACOK NI BOS", "Syifa BTR", 
+            "Vanezia", "Wilyam", "Zahra Mauaja", "Zyqri Al Farezqhi"
+        ];
+        
+        // Elemen-elemen DOM
+        const authContainer = document.getElementById('authContainer');
+        const uploadContainer = document.getElementById('uploadContainer');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const uploadForm = document.getElementById('uploadForm');
+        const studentSelect = document.getElementById('studentSelect');
+        const fileInput = document.getElementById('fileInput');
+        const submitBtn = document.getElementById('submitBtn');
+        const messageDiv = document.getElementById('message');
+        const progressBar = document.getElementById('progressBar');
+        const authMessage = document.getElementById('authMessage');
+
+        // =================================================
+        // FUNGSI AUTHENTICATION
+        // =================================================
+
+        loginBtn.addEventListener('click', async () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            authMessage.textContent = 'Logging in...';
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+            } catch (error) {
+                authMessage.textContent = `Login Gagal: ${error.message}`;
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            auth.signOut();
+        });
+
+        // Cek status autentikasi
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                authContainer.style.display = 'none';
+                uploadContainer.style.display = 'block';
+                authMessage.textContent = '';
+                populateStudentSelect();
+            } else {
+                authContainer.style.display = 'block';
+                uploadContainer.style.display = 'none';
+            }
+        });
+
+        // =================================================
+        // FUNGSI UPLOAD DAN UPDATE FIRESTORE
+        // =================================================
+
+        function populateStudentSelect() {
+            // Isi dropdown dengan nama-nama siswa
+            students.forEach(name => {
+                const option = document.createElement('option');
+                option.value = name;
+                option.textContent = name;
+                studentSelect.appendChild(option);
+            });
+        }
+
+        function displayMessage(text, isSuccess) {
+            messageDiv.textContent = text;
+            messageDiv.className = isSuccess ? 'success' : 'error';
+        }
+        
+        function updateProgressBar(percentage) {
+            progressBar.style.width = `${percentage}%`;
+            progressBar.textContent = `${Math.round(percentage)}%`;
+        }
+
+        uploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const selectedStudent = studentSelect.value;
+            const file = fileInput.files[0];
+
+            if (!selectedStudent || !file) {
+                displayMessage('Pilih siswa dan file foto.', false);
+                return;
+            }
+
+            submitBtn.disabled = true;
+            updateProgressBar(0);
+            displayMessage('Memulai upload...', false);
+
+            try {
+                // 1. Tentukan path di Firebase Storage
+                // Contoh: students/Ainun Mardiansyah/timestamp_filename.jpg
+                const storageRef = storage.ref();
+                const timestamp = Date.now();
+                const fileExtension = file.name.split('.').pop();
+                const fileName = `${timestamp}.${fileExtension}`;
+                const fileRef = storageRef.child(`students/${selectedStudent}/${fileName}`);
+
+                // 2. Proses Upload
+                const uploadTask = fileRef.put(file);
+
+                uploadTask.on('state_changed', 
+                    (snapshot) => {
+                        // Update progress bar
+                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        updateProgressBar(progress);
+                    }, 
+                    (error) => {
+                        // Handle error
+                        console.error("Upload Error:", error);
+                        displayMessage(`Upload Gagal: ${error.message}`, false);
+                        submitBtn.disabled = false;
+                    }, 
+                    async () => {
+                        // 3. Setelah Upload Selesai, ambil Download URL
+                        const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
+                        
+                        // 4. Update Firestore
+                        await updateFirestoreGallery(selectedStudent, downloadURL);
+
+                        displayMessage(`Upload berhasil! URL ditambahkan ke galeri ${selectedStudent}.`, true);
+                        fileInput.value = ''; // Reset input file
+                        updateProgressBar(0);
+                        submitBtn.disabled = false;
+                    }
+                );
+
+            } catch (error) {
+                console.error("Kesalahan Umum:", error);
+                displayMessage(`Kesalahan: ${error.message}`, false);
+                submitBtn.disabled = false;
+            }
+        });
+
+        async function updateFirestoreGallery(studentName, url) {
+            const galleryCollection = db.collection('studentsGallery');
+            
+            // Mencari dokumen berdasarkan nama siswa (Jika ID Dokumennya bukan nama siswa)
+            // Agar lebih andal, kita akan mencari dokumen yang field 'name'-nya sama.
+            let docId = null;
+            
+            const snapshot = await galleryCollection.where('name', '==', studentName).limit(1).get();
+            if (!snapshot.empty) {
+                docId = snapshot.docs[0].id; // Ambil ID Dokumen yang ada
+            }
+
+            if (docId) {
+                // Dokumen sudah ada, update array galleryPhotos
+                await galleryCollection.doc(docId).update({
+                    galleryPhotos: firebase.firestore.FieldValue.arrayUnion(url)
+                });
+            } else {
+                // Dokumen belum ada, buat baru
+                await galleryCollection.add({
+                    name: studentName,
+                    galleryPhotos: [url]
+                });
+            }
+        }
+    </script>
+</body>
+</html>

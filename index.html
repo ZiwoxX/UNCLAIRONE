@@ -392,6 +392,12 @@
       }
     }
   </style>
+  
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+
 </head>
 <body>
   <a href="https://xcerdas1.vercel.app/" class="home-link">Home / Beranda</a>
@@ -432,6 +438,23 @@
 
 
   <script>
+    // **LANGKAH 1: INISIALISASI FIREBASE (HARUS DIGANTI DENGAN KUNCI ANDA!)**
+    const firebaseConfig = {
+  apiKey: "AIzaSyAnouQgMTahiA0R3pyKb6n_qHYFhX4tfgU",
+  authDomain: "website-25711.firebaseapp.com",
+  databaseURL: "https://website-25711-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "website-25711",
+  storageBucket: "website-25711.appspot.com",
+  messagingSenderId: "38660762483",
+  appId: "1:38660762483:web:8f0fa0be46a2e901ceb306",
+  measurementId: "G-6VB4PRBFYV"
+    };
+
+    // Inisialisasi Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = app.firestore();
+    // const storage = app.storage(); // Tidak perlu storage di sini, hanya firestore
+
     // Data Siswa
     const students = [
       {
@@ -441,7 +464,8 @@
         instagram: "4inunranii_",
         photo: "image/Ainun.jpg",
         religion: "Islam",
-        organization: "Paskibra", 
+        organization: "Inteens", 
+        // Data gallery lokal (digunakan sebagai fallback jika Firestore gagal)
         gallery: ["image/Ainun.jpg", "Foto Lainnya XC1/1.Ainun Mardi/AinunM1.jpeg", "Foto Lainnya XC1/1.Ainun Mardi/AinunM2.jpeg",]
       },
       {
@@ -452,7 +476,7 @@
         photo: "image/Naila.jpg",
         religion: "Islam",
         organization: "OSIS",
-        gallery: ["image/Naila.jpg",]
+        gallery: ["image/Naila.jpg", "Foto Lainnya XC1/2.Akifa/Naila1.jpg", "Foto lainnya XC1/2.Akifa/Naila2.jpg",]
       },
       {name: "Akil Maula S", age: 16, hobby: "Mancing", instagram: "kikiuuuz", photo: "image/Akil.jpg", religion: "Islam", organization: "SEGA", gallery: ["Foto Lainnya XC1/3.Akil/Akil.jpg", "Foto Lainnya XC1/3.Akil/Akil1.jpg", "Foto Lainnya XC1/3.Akil/Akil2.jpg",]},
       {name: "Amirah Zafirah", age: 16, hobby: "Yapping", instagram: "amirahpspra", photo: "image/Amirah.jpg", religion: "Islam", organization: "Paskibra", gallery: ["image/Amirah.jpg"]},
@@ -485,7 +509,7 @@
       {name: "ACOK NI BOS", age: 15, hobby: "main Bola", instagram: "rrezxkyy30", photo: "image/Aco.jpeg", religion: "Islam", organization: "OSIS/Paskibra", gallery: ["Foto Lainnya XC1/31.Aco/Aco1.jpeg", "image/Aco.jpg"]},
       {name: "Syifa BTR", age: 16, hobby: "nda tau", instagram: "syfabhtr_", photo: "image/Cipa.jpg", religion: "Islam", organization: "KITS/Inteens/Sanggar/PPS", gallery: ["Foto Lainnya XC1/32.Cipa/Cipa1.jpeg", "Foto Lainnya XC1/32.Cipa/Cipa2.jpeg", "Foto Lainnya XC1/32.Cipa/Cipa3.jpeg", "Foto Lainnya XC1/32.Cipa/Cipa.jpg", "Foto Lainnya XC1/32.Cipa/Cipa1.jpg", "Foto Lainnya XC1/32.Cipa/Cipa2.jpg", "Foto Lainnya XC1/32.Cipa/Cipa3.jpg", "Foto Lainnya XC1/32.Cipa/Cipa4.jpg", "Foto Lainnya XC1/32.Cipa/Cipa5.jpg", "Foto Lainnya XC1/32.Cipa/Cipa6.jpg",]},
       {name: "Vanezia", age: 15, hobby: "Menari", instagram: "vvsloav_19", photo: "https://randomuser.me/api/portraits/men/33.jpg", religion: "Islam", organization: "Sanggar Seni", gallery: ["https://randomuser.me/api/portraits/men/33.jpg", "image/Wilyam.jpg"]},
-      {name: "Wilyam", age: 15, hobby: "Apa ya", instagram: "ultraawill", photo: "image/Wilyam.jpg", religion: "Katolik", organization: "Smansa Voice", gallery: ["Foto Lainnya XC1/34.Wilyam/Wilyam1.jpeg", "Foto Lainnya XC1/34.Wilyam/Wilyam2.jpeg", "Foto Lainnya XC1/34.Wilyam/Wilyam3.jpeg",]},
+      {name: "Wilyam", age: 15, hobby: "Apa ya", instagram: "ultraawill", photo: "image/Wilyam.jpg", religion: "Katolik", organization: "Smansa Voice", gallery: ["Foto Lainnya XC1/34.Wilyam/Wilyam1.jpeg", "Foto Lainnya XC1/34.Wilyam/Wilyam2.jpeg", "Foto Lainnya XC1/34.Wilyam/Wilyam3.jpeg", "Foto Lainnya XC1/34.Wilyam/Wilyam4.jpeg",]},
       {name: "Zahra Mauaja", age: 16, hobby: "Apa yak", instagram: "zhrmdkyya", photo: "image/Yayaa.jpg", religion: "Islam", organization: "Tahfidz", gallery: ["image/Yayaa.jpg",]},
       {name: "Zyqri Al Farezqhi", age: 15, hobby: "main roblox", instagram: "zyqrialfarezqhi18", photo: "image/Zyqri.jpg", religion: "Islam", organization: "KITS/PMR", gallery: ["image/Zyqri.jpg",]},
     ];
@@ -505,8 +529,8 @@
         lightbox.style.display = 'flex'; 
     }
 
-    // Fungsi untuk menampilkan modal siswa
-    function showStudentDetails(student) {
+    // **LANGKAH 2: FUNGSI UTAMA UNTUK MENAMPILKAN MODAL SISWA**
+    async function showStudentDetails(student) {
         document.getElementById('modalPhoto').src = student.photo;
         document.getElementById('modalName').textContent = student.name;
         document.getElementById('modalAge').textContent = student.age;
@@ -520,10 +544,30 @@
         document.getElementById('modalInstagramHandle').textContent = student.instagram;
 
         const galleryGrid = document.getElementById('modalGallery');
-        galleryGrid.innerHTML = ''; 
-
-        const galleryPhotos = student.gallery || [student.photo];
+        galleryGrid.innerHTML = 'Loading Gallery...'; 
         
+        let galleryPhotos = student.gallery || [student.photo]; // Default ke data lokal/fallback
+
+        // **LANGKAH 3: AMBIL DATA GALERI DARI FIRESTORE**
+        try {
+            const galleryCollection = db.collection('studentsGallery');
+            // Cari dokumen di Firestore yang field 'name'-nya cocok dengan nama siswa
+            const snapshot = await galleryCollection.where('name', '==', student.name).limit(1).get();
+
+            if (!snapshot.empty) {
+                const firestoreData = snapshot.docs[0].data();
+                // Jika data ditemukan, gunakan array galleryPhotos dari Firestore
+                if (firestoreData.galleryPhotos && firestoreData.galleryPhotos.length > 0) {
+                    galleryPhotos = firestoreData.galleryPhotos;
+                }
+            }
+        } catch (error) {
+            console.error("Gagal mengambil data Galeri dari Firestore. Menggunakan data lokal. Error:", error);
+            // Tetap gunakan 'galleryPhotos' yang sudah diset ke data lokal/fallback
+        }
+
+        // Tampilkan galeri foto (menggunakan data Firestore atau fallback)
+        galleryGrid.innerHTML = '';
         galleryPhotos.forEach((url, index) => {
             const img = document.createElement('img');
             img.className = 'gallery-img';
