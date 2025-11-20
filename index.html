@@ -20,7 +20,7 @@
     }
 
     /* CSS BARU UNTUK HYPERLINK DI KIRI ATAS */
-    .nav-link-left { /* Ganti nama kelas agar lebih spesifik */
+    .nav-link-left { 
         position: absolute;
         top: 20px;
         left: 20px;
@@ -32,7 +32,7 @@
         border-radius: 8px;
         background: rgba(106, 68, 216, 0.2);
         transition: background 0.3s, color 0.3s;
-        z-index: 2; /* Pastikan di atas konten lain */
+        z-index: 2; 
     }
 
     .nav-link-left:hover {
@@ -44,7 +44,7 @@
     .nav-link-right {
         position: absolute;
         top: 20px;
-        right: 20px; /* Di sebelah kanan */
+        right: 20px;
         color: #bdb6f0;
         text-decoration: none;
         font-weight: 600;
@@ -230,11 +230,14 @@
 
     .close-btn {
       color: #bbb;
-      float: right;
+      position: absolute; /* Ganti float: right dengan absolute position */
+      top: 15px;
+      right: 25px;
       font-size: 35px;
       font-weight: bold;
       transition: color 0.3s;
       cursor: pointer;
+      z-index: 1; 
     }
 
     .close-btn:hover,
@@ -384,19 +387,25 @@
         font-size: 2rem;
       }
       /* Sesuaikan posisi link di mobile */
-      .nav-link-left { /* Menggunakan nama baru */
+      .nav-link-left { 
         top: 10px;
         left: 10px;
         font-size: 0.9rem;
+        padding: 3px 8px;
       }
-      .nav-link-right { /* Menggunakan nama baru */
+      .nav-link-right { 
         top: 10px;
         right: 10px;
         font-size: 0.9rem;
+        padding: 3px 8px;
+        max-width: 45%; 
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .modal-content {
-          padding: 20px;
+          padding: 20px 15px; /* Perbaikan: Kurangi padding horizontal */
           width: 95%; 
       }
       .modal-name {
@@ -429,6 +438,7 @@
   <a href="https://xcerdas1.vercel.app/" class="nav-link-left">Home / Beranda</a>
   
   <a href="prestasi.html" class="nav-link-right">Prestasi Kelas 🏆</a>
+
 
   <h1>UNCLAIRONE STUDENTS</h1>
   <div class="container" id="studentContainer"></div>
@@ -623,7 +633,7 @@
         <img class="photo" src="${s.photo}" alt="Foto ${s.name}" title="" />
         <div class="name">${s.name}</div>
         <div class="info"><span class="label">Umur:</span> ${s.age} tahun</div>
-        <div class=\"info\"><span class=\"label\">Hobi:</span> ${s.hobby}</div>
+        <div class="info"><span class="label">Hobi:</span> ${s.hobby}</div>
         <div class="info">
           <span class="label ig-label">Instagram:</span> 
           <a href="https://instagram.com/${s.instagram}" target="_blank" class="instagram-link">@${s.instagram}</a>
