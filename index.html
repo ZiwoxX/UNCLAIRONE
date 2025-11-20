@@ -20,7 +20,7 @@
     }
 
     /* CSS BARU UNTUK HYPERLINK DI KIRI ATAS */
-    .home-link {
+    .nav-link-left { /* Ganti nama kelas agar lebih spesifik */
         position: absolute;
         top: 20px;
         left: 20px;
@@ -35,7 +35,28 @@
         z-index: 2; /* Pastikan di atas konten lain */
     }
 
-    .home-link:hover {
+    .nav-link-left:hover {
+        background: #6a44d8;
+        color: #ffffff;
+    }
+    
+    /* CSS BARU UNTUK HYPERLINK DI KANAN ATAS */
+    .nav-link-right {
+        position: absolute;
+        top: 20px;
+        right: 20px; /* Di sebelah kanan */
+        color: #bdb6f0;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        padding: 5px 10px;
+        border-radius: 8px;
+        background: rgba(106, 68, 216, 0.2);
+        transition: background 0.3s, color 0.3s;
+        z-index: 2;
+    }
+
+    .nav-link-right:hover {
         background: #6a44d8;
         color: #ffffff;
     }
@@ -363,9 +384,14 @@
         font-size: 2rem;
       }
       /* Sesuaikan posisi link di mobile */
-      .home-link {
+      .nav-link-left { /* Menggunakan nama baru */
         top: 10px;
         left: 10px;
+        font-size: 0.9rem;
+      }
+      .nav-link-right { /* Menggunakan nama baru */
+        top: 10px;
+        right: 10px;
         font-size: 0.9rem;
       }
 
@@ -400,7 +426,9 @@
 
 </head>
 <body>
-  <a href="https://xcerdas1.vercel.app/" class="home-link">Home / Beranda</a>
+  <a href="https://xcerdas1.vercel.app/" class="nav-link-left">Home / Beranda</a>
+  
+  <a href="prestasi.html" class="nav-link-right">Prestasi Kelas 🏆</a>
 
   <h1>UNCLAIRONE STUDENTS</h1>
   <div class="container" id="studentContainer"></div>
@@ -595,7 +623,7 @@
         <img class="photo" src="${s.photo}" alt="Foto ${s.name}" title="" />
         <div class="name">${s.name}</div>
         <div class="info"><span class="label">Umur:</span> ${s.age} tahun</div>
-        <div class="info"><span class="label">Hobi:</span> ${s.hobby}</div>
+        <div class=\"info\"><span class=\"label\">Hobi:</span> ${s.hobby}</div>
         <div class="info">
           <span class="label ig-label">Instagram:</span> 
           <a href="https://instagram.com/${s.instagram}" target="_blank" class="instagram-link">@${s.instagram}</a>
