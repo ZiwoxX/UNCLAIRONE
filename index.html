@@ -373,7 +373,7 @@
       width: auto; height: auto; max-width: 90%; max-height: 90vh; 
       display: block; border-radius: 10px; box-shadow: 0 0 20px rgba(106, 68, 216, 0.5);
       animation: zoomIn 0.4s; margin: auto; 
-      transition: opacity 0.15s ease-in-out; /* Tambahan untuk efek pudar saat berganti gambar */
+      transition: opacity 0.15s ease-in-out; 
     }
     @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     .lightbox-close-btn {
@@ -391,7 +391,7 @@
         margin-top: -22px;
         color: white;
         font-weight: bold;
-        font-size: 25px; /* Sedikit lebih besar */
+        font-size: 25px; 
         transition: 0.6s ease;
         border-radius: 0 3px 3px 0;
         user-select: none;
@@ -416,8 +416,110 @@
     }
     /* --- END TAMBAHAN CSS NAVIGASI --- */
 
+    /* --- CSS KONTROL MUSIK BARU (Play/Pause & Volume) --- */
+    #musicControlsContainer {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 10; /* Pastikan di atas elemen lain */
+        display: flex;
+        flex-direction: column; 
+        align-items: flex-end;
+        gap: 10px;
+    }
 
-    /* --- Responsif Mobile (Perbaikan Centering) --- */
+    #musicToggleBtn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #ff775c; /* Warna Mute/Default (Jingga) */
+        color: #1a1a2e;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(255, 119, 92, 0.6);
+        transition: background 0.3s, transform 0.2s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.2rem;
+    }
+
+    #musicToggleBtn:hover {
+        background: #e05d47;
+        transform: scale(1.05);
+    }
+
+    /* Animasi Putar/Spin saat Musik Aktif */
+    .fa-spin-active {
+        animation: spin 2s linear infinite;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* Kontrol Volume */
+    #volumeControls {
+        background: rgba(26, 26, 46, 0.8);
+        backdrop-filter: blur(5px);
+        padding: 8px 15px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        opacity: 0; /* Sembunyikan saat tidak di-hover */
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.4s ease-out;
+    }
+
+    /* Tampilkan Kontrol Volume saat tombol toggle di-hover/focus/kontainer di-hover */
+    #musicControlsContainer:hover #volumeControls,
+    #musicToggleBtn:focus + #volumeControls {
+        opacity: 1;
+        max-height: 50px;
+        padding: 8px 15px;
+    }
+
+    #volumeControls i {
+        color: #bdb6f0;
+        font-size: 0.9rem;
+    }
+
+    /* Styling Slider Volume */
+    #volumeSlider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 80px;
+        height: 4px;
+        background: #4a3c7a;
+        outline: none;
+        opacity: 0.9;
+        transition: opacity 0.2s;
+    }
+
+    #volumeSlider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: #7e62ff;
+        cursor: pointer;
+        box-shadow: 0 0 5px #7e62ff;
+    }
+
+    #volumeSlider::-moz-range-thumb {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: #7e62ff;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 0 5px #7e62ff;
+    }
+
+    /* --- Optimasi Mobile untuk Kontrol Musik (Ditambahkan) --- */
     @media (max-width: 600px) {
       body {
         padding: 0; 
@@ -433,7 +535,7 @@
       /* Posisi Navigasi Mobile */
       .nav-link-left { top: 10px; left: 10px; font-size: 0.9rem; padding: 3px 8px; }
       
-      /* 醇 Perbaikan Posisi Prestasi Kelas agar lebih ke kanan */
+      /* Perbaikan Posisi Prestasi Kelas agar lebih ke kanan */
       .nav-link-right { 
         top: 10px; 
         right: 10px; 
@@ -449,7 +551,6 @@
       .quote-box {
           width: 95%; 
           margin: 15px auto 30px auto; 
-          padding: 20px; 
           box-sizing: border-box; 
       }
       
@@ -487,18 +588,14 @@
       }
 
       /* PERBAIKAN CONTAINER KARTU */
-      /* --- FIX CENTERING MOBILE STARTS HERE --- */
       .container {
-        /* Dihapus padding horizontal (0 15px) yang menyebabkan pergeseran, diganti dengan width yang dikontrol */
         padding: 0; 
         gap: 15px; 
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
         max-width: 100%;
-        /* Menetapkan width eksplisit dan margin auto untuk centering yang lebih stabil */
         width: 95%; 
         margin: 0 auto; 
       }
-      /* --- FIX CENTERING MOBILE ENDS HERE --- */
       
       .modal-content { padding: 20px 15px; width: 95%; }
       .modal-name { font-size: 1.5rem; }
@@ -510,7 +607,27 @@
           font-size: 20px;
           padding: 10px;
       }
+      
+      /* Mobile Optimasi Music Control */
+      #musicControlsContainer {
+          bottom: 10px;
+          right: 10px;
+      }
+      #musicToggleBtn {
+          width: 45px; 
+          height: 45px;
+          font-size: 1rem;
+      }
+      #volumeSlider {
+          width: 60px; 
+      }
+      #volumeControls {
+             padding: 6px 10px; 
+             gap: 8px;
+      }
     }
+    /* --- END CSS KONTROL MUSIK BARU --- */
+
   </style>
   
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
@@ -521,6 +638,23 @@
 
 </head>
 <body>
+  
+  <audio id="backgroundMusic" loop>
+    <source src="Lagu/Hindia  Berdansalah, Karir Ini Tak Ada Artinya  Lirik Lagu.mp3" type="audio/mp3"> 
+    Browser Anda tidak mendukung elemen audio.
+  </audio>
+
+  <div id="musicControlsContainer">
+    <button id="musicToggleBtn" onclick="toggleMusic()">
+        <i id="musicIcon" class="fas fa-volume-mute"></i> 
+    </button>
+    
+    <div id="volumeControls">
+        <i class="fas fa-volume-down"></i>
+        <input type="range" id="volumeSlider" min="0" max="100" value="40" oninput="changeVolume(this.value)">
+        <i class="fas fa-volume-up"></i>
+    </div>
+  </div>
   
   <a href="https://xcerdas1.vercel.app/" class="nav-link-left">Home / Beranda</a>
   <a href="prestasi.html" class="nav-link-right">Prestasi Kelas 🏆</a>
@@ -608,6 +742,93 @@
 
 
   <script>
+    // ==========================================
+    // ** LOGIKA MUSIK OTOMATIS & KONTROL BARU **
+    // ==========================================
+    const backgroundMusic = document.getElementById('backgroundMusic');
+    const musicToggleBtn = document.getElementById('musicToggleBtn');
+    const musicIcon = document.getElementById('musicIcon');
+    const volumeSlider = document.getElementById('volumeSlider');
+    let isPlaying = false; 
+
+    // Atur volume awal saat skrip dimuat (sesuai value slider, default 40)
+    if (backgroundMusic && volumeSlider) {
+        backgroundMusic.volume = volumeSlider.value / 100;
+    }
+
+    // Fungsi Play/Pause/Mute
+    function toggleMusic() {
+        if (!backgroundMusic) return;
+
+        // Coba putar audio
+        backgroundMusic.play().then(() => {
+            // Berhasil diputar atau sedang diputar
+            if (isPlaying) {
+                // Pause jika sedang diputar
+                backgroundMusic.pause();
+                isPlaying = false;
+                musicIcon.className = 'fas fa-volume-mute';
+                musicIcon.classList.remove('fa-spin-active'); 
+                musicToggleBtn.style.background = '#ff775c'; // Warna Mute (Jingga)
+            } else {
+                // Play jika sedang di-pause
+                backgroundMusic.play();
+                isPlaying = true;
+                // Panggil changeVolume untuk mengupdate ikon volume yang benar
+                changeVolume(volumeSlider.value); 
+                musicIcon.classList.add('fa-spin-active'); 
+                musicToggleBtn.style.background = '#7e62ff'; // Warna Play (Ungu)
+            }
+        }).catch(error => {
+            // Ini menangani kasus Autoplay diblokir oleh browser (default modern)
+            console.warn("Autoplay diblokir. Pengguna perlu berinteraksi.");
+            
+            // Logika untuk menangani pemblokiran autoplay saat tombol pertama kali diklik
+            if (backgroundMusic.paused) {
+                backgroundMusic.play();
+                isPlaying = true;
+                changeVolume(volumeSlider.value); 
+                musicIcon.classList.add('fa-spin-active'); 
+                musicToggleBtn.style.background = '#7e62ff';
+            } else {
+                // Jika sedang play (misalnya setelah interaksi), pause
+                 backgroundMusic.pause();
+                isPlaying = false;
+                musicIcon.className = 'fas fa-volume-mute';
+                musicIcon.classList.remove('fa-spin-active'); 
+                musicToggleBtn.style.background = '#ff775c';
+            }
+        });
+    }
+
+    // Fungsi Pengaturan Volume
+    function changeVolume(value) {
+        if (!backgroundMusic || !musicIcon || !musicToggleBtn) return;
+        
+        // Konversi nilai slider (0-100) menjadi nilai volume (0.0-1.0)
+        const volumeLevel = value / 100;
+        backgroundMusic.volume = volumeLevel;
+
+        // Update ikon volume di tombol toggle
+        if (volumeLevel === 0) {
+            musicIcon.className = 'fas fa-volume-off';
+        } else if (volumeLevel <= 0.4) {
+            musicIcon.className = 'fas fa-volume-down';
+        } else {
+            musicIcon.className = 'fas fa-volume-up';
+        }
+        
+        // Pertahankan status animasi putar jika sedang dimainkan
+        if (isPlaying) {
+             musicIcon.classList.add('fa-spin-active');
+             musicToggleBtn.style.background = '#7e62ff'; // Pastikan warna tetap ungu saat play
+        } else {
+             musicIcon.classList.remove('fa-spin-active');
+             musicToggleBtn.style.background = '#ff775c'; // Pastikan warna tetap jingga saat mute
+        }
+    }
+
+
     // **LANGKAH 1: KONFIGURASI FIREBASE**
     const firebaseConfig = {
       apiKey: "AIzaSyAnouQgMTahiA0R3pyKb6n_qHYFhX4tfgU",
@@ -670,10 +891,10 @@
       {name: "Nagym", age: 15, hobby: "Tidur", instagram: "nagymm_", photo: "image/Nagym.jpg", religion: "Islam", organization: "KITS", gallery: [], birthDate: "06-23"},
       {name: "Naufal Qawwiy", age: 15, hobby: "Tektok Gn", instagram: "naufalqawiyy", photo: "image/nopal.jpg", religion: "Islam", organization: "Wasipalah", gallery: [], birthDate: "04-23"},
       {name: "Nur Nadya Afifah", age: 16, hobby: "Mengaji", instagram: "dyaafifah_", photo: "image/Afifah.jpg", religion: "Islam", organization: "Komunitas Pelajar Muslim", gallery: [], birthDate: ""},
-      {name: "Nurfadillah Quinsya", age: 16, hobby: "Cari Cogan", instagram: "nurfdilhqsya_", photo: "image/Nyonyo.jpg", religion: "Islam", organization: "Sanggar Seni", gallery: [], birthDate: ""},
+      {name: "Nurfadillah Quinsya", age: 16, hobby: "nntndramaeverytaym", instagram: "nurfdilhqsya_", photo: "image/Nyonyo.jpg", religion: "Islam", organization: "Sanggar Seni", gallery: [], birthDate: ""},
       {name: "Qonitha Cleonima", age: 16, hobby: "Silat", instagram: "qoniitataa", photo: "image/Qoni.jpeg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: ""},
       {name: "Rafailah Andini", age: 16, hobby: "Nda tau", instagram: "rafailahandini", photo: "image/dini.jpg", religion: "Islam", organization: "OSIS/PMR", gallery: [], birthDate: ""},
-      {name: "Raihanah Nadira", age: 16, hobby: "Nonton yutub", instagram: "raihanadiraa", photo: "image/Raihana.jpg", religion: "Islam", organization: "Sega/Sanggar Seni", gallery: [], birthDate: ""},
+      {name: "Raihanah Nadira", age: 16, hobby: "Nonton yutub", instagram: "raihanadiraa", photo: "image/Reihana.jpeg", religion: "Islam", organization: "Sega/Sanggar Seni", gallery: [], birthDate: ""},
       {name: "Rasya Az'Zahra", age: 16, hobby: "Basket", instagram: "rasya_azzahra", photo: "image/Rasyaa.jpg", religion: "Islam", organization: "Basket", gallery: [], birthDate: ""},
       {name: "Aulia", age: 16, hobby: "Menggambar", instagram: "auliaaa_dn", photo: "image/Aul.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: ""},
       {name: "ACOK NI BOS", age: 15, hobby: "main Bola", instagram: "rrezxkyy30", photo: "image/Aco.jpeg", religion: "Islam", organization: "OSIS/Paskibra", gallery: [], birthDate: "01-30"},
@@ -687,7 +908,6 @@
     // Elemen DOM
     const container = document.getElementById('studentContainer');
     const modal = document.getElementById('studentModal');
-    const modalCloseBtn = document.querySelector('.close-btn'); 
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImage');
     const lightboxCloseBtn = document.querySelector('.lightbox-close-btn');
@@ -698,8 +918,8 @@
     const ZOOMABLE_META = "width=device-width, initial-scale=1, user-scalable=yes"; 
 
     // ** VARIABEL BARU UNTUK KONTROL GALERI **
-    let currentGalleryPhotos = []; // Menyimpan URL foto galeri siswa yang sedang dibuka
-    let currentPhotoIndex = 0;    // Menyimpan indeks foto yang sedang ditampilkan
+    let currentGalleryPhotos = []; 
+    let currentPhotoIndex = 0;    
 
 
     // Fungsi Lightbox (Mempertahankan fitur zoom in/out)
@@ -982,7 +1202,7 @@
 
     // Tambahkan event listener untuk mendeteksi akhir sentuhan
     lightboxImg.addEventListener('touchend', function(event) {
-        // Pastikan sentuhan selesai pada elemen lightboxImg
+        // Pastikan sentuhan terakhir di dalam layar (tidak harus di elemen)
         if (lightbox.style.display === 'flex') {
              // Pastikan sentuhan terakhir di dalam layar (tidak harus di elemen)
             touchendX = event.changedTouches[0].screenX;
