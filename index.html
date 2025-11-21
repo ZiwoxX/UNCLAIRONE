@@ -73,7 +73,7 @@
         border-left: 5px solid #ff775c; 
         border-radius: 15px;
         padding: 20px 30px;
-        margin: 0 auto 30px auto; 
+        margin: 0 auto 25px auto; 
         max-width: 800px;
         width: 90%;
         text-align: center;
@@ -109,7 +109,95 @@
         letter-spacing: 1px;
     }
 
-    /* --- STYLE STATISTIK KELAS BARU --- */
+    /* ========================================= */
+    /* --- STYLE RUNNING QUOTES (ANIMASI) --- */
+    /* ========================================= */
+    .running-quotes-wrapper {
+        width: 100%;
+        overflow: hidden;
+        margin-bottom: 40px;
+        padding: 20px 0;
+        position: relative;
+        background: linear-gradient(to right, rgba(106, 68, 216, 0.05), rgba(0, 0, 0, 0.2), rgba(106, 68, 216, 0.05));
+        border-top: 1px solid rgba(106, 68, 216, 0.4);
+        border-bottom: 1px solid rgba(106, 68, 216, 0.4);
+        mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        box-shadow: inset 0 0 30px rgba(106, 68, 216, 0.2);
+    }
+
+    .running-track {
+        display: flex;
+        width: max-content;
+        animation: scrollLeft 80s linear infinite; /* Kecepatan lambat */
+        padding-left: 20px;
+    }
+    
+    .running-quotes-wrapper:hover .running-track {
+        animation-play-state: paused;
+    }
+
+    .student-quote-card {
+        background: linear-gradient(145deg, #2a1b3d, #151525);
+        border-left: 3px solid #7e62ff;
+        border-radius: 10px;
+        padding: 15px 20px;
+        margin: 0 15px;
+        min-width: 240px;
+        max-width: 350px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+        cursor: default;
+    }
+    
+    .student-quote-card:hover {
+        transform: scale(1.05) translateY(-5px);
+        background: linear-gradient(145deg, #35224d, #1d1d33);
+        border-left-color: #ff775c;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.5), 0 0 15px rgba(255, 119, 92, 0.4);
+        z-index: 2;
+    }
+
+    .sq-text {
+        font-style: italic;
+        font-size: 0.95rem;
+        color: #e0e0e0;
+        margin-bottom: 10px;
+        line-height: 1.5;
+    }
+
+    .sq-author {
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: #bdb6f0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+    
+    .sq-author img {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
+        border: 2px solid #7e62ff;
+        box-shadow: 0 0 5px rgba(106, 68, 216, 0.5);
+    }
+    
+    .student-quote-card:hover .sq-author img {
+        border-color: #ff775c;
+    }
+
+    @keyframes scrollLeft {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); } 
+    }
+
+    /* --- STYLE STATISTIK KELAS --- */
     .stats-container {
         display: flex;
         justify-content: center;
@@ -534,7 +622,7 @@
       
       .quote-box {
           width: 95%; 
-          margin: 15px auto 30px auto; 
+          margin: 15px auto 15px auto; 
           box-sizing: border-box; 
       }
       
@@ -598,6 +686,19 @@
           width: 45px;
           height: 45px;
       }
+      
+      /* Mobile untuk Running Text */
+      .running-quotes-wrapper {
+          padding: 15px 0;
+      }
+      .student-quote-card {
+          min-width: 210px;
+          padding: 12px 15px;
+          margin: 0 10px;
+      }
+      .sq-text { font-size: 0.85rem; }
+      /* KECEPATAN MOBILE DIPERLAMBAT: Diubah dari 30s menjadi 60s */
+      .running-track { animation-duration: 60s; }
     }
 
   </style>
@@ -637,6 +738,11 @@
       <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
       <p id="dailyQuote" class="quote-text">Loading quote...</p>
       <p id="dailyAuthor" class="quote-author"></p>
+  </div>
+
+  <div class="running-quotes-wrapper">
+      <div class="running-track" id="studentQuotesTrack">
+          </div>
   </div>
 
   <div class="stats-container">
@@ -735,7 +841,8 @@
     const app = firebase.initializeApp(firebaseConfig);
     const db = app.firestore();
 
-    // ** DATA SISWA DENGAN PENAMBAHAN FIELD DESKRIPSI **
+    // ** DATA SISWA DENGAN FIELD 'QUOTE' BARU **
+    // CARA UBAH QUOTE: Cari baris 'quote: "..."' dan ganti teks di dalamnya.
     const students = [
       {
         name: "Ainun Mardiansyah",
@@ -747,7 +854,8 @@
         organization: "Inteens", 
         gallery: [],
         birthDate: "03-13",
-        description: "Najim hotspott 1" 
+        description: "Najim hotspott 1",
+        quote: "Isi quote Ainun di sini..." // <-- GANTI INI
       },
       {
         name: "Akifa Naila",
@@ -759,42 +867,43 @@
         organization: "OSIS",
         gallery: [],
         birthDate: "05-15",
-        description: "Najim hotspot 2"
+        description: "Najim hotspot 2",
+        quote: "Isi quote Naila di sini..." // <-- GANTI INI
       },
-      {name: "Akil Maula S", age: 16, hobby: "Mancing", instagram: "kikiuuuz", photo: "image/Akil.jpg", religion: "Islam", organization: "SEGA", gallery: [], birthDate: "12-31", description: "Starboy, Cool, Jenius, Proplayer epep"},
-      {name: "Amirah Zafirah", age: 15, hobby: "Yapping", instagram: "amirahpspra", photo: "image/Amirah.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: "03-22", description: "Duta Yapping"},
-      {name: "Andi Naurah", age: 16, hobby: "Nonton Windah", instagram: "nauurahkhalilah", photo: "image/Naura.jpg", religion: "Islam", organization: "KITS/Sega/Sanggar Seni", gallery: [], birthDate: "04-22", description: "pendek"},
-      {name: "Anindya Ainun", age: 15, hobby: "gatau", instagram: "_anindyainun", photo: "image/Ainun purba.jpg", religion: "Islam", organization: "Smansa Voice", gallery: [], birthDate: "03-15", description: "tida mau diambil aibnya"},
-      {name: "Annisa Maylafaiza", age: 16, hobby: "Minta Hotspots", instagram: "annisamaylaa_", photo: "image/Anisa.jpg", religion: "Islam", organization: "Sanggar Seni", gallery: [], birthDate: "05-05", description: "Najim hotspot 3"},
-      {name: "Aprilia Hastikasari", age: 16, hobby: "Bebeng", instagram: "liaaahyy", photo: "image/April.jpg", religion: "Islam", organization: "Pramuka", gallery: [], birthDate: "04-29", description: "Intropet"},
-      {name: "Clarinta Amabel", age: 15, hobby: "Gemar Makan Batagor", instagram: "claebell", photo: "image/Aring.jpeg", religion: "Protestan", organization: "KITS/Inteens/Sega/PPKS", gallery: [], birthDate: "03-29", description: "Najim hotspot 4"},
-      {name: "Dhia Syarafana", age: 16, hobby: "Slowmotion", instagram: "syeradelrey", photo: "image/Dhia.jpg", religion: "Islam", organization: "Tidak Ada", gallery: [], birthDate: "06-06", description: "Mati aja ni orang"},
-      {name: "Fitri", age: 15, hobby: "yapping", instagram: "ffitri1_", photo: "image/Titi.jpg", religion: "Islam", organization: "Tidak Ada", gallery: [], birthDate: "01-11", description: "Gengster"},
-      {name: "Hodia", age: 16, hobby: "Nonton Windah", instagram: "odiaa_a", photo: "image/Odi.jpg", religion: "Protestan", organization: "Sega/OSIS/Inteens", gallery: [], birthDate: "08-26", description: "Kakram Lovers"},
-      {name: "Husnul Khatimah", age: 16, hobby: "Main sama Rasya", instagram: "hsnllkhtmh__", photo: "image/Husnul.jpg", religion: "Islam", organization: "Pramuka", gallery: [], birthDate: "03-17", description: "Misterius"},
-      {name: "Miftahul", age: 16, hobby: "Minta Hotspot", instagram: "miftahuljannah1507_", photo: "image/Mita.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: "07-15", description: "Najim hotspot 5"},
-      {name: "Fathur Jibriel", age: 15, hobby: "Basket", instagram: "ndadapateuy", photo: "image/patur.jpg", religion: "Islam", organization: "Basket", gallery: [], birthDate: "", description: "Proplayer emel"},
-      {name: "Muh.Ibrahim", age: 15, hobby: "Takraw", instagram: "ibe_6610", photo: "image/Ibe.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: "", description: "Pengganggu mati aja"},
-      {name: "Muh.Tsaqiff", age: 15, hobby: "Main epep", instagram: "muhtsaqiffal", photo: "image/Tsaqif.jpg", religion: "Islam", organization: "Smansa Voice", gallery: [], birthDate: "", description: "Kul, Proplayer epep"},
-      {name: "Muh.Alif Falah Jordan", age: 15, hobby: "Basket", instagram: "_alipjrdan", photo: "image/Alip.jpg", religion: "Islam", organization: "Basket", gallery: [], birthDate: "", description: "Pro player basket. Sering dipanggil Alip Jordang."},
-      {name: "Muh.Faiz Aswin", age: 15, hobby: "Bewan sama Akil", instagram: "mhmmdfaizz28", photo: "image/Faiz.jpg", religion: "Islam", organization: "Tidak Ada", gallery: [], birthDate: "02-28", description: "Cool, Tampan, Berwibawa, Gantenk, Rival Akil"},
-      {name: "Kink Muflih", age: 15, hobby: "Nonton Anime", instagram: "muflih_zaky", photo: "image/Mupli.jpg", religion: "Islam", organization: "Tidak Ada", gallery: [], birthDate: "", description: "Rapper, Coach ML"},
-      {name: "M.Raihaan", age: 15, hobby: "Topup Dm", instagram: "rhnzki_16", photo: "image/Rehan.jpg", religion: "Islam", organization: "Putra Putri Smansa", gallery: [], birthDate: "", description: "Multiteleng"},
-      {name: "Nagym", age: 15, hobby: "Tidur", instagram: "nagymm_", photo: "image/Nagym.jpg", religion: "Islam", organization: "KITS", gallery: [], birthDate: "06-23", description: "Tidur adalah koentji'."},
-      {name: "Naufal Qawwiy", age: 15, hobby: "Tektok Gn", instagram: "naufalqawiyy", photo: "image/nopal.jpg", religion: "Islam", organization: "Wasipalah", gallery: [], birthDate: "04-23", description: "Setarboy, Multiteleng, Jenius, Anak Gunung"},
-      {name: "Nur Nadya Afifah", age: 16, hobby: "Mengaji", instagram: "dyaafifah_", photo: "image/Afifah.jpg", religion: "Islam", organization: "Komunitas Pelajar Muslim", gallery: [], birthDate: "", description: "Misterius"},
-      {name: "Nurfadillah Quinsya", age: 16, hobby: "nntndramaeverytaym", instagram: "nurfdilhqsya_", photo: "image/Nyonyo.jpg", religion: "Islam", organization: "Sanggar Seni", gallery: [], birthDate: "", description: "Kenalin ini Nyonyok"},
-      {name: "Qonitha Cleonima", age: 16, hobby: "Silat", instagram: "qoniitataa", photo: "image/Qoni.jpeg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: "", description: "Jago bela diri Silat, jangan macam-macam dengannya! anjay"},
-      {name: "Rafailah Andini", age: 16, hobby: "Nda tau", instagram: "rafailahandini", photo: "image/dini.jpg", religion: "Islam", organization: "OSIS/PMR", gallery: [], birthDate: "04-02", description: "Misterius"},
-      {name: "Raihanah Nadira", age: 16, hobby: "Nonton yutub", instagram: "raihanadiraa", photo: "image/Reihana.jpeg", religion: "Islam", organization: "Sega/Sanggar Seni", gallery: [], birthDate: "", description: "Misterius"},
-      {name: "Rasya Az'Zahra", age: 16, hobby: "Basket", instagram: "rasya_azzahra", photo: "image/Rasyaa.jpg", religion: "Islam", organization: "Basket", gallery: [], birthDate: "", description: "Misterius"},
-      {name: "Aulia", age: 16, hobby: "Menggambar", instagram: "auliaaa_dn", photo: "image/Aul.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: "", description: "Misterius"},
-      {name: "ACOK NI BOS", age: 15, hobby: "anu", instagram: "rrezxkyy30", photo: "image/Aco.jpeg", religion: "Islam", organization: "OSIS/Paskibra", gallery: [], birthDate: "01-30", description: "Cool, Keren, Gantenk, Beraura, Baik, Positip vibes, GrinFleg"},
-      {name: "Syifa BTR", age: 16, hobby: "nda tau", instagram: "syfabhtr_", photo: "image/Cipa.jpg", religion: "Islam", organization: "KITS/Inteens/Sanggar/PPS", gallery: [], birthDate: "09-09", description: "#Bata Out"},
-      {name: "Vanezia", age: 15, hobby: "Menari", instagram: "vvsloav_19", photo: "https://randomuser.me/api/portraits/men/33.jpg", religion: "Islam", organization: "Sanggar Seni", gallery: [], birthDate: "", description: "Pendek"},
-      {name: "Wilyam", age: 15, hobby: "pegang konde", instagram: "ultraawill", photo: "image/Wilyam.jpg", religion: "Katolik", organization: "Smansa Voice", gallery: [], birthDate: "", description: "Hati-hati dengannya lengah dikit pegang konde"},
-      {name: "Zahra Mauaja", age: 16, hobby: "Apa yak", instagram: "zhrmdkyya", photo: "image/Yayaa.jpg", religion: "Islam", organization: "Tahfidz", gallery: [], birthDate: "", description: "Zahra mau aja"},
-      {name: "Zyqri Al Farezqhi", age: 15, hobby: "main roblox", instagram: "zyqrialfarezqhi18", photo: "image/Zyqri.jpg", religion: "Islam", organization: "KITS/PMR", gallery: [], birthDate: "01-18", description: "Teman Teka Nagym"},
+      {name: "Akil Maula S", age: 16, hobby: "Mancing", instagram: "kikiuuuz", photo: "image/Akil.jpg", religion: "Islam", organization: "SEGA", gallery: [], birthDate: "12-31", description: "Starboy, Cool, Jenius, Proplayer epep", quote: "Isi quote Akil di sini..."},
+      {name: "Amirah Zafirah", age: 15, hobby: "Yapping", instagram: "amirahpspra", photo: "image/Amirah.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: "03-22", description: "Duta Yapping", quote: "Isi quote Amirah di sini..."},
+      {name: "Andi Naurah", age: 16, hobby: "Nonton Windah", instagram: "nauurahkhalilah", photo: "image/Naura.jpg", religion: "Islam", organization: "KITS/Sega/Sanggar Seni", gallery: [], birthDate: "04-22", description: "pendek", quote: "Isi quote Naura di sini..."},
+      {name: "Anindya Ainun", age: 15, hobby: "gatau", instagram: "_anindyainun", photo: "image/Ainun purba.jpg", religion: "Islam", organization: "Smansa Voice", gallery: [], birthDate: "03-15", description: "tida mau diambil aibnya", quote: "Isi quote Anindya di sini..."},
+      {name: "Annisa Maylafaiza", age: 16, hobby: "Minta Hotspots", instagram: "annisamaylaa_", photo: "image/Anisa.jpg", religion: "Islam", organization: "Sanggar Seni", gallery: [], birthDate: "05-05", description: "Najim hotspot 3", quote: "Isi quote Annisa di sini..."},
+      {name: "Aprilia Hastikasari", age: 16, hobby: "Bebeng", instagram: "liaaahyy", photo: "image/April.jpg", religion: "Islam", organization: "Pramuka", gallery: [], birthDate: "04-29", description: "Intropet", quote: "Isi quote Aprilia di sini..."},
+      {name: "Clarinta Amabel", age: 15, hobby: "Gemar Makan Batagor", instagram: "claebell", photo: "image/Aring.jpeg", religion: "Protestan", organization: "KITS/Inteens/Sega/PPKS", gallery: [], birthDate: "03-29", description: "Najim hotspot 4", quote: "Isi quote Clarinta di sini..."},
+      {name: "Dhia Syarafana", age: 16, hobby: "Slowmotion", instagram: "syeradelrey", photo: "image/Dhia.jpg", religion: "Islam", organization: "Tidak Ada", gallery: [], birthDate: "06-06", description: "Mati aja ni orang", quote: "Isi quote Dhia di sini..."},
+      {name: "Fitri", age: 15, hobby: "yapping", instagram: "ffitri1_", photo: "image/Titi.jpg", religion: "Islam", organization: "Tidak Ada", gallery: [], birthDate: "01-11", description: "Gengster", quote: "Isi quote Fitri di sini..."},
+      {name: "Hodia", age: 16, hobby: "Nonton Windah", instagram: "odiaa_a", photo: "image/Odi.jpg", religion: "Protestan", organization: "Sega/OSIS/Inteens", gallery: [], birthDate: "08-26", description: "Kakram Lovers", quote: "Isi quote Hodia di sini..."},
+      {name: "Husnul Khatimah", age: 16, hobby: "Main sama Rasya", instagram: "hsnllkhtmh__", photo: "image/Husnul.jpg", religion: "Islam", organization: "Pramuka", gallery: [], birthDate: "03-17", description: "Misterius", quote: "Isi quote Husnul di sini..."},
+      {name: "Miftahul", age: 16, hobby: "Minta Hotspot", instagram: "miftahuljannah1507_", photo: "image/Mita.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: "07-15", description: "Najim hotspot 5", quote: "Isi quote Miftahul di sini..."},
+      {name: "Fathur Jibriel", age: 15, hobby: "Basket", instagram: "ndadapateuy", photo: "image/patur.jpg", religion: "Islam", organization: "Basket", gallery: [], birthDate: "", description: "Proplayer emel", quote: "Isi quote Fathur di sini..."},
+      {name: "Muh.Ibrahim", age: 15, hobby: "Takraw", instagram: "ibe_6610", photo: "image/Ibe.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: "", description: "Pengganggu mati aja", quote: "Isi quote Ibrahim di sini..."},
+      {name: "Muh.Tsaqiff", age: 15, hobby: "Main epep", instagram: "muhtsaqiffal", photo: "image/Tsaqif.jpg", religion: "Islam", organization: "Smansa Voice", gallery: [], birthDate: "", description: "Kul, Proplayer epep", quote: "Isi quote Tsaqiff di sini..."},
+      {name: "Muh.Alif Falah Jordan", age: 15, hobby: "Basket", instagram: "_alipjrdan", photo: "image/Alip.jpg", religion: "Islam", organization: "Basket", gallery: [], birthDate: "", description: "Pro player basket. Sering dipanggil Alip Jordang.", quote: "Isi quote Alif di sini..."},
+      {name: "Muh.Faiz Aswin", age: 15, hobby: "Bewan sama Akil", instagram: "mhmmdfaizz28", photo: "image/Faiz.jpg", religion: "Islam", organization: "Tidak Ada", gallery: [], birthDate: "02-28", description: "Cool, Tampan, Berwibawa, Gantenk, Rival Akil", quote: "Isi quote Faiz di sini..."},
+      {name: "Kink Muflih", age: 15, hobby: "Nonton Anime", instagram: "muflih_zaky", photo: "image/Mupli.jpg", religion: "Islam", organization: "Tidak Ada", gallery: [], birthDate: "", description: "Rapper, Coach ML", quote: "Isi quote Muflih di sini..."},
+      {name: "M.Raihaan", age: 15, hobby: "Topup Dm", instagram: "rhnzki_16", photo: "image/Rehan.jpg", religion: "Islam", organization: "Putra Putri Smansa", gallery: [], birthDate: "", description: "Multiteleng", quote: "Isi quote Raihaan di sini..."},
+      {name: "Nagym", age: 15, hobby: "Tidur", instagram: "nagymm_", photo: "image/Nagym.jpg", religion: "Islam", organization: "KITS", gallery: [], birthDate: "06-23", description: "Tidur adalah koentji'.", quote: "Isi quote Nagym di sini..."},
+      {name: "Naufal Qawwiy", age: 15, hobby: "Tektok Gn", instagram: "naufalqawiyy", photo: "image/nopal.jpg", religion: "Islam", organization: "Wasipalah", gallery: [], birthDate: "04-23", description: "Setarboy, Multiteleng, Jenius, Anak Gunung", quote: "Isi quote Naufal di sini..."},
+      {name: "Nur Nadya Afifah", age: 16, hobby: "Mengaji", instagram: "dyaafifah_", photo: "image/Afifah.jpg", religion: "Islam", organization: "Komunitas Pelajar Muslim", gallery: [], birthDate: "", description: "Misterius", quote: "Isi quote Afifah di sini..."},
+      {name: "Nurfadillah Quinsya", age: 16, hobby: "nntndramaeverytaym", instagram: "nurfdilhqsya_", photo: "image/Nyonyo.jpg", religion: "Islam", organization: "Sanggar Seni", gallery: [], birthDate: "", description: "Kenalin ini Nyonyok", quote: "Isi quote Nurfadillah di sini..."},
+      {name: "Qonitha Cleonima", age: 16, hobby: "Silat", instagram: "qoniitataa", photo: "image/Qoni.jpeg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: "", description: "Jago bela diri Silat, jangan macam-macam dengannya! anjay", quote: "Isi quote Qonitha di sini..."},
+      {name: "Rafailah Andini", age: 16, hobby: "Nda tau", instagram: "rafailahandini", photo: "image/dini.jpg", religion: "Islam", organization: "OSIS/PMR", gallery: [], birthDate: "04-02", description: "Misterius", quote: "Isi quote Rafailah di sini..."},
+      {name: "Raihanah Nadira", age: 16, hobby: "Nonton yutub", instagram: "raihanadiraa", photo: "image/Reihana.jpeg", religion: "Islam", organization: "Sega/Sanggar Seni", gallery: [], birthDate: "", description: "Misterius", quote: "Isi quote Raihanah di sini..."},
+      {name: "Rasya Az'Zahra", age: 16, hobby: "Basket", instagram: "rasya_azzahra", photo: "image/Rasyaa.jpg", religion: "Islam", organization: "Basket", gallery: [], birthDate: "", description: "Misterius", quote: "Isi quote Rasya di sini..."},
+      {name: "Aulia", age: 16, hobby: "Menggambar", instagram: "auliaaa_dn", photo: "image/Aul.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: "", description: "Misterius", quote: "Isi quote Aulia di sini..."},
+      {name: "ACOK NI BOS", age: 15, hobby: "anu", instagram: "rrezxkyy30", photo: "image/Aco.jpeg", religion: "Islam", organization: "OSIS/Paskibra", gallery: [], birthDate: "01-30", description: "Cool, Keren, Gantenk, Beraura, Baik, Positip vibes, GrinFleg", quote: "Isi quote Acok di sini..."},
+      {name: "Syifa BTR", age: 16, hobby: "nda tau", instagram: "syfabhtr_", photo: "image/Cipa.jpg", religion: "Islam", organization: "KITS/Inteens/Sanggar/PPS", gallery: [], birthDate: "09-09", description: "#Bata Out", quote: "Isi quote Syifa di sini..."},
+      {name: "Vanezia", age: 15, hobby: "Menari", instagram: "vvsloav_19", photo: "https://randomuser.me/api/portraits/men/33.jpg", religion: "Islam", organization: "Sanggar Seni", gallery: [], birthDate: "", description: "Pendek", quote: "Isi quote Vanezia di sini..."},
+      {name: "Wilyam", age: 15, hobby: "pegang konde", instagram: "ultraawill", photo: "image/Wilyam.jpg", religion: "Katolik", organization: "Smansa Voice", gallery: [], birthDate: "", description: "Hati-hati dengannya lengah dikit pegang konde", quote: "Isi quote Wilyam di sini..."},
+      {name: "Zahra Mauaja", age: 16, hobby: "Apa yak", instagram: "zhrmdkyya", photo: "image/Yayaa.jpg", religion: "Islam", organization: "Tahfidz", gallery: [], birthDate: "", description: "Zahra mau aja", quote: "Isi quote Zahra di sini..."},
+      {name: "Zyqri Al Farezqhi", age: 15, hobby: "main roblox", instagram: "zyqrialfarezqhi18", photo: "image/Zyqri.jpg", religion: "Islam", organization: "KITS/PMR", gallery: [], birthDate: "01-18", description: "Teman Teka Nagym", quote: "Isi quote Zyqri di sini..."},
     ];
 
     // Elemen DOM
@@ -1198,6 +1307,38 @@
         document.getElementById('dailyAuthor').textContent = `- ${todaysQuote.author}`;
     }
 
+    // ==========================================
+    // FITUR RUNNING STUDENT QUOTES
+    // ==========================================
+    function renderStudentQuotes() {
+        const track = document.getElementById('studentQuotesTrack');
+        if (!track) return;
+
+        // Mengambil siswa yang punya QUOTE
+        const activeStudents = students.filter(s => s.quote && s.quote.length > 2);
+
+        // Fungsi pembantu membuat HTML Card
+        const createCard = (student) => {
+            return `
+                <div class="student-quote-card">
+                    <div class="sq-text">"${student.quote}"</div>
+                    <div class="sq-author">
+                        <img src="${student.photo}" alt="icon"> ${student.name.split(' ')[0]}
+                    </div>
+                </div>
+            `;
+        };
+
+        // 1. Buat string HTML dari semua siswa
+        let allCardsHTML = '';
+        activeStudents.forEach(student => {
+            allCardsHTML += createCard(student);
+        });
+
+        // 2. DUPLIKASI KONTEN (Agar loop animasi berjalan mulus tanpa jeda)
+        track.innerHTML = allCardsHTML + allCardsHTML; 
+    }
+
 
     // ==========================================
     // FITUR SPOTIFY DYNAMIC RANDOM TRACK
@@ -1231,7 +1372,7 @@
         const randomTrackId = trackIds[randomIndex];
         
         // 2. Membangun URL embed untuk single track
-        const embedUrl = `https://open.spotify.com/embed/track/${randomTrackId}?utm_source=generator&autoplay=1&theme=0&compact=1`;
+        const embedUrl = `https://open.spotify.com/embed/track/${randomTrackId}?utm_source=generator&theme=0&compact=1`;
         
         // Set sumber iframe
         spotifyIframe.src = embedUrl;
@@ -1263,6 +1404,8 @@
         checkBirthday(); 
         displayDailyQuote();
         calculateAndDisplayStats(); 
+        
+        renderStudentQuotes(); // Panggil fitur Running Quotes
         
         // PANGGIL FUNGSI RANDOM TRACK SAAT HALAMAN DIMUAT
         loadRandomSpotifyTrack();
