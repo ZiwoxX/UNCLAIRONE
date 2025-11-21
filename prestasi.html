@@ -3,309 +3,542 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Prestasi Kelas | X CERDAS 1</title>
+    <title>Prestasi Kelas X CERDAS 1</title>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <style>
         :root {
-            --primary-bg: #1a0b2e;
-            --secondary-bg: #0f1419;
-            --main-purple: #6a44d8;
-            --highlight-pink: #e06bd5;
-            --highlight-cyan: #18fff3;
-            --text-light: #fff;
-            --text-faded: #bdb6f0;
+            --primary-color: #575c84;
+            --secondary-color: #686e9d;
+            --tertiary-color: #e06bd5;
+            --quaternary-color: #18fff3;
+            --quinary-color: #ff775c;
+            --senary-color: #ff4359;
+            --septenary-color: #76ffb0;
+            --bg: #4b39c6;
+            --bg1: #e06bd5;
+
+            /* Warna Tiers Baru */
+            --tier1-color: #ffc93c; /* Gold */
+            --tier2-color: #d8d8d8; /* Silver */
+            --tier3-color: #cd7f32; /* Bronze */
         }
 
         body {
             font-family: "Poppins", sans-serif;
-            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
-            color: var(--text-light);
+            background: linear-gradient(135deg, #0a0a0a 0%, #1e1e1e 50%, #4b39c6 100%);
+            background-size: 400% 400%; 
+            animation: gradientRotate 10s ease-in-out infinite;
+            color: #fff;
             margin: 0;
             padding: 0;
             overflow-x: hidden;
             min-height: 100vh;
+            position: relative;
         }
 
-        /* --- Global Animations --- */
+        @keyframes gradientRotate {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: twinkle 2s infinite alternate, parallax 20s linear infinite; 
+            z-index: -1;
+        }
+
+        @keyframes twinkle {
+            0% {opacity: 0.5;}
+            100% {opacity: 1;}
+        }
+
+        @keyframes parallax {
+            0% {transform: translateY(0);}
+            100% {transform: translateY(-50px);}
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 2px, transparent 2px);
+            background-size: 100px 100px;
+            animation: float 10s ease-in-out infinite; 
+            z-index: -2;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Navigasi Link Baru */
+        .nav-link-left { 
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #18fff3;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 8px 15px;
+            border-radius: 50px;
+            background: rgba(24, 255, 243, 0.1);
+            border: 1px solid rgba(24, 255, 243, 0.4);
+            transition: background 0.3s, color 0.3s;
+            z-index: 10; 
+        }
+        .nav-link-left:hover { background: #18fff3; color: #0a0a0a; }
+
+        header {
+            text-align: center;
+            padding: 80px 20px 40px 20px; /* Padding atas diperbesar */
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 40px 0 rgba(31, 38, 135, 0.5);
+            position: relative;
+            animation: slideDown 1.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        header h1 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--tertiary-color), var(--quaternary-color), var(--quinary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 
+                0 0 10px rgba(0, 0, 0, 0.2),  
+                0 0 20px rgba(75, 57, 198, 0.7), 
+                0 0 30px rgba(224, 107, 213, 0.5); 
+            margin: 0;
+            overflow: hidden; 
+            white-space: nowrap;
+            border-right: 3px solid var(--quaternary-color); 
+            animation: typing 3s steps(30, end) ease-out, glow 2.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 
+                    0 0 10px rgba(0, 0, 0, 0.2),
+                    0 0 20px rgba(75, 57, 198, 0.7),
+                    0 0 30px rgba(224, 107, 213, 0.5);
+            }
+            to {
+                text-shadow: 
+                    0 0 12px rgba(0, 0, 0, 0.3), 
+                    0 0 25px rgba(75, 57, 198, 0.8),
+                    0 0 35px rgba(224, 107, 213, 0.6);
+            }
+        }
+
+        header p {
+            font-size: 1.4rem;
+            margin-top: 15px;
+            font-weight: 300;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeIn 2s ease-out 0.5s both;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
 
-        /* --- Header Styling --- */
-        header {
-            text-align: center;
-            padding: 60px 20px 40px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 1s ease-out;
-        }
-
-        header h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(45deg, var(--highlight-pink), var(--highlight-cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 15px var(--main-purple);
-            margin: 0;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        header p {
-            font-size: 1.2rem;
-            margin-top: 10px;
-            font-weight: 300;
-            color: var(--text-faded);
-            animation: fadeIn 1.5s ease-out 0.5s both;
-        }
-
-        /* --- Navigation Link (Home/Admin) --- */
-        .nav-link {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            color: var(--text-faded);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            padding: 8px 15px;
-            border-radius: 8px;
-            background: rgba(106, 68, 216, 0.2);
-            border: 1px solid rgba(106, 68, 216, 0.5);
-            transition: background 0.3s, color 0.3s;
-            z-index: 10;
-        }
-
-        .nav-link:hover {
-            background: var(--main-purple);
-            color: var(--text-light);
-        }
-        
-        /* --- Container & Grid --- */
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 40px 20px;
+            animation: fadeIn 2s ease-out 1s both;
+        }
+
+        /* --- KONTROL FILTER DAN SORTING BARU --- */
+        .controls-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        .controls-bar label {
+            font-weight: 500;
+            color: var(--quaternary-color);
+            margin-right: 10px;
+            align-self: center;
+        }
+
+        .controls-bar select {
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 2px solid var(--tertiary-color);
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            appearance: none;
+            transition: all 0.3s;
+        }
+
+        .controls-bar select:hover,
+        .controls-bar select:focus {
+            border-color: var(--quinary-color);
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
         }
 
         .prestasi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
-            margin-top: 20px;
+            margin-top: 60px;
         }
 
-        /* --- Prestasi Card Styling --- */
         .prestasi-card {
-            background: linear-gradient(160deg, #2a1b3d, #1a1a2e);
-            border: 2px solid var(--main-purple);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            padding: 30px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 50px 0 rgba(31, 38, 135, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px 30px 40px;
             text-align: center;
-            transition: transform 0.4s ease-out, box-shadow 0.4s ease-out, opacity 0.6s;
-            position: relative;
-            overflow: hidden;
-            
-            /* Scroll Reveal Initial State */
+            transition: all 0.3s ease-out; 
+            will-change: transform; 
             opacity: 0;
-            transform: translateY(30px);
-        }
-        
-        /* Scroll Reveal Final State (Active Class) */
-        .prestasi-card.in-view {
-            opacity: 1;
-            transform: translateY(0);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden; 
         }
 
-        /* Hover Effect (Desktop Only) */
-        @media (min-width: 769px) {
-            .prestasi-card:hover {
-                transform: translateY(-10px) scale(1.02);
-                box-shadow: 0 20px 50px rgba(106, 68, 216, 0.5);
-            }
-            
-            /* Hover Flare/Shine Effect */
-            .prestasi-card::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: -150%;
-                width: 50%;
-                height: 100%;
-                background: rgba(255, 255, 255, 0.1);
-                transform: skewX(-20deg);
-                transition: all 0.5s ease;
-            }
+        /* --- STYLES UNTUK ACHIEVEMENT TIERS (SARAN 2) --- */
+        .tier-1 { border-color: var(--tier1-color) !important; box-shadow: 0 0 30px var(--tier1-color); }
+        .tier-1 i { color: var(--tier1-color) !important; text-shadow: 0 0 20px var(--tier1-color); }
 
-            .prestasi-card:hover::before {
-                left: 150%;
-            }
-        }
+        .tier-2 { border-color: var(--tier2-color) !important; box-shadow: 0 0 20px var(--tier2-color); }
+        .tier-2 i { color: var(--tier2-color) !important; text-shadow: 0 0 15px var(--tier2-color); }
+
+        .tier-3 { border-color: var(--tier3-color) !important; box-shadow: 0 0 15px var(--tier3-color); }
+        .tier-3 i { color: var(--tier3-color) !important; text-shadow: 0 0 10px var(--tier3-color); }
         
+        /* Animasi dipertahankan */
+        .prestasi-card.animate:nth-child(odd) { animation: slideInLeft 1s ease-out forwards; }
+        .prestasi-card.animate:nth-child(even) { animation: slideInRight 1s ease-out forwards; }
+
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-100px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(100px); } to { opacity: 1; transform: translateX(0); } }
+
+        .prestasi-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 25px 80px 0 rgba(31, 38, 135, 0.6), 0 0 40px rgba(224, 107, 213, 0.5);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .prestasi-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease-out;
+        }
+
+        .prestasi-card:hover::after { left: 100%; }
+
+        .prestasi-card::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.5s ease-out, height 0.5s ease-out; 
+        }
+
+        .prestasi-card:hover::before {
+            width: 200px; 
+            height: 200px; 
+        }
+
         .prestasi-card i {
-            font-size: 3.5rem;
-            color: var(--highlight-cyan);
-            margin-bottom: 20px;
-            text-shadow: 0 0 15px var(--highlight-cyan);
-            animation: floating 3s ease-in-out infinite alternate;
+            font-size: 4rem;
+            color: var(--tertiary-color);
+            margin-bottom: 25px;
+            text-shadow: 0 0 20px rgba(224, 107, 213, 0.8);
+            animation: pulse 2s ease-out infinite, floating 3s ease-out infinite; 
         }
 
-        @keyframes floating {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        @keyframes floating { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        
         .prestasi-card h3 {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            margin: 0 0 10px;
-            color: var(--text-light);
+            margin: 0 0 20px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .prestasi-card p {
-            font-size: 0.95rem;
-            color: #ccc;
-            line-height: 1.5;
+            font-size: 1.1rem;
+            opacity: 0.85;
+            line-height: 1.6;
             margin: 0;
         }
 
-        /* --- Footer --- */
         footer {
             text-align: center;
-            padding: 20px 20px;
-            margin-top: 50px;
-            background: rgba(0, 0, 0, 0.3);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #ccc;
+            padding: 40px 20px;
+            margin-top: 80px;
+            background: linear-gradient(to top, rgba(75, 57, 198, 0.9) 0%, rgba(224, 107, 213, 0.9) 100%);
+            color: #fff;
+            box-shadow: 0 -10px 40px 0 rgba(31, 38, 135, 0.5);
+            animation: fadeInRotate 2s ease-out 1.5s both;
         }
 
-        /* --- Responsive Adjustments (Mobile Optimization) --- */
+        @keyframes fadeInRotate {
+            from { opacity: 0; transform: rotate(-5deg); }
+            to { opacity: 1; transform: rotate(0deg); }
+        }
+
+        footer p { font-size: 1.2rem; margin: 0; }
+
+        /* Responsif */
         @media (max-width: 768px) {
-            header h1 {
-                font-size: 2.2rem;
+            /* Menghapus atau menyederhanakan animasi berat di mobile */
+            body, body::before, body::after, header, .container, footer, 
+            .prestasi-card:nth-child(odd), .prestasi-card:nth-child(even),
+            .prestasi-card:hover::after, .prestasi-card::before {
+                animation: none !important;
+                background-attachment: scroll !important;
             }
-            header p {
-                font-size: 1rem;
+            header h1 { font-size: 2rem; white-space: normal; word-wrap: break-word; }
+            .prestasi-card:nth-child(odd), .prestasi-card:nth-child(even) {
+                animation: fadeInUp 1s ease-out forwards;
+                opacity: 0; /* Pastikan mulai dari 0 */
             }
-            .nav-link {
-                top: 10px;
-                left: 10px;
-                font-size: 0.9rem;
+            @keyframes fadeInUp {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
             }
-            .prestasi-grid {
-                grid-template-columns: 1fr; /* Stack cards vertically */
-            }
-            .prestasi-card {
-                padding: 25px;
-                transform: translateY(0); /* Matikan initial transform */
-            }
-            .prestasi-card.in-view {
-                /* Hanya fade-in sederhana di mobile */
-                transform: none; 
-                opacity: 1;
-            }
-            .prestasi-card i {
-                font-size: 3rem;
-            }
-            .prestasi-card h3 {
-                font-size: 1.3rem;
-            }
+
+            .prestasi-card i { animation: pulse 2s ease-out infinite; } 
+            .prestasi-card:hover { transform: translateY(-5px) scale(1.01); }
+            .controls-bar { flex-direction: column; align-items: stretch; }
+            .controls-bar label { margin-bottom: 5px; text-align: left; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
         }
     </style>
 </head>
 <body>
-    <a href="index.html" class="nav-link">← Kembali ke Daftar Siswa</a>
+    
+    <a href="index.html" class="nav-link-left">
+        <i class="fas fa-arrow-left"></i> Kembali ke Daftar Siswa
+    </a>
 
     <header>
-        <h1>🏆 Prestasi Kelas X CERDAS 1</h1>
-        <p>Meski baru terbentuk kurang dari tiga bulan, kami sudah menorehkan prestasi membanggakan saat mengikuti Classmeet 2025</p>
+        <h1>Prestasi Kelas X CERDAS 1</h1>
+        <p>Meski baru terbentuk kurang dari tiga bulan, kami sudah menorehkan prestasi membanggakan di Classmeet 2025.</p>
     </header>
 
     <div class="container">
+        
+        <div class="controls-bar">
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <label for="filterKategori">Filter Kategori:</label>
+                <select id="filterKategori" onchange="renderAchievements()">
+                    <option value="Semua">Semua Kategori</option>
+                    </select>
+            </div>
+            
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <label for="sortPeringkat">Urutkan Berdasarkan:</label>
+                <select id="sortPeringkat" onchange="renderAchievements()">
+                    <option value="rank-asc">Peringkat (Naik)</option>
+                    <option value="rank-desc">Peringkat (Turun)</option>
+                    <option value="name-asc">Nama Prestasi (A-Z)</option>
+                </select>
+            </div>
+        </div>
+
         <div class="prestasi-grid" id="prestasiGrid">
             </div>
     </div>
 
     <footer>
-        <p>&copy; 2025 Kelas X CERDAS 1. Dibuat dengan bangga dan semangat juara.</p>
+        <p>&copy; 2025 Kelas X CERDAS 1. Dibuat dengan bangga dan semangat juara</p>
     </footer>
 
     <script>
-        // Data Statis/Fallback Prestasi (Sama dengan kode Anda)
-        const dummyAchievements = [
-            { icon: "fas fa-running", title: "Juara 1 Lomba Senam Classmeet 2025", description: "Kelas X CERDAS 1 berhasil meraih juara pertama dalam lomba Senam Anak Indonesia Hebat." },
-            { icon: "fas fa-chess", title: "Juara 1 Lomba Catur Classmeet 2025", description: "Strategi cerdas dan ketepatan gerakan yang dimiliki oleh Mufli Zaky berhasil membawa kelas kami menjadi juara pertama dalam lomba catur." },
-            { icon: "fas fa-feather-alt", title: "Juara 2 Lomba Cipta Puisi Classmeet 2025", description: "Kreativitas puisi yang dibacakan oleh Amirah Zafirah membuat kelas kami meraih juara kedua dengan kata-kata yang menyentuh hati." },
-            { icon: "fas fa-trophy", title: "Juara 3 Deville", description: "Meskipun awalnya kami hanya ingin bersenang-senang tanpa target juara, kelas kami justru berhasil meraih Juara 3 berkat kekompakan dan kerja keras." },
-            { icon: "fas fa-broom", title: "Juara 1 Kebersihan Kelas", description: "Kelas kami dinobatkan sebagai yang terbersih diantara kelas yang lain, menunjukkan disiplin dan kepedulian terhadap lingkungan." },
+        // ** DATA PRESTASI TERPUSAT (Saran 1) **
+        const achievements = [
+            {
+                id: 1,
+                title: "Juara 1 Lomba Senam Classmeet 2025",
+                description: "Kelas X CERDAS 1 berhasil meraih juara pertama dalam lomba Senam Anak Indonesia Hebat.",
+                icon: "fas fa-running",
+                rank: 1,
+                category: "Olahraga"
+            },
+            {
+                id: 2,
+                title: "Juara 1 Lomba Catur Classmeet 2025",
+                description: "Strategi cerdas dan ketepatan gerakan yang dimiliki oleh Mufli Zaky berhasil membawa kelas kami menjadi juara pertama dalam lomba catur.",
+                icon: "fas fa-chess",
+                rank: 1,
+                category: "Akademik"
+            },
+            {
+                id: 3,
+                title: "Juara 2 Lomba Cipta Puisi Classmeet 2025",
+                description: "Kreativitas puisi yang dibacakan oleh Amirah Zafirah membuat kelas kami meraih juara kedua dengan kata-kata yang menyentuh hati.",
+                icon: "fas fa-feather-alt",
+                rank: 2,
+                category: "Seni"
+            },
+            {
+                id: 4,
+                title: "Juara 3 Deville",
+                description: "Meskipun awalnya kami hanya ingin bersenang-senang tanpa target juara, kelas kami justru berhasil meraih Juara 3 berkat kekompakan dan kerja keras.",
+                icon: "fas fa-trophy",
+                rank: 3,
+                category: "Non-Kategori"
+            },
+            {
+                id: 5,
+                title: "Juara 1 Kebersihan Kelas",
+                description: "Kelas kami dinobatkan sebagai yang terbersih diantara kelas yang lain, menunjukkan disiplin dan kepedulian terhadap lingkungan.",
+                icon: "fas fa-broom",
+                rank: 1,
+                category: "Non-Kategori"
+            },
+            {
+                id: 6,
+                title: "Juara 1 Lomba Estafet Kelas",
+                description: "Kekompakan tim estafet kami membuktikan bahwa X CERDAS 1 adalah kelas yang solid dan atletis.",
+                icon: "fas fa-relay",
+                rank: 1,
+                category: "Olahraga"
+            },
         ];
 
-        const gridContainer = document.getElementById('prestasiGrid');
+        const gridElement = document.getElementById('prestasiGrid');
+        const filterSelect = document.getElementById('filterKategori');
+        const sortSelect = document.getElementById('sortPeringkat');
 
-        // Fungsi untuk membuat dan menambahkan card
-        function renderAchievementCard(achievement, index) {
-            const card = document.createElement('div');
-            card.className = 'prestasi-card';
-            card.innerHTML = `
-                <i class="${achievement.icon}"></i>
-                <h3>${achievement.title}</h3>
-                <p>${achievement.description}</p>
-            `;
-            // Tambahkan delay berdasarkan index untuk efek keren (desktop)
-            card.style.animationDelay = `${index * 0.15}s`;
-            gridContainer.appendChild(card);
-            return card;
+        // Fungsi untuk mengisi opsi filter kategori
+        function populateFilters() {
+            const categories = [...new Set(achievements.map(a => a.category))].sort();
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                filterSelect.appendChild(option);
+            });
         }
 
-        // Render semua card menggunakan data statis
-        const cards = dummyAchievements.map(renderAchievementCard);
+        // Fungsi utama untuk filter, sort, dan render
+        function renderAchievements() {
+            const selectedCategory = filterSelect.value;
+            const selectedSort = sortSelect.value;
+            
+            // 1. FILTERING
+            let filteredList = achievements.filter(a => 
+                selectedCategory === "Semua" || a.category === selectedCategory
+            );
 
-        // =========================================================
-        // SCROLL REVEAL EFFECT (JavaScript untuk Animasi Saat Scroll)
-        // =========================================================
-        
-        // Buat IntersectionObserver
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                // Jika card masuk dalam viewport
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                    // Hentikan pengamatan setelah card muncul
-                    observer.unobserve(entry.target);
+            // 2. SORTING
+            filteredList.sort((a, b) => {
+                if (selectedSort === 'rank-asc') {
+                    return a.rank - b.rank; // 1, 2, 3...
+                } else if (selectedSort === 'rank-desc') {
+                    return b.rank - a.rank; // 3, 2, 1...
+                } else if (selectedSort === 'name-asc') {
+                    return a.title.localeCompare(b.title); // A-Z
                 }
+                return 0;
             });
-        }, {
-            // Margin 0px, aktif saat elemen 10% terlihat
-            rootMargin: '0px',
-            threshold: 0.1 
+
+
+            // 3. RENDERING
+            gridElement.innerHTML = ''; 
+            filteredList.forEach((a, index) => {
+                const card = document.createElement('div');
+                
+                // Tentukan kelas Tier (Saran 2)
+                let tierClass = '';
+                if (a.rank === 1) tierClass = 'tier-1';
+                else if (a.rank === 2) tierClass = 'tier-2';
+                else if (a.rank === 3) tierClass = 'tier-3';
+                
+                card.className = `prestasi-card animate ${tierClass}`;
+                card.style.animationDelay = `${index * 0.1}s`; 
+
+                card.innerHTML = `
+                    <i class="${a.icon}"></i>
+                    <h3>${a.title}</h3>
+                    <p>${a.description}</p>
+                `;
+                gridElement.appendChild(card);
+            });
+        }
+
+        // Jalankan saat dokumen selesai dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            populateFilters();
+            renderAchievements(); // Panggil pertama kali untuk menampilkan semua data
         });
-
-        // Amati setiap card
-        cards.forEach(card => {
-            observer.observe(card);
-        });
-
-
-        // =========================================================
-        // CATATAN PENGGUNAAN DENGAN FIREBASE:
-        // Jika Anda ingin menggunakan data dinamis (Firestore), 
-        // Anda harus:
-        // 1. Mengaktifkan tag <script> SDK Firebase di bagian atas.
-        // 2. Mengganti `dummyAchievements` dengan fungsi `fetchAchievements()` 
-        //    seperti yang kita buat sebelumnya.
-        // 3. Memanggil `renderAchievementCard` di dalam fungsi `fetchAchievements()` 
-        //    setelah data dari Firestore berhasil diambil.
-        // 4. Pastikan Rules Firestore Anda mengizinkan pembacaan koleksi "classAchievements".
-        // =========================================================
-
     </script>
 </body>
 </html>
