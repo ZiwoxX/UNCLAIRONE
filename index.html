@@ -133,9 +133,11 @@
         padding-left: 20px;
     }
     
-    .running-quotes-wrapper:hover .running-track {
+    /* MODIFIKASI: Menghapus efek pause on hover agar tetap berjalan */
+    /* .running-quotes-wrapper:hover .running-track {
         animation-play-state: paused;
-    }
+    } 
+    */
 
     .student-quote-card {
         background: linear-gradient(145deg, #2a1b3d, #151525);
@@ -150,7 +152,7 @@
         justify-content: center;
         box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         transition: all 0.3s ease;
-        cursor: default;
+        cursor: pointer; /* MODIFIKASI: Mengubah kursor jadi pointer */
     }
     
     .student-quote-card:hover {
@@ -160,6 +162,10 @@
         box-shadow: 0 10px 25px rgba(0,0,0,0.5), 0 0 15px rgba(255, 119, 92, 0.4);
         z-index: 2;
     }
+    
+    .student-quote-card:active {
+        transform: scale(0.95);
+    }
 
     .sq-text {
         font-style: italic;
@@ -167,6 +173,7 @@
         color: #e0e0e0;
         margin-bottom: 10px;
         line-height: 1.5;
+        pointer-events: none; /* Agar klik tembus ke card */
     }
 
     .sq-author {
@@ -176,6 +183,7 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
+        pointer-events: none;
     }
     
     .sq-author img {
@@ -593,6 +601,57 @@
         border-radius: 12px;
     }
 
+    /* --- MODIFIKASI: STYLE KHUSUS UNTUK POP-UP QUOTE --- */
+    .quote-modal-content {
+        text-align: center;
+        border: 3px solid #ff775c;
+        max-width: 500px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 25px;
+    }
+    
+    .quote-modal-icon {
+        font-size: 3rem;
+        color: #ff775c;
+        margin-bottom: 20px;
+    }
+
+    .quote-modal-text {
+        font-size: 1.4rem;
+        font-style: italic;
+        line-height: 1.5;
+        margin-bottom: 25px;
+        color: #ffffff;
+    }
+
+    .quote-modal-author {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(126, 98, 255, 0.1);
+        padding: 10px 20px;
+        border-radius: 50px;
+        border: 1px solid #7e62ff;
+    }
+
+    .quote-modal-author img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 15px;
+        border: 2px solid #ffffff;
+    }
+    
+    .quote-modal-author span {
+        font-weight: 700;
+        color: #bdb6f0;
+        font-size: 1.1rem;
+    }
+
     /* --- Optimasi Mobile --- */
     @media (max-width: 600px) {
       body {
@@ -699,6 +758,11 @@
       .sq-text { font-size: 0.85rem; }
       /* KECEPATAN MOBILE DIPERLAMBAT: Diubah dari 30s menjadi 60s */
       .running-track { animation-duration: 60s; }
+
+      /* Mobile Quote Popup */
+      .quote-modal-text { font-size: 1.1rem; }
+      .quote-modal-author img { width: 30px; height: 30px; }
+      .quote-modal-author span { font-size: 0.9rem; }
     }
 
   </style>
@@ -810,6 +874,18 @@
         
         <p style="color: #bdb6f0;">Semoga panjang umur dan sehat eperitaym</p>
         <button onclick="closeBirthdayModal()" style="margin-top: 20px; padding: 10px 25px; background: #ff4359; color: white; border: none; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 1rem;">Aamiin 🙏</button>
+    </div>
+  </div>
+
+  <div id="quoteModal" class="modal" style="z-index: 150;">
+    <div class="modal-content quote-modal-content">
+        <span class="close-btn" onclick="closeQuoteModal()">×</span>
+        <div class="quote-modal-icon"><i class="fas fa-quote-left"></i></div>
+        <p id="quoteModalText" class="quote-modal-text"></p>
+        <div class="quote-modal-author">
+            <img id="quoteModalPhoto" src="" alt="">
+            <span id="quoteModalName"></span>
+        </div>
     </div>
   </div>
 
@@ -1177,6 +1253,8 @@
     window.onclick = function(event) {
       if (event.target == modal) { closeStudentModal(); }
       if (event.target == lightbox) { closeLightBox(); } 
+      // Tambahan: Tutup quote modal jika klik di luar
+      if (event.target == document.getElementById('quoteModal')) { closeQuoteModal(); }
     }
 
     // ** LOGIKA GESER (SWIPE) & KEYBOARD UNTUK MOBILE/DESKTOP LIGHTBOX **
@@ -1308,22 +1386,24 @@
     }
 
     // ==========================================
-    // FITUR RUNNING STUDENT QUOTES
+    // FITUR RUNNING STUDENT QUOTES (MODIFIKASI: Tambah Event Click)
     // ==========================================
     function renderStudentQuotes() {
         const track = document.getElementById('studentQuotesTrack');
         if (!track) return;
 
-        // Mengambil siswa yang punya QUOTE
-        const activeStudents = students.filter(s => s.quote && s.quote.length > 2);
+        // Mengambil siswa yang punya QUOTE yang valid (bukan string kosong)
+        // Kita simpan juga index asli dari array `students` agar mudah diambil datanya
+        const activeStudentsData = students.map((s, index) => ({...s, originalIndex: index}))
+                                           .filter(s => s.quote && s.quote.length > 2);
 
-        // Fungsi pembantu membuat HTML Card
-        const createCard = (student) => {
+        // Fungsi pembantu membuat HTML Card dengan onclick
+        const createCard = (studentData) => {
             return `
-                <div class="student-quote-card">
-                    <div class="sq-text">"${student.quote}"</div>
+                <div class="student-quote-card" onclick="openQuoteModal(${studentData.originalIndex})">
+                    <div class="sq-text">"${studentData.quote}"</div>
                     <div class="sq-author">
-                        <img src="${student.photo}" alt="icon"> ${student.name.split(' ')[0]}
+                        <img src="${studentData.photo}" alt="icon"> ${studentData.name.split(' ')[0]}
                     </div>
                 </div>
             `;
@@ -1331,12 +1411,28 @@
 
         // 1. Buat string HTML dari semua siswa
         let allCardsHTML = '';
-        activeStudents.forEach(student => {
-            allCardsHTML += createCard(student);
+        activeStudentsData.forEach(studentData => {
+            allCardsHTML += createCard(studentData);
         });
 
         // 2. DUPLIKASI KONTEN (Agar loop animasi berjalan mulus tanpa jeda)
         track.innerHTML = allCardsHTML + allCardsHTML; 
+    }
+
+    // ** FUNGSI BARU: MEMBUKA DAN MENUTUP MODAL QUOTE **
+    function openQuoteModal(index) {
+        const s = students[index];
+        const modal = document.getElementById('quoteModal');
+        
+        document.getElementById('quoteModalText').textContent = `"${s.quote}"`;
+        document.getElementById('quoteModalName').textContent = s.name;
+        document.getElementById('quoteModalPhoto').src = s.photo;
+
+        modal.style.display = 'flex';
+    }
+
+    function closeQuoteModal() {
+        document.getElementById('quoteModal').style.display = 'none';
     }
 
 
