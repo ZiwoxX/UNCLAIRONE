@@ -17,9 +17,9 @@
             --accent-purple: #8b5cf6; /* Royal Purple */
             --text-light: #f0f0f0;
 
-            /* Warna Tiers Baru (GOLD LEBIH GELAP/CLASSIC) */
+            /* Warna Tiers Baru (CLASSIC GOLD) */
             --tier1-color: #D4AF37; /* Classic Gold - Lebih Gelap */
-            --tier1-glow: 0 0 30px rgba(212, 175, 55, 0.6); /* Glow disesuaikan */
+            --tier1-glow: 0 0 30px rgba(212, 175, 55, 0.6); 
             
             --tier2-color: #C0C0C0; /* Silver */
             --tier2-glow: 0 0 30px rgba(192, 192, 192, 0.6);
@@ -368,8 +368,8 @@
             <div style="display: flex; gap: 10px; align-items: center;">
                 <label for="sortPeringkat">Urutkan Berdasarkan:</label>
                 <select id="sortPeringkat" onchange="renderAchievements()">
-                    <option value="rank-asc">Peringkat (Naik)</option>
-                    <option value="rank-desc">Peringkat (Turun)</option>
+                    <option value="rank-asc">Peringkat (Tertinggi)</option>
+                    <option value="rank-desc">Peringkat (Terendah)</option>
                     <option value="name-asc">Nama Prestasi (A-Z)</option>
                 </select>
             </div>
@@ -425,14 +425,6 @@
                 icon: "fas fa-broom",
                 rank: 1,
                 category: "Non-Kategori"
-            },
-            {
-                id: 6,
-                title: "Juara 1 Lomba Estafet Kelas",
-                description: "Kekompakan tim estafet kami membuktikan bahwa X CERDAS 1 adalah kelas yang solid dan atletis.",
-                icon: "fas fa-relay",
-                rank: 1,
-                category: "Olahraga"
             },
         ];
 
