@@ -650,7 +650,7 @@
     const DEFAULT_META = "width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no";
     const ZOOMABLE_META = "width=device-width, initial-scale=1, user-scalable=yes"; 
 
-    // Fungsi Lightbox
+    // Fungsi Lightbox (Mempertahankan fitur zoom in/out)
     function openLightBox(src) {
         // AKTIFKAN ZOOM saat Lightbox terbuka
         viewportMeta.content = ZOOMABLE_META; 
@@ -831,7 +831,8 @@
       if (event.target == lightbox) { closeLightBox(); } // Menggunakan closeLightBox
     }
 
-    // ** LOGIKA FITUR ULANG TAHUN ** function checkBirthday() {
+    // ** LOGIKA FITUR ULANG TAHUN **
+    function checkBirthday() {
         const today = new Date();
         const month = String(today.getMonth() + 1).padStart(2, '0');
         const day = String(today.getDate()).padStart(2, '0');
@@ -856,7 +857,7 @@
             modalUltah.style.display = 'flex';
             fireConfetti();
         }
-    
+    } // <--- KURUNG KURAWAL PENUTUP FUNGSI DITAMBAHKAN DI SINI!
 
     function fireConfetti() {
         var duration = 3 * 1000;
