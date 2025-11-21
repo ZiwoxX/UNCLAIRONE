@@ -5,343 +5,271 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Prestasi Kelas X CERDAS 1</title>
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap" />
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&family=Cinzel:wght@400;700&display=swap" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <style>
-        /* ========================================================= */
-        /* --- WARNA DAN VARIABEL MEWAH DAN MEGAH (BLUE/PURPLE) --- */
-        /* ========================================================= */
-        :root {
-            --primary-bg: #050214; /* Very Deep Blue/Black */
-            --accent-blue: #3b82f6; /* Vibrant Electric Blue */
-            --accent-purple: #8b5cf6; /* Royal Purple */
-            --text-light: #f0f0f0;
+/* ========================================================= */
+/* --- WARNA DAN VARIABEL MEWAH (BLUE/PURPLE) --- */
+/* ========================================================= */
+:root {
+    --primary-bg: #0a0a0f; /* Deep Black */
+    --accent-blue: #4f46e5; /* Soft Electric Blue */
+    --accent-purple: #7c3aed; /* Elegant Purple */
+    --text-light: #f8fafc;
 
-            /* Warna Tiers Baru (CLASSIC GOLD) */
-            --tier1-color: #D4AF37; /* Classic Gold - Lebih Gelap */
-            --tier1-glow: 0 0 30px rgba(212, 175, 55, 0.6); 
-            
-            --tier2-color: #C0C0C0; /* Silver */
-            --tier2-glow: 0 0 30px rgba(192, 192, 192, 0.6);
-            
-            --tier3-color: #CD7F32; /* Bronze */
-            --tier3-glow: 0 0 20px rgba(205, 127, 50, 0.5);
-        }
+    /* Warna Tiers (Premium Metallic) */
+    --tier1-color: #f59e0b; /* Warm Gold */
+    --tier1-glow: 0 0 20px rgba(245, 158, 11, 0.5);
+    
+    --tier2-color: #e2e8f0; /* Platinum Silver */
+    --tier2-glow: 0 0 20px rgba(226, 232, 240, 0.5);
+    
+    --tier3-color: #d97706; /* Rich Bronze */
+    --tier3-glow: 0 0 15px rgba(217, 119, 6, 0.4);
+}
 
-        body {
-            font-family: "Poppins", sans-serif;
-            /* Update gradient to Blue/Purple/Black */
-            background: linear-gradient(135deg, var(--primary-bg) 0%, #1e113a 50%, #102a43 100%); 
-            color: var(--text-light);
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            min-height: 100vh;
-            position: relative;
-        }
+body {
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, var(--primary-bg) 0%, #1a1a2e 50%, #16213e 100%);
+    color: var(--text-light);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+}
 
-        /* Latar Belakang Bintang Lebih Tenang */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            z-index: -1;
-            opacity: 0.3;
-        }
+/* Latar Belakang Subtle Stars */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: -1;
+    opacity: 0.4;
+}
 
-        /* Navigasi Link Lebih Elegan */
-        .nav-link-left { 
-            position: absolute;
-            top: 25px;
-            left: 25px;
-            color: var(--accent-blue);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            padding: 10px 20px;
-            border-radius: 8px;
-            background: rgba(59, 130, 246, 0.15); 
-            border: 1px solid var(--accent-blue);
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
-            transition: all 0.3s;
-            z-index: 10; 
-        }
-        .nav-link-left:hover { 
-            background: var(--accent-blue); 
-            color: var(--primary-bg); 
-            box-shadow: 0 0 25px var(--accent-blue);
-        }
+/* Navigasi Link Elegan */
+.nav-link-left {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    color: var(--accent-blue);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 12px;
+    background: rgba(79, 70, 229, 0.1);
+    border: 1px solid var(--accent-blue);
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+.nav-link-left:hover {
+    background: var(--accent-blue);
+    color: var(--primary-bg);
+    box-shadow: 0 6px 25px var(--accent-blue);
+}
 
-        /* ========================================================= */
-        /* --- HEADER MEGAH (JUDUL) --- */
-        /* ========================================================= */
-        header {
-            text-align: center;
-            padding: 100px 20px 60px 20px;
-            background: rgba(5, 2, 20, 0.8); 
-            border-bottom: 5px solid var(--accent-blue); 
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
-            position: relative;
-        }
+/* ========================================================= */
+/* --- HEADER MEWAH --- */
+/* ========================================================= */
+header {
+    text-align: center;
+    padding: 100px 20px 60px 20px;
+    background: rgba(10, 10, 15, 0.9);
+    border-bottom: 3px solid var(--accent-blue);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+    position: relative;
+}
 
-        header h1 {
-            font-size: 4.5rem;
-            font-weight: 900;
-            background: linear-gradient(45deg, var(--accent-blue), #fff, var(--accent-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 
-                0 0 5px rgba(59, 130, 246, 0.3),  
-                0 0 15px rgba(59, 130, 246, 0.6); 
-            margin: 0;
-            overflow: hidden; 
-            white-space: nowrap;
-            border-right: 3px solid var(--accent-blue); 
-            animation: typing 3s steps(30, end) ease-out, glow 2.5s ease-in-out infinite alternate;
-        }
+header h1 {
+    font-family: "Cinzel", serif;
+    font-size: 4rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, var(--accent-blue), var(--text-light), var(--accent-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 10px rgba(79, 70, 229, 0.4);
+    margin: 0;
+    animation: fadeInGlow 2s ease-out;
+}
 
-        header p {
-            font-size: 1.5rem;
-            margin-top: 20px;
-            font-weight: 300;
-            opacity: 0.9;
-            color: #b1eaff; 
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
-        }
+header p {
+    font-size: 1.4rem;
+    margin-top: 20px;
+    font-weight: 300;
+    opacity: 0.85;
+    color: #cbd5e1;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-        @keyframes glow {
-            from { text-shadow: 0 0 10px rgba(0, 0, 0, 0.2), 0 0 20px rgba(59, 130, 246, 0.7), 0 0 30px rgba(139, 92, 246, 0.5); }
-            to { text-shadow: 0 0 12px rgba(0, 0, 0, 0.3), 0 0 25px rgba(59, 130, 246, 0.8), 0 0 35px rgba(139, 92, 246, 0.6); }
-        }
+@keyframes fadeInGlow {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
 
-        /* --- KONTROL FILTER DAN SORTING (DISAATKAN) --- */
-        .controls-bar {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-            margin-top: 20px;
-            margin-bottom: 40px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-        }
+/* Kontrol Filter */
+.controls-bar {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    margin-top: 20px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
 
-        .controls-bar label {
-            font-weight: 500;
-            color: var(--accent-blue); 
-            margin-right: 10px;
-            align-self: center;
-            font-size: 1rem;
-        }
+.controls-bar label {
+    font-weight: 500;
+    color: var(--accent-blue);
+    margin-right: 10px;
+    align-self: center;
+    font-size: 1rem;
+}
 
-        .controls-bar select {
-            padding: 10px 15px;
-            border-radius: 8px;
-            border: 2px solid var(--accent-purple); 
-            background: var(--primary-bg);
-            color: var(--text-light);
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+.controls-bar select {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 2px solid var(--accent-purple);
+    background: var(--primary-bg);
+    color: var(--text-light);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
 
-        .controls-bar select:hover,
-        .controls-bar select:focus {
-            border-color: var(--accent-blue); 
-            box-shadow: 0 0 10px var(--accent-blue);
-            outline: none;
-        }
+.controls-bar select:hover,
+.controls-bar select:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 10px var(--accent-blue);
+    outline: none;
+}
 
-        .prestasi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            margin-top: 60px;
-        }
+.prestasi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-top: 60px;
+}
 
-        /* ========================================================= */
-        /* --- KARTU PRESTASI MEWAH (TROPHY STAND) --- */
-        /* ========================================================= */
-        .prestasi-card {
-            /* Base dark metallic background - Blue/Purple/Black */
-            background: linear-gradient(145deg, #180b3d, #0d0725); 
-            border: 3px solid rgba(255, 255, 255, 0.1); 
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); 
-            opacity: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-            overflow: hidden; 
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-        }
-        
-        /* Hover Effect: Mengangkat dan memberi kilau ungu */
-        .prestasi-card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 50px rgba(139, 92, 246, 0.5);
-            background: linear-gradient(145deg, #1d0f48, #10082a);
-        }
+/* ========================================================= */
+/* --- KARTU PRESTASI MEWAH (GLASSMORPHISM) --- */
+/* ========================================================= */
+.prestasi-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    transition: all 0.4s ease;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
 
-        /* Efek Kilauan Ringan */
-        .prestasi-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
-            pointer-events: none;
-            opacity: 0.5;
-            z-index: 1;
-        }
+.prestasi-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(124, 58, 237, 0.3);
+    background: rgba(255, 255, 255, 0.12);
+}
 
-        /* --- STYLES UNTUK ACHIEVEMENT TIERS --- */
-        .tier-1 { 
-            border-color: var(--tier1-color) !important; 
-            box-shadow: var(--tier1-glow); 
-            /* Base lebih gelap untuk Gold */
-            background: linear-gradient(145deg, #302613, #1e150a); 
-        }
-        .tier-1 i { 
-            color: var(--tier1-color) !important; 
-            text-shadow: var(--tier1-glow); 
-        }
+/* Shimmer Effect pada Ikon */
+.prestasi-card i {
+    font-size: 4.5rem;
+    margin-bottom: 25px;
+    position: relative;
+    z-index: 2;
+    animation: shimmer 3s ease-in-out infinite;
+}
 
-        .tier-2 { 
-            border-color: var(--tier2-color) !important; 
-            box-shadow: var(--tier2-glow); 
-            background: linear-gradient(145deg, #1f1f23, #111115); 
-        }
-        .tier-2 i { 
-            color: var(--tier2-color) !important; 
-            text-shadow: var(--tier2-glow); 
-        }
+@keyframes shimmer {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.2) hue-rotate(10deg); }
+}
 
-        .tier-3 { 
-            border-color: var(--tier3-color) !important; 
-            box-shadow: var(--tier3-glow); 
-            background: linear-gradient(145deg, #2e1d0f, #1e1307); 
-        }
-        .tier-3 i { 
-            color: var(--tier3-color) !important; 
-            text-shadow: var(--tier3-glow); 
-        }
-        
-        .prestasi-card i {
-            font-size: 5rem;
-            margin-bottom: 25px;
-            position: relative;
-            z-index: 2;
-            animation: pulse 2s ease-out infinite; 
-        }
-        
-        .prestasi-card h3 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin: 0 0 10px;
-            color: var(--text-light);
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-            position: relative;
-            z-index: 2;
-        }
+/* Tier Styles */
+.tier-1 { border-color: var(--tier1-color); box-shadow: var(--tier1-glow); }
+.tier-1 i { color: var(--tier1-color); }
 
-        .prestasi-card p {
-            font-size: 1.05rem;
-            opacity: 0.7;
-            line-height: 1.6;
-            margin: 0;
-            position: relative;
-            z-index: 2;
-        }
-        
-        /* Animasi Card (Fade-in Sederhana) */
-        .prestasi-card.animate:nth-child(odd), 
-        .prestasi-card.animate:nth-child(even) { 
-            animation: fadeInUp 0.8s ease-out forwards; 
-        }
+.tier-2 { border-color: var(--tier2-color); box-shadow: var(--tier2-glow); }
+.tier-2 i { color: var(--tier2-color); }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+.tier-3 { border-color: var(--tier3-color); box-shadow: var(--tier3-glow); }
+.tier-3 i { color: var(--tier3-color); }
 
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            margin-top: 80px;
-            background: linear-gradient(to top, #102a43 0%, #050214 100%); 
-            color: #b1eaff;
-            box-shadow: 0 -10px 40px 0 rgba(0, 0, 0, 0.5);
-            border-top: 2px solid var(--accent-blue);
-        }
-        footer p { font-size: 1rem; margin: 0; }
+.prestasi-card h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0 0 10px;
+    color: var(--text-light);
+    position: relative;
+    z-index: 2;
+}
 
-        /* ========================================================= */
-        /* --- RESPONSIVITAS MOBILE (MEMASTIKAN KARTU TERLIHAT) --- */
-        /* ========================================================= */
-        @media (max-width: 768px) {
-            /* Hapus animasi yang menyebabkan kartu hilang/gagal muncul */
-            body, body::before, body::after, header, .container, footer, 
-            .prestasi-card:hover::after, .prestasi-card::before {
-                animation: none !important;
-                background-attachment: scroll !important;
-            }
-            
-            header h1 { font-size: 2.5rem; white-space: normal; word-wrap: break-word; }
-            header p { font-size: 1.2rem; }
-            
-            .nav-link-left { top: 15px; left: 15px; padding: 6px 12px; font-size: 0.9rem;}
-            
-            .prestasi-grid {
-                grid-template-columns: 1fr; /* Satu kolom di HP */
-            }
+.prestasi-card p {
+    font-size: 1rem;
+    opacity: 0.8;
+    line-height: 1.6;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+}
 
-            /* FIX UTAMA: Memastikan kartu terlihat di HP */
-            .prestasi-card {
-                /* Menimpa opacity: 0 dan memastikan transisi sederhana */
-                opacity: 1 !important; 
-                transform: none !important;
-                animation: none !important; /* Nonaktifkan animasi fadeIn/slideIn */
-            }
-            
-            /* Jaga Animasi Ikon */
-            .prestasi-card i { animation: pulse 2s ease-out infinite; } 
-            .prestasi-card:hover { transform: none; }
-            .controls-bar { flex-direction: column; align-items: stretch; padding: 15px; }
-            .controls-bar label { margin-bottom: 5px; text-align: left; }
-        }
+/* Animasi Fade-In */
+.prestasi-card.animate {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
 
-        @media (prefers-reduced-motion: reduce) {
-            * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-        }
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 40px 20px;
+    margin-top: 80px;
+    background: linear-gradient(to top, #16213e 0%, #0a0a0f 100%);
+    color: #cbd5e1;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+    border-top: 2px solid var(--accent-blue);
+}
+footer p { font-size: 1rem; margin: 0; }
+
+/* Responsivitas */
+@media (max-width: 768px) {
+    header h1 { font-size: 2.5rem; }
+    header p { font-size: 1.2rem; }
+    .nav-link-left { top: 15px; left: 15px; padding: 6px 12px; font-size: 0.9rem; }
+    .prestasi-grid { grid-template-columns: 1fr; }
+    .prestasi-card { opacity: 1 !important; animation: none !important; }
+}
     </style>
 </head>
 <body>
