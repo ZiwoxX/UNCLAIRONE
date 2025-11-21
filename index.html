@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   
  <style>
-    /* ... (CSS yang sudah ada) ... */
+    /* ... (CSS BAWAAN) ... */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
     body {
@@ -115,7 +115,6 @@
     /* ========================================= */
     .running-quotes-wrapper {
         width: 100%;
-        /* Mengaktifkan Scroll Horizontal manual */
         overflow-x: auto; 
         margin-bottom: 40px;
         padding: 20px 0;
@@ -124,21 +123,17 @@
         border-top: 1px solid rgba(106, 68, 216, 0.4);
         border-bottom: 1px solid rgba(106, 68, 216, 0.4);
         box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
-        
-        /* Mengubah kursor untuk indikasi drag */
         cursor: grab; 
-        /* Menyembunyikan scrollbar di beberapa browser */
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
+        -ms-overflow-style: none;  
+        scrollbar-width: none;  
     }
     .running-quotes-wrapper::-webkit-scrollbar {
-        display: none; /* Chrome, Safari, Opera */
+        display: none; 
     }
     
     .running-track {
         display: flex;
         width: max-content;
-        /* ANIMASI CSS DIHAPUS, DIGANTI OLEH JS SCROLL */
         padding-left: 20px;
         white-space: nowrap; 
     }
@@ -158,8 +153,6 @@
         transition: all 0.3s ease;
         cursor: pointer; 
         user-select: none; 
-
-        /* --- PERBAIKAN: Menjaga KONSISTENSI tinggi card --- */
         min-height: 120px; 
         height: auto; 
         box-sizing: border-box; 
@@ -188,11 +181,9 @@
         margin-bottom: 10px;
         line-height: 1.5;
         pointer-events: none; 
-        
-        /* --- PERBAIKAN: Memotong teks yang terlalu panjang dengan ellipsis --- */
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        -webkit-line-clamp: 4; /* Batasi hingga 4 baris */
+        -webkit-line-clamp: 4; 
         overflow: hidden;
         text-overflow: ellipsis; 
     }
@@ -221,8 +212,6 @@
         border-color: #ff775c;
     }
     
-    /* Keyframes untuk animasi CSS dihilangkan karena diganti JS Scroll */
-
     /* --- STYLE STATISTIK KELAS --- */
     .stats-container {
         display: flex;
@@ -266,9 +255,7 @@
         letter-spacing: 0.5px;
     }
 
-    /* ------------------------------------------- */
-    /* --- FOKUS PERBAIKAN PENCARIAN UI BARU --- */
-    /* ------------------------------------------- */
+    /* --- PENCARIAN UI BARU --- */
     .filter-controls {
         display: flex;
         justify-content: center; 
@@ -304,7 +291,6 @@
         background: rgba(42, 27, 61, 0.5); 
     }
 
-    /* Area Tombol/Ikon Pencarian yang Dedikasi */
     .search-button-area {
         padding: 12px 15px;
         background: #ff775c; 
@@ -352,6 +338,7 @@
       opacity: 0;
       transform: translateY(20px);
       animation-fill-mode: forwards;
+      position: relative; /* WAJIB UNTUK BADGE LIKE */
     }
 
     .card:hover {
@@ -364,6 +351,30 @@
       animation-name: fadeSlideUp;
       animation-duration: 0.6s;
       animation-timing-function: ease-out;
+    }
+
+    /* STYLE BARU: BADGE LIKE DI CARD */
+    .card-like-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        color: #ff775c; /* Warna oranye neon */
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        border: 1px solid rgba(255, 119, 92, 0.5);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        z-index: 2; /* Di atas foto */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+    
+    .card-like-badge i {
+        font-size: 1rem;
     }
 
     @keyframes fadeSlideUp {
@@ -387,7 +398,6 @@
     .label { font-weight: 600; color: #bdb6f0; }
     .ig-label { display: block; text-align: center; margin-bottom: 2px; }
     
-    /* --- CSS BARU UNTUK DESKRIPSI --- */
     .description { 
         font-size: 0.85rem; 
         line-height: 1.3; 
@@ -398,7 +408,6 @@
         color: #bdb6f0; 
         font-style: italic;
     }
-    /* --- END CSS DESKRIPSI --- */
 
     .instagram-link {
       color: #bdb6f0;
@@ -443,7 +452,6 @@
       max-width: 800px;
       position: relative;
       color: #e0e0e0;
-      /* ANIMASI POP-UP (SLIDE-IN) */
       animation: slideIn 0.4s ease-out; 
       border: 2px solid #6a44d8;
       max-height: 95vh; 
@@ -452,7 +460,6 @@
     }
 
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    /* KEYFRAME ANIMASI SLIDE-IN POP-UP */
     @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
     .close-btn {
@@ -482,6 +489,137 @@
     .modal-details p { margin: 0; line-height: 1.6; }
     .modal-details .label { color: #7e62ff; font-weight: 700; width: 100px; display: inline-block; }
 
+    /* ========================================= */
+    /* --- STYLE BARU: LIKE & COMMENT --- */
+    /* ========================================= */
+    .interaction-section {
+        margin-top: 20px;
+        border-top: 1px solid #4a3c7a;
+        padding-top: 20px;
+    }
+
+    /* Like Button */
+    .like-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        font-size: 1.2rem;
+        color: #bdb6f0;
+    }
+
+    .like-btn {
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid #ff775c;
+        color: #ff775c;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .like-btn:hover {
+        background: #ff775c;
+        color: white;
+        transform: scale(1.1);
+    }
+
+    .like-btn.liked {
+        background: #ff775c;
+        color: white;
+        box-shadow: 0 0 15px rgba(255, 119, 92, 0.6);
+    }
+
+    /* Comment Section */
+    .comments-wrapper h4 {
+        color: #bdb6f0;
+        margin-bottom: 15px;
+        border-left: 3px solid #7e62ff;
+        padding-left: 10px;
+    }
+
+    .comments-list {
+        max-height: 200px;
+        overflow-y: auto;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #4a3c7a;
+    }
+
+    .comment-item {
+        background: #1a1a2e;
+        padding: 8px 12px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        border-left: 2px solid #7e62ff;
+    }
+
+    .comment-header {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        color: #bdb6f0;
+        margin-bottom: 4px;
+        font-weight: bold;
+    }
+
+    .comment-text {
+        color: #e0e0e0;
+        word-wrap: break-word;
+    }
+
+    .no-comments {
+        text-align: center;
+        color: #666;
+        font-style: italic;
+        padding: 20px;
+    }
+
+    /* Form Input Komentar */
+    .comment-form {
+        display: flex;
+        gap: 10px;
+    }
+
+    .comment-form input {
+        flex: 1;
+        padding: 10px;
+        border-radius: 20px;
+        border: 1px solid #4a3c7a;
+        background: #151525;
+        color: white;
+        outline: none;
+    }
+
+    .comment-form input:focus {
+        border-color: #7e62ff;
+    }
+
+    .send-comment-btn {
+        background: #7e62ff;
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    .send-comment-btn:hover {
+        background: #6a44d8;
+        transform: scale(1.1);
+    }
+    /* ========================================= */
+
     /* Style Galeri Foto */
     .photo-gallery { margin-top: 30px; }
     .photo-gallery h3 { color: #bdb6f0; border-bottom: 1px solid #4a3c7a; padding-bottom: 5px; margin-bottom: 15px; font-weight: 600; }
@@ -510,7 +648,6 @@
       font-size: 40px; font-weight: bold; cursor: pointer;
     }
 
-    /* --- TAMBAHAN CSS UNTUK NAVIGASI GESER LIGHTBOX --- */
     .lightbox-nav-btn {
         cursor: pointer;
         position: absolute;
@@ -543,20 +680,17 @@
         background-color: rgba(0, 0, 0, 0.8);
         opacity: 1;
     }
-    /* --- END TAMBAHAN CSS NAVIGASI --- */
 
     
     /* --- KONTROL SPOTIFY (CSS BARU DENGAN ANIMASI SLIDE) --- */
-    
-    /* Tombol Floating untuk Toggle Spotify (Selalu Terlihat) */
     #toggleButton {
-        position: fixed; /* FIXED agar selalu terlihat */
+        position: fixed; 
         bottom: 20px; 
         right: 20px;
         width: 50px;
         height: 50px;
         border-radius: 50%;
-        background-color: #1DB954; /* Warna hijau Spotify */
+        background-color: #1DB954; 
         color: white;
         border: none;
         cursor: pointer;
@@ -565,7 +699,7 @@
         align-items: center;
         justify-content: center;
         box-shadow: 0 4px 15px rgba(29, 185, 84, 0.6);
-        z-index: 12; /* Pastikan di atas container */
+        z-index: 12; 
         transition: background-color 0.3s, transform 0.3s;
     }
 
@@ -574,18 +708,15 @@
         transform: scale(1.05);
     }
 
-    /* Style untuk icon di dalam tombol */
     #toggleButton i {
         transition: transform 0.3s ease;
     }
 
-    /* Saat player terbuka, putar icon (ganti menjadi panah ke bawah) */
     #spotifyPlayerContainer.open + #toggleButton i,
-    #toggleButton.open i { /* Menambahkan kelas 'open' di tombol */
+    #toggleButton.open i { 
         transform: rotate(180deg);
     }
     
-    /* Container untuk Iframe Spotify (Yang akan bergeser) */
     #spotifyPlayerContainer {
         position: fixed;
         right: 20px;
@@ -594,26 +725,16 @@
         box-shadow: none; 
         border-radius: 12px;
         overflow: visible; 
-        
-        /* Pengaturan untuk animasi slide */
         transition: transform 0.4s ease-out;
-        
-        /* Awalnya sembunyikan player utama (geser ke bawah) 
-           Tinggi Iframe = 80px + margin. Geser 100px ke bawah untuk memastikan hilang */
         transform: translateY(100px); 
     }
 
-    /* Kelas untuk menampilkan player (menggeser ke atas) */
     #spotifyPlayerContainer.open {
-        /* Iframe height 80px. Button height 50px.
-           Shift UP by: -(Iframe height + Margin) = -90px 
-           Ini membuat Iframe muncul tepat di atas tombol */
         transform: translateY(-90px); 
     }
 
-    /* Style untuk iframe saat terbuka */
     #spotifyPlayerContainer iframe {
-        margin-bottom: 0; /* Menghilangkan margin yang tidak perlu */
+        margin-bottom: 0; 
         box-shadow: 0 5px 20px rgba(0,0,0,0.5);
         transition: box-shadow 0.4s;
         border-radius: 12px;
@@ -671,16 +792,14 @@
     }
 
     /* --- CSS BARU UNTUK FITUR MENFESS --- */
-
-    /* Tombol Floating untuk Menulis Menfess */
     #menfessButton {
         position: fixed;
-        bottom: 80px; /* Di atas tombol Spotify */
+        bottom: 80px; 
         right: 20px;
         width: 50px;
         height: 50px;
         border-radius: 50%;
-        background-color: #ff775c; /* Warna aksen yang sudah ada */
+        background-color: #ff775c; 
         color: white;
         border: none;
         cursor: pointer;
@@ -698,7 +817,6 @@
         transform: scale(1.05);
     }
     
-    /* Style untuk Modal Form Menfess (Memakai .modal yang sudah ada, tapi dengan content khusus) */
     .menfess-modal-content {
         max-width: 600px;
         padding: 25px;
@@ -839,9 +957,6 @@
         font-size: 0.8rem;
     }
 
-    /* END CSS MENFESS */
-
-
     /* --- Optimasi Mobile --- */
     @media (max-width: 600px) {
       body {
@@ -855,7 +970,6 @@
       .photo { width: 110px; height: 110px; }
       h1 { font-size: 2rem; margin-top: 20px; }
       
-      /* Posisi Navigasi Mobile */
       .nav-link-left { top: 10px; left: 10px; font-size: 0.9rem; padding: 3px 8px; }
       
       .nav-link-right { 
@@ -926,7 +1040,6 @@
           padding: 10px;
       }
       
-      /* Mobile Optimasi Spotify Control */
       #spotifyPlayerContainer, #toggleButton {
           bottom: 10px;
           right: 10px;
@@ -936,7 +1049,6 @@
           height: 45px;
       }
       
-      /* Mobile untuk Running Text */
       .running-quotes-wrapper {
           padding: 15px 0;
       }
@@ -944,26 +1056,22 @@
           min-width: 210px;
           padding: 12px 15px;
           margin: 0 10px;
-          min-height: 110px; /* Sesuaikan min-height mobile */
+          min-height: 110px; 
       }
 
       .sq-text { font-size: 0.85rem; }
-      /* Properti animasi CSS dihilangkan */
 
-      /* Mobile Quote Popup */
       .quote-modal-text { font-size: 1.1rem; }
       .quote-modal-author img { width: 30px; height: 30px; }
       .quote-modal-author span { font-size: 0.9rem; }
 
-      /* Mobile Optimasi Menfess */
       #menfessButton {
-            bottom: 70px; /* Sesuaikan posisi mobile, di atas tombol Spotify */
+            bottom: 70px; 
             right: 10px;
             width: 45px;
             height: 45px;
       }
     }
-
   </style>
   
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
@@ -1010,7 +1118,7 @@
 
   <div class="running-quotes-wrapper">
       <div class="running-track" id="studentQuotesTrack">
-          </div>
+      </div>
   </div>
 
   <div class="stats-container">
@@ -1034,20 +1142,21 @@
   <div class="filter-controls">
       <div class="search-container">
           <input type="text" id="searchInput" onkeyup="filterStudents()" placeholder="Cari nama siswa..." aria-label="Cari nama siswa">
-          
           <div class="search-button-area">
               <i class="fas fa-search"></i>
           </div>
       </div>
   </div>
+
   <div class="container" id="studentContainer"></div>
   
   <div id="menfessSection">
-    <h2>Menfess</h2>
+    <h2>Pesan Rahasia Kelas (Menfess)</h2>
     <div id="menfessGrid" class="menfess-grid">
         <p style="text-align: center; color: #bdb6f0; width: 100%; grid-column: 1 / -1;">Memuat menfess...</p>
     </div>
   </div>
+
   <div id="studentModal" class="modal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeStudentModal()">×</span>
@@ -1066,6 +1175,28 @@
         <p><span class="label">Organisasi:</span> <span id="modalOrganization"></span></p>
       </div>
 
+      <div class="interaction-section">
+          <div class="like-container">
+              <button id="likeBtn" class="like-btn" onclick="handleLike()">
+                  <i class="far fa-heart" id="likeIcon"></i>
+              </button>
+              <span id="likeCountValue">0</span> Likes
+          </div>
+
+          <div class="comments-wrapper">
+              <h4>Komentar Teman</h4>
+              <div id="commentsList" class="comments-list">
+                  <p class="no-comments">Belum ada komentar.</p>
+              </div>
+
+              <div class="comment-form">
+                  <input type="text" id="commentInput" placeholder="Tulis komentar..." maxlength="150">
+                  <button onclick="handleComment()" class="send-comment-btn">
+                      <i class="fas fa-paper-plane"></i>
+                  </button>
+              </div>
+          </div>
+      </div>
       <div class="photo-gallery">
           <h3>Galeri Foto Lainnya (Klik untuk memperbesar)</h3>
           <div class="gallery-grid" id="modalGallery"></div>
@@ -1105,14 +1236,14 @@
         <form id="menfessForm" class="menfess-form">
             <h3>Kirim Pesan Rahasia (Menfess)</h3>
             
-            <label for="menfessTo">Kepada Siapa nih? (Contoh: Akil, Cipa, Nopal)</label>
-            <input type="text" id="menfessTo" required placeholder="Nama Siswa">
+            <label for="menfessTo">Kepada Siapa? (Contoh: Akil, All, Admin)</label>
+            <input type="text" id="menfessTo" required placeholder="Nama Siswa / All / Lainnya">
 
-            <label for="menfessContent">Isi Pesan</label>
-            <textarea id="menfessContent" required minlength="10" maxlength="300" placeholder="Tuliskan menfess-mu di sini (maks. 300 kata)"></textarea>
+            <label for="menfessContent">Isi Pesanmu</label>
+            <textarea id="menfessContent" required minlength="10" maxlength="5000" placeholder="Tuliskan menfess-mu di sini (maks. 5000 karakter)"></textarea>
 
             <label for="menfessFrom">Dari (Opsional)</label>
-            <input type="text" id="menfessFrom" placeholder="Nama atau Anonim (default: Anonim)">
+            <input type="text" id="menfessFrom" placeholder="Nama samaran atau Anonim (default: Anonim)">
 
             <button type="submit" class="menfess-submit-btn">Kirim Menfess</button>
         </form>
@@ -1131,8 +1262,6 @@
     // ** LOGIKA UTAMA **
     // ==========================================
     
-
-    // **LANGKAH 1: KONFIGURASI FIREBASE**
     const firebaseConfig = {
       apiKey: "AIzaSyAnouQgMTahiA0R3pyKb6n_qHYFhX4tfgU",
       authDomain: "website-25711.firebaseapp.com",
@@ -1148,9 +1277,8 @@
     const app = firebase.initializeApp(firebaseConfig);
     const db = app.firestore();
 
-    // ** DATA SISWA DENGAN FIELD 'QUOTE' BARU **
-    // CARA UBAH QUOTE: Cari baris 'quote: "..."' dan ganti teks di dalamnya.
-    const students = [
+    // ** DATA SISWA **
+   const students = [
       {
         name: "Ainun Mardiansyah",
         age: 16,
@@ -1162,7 +1290,7 @@
         gallery: [],
         birthDate: "03-13",
         description: "Najim hotspott 1",
-        quote: "Dream big, work hard, and stay humble." // <-- GANTI INI
+        quote: "The best way to predict the future is to create it." 
       },
       {
         name: "Akifa Naila",
@@ -1175,7 +1303,7 @@
         gallery: [],
         birthDate: "05-15",
         description: "Najim hotspot 2",
-        quote: "Learning is not about who comes first, but who keeps going." // <-- GANTI INI
+        quote: "Every moment is a fresh beginning."
       },
       {name: "Akil Maula S", age: 16, hobby: "Mancing", instagram: "kikiuuuz", photo: "image/Akil.jpg", religion: "Islam", organization: "SEGA", gallery: [], birthDate: "12-31", description: "Starboy, Cool, Jenius, Proplayer epep", quote: "Know yourself, and be the best of yourself."},
       {name: "Amirah Zafirah", age: 15, hobby: "Yapping", instagram: "amirahpspra", photo: "image/Amirah.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: "03-22", description: "Duta Yapping", quote: "Appreciate every process, because everything has its time."},
@@ -1212,60 +1340,42 @@
       {name: "Zahra Mauaja", age: 16, hobby: "Apa yak", instagram: "zhrmdkyya", photo: "image/Yayaa.jpg", religion: "Islam", organization: "Tahfidz", gallery: [], birthDate: "", description: "Zahra mau aja", quote: "Dame ungger? Ungkeh."},
       {name: "Zyqri Al Farezqhi", age: 15, hobby: "main roblox", instagram: "zyqrialfarezqhi18", photo: "image/Zyqri.jpg", religion: "Islam", organization: "KITS/PMR", gallery: [], birthDate: "01-18", description: "Teman Teka Nagym", quote: "Better to fail trying than to regret for doing nothing."},
     ];
-
+    
     // Elemen DOM
     const container = document.getElementById('studentContainer');
     const modal = document.getElementById('studentModal');
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImage');
     const lightboxCloseBtn = document.querySelector('.lightbox-close-btn');
-    
-    // Elemen untuk manipulasi zoom
     const viewportMeta = document.getElementById('viewportMeta');
     const DEFAULT_META = "width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no";
     const ZOOMABLE_META = "width=device-width, initial-scale=1, user-scalable=yes"; 
 
-    // ** VARIABEL BARU UNTUK KONTROL GALERI **
     let currentGalleryPhotos = []; 
     let currentPhotoIndex = 0;    
 
-
-    // Fungsi Lightbox (Mempertahankan fitur zoom in/out)
+    // Lightbox
     function openLightBox(src, photos, index) {
-        // AKTIFKAN ZOOM saat Lightbox terbuka
         viewportMeta.content = ZOOMABLE_META; 
-        
-        // Simpan data galeri
         currentGalleryPhotos = photos;
         currentPhotoIndex = index;
-
         lightboxImg.src = src;
         lightbox.style.display = 'flex'; 
-
-        // Tampilkan tombol navigasi (geser)
         updateLightboxNav(); 
     }
 
-    // Fungsi untuk menutup Lightbox dan mengembalikan zoom
     function closeLightBox() {
-        // KEMBALIKAN KE NON-ZOOM saat Lightbox tertutup
         viewportMeta.content = DEFAULT_META; 
         lightbox.style.display = 'none';
     }
 
-
-    // ** FUNGSI BARU UNTUK NAVIGASI LIGHTBOX (Panah) **
-
-    // Fungsi untuk memperbarui tampilan tombol navigasi (panah)
     function updateLightboxNav() {
-        // Tambahkan tombol navigasi jika belum ada
         let prevBtn = document.getElementById('lightboxPrevBtn');
         let nextBtn = document.getElementById('lightboxNextBtn');
 
         if (!prevBtn) {
             prevBtn = document.createElement('span');
             prevBtn.id = 'lightboxPrevBtn';
-            // Menggunakan ikon Font Awesome
             prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>'; 
             prevBtn.classList.add('lightbox-nav-btn', 'prev');
             prevBtn.onclick = (e) => { e.stopPropagation(); changePhoto(-1); };
@@ -1273,14 +1383,12 @@
             
             nextBtn = document.createElement('span');
             nextBtn.id = 'lightboxNextBtn';
-            // Menggunakan ikon Font Awesome
             nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>'; 
             nextBtn.classList.add('lightbox-nav-btn', 'next');
             nextBtn.onclick = (e) => { e.stopPropagation(); changePhoto(1); };
             lightbox.appendChild(nextBtn);
         }
         
-        // Sembunyikan tombol jika hanya ada 1 foto
         if (currentGalleryPhotos.length <= 1) {
              prevBtn.style.display = 'none';
              nextBtn.style.display = 'none';
@@ -1289,32 +1397,24 @@
 
         prevBtn.style.display = 'flex'; 
         nextBtn.style.display = 'flex';
-
-        // Logika untuk menyembunyikan panah di ujung array
         prevBtn.style.visibility = (currentPhotoIndex === 0) ? 'hidden' : 'visible';
         nextBtn.style.visibility = (currentPhotoIndex === currentGalleryPhotos.length - 1) ? 'hidden' : 'visible';
     }
 
-
-    // Fungsi untuk mengubah foto (geser)
     function changePhoto(n) {
         let newIndex = currentPhotoIndex + n;
-
-        // Pastikan indeks berada dalam batas array
         if (newIndex >= 0 && newIndex < currentGalleryPhotos.length) {
             currentPhotoIndex = newIndex;
-            lightboxImg.style.opacity = 0; // Efek pudar
-            
+            lightboxImg.style.opacity = 0; 
             setTimeout(() => {
                 lightboxImg.src = currentGalleryPhotos[currentPhotoIndex];
-                lightboxImg.style.opacity = 1; // Kembali tampil
+                lightboxImg.style.opacity = 1; 
                 updateLightboxNav(); 
             }, 150); 
         }
     }
 
-
-    // ** LOGIKA STATISTIK KELAS **
+    // Stats
     function calculateAndDisplayStats() {
         const totalStudents = students.length;
         const today = new Date();
@@ -1323,19 +1423,15 @@
         const organizationCounts = {};
         
         students.forEach(s => {
-            // Count Birthday
             if (s.birthDate && s.birthDate.length >= 5 && s.birthDate.substring(0, 2) === currentMonth) {
                 birthdayCount++;
             }
-
-            // Count Organization
             const orgs = s.organization.split('/').map(o => o.trim()).filter(o => o !== 'Tidak Ada' && o !== 'gatau' && o !== '');
             orgs.forEach(org => {
                 organizationCounts[org] = (organizationCounts[org] || 0) + 1;
             });
         });
 
-        // Find Most Popular Organization
         let mostPopularOrg = 'Belum Ada Data';
         let maxCount = 0;
         let tiedOrgs = [];
@@ -1350,7 +1446,6 @@
             }
         }
         
-        // Handle Tie Display
         let orgDisplay;
         if (maxCount > 0) {
             if (tiedOrgs.length > 1) {
@@ -1362,16 +1457,12 @@
             orgDisplay = mostPopularOrg;
         }
 
-
-        // Display Stats
         document.getElementById('statTotalStudents').textContent = totalStudents;
         document.getElementById('statBirthdayMonth').textContent = birthdayCount;
         document.getElementById('statMostOrganization').textContent = `${orgDisplay} (${maxCount})`;
-
-        return { organizationCounts: organizationCounts };
     }
 
-    // ** LOGIKA PENCARIAN SAJA **
+    // Search
     function filterStudents() {
         const input = document.getElementById('searchInput');
         const filterText = input.value.toUpperCase();
@@ -1381,9 +1472,7 @@
             const card = cards[i];
             const nameElement = card.querySelector('.name');
             const name = nameElement.textContent || nameElement.innerText;
-            
             const nameMatch = name.toUpperCase().indexOf(filterText) > -1;
-
             if (nameMatch) {
                 card.style.display = "";
             } else {
@@ -1392,8 +1481,164 @@
         }
     }
 
+    // ==========================================
+    // FITUR LOGIKA: LIKE & COMMENT
+    // ==========================================
+    
+    let currentStudentName = ""; // Menyimpan nama siswa yang sedang dibuka modalnya
+    let interactionListener = null; // Untuk mematikan listener firebase saat modal ditutup
 
-    // ** LOGIKA UTAMA: TAMPILKAN DETAIL SISWA & AMBIL GALERI FIREBASE **
+    // 1. LISTEN GLOBAL LIKES UNTUK HALAMAN DEPAN
+    function initGlobalLikeListener() {
+        db.collection('student_interactions').onSnapshot((snapshot) => {
+            snapshot.docChanges().forEach((change) => {
+                // Kita pakai docChanges agar efisien, hanya update yang berubah
+                const docId = change.doc.id; // Ini Nama Siswa
+                const data = change.doc.data();
+                const likes = data.likes || 0;
+
+                // Cari kartu di halaman depan yang punya atribut data-name="Nama Siswa"
+                // Kita harus escape tanda kutip di dalam querySelector
+                const card = document.querySelector(`.card[data-name="${docId.replace(/"/g, '\\"')}"]`);
+                
+                if (card) {
+                    const badgeValue = card.querySelector('.card-like-value');
+                    if (badgeValue) {
+                        badgeValue.textContent = likes;
+                    }
+                }
+            });
+        });
+    }
+
+    // Load Data Like & Comment (Realtime untuk Modal)
+    function loadInteractions(name) {
+        currentStudentName = name;
+        const likeBtn = document.getElementById('likeBtn');
+        const likeIcon = document.getElementById('likeIcon');
+        const likeCountVal = document.getElementById('likeCountValue');
+        const commentsList = document.getElementById('commentsList');
+        const commentInput = document.getElementById('commentInput');
+
+        // Reset UI
+        likeCountVal.textContent = "...";
+        commentsList.innerHTML = '<p class="no-comments">Memuat...</p>';
+        commentInput.value = "";
+        
+        // Cek LocalStorage
+        const hasLiked = localStorage.getItem(`liked_${currentStudentName}`);
+        if (hasLiked) {
+            likeBtn.classList.add('liked');
+            likeIcon.classList.remove('far');
+            likeIcon.classList.add('fas'); 
+        } else {
+            likeBtn.classList.remove('liked');
+            likeIcon.classList.remove('fas');
+            likeIcon.classList.add('far'); 
+        }
+
+        // Setup Realtime Listener
+        const docRef = db.collection('student_interactions').doc(currentStudentName);
+
+        if (interactionListener) interactionListener(); 
+
+        interactionListener = docRef.onSnapshot((doc) => {
+            if (doc.exists) {
+                const data = doc.data();
+                likeCountVal.textContent = data.likes || 0;
+
+                const comments = data.comments || [];
+                if (comments.length === 0) {
+                    commentsList.innerHTML = '<p class="no-comments">Belum ada komentar. Jadilah yang pertama!</p>';
+                } else {
+                    commentsList.innerHTML = '';
+                    comments.reverse().forEach(c => {
+                        const div = document.createElement('div');
+                        div.className = 'comment-item';
+                        let timeStr = "";
+                        if(c.timestamp && c.timestamp.toDate) {
+                           timeStr = c.timestamp.toDate().toLocaleDateString('id-ID') + " " + c.timestamp.toDate().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
+                        }
+                        
+                        div.innerHTML = `
+                            <div class="comment-header">
+                                <span>${c.user}</span>
+                                <span style="font-weight:normal; opacity:0.7;">${timeStr}</span>
+                            </div>
+                            <div class="comment-text">${c.text}</div>
+                        `;
+                        commentsList.appendChild(div);
+                    });
+                }
+            } else {
+                likeCountVal.textContent = 0;
+                commentsList.innerHTML = '<p class="no-comments">Belum ada komentar.</p>';
+            }
+        });
+    }
+
+    // Handle Klik Like
+    function handleLike() {
+        if (!currentStudentName) return;
+        
+        const docRef = db.collection('student_interactions').doc(currentStudentName);
+        const isLiked = localStorage.getItem(`liked_${currentStudentName}`);
+        
+        if (isLiked) {
+            docRef.set({
+                likes: firebase.firestore.FieldValue.increment(-1)
+            }, { merge: true });
+            
+            localStorage.removeItem(`liked_${currentStudentName}`);
+            document.getElementById('likeBtn').classList.remove('liked');
+            document.getElementById('likeIcon').className = 'far fa-heart';
+            
+        } else {
+            docRef.set({
+                likes: firebase.firestore.FieldValue.increment(1)
+            }, { merge: true }); 
+            
+            localStorage.setItem(`liked_${currentStudentName}`, "true");
+            document.getElementById('likeBtn').classList.add('liked');
+            document.getElementById('likeIcon').className = 'fas fa-heart';
+        }
+    }
+
+    // Handle Kirim Komentar
+    function handleComment() {
+        if (!currentStudentName) return;
+        const input = document.getElementById('commentInput');
+        const text = input.value.trim();
+
+        if (text.length < 2) {
+            alert("Komentar terlalu pendek!");
+            return;
+        }
+
+        const user = "Anonim"; 
+        const docRef = db.collection('student_interactions').doc(currentStudentName);
+        
+        const newComment = {
+            user: user,
+            text: text,
+            timestamp: new Date()
+        };
+
+        docRef.set({
+            comments: firebase.firestore.FieldValue.arrayUnion(newComment)
+        }, { merge: true })
+        .then(() => {
+            input.value = ""; 
+            document.getElementById('commentsList').scrollTop = 0;
+        })
+        .catch((error) => {
+            console.error("Error adding comment: ", error);
+            alert("Gagal mengirim komentar.");
+        });
+    }
+
+
+    // ** SHOW DETAILS **
     async function showStudentDetails(student) {
         document.getElementById('modalPhoto').src = student.photo;
         document.getElementById('modalName').textContent = student.name;
@@ -1417,7 +1662,6 @@
         
         let galleryPhotos = student.gallery && student.gallery.length > 0 ? student.gallery : [student.photo]; 
 
-        // Ambil Data dari Firestore
         try {
             const galleryCollection = db.collection('studentsGallery');
             const snapshot = await galleryCollection.where('name', '==', student.name).limit(1).get();
@@ -1431,7 +1675,6 @@
             console.error("Gagal akses Firestore:", error);
         }
 
-        // Render Galeri
         galleryGrid.innerHTML = '';
         galleryPhotos.forEach((url, index) => {
             const img = document.createElement('img');
@@ -1444,17 +1687,23 @@
             });
             galleryGrid.appendChild(img);
         });
+        
+        loadInteractions(student.name);
 
         modal.style.display = 'flex'; 
     }
 
-    // Render Kartu Siswa (MODIFIKASI: Penambahan Deskripsi)
+    // Render Kartu Siswa (DENGAN BADGE LIKE)
     students.forEach((s, index) => {
       const card = document.createElement('div');
       card.className = 'card';
       card.setAttribute('data-index', index); 
+      card.setAttribute('data-name', s.name); // PENTING UNTUK FIND CARD
 
       card.innerHTML = `
+        <div class="card-like-badge">
+             <i class="fas fa-heart"></i> <span class="card-like-value">0</span>
+        </div>
         <img class="photo" src="${s.photo}" alt="Foto ${s.name}" title="" />
         <div class="name">${s.name}</div>
         <div class="info"><span class="label">Umur:</span> ${s.age} tahun</div>
@@ -1469,50 +1718,40 @@
       `;
       card.addEventListener('click', () => { showStudentDetails(students[index]); });
       container.appendChild(card);
-      // Pemicu animasi fadeSlideUp
       setTimeout(() => { card.classList.add('animate'); }, index * 100);
     });
 
-    // Event Listeners untuk Menutup Modal
     function closeStudentModal() { 
         modal.style.display = 'none'; 
+        // Matikan listener agar hemat data
+        if (interactionListener) {
+            interactionListener(); 
+            interactionListener = null;
+        }
     }
     
-    // Panggil fungsi penutup Lightbox yang akan mengembalikan meta tag
     lightboxCloseBtn.onclick = function() { closeLightBox(); }
     
     window.onclick = function(event) {
       if (event.target == modal) { closeStudentModal(); }
       if (event.target == lightbox) { closeLightBox(); } 
-      // Tambahan: Tutup quote modal jika klik di luar
       if (event.target == document.getElementById('quoteModal')) { closeQuoteModal(); }
-      // Tambahan: Tutup menfess modal jika klik di luar
       if (event.target == document.getElementById('menfessModal')) { closeMenfessModal(); }
     }
 
-    // ** LOGIKA GESER (SWIPE) & KEYBOARD UNTUK MOBILE/DESKTOP LIGHTBOX **
-    
-    // Event Listener Geser Kiri/Kanan (Keyboard - untuk desktop)
+    // Lightbox swipe/nav logic
     window.addEventListener('keydown', function(e) {
         if (lightbox.style.display === 'flex') {
-            if (e.key === 'ArrowLeft') {
-                changePhoto(-1);
-            } else if (e.key === 'ArrowRight') {
-                changePhoto(1);
-            }
+            if (e.key === 'ArrowLeft') changePhoto(-1);
+            else if (e.key === 'ArrowRight') changePhoto(1);
         }
     });
 
-    // ** LOGIKA GESER (SWIPE) UNTUK MOBILE **
     let touchstartX = 0;
     let touchendX = 0;
-
     lightboxImg.addEventListener('touchstart', function(event) {
-        if (event.touches.length === 1) {
-            touchstartX = event.touches[0].screenX;
-        }
+        if (event.touches.length === 1) touchstartX = event.touches[0].screenX;
     }, false);
-
     lightboxImg.addEventListener('touchend', function(event) {
         if (lightbox.style.display === 'flex') {
             touchendX = event.changedTouches[0].screenX;
@@ -1522,15 +1761,11 @@
 
     function handleGesture() {
         const minSwipeDistance = 50; 
-        if (touchendX < touchstartX - minSwipeDistance) {
-            changePhoto(1); // Geser ke Kiri -> Next Photo
-        }
-        if (touchendX > touchstartX + minSwipeDistance) {
-            changePhoto(-1); // Geser ke Kanan -> Previous Photo
-        }
+        if (touchendX < touchstartX - minSwipeDistance) changePhoto(1);
+        if (touchendX > touchstartX + minSwipeDistance) changePhoto(-1);
     }
     
-    // ** LOGIKA FITUR ULANG TAHUN **
+    // Birthday Logic
     function checkBirthday() {
         const today = new Date();
         const month = String(today.getMonth() + 1).padStart(2, '0');
@@ -1582,15 +1817,12 @@
         }, 250);
     }
 
-
-    // ==========================================
-    // FITUR QUOTES OF THE DAY 
-    // ==========================================
+    // Daily Quote
     const quotesCollection = [
         { text: "Sekolah itu tempat menuntut ilmu, bukan menuntut dia peka.", author: "Anonim" },
         { text: "janganlah kamu menjadi seperti ekspektasi seseorang tapi bertindaklah seperti keinginanmu walau nanti kamu gagal kamu akan tetap bahagia jika itu adalah pilihanmu", author: "KINK MUPLI" },
-        { text: "Berdansalah, Karir Ini Tak Ada Artinya", author: "Hindia" },
-        { text: "Solidaritas tanpa batas, X.C1 GANK jangan sampai lepas!", author: "Admin Kece" },
+        { text: "Berdansalah, Karir Ini Tak Ada Akhirnya.", author: "hindia" },
+        { text: "Kami sebenarnya bisa, cuma males aja", author: "Ibe" },
         { text: "Matematika mungkin rumit, tapi memahami kode cewek lebih rumit.", author: "Siswa Galau" },
         { text: "Jarak antara mimpi dan kenyataan itu namanya DISIPLIN.", author: "Motivasi Pagi" },
         { text: "Sukses itu berawal dari niat, bukan dari 'Besok aja deh'.", author: "Pengingat Diri" },
@@ -1618,18 +1850,13 @@
         document.getElementById('dailyAuthor').textContent = `- ${todaysQuote.author}`;
     }
 
-    // ==========================================
-    // FITUR STUDENT QUOTES (HYBRID: JS SCROLL + DRAG)
-    // ==========================================
+    // Running Quotes
     function renderStudentQuotes() {
         const track = document.getElementById('studentQuotesTrack');
         if (!track) return;
-
-        // Mengambil siswa yang punya QUOTE yang valid (bukan string kosong)
         const activeStudentsData = students.map((s, index) => ({...s, originalIndex: index}))
                                            .filter(s => s.quote && s.quote.length > 2);
 
-        // Fungsi pembantu membuat HTML Card dengan onclick
         const createCard = (studentData) => {
             return `
                 <div class="student-quote-card" onclick="openQuoteModal(${studentData.originalIndex})">
@@ -1641,31 +1868,23 @@
             `;
         };
 
-        // 1. Buat string HTML dari semua siswa
         let allCardsHTML = '';
         activeStudentsData.forEach(studentData => {
             allCardsHTML += createCard(studentData);
         });
-
-        // Hanya render 1 set
         track.innerHTML = allCardsHTML; 
     }
 
-    // ** FUNGSI BARU: MEMBUKA DAN MENUTUP MODAL QUOTE **
     function openQuoteModal(index) {
-        // PERBAIKAN DARI PERMINTAAN SEBELUMNYA: Cek apakah ada pergerakan
         if (clickBlocked) {
              clickBlocked = false; 
              return; 
         } 
-        
         const s = students[index];
         const modal = document.getElementById('quoteModal');
-        
         document.getElementById('quoteModalText').textContent = `"${s.quote}"`;
         document.getElementById('quoteModalName').textContent = s.name;
         document.getElementById('quoteModalPhoto').src = s.photo;
-
         modal.style.display = 'flex';
     }
 
@@ -1673,20 +1892,15 @@
         document.getElementById('quoteModal').style.display = 'none';
     }
 
-
-    // ==========================================
-    // LOGIKA DRAG/SWIPE & AUTO SCROLL
-    // ==========================================
+    // Scroll Logic
     const scrollWrapper = document.querySelector('.running-quotes-wrapper');
-    // Variabel untuk Kontrol Scroll Otomatis & Drag
     let scrollInterval;
-    let isDragging = false; // Status drag aktif
-    let clickBlocked = false; // FLAG BARU: Untuk memblokir klik/tap jika ada pergerakan
+    let isDragging = false; 
+    let clickBlocked = false; 
     let startX;
     let scrollLeft;
-    let startPageX; // NEW: Simpan posisi awal X untuk cek pergerakan
+    let startPageX; 
     
-    // --- FUNGSI AUTO SCROLL ---
     function startAutoScroll() {
         if (!scrollWrapper) return;
         if (scrollInterval) clearInterval(scrollInterval);
@@ -1696,9 +1910,7 @@
         
         scrollInterval = setInterval(() => {
             if (isDragging) return; 
-
             scrollWrapper.scrollLeft += scrollSpeed; 
-
             if (scrollWrapper.scrollLeft + scrollWrapper.clientWidth >= scrollWrapper.scrollWidth - 1) {
                 scrollWrapper.scrollLeft = 0; 
             }
@@ -1712,19 +1924,16 @@
         }
     }
 
-    // --- LOGIKA DRAG/SWIPE ---
     if (scrollWrapper) {
         const onMouseDown = (e) => {
             if (e.button !== 0) return; 
             isDragging = true;
-            clickBlocked = false; // Reset flag pergerakan di awal
+            clickBlocked = false; 
             scrollWrapper.classList.add('active-drag');
             stopAutoScroll(); 
-            
             startX = e.pageX - scrollWrapper.offsetLeft;
-            startPageX = e.pageX; // Simpan posisi awal
+            startPageX = e.pageX; 
             scrollLeft = scrollWrapper.scrollLeft;
-            // PENTING: Tambahkan listener ke window agar mousemove tetap terdeteksi meski keluar elemen
             window.addEventListener('mousemove', onMouseMove);
             window.addEventListener('mouseup', onMouseUp);
         };
@@ -1732,12 +1941,11 @@
         const onTouchStart = (e) => {
             if (e.touches.length !== 1) return;
             isDragging = true;
-            clickBlocked = false; // Reset flag pergerakan di awal
+            clickBlocked = false; 
             scrollWrapper.classList.add('active-drag');
             stopAutoScroll(); 
-
             startX = e.touches[0].pageX - scrollWrapper.offsetLeft;
-            startPageX = e.touches[0].pageX; // Simpan posisi awal
+            startPageX = e.touches[0].pageX; 
             scrollLeft = scrollWrapper.scrollLeft;
             window.addEventListener('touchmove', onTouchMove, { passive: false });
             window.addEventListener('touchend', onTouchEnd);
@@ -1746,12 +1954,9 @@
         const onMouseMove = (e) => {
             if (!isDragging) return;
             e.preventDefault(); 
-            
             const x = e.pageX - scrollWrapper.offsetLeft;
             const walk = (x - startX) * 1.5; 
             scrollWrapper.scrollLeft = scrollLeft - walk; 
-            
-            // LOGIKA PENTING BARU: Set clickBlocked jika ada pergerakan horizontal > 5px
             if (Math.abs(e.pageX - startPageX) > 5) {
                 clickBlocked = true;
             }
@@ -1760,41 +1965,30 @@
         const onTouchMove = (e) => {
             if (!isDragging) return;
             if (e.touches.length !== 1) return; 
-
             const x = e.touches[0].pageX - scrollWrapper.offsetLeft;
             const walk = (x - startX) * 1.5;
-            
-            // Mencegah aksi default hanya ketika gerakan dominan horizontal
             if (Math.abs(x - startX) > 10) { 
                 e.preventDefault(); 
             }
             scrollWrapper.scrollLeft = scrollLeft - walk;
-            
-            // LOGIKA PENTING BARU: Set clickBlocked jika ada pergerakan horizontal > 5px
             if (Math.abs(e.touches[0].pageX - startPageX) > 5) {
                 clickBlocked = true;
             }
         };
         
         const onMouseUp = () => {
-            // PERBAIKAN: isDragging direset SEGERA setelah MouseUp, tanpa timeout
             isDragging = false; 
             scrollWrapper.classList.remove('active-drag');
             window.removeEventListener('mousemove', onMouseMove);
             window.removeEventListener('mouseup', onMouseUp);
-            
-            // RESTART AUTO SCROLL SETELAH SELESAI DRAG
             setTimeout(startAutoScroll, 500); 
         };
 
         const onTouchEnd = () => {
-            // PERBAIKAN: isDragging direset SEGERA setelah TouchEnd, tanpa timeout
             isDragging = false;
             scrollWrapper.classList.remove('active-drag');
             window.removeEventListener('touchmove', onTouchMove);
             window.removeEventListener('touchend', onTouchEnd);
-            
-            // RESTART AUTO SCROLL SETELAH SELESAI SWIPE
             setTimeout(startAutoScroll, 500); 
         };
 
@@ -1803,68 +1997,41 @@
     }
 
 
-    // ==========================================
-    // FITUR SPOTIFY DYNAMIC RANDOM TRACK
-    // ==========================================
-
+    // Spotify Logic
     const spotifyIframe = document.getElementById('spotifyIframe');
     const playerContainer = document.getElementById('spotifyPlayerContainer');
     const toggleButton = document.getElementById('toggleButton');
 
-    // GANTI DENGAN ID TRACK DARI PLAYLIST ANDA
     const trackIds = [
-        '1Q7EgiMOuwDcB0PJC6AzON', 
-        '5TTGoX70AFrTvuEtqHK37S', 
-        '0mQRgmkyY3S2rtiLVzbhHj', 
-        '62thhXr3NIiZrn0xbBHaZo', 
-        '1RHYrGWQx4GVCamxLeHbO7', 
-        '6XIrXswuUgynYqyVfV8mrx',
-        '4nkRb1iWHIjvpVcWtCPzuY',
-        '142W8Knp0JVzH32YDafuFQ',
-        '2GBgiuXwY1KzJMA0gSAr9J',
-        '0KKkJNfGyhkQ5aFogxQAPU',
-        '3rPtS4nfpy7PsARctAWpzd',
-        '1ShRHPAiiIrh0arZbSFmx1',
+        '1Q7EgiMOuwDcB0PJC6AzON', '5TTGoX70AFrTvuEtqHK37S', '0mQRgmkyY3S2rtiLVzbhHj', 
+        '62thhXr3NIiZrn0xbBHaZo', '1RHYrGWQx4GVCamxLeHbO7', '6XIrXswuUgynYqyVfV8mrx',
+        '4nkRb1iWHIjvpVcWtCPzuY', '142W8Knp0JVzH32YDafuFQ', '2GBgiuXwY1KzJMA0gSAr9J',
+        '0KKkJNfGyhkQ5aFogxQAPU', '3rPtS4nfpy7PsARctAWpzd', '1ShRHPAiiIrh0arZbSFmx1',
     ];
 
     function loadRandomSpotifyTrack() {
         if (!spotifyIframe || trackIds.length === 0) return;
-
-        // 1. Pilih indeks acak
         const randomIndex = Math.floor(Math.random() * trackIds.length);
         const randomTrackId = trackIds[randomIndex];
-        
-        // 2. Membangun URL embed untuk single track
         const embedUrl = `https://open.spotify.com/embed/track/${randomTrackId}?utm_source=generator&theme=0&compact=1`;
-        
-        // Set sumber iframe
         spotifyIframe.src = embedUrl;
     }
 
-    // Fungsi untuk membuka dan menutup container (dengan animasi CSS)
     function toggleSpotifyPlayer() {
         if (!playerContainer || !toggleButton) return;
-        
         const isOpen = playerContainer.classList.contains('open');
-
         if (isOpen) {
-            // Jika terbuka, tutup
             playerContainer.classList.remove('open');
             toggleButton.classList.remove('open');
-            toggleButton.querySelector('i').className = 'fab fa-spotify'; // Kembali ke icon Spotify
+            toggleButton.querySelector('i').className = 'fab fa-spotify'; 
         } else {
-            // Jika tertutup, buka
             playerContainer.classList.add('open');
             toggleButton.classList.add('open');
-            // Ganti icon menjadi panah ke bawah (menandakan bisa ditutup)
             toggleButton.querySelector('i').className = 'fas fa-chevron-down'; 
         }
     }
     
-    // ==========================================
-    // FITUR BARU: MENFESS (MENTION/CONFESSION)
-    // ==========================================
-
+    // Menfess Logic
     function openMenfessModal() {
         document.getElementById('menfessModal').style.display = 'flex';
     }
@@ -1874,10 +2041,8 @@
         document.getElementById('menfessForm').reset();
     }
     
-    // ** LOGIKA MENFESS: SUBMIT KE FIRESTORE **
     async function saveMenfess(e) {
         e.preventDefault();
-
         const to = document.getElementById('menfessTo').value.trim() || 'All';
         const content = document.getElementById('menfessContent').value.trim();
         const from = document.getElementById('menfessFrom').value.trim() || 'Anonim';
@@ -1892,62 +2057,46 @@
         submitBtn.disabled = true;
 
         try {
-            // Simpan ke koleksi 'menfess' di Firestore
             await db.collection('menfess').add({
                 to: to,
                 content: content,
                 from: from,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             });
-
-            alert('Menfess berhasil dikirim! Pesan akan muncul di bawah setelah web direfresh/dimuat ulang.');
+            alert('Menfess berhasil dikirim!');
             closeMenfessModal();
-            
-            // Muat ulang daftar menfess setelah 1 detik
             setTimeout(loadMenfess, 1000); 
-
         } catch (error) {
             console.error("Error saat mengirim menfess: ", error);
-            alert("Gagal mengirim menfess. Cek konsol atau hubungi Admin.");
+            alert("Gagal mengirim menfess.");
         } finally {
             submitBtn.textContent = 'Kirim Menfess';
             submitBtn.disabled = false;
         }
     }
 
-
-    // ** LOGIKA MENFESS: MUAT DARI FIRESTORE **
     async function loadMenfess() {
         const menfessGrid = document.getElementById('menfessGrid');
         if (!menfessGrid) return;
         menfessGrid.innerHTML = '<p style="text-align: center; color: #bdb6f0; width: 100%; grid-column: 1 / -1;">Memuat menfess...</p>';
 
         try {
-            // Ambil menfess terbaru (maksimal 20)
-            const snapshot = await db.collection('menfess')
-                                     .orderBy('timestamp', 'desc') 
-                                     .limit(20) 
-                                     .get();
-            
+            const snapshot = await db.collection('menfess').orderBy('timestamp', 'desc').limit(20).get();
             if (snapshot.empty) {
                 menfessGrid.innerHTML = '<p style="text-align: center; color: #bdb6f0; width: 100%; grid-column: 1 / -1;">Belum ada pesan rahasia.</p>';
                 return;
             }
-
             let menfessHTML = '';
             snapshot.docs.forEach(doc => {
                 const data = doc.data();
                 const to = data.to || 'All';
                 const content = data.content || 'Pesan kosong';
                 const from = data.from || 'Anonim';
-                
-                // Format tanggal
                 let dateStr = 'Baru Saja';
                 if (data.timestamp && data.timestamp.toDate) {
                     const date = data.timestamp.toDate();
                     dateStr = date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
                 }
-
                 menfessHTML += `
                     <div class="menfess-card">
                         <div class="menfess-to">Untuk: ${to}</div>
@@ -1959,51 +2108,36 @@
                     </div>
                 `;
             });
-
             menfessGrid.innerHTML = menfessHTML;
-
         } catch (error) {
             console.error("Error saat memuat menfess: ", error);
-            menfessGrid.innerHTML = '<p style="text-align: center; color: #ff775c; width: 100%; grid-column: 1 / -1;">Gagal memuat menfess. Cek koneksi Firebase.</p>';
+            menfessGrid.innerHTML = '<p style="text-align: center; color: #ff775c; width: 100%; grid-column: 1 / -1;">Gagal memuat menfess.</p>';
         }
     }
 
 
-    // ** JALANKAN SAAT LOAD **
+    // MAIN
     document.addEventListener('DOMContentLoaded', () => {
         checkBirthday(); 
         displayDailyQuote();
         calculateAndDisplayStats(); 
-        
-        renderStudentQuotes(); // Panggil fitur Running Quotes (sekarang Hybrid Scroll)
-        
-        // PANGGIL FUNGSI AUTO SCROLL BARU
+        renderStudentQuotes(); 
         startAutoScroll(); 
-        
-        // PANGGIL FUNGSI RANDOM TRACK SAAT HALAMAN DIMUAT
         loadRandomSpotifyTrack();
+        initGlobalLikeListener(); // NEW: Jalankan listener like halaman depan
         
-        // Tambahkan Event Listener ke Tombol Toggle Spotify
         if (toggleButton) {
             toggleButton.addEventListener('click', toggleSpotifyPlayer);
-            // Secara default, tunjukkan icon Spotify saat pertama kali dimuat
             toggleButton.querySelector('i').className = 'fab fa-spotify';
         }
         
-        // --- LOGIKA MENFESS INIT ---
         const menfessBtn = document.getElementById('menfessButton');
-        if (menfessBtn) {
-            menfessBtn.addEventListener('click', openMenfessModal);
-        }
+        if (menfessBtn) menfessBtn.addEventListener('click', openMenfessModal);
         
         const menfessForm = document.getElementById('menfessForm');
-        if (menfessForm) {
-            menfessForm.addEventListener('submit', saveMenfess);
-        }
+        if (menfessForm) menfessForm.addEventListener('submit', saveMenfess);
 
-        // Muat data menfess saat halaman dimuat
         loadMenfess();
-        // --- AKHIR LOGIKA MENFESS INIT ---
     });
   </script>
 </body>
