@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   
  <style>
-    /* ... (CSS Anda sebelumnya, tidak ada perubahan) ... */
+    /* ... (CSS yang sudah ada) ... */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
     body {
@@ -670,6 +670,178 @@
         font-size: 1.1rem;
     }
 
+    /* --- CSS BARU UNTUK FITUR MENFESS --- */
+
+    /* Tombol Floating untuk Menulis Menfess */
+    #menfessButton {
+        position: fixed;
+        bottom: 80px; /* Di atas tombol Spotify */
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #ff775c; /* Warna aksen yang sudah ada */
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(255, 119, 92, 0.6);
+        z-index: 12; 
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    #menfessButton:hover {
+        background-color: #e05d47;
+        transform: scale(1.05);
+    }
+    
+    /* Style untuk Modal Form Menfess (Memakai .modal yang sudah ada, tapi dengan content khusus) */
+    .menfess-modal-content {
+        max-width: 600px;
+        padding: 25px;
+        border: 3px solid #ff775c;
+        animation: slideIn 0.4s ease-out; 
+    }
+
+    .menfess-form h3 {
+        color: #ff775c;
+        margin-top: 0;
+        border-bottom: 1px solid rgba(255, 119, 92, 0.3);
+        padding-bottom: 10px;
+    }
+
+    .menfess-form label {
+        display: block;
+        margin-top: 15px;
+        margin-bottom: 5px;
+        color: #bdb6f0;
+        font-weight: 600;
+    }
+
+    .menfess-form input[type="text"],
+    .menfess-form textarea {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        border: 1px solid #4a3c7a;
+        background: #1a1a2e;
+        color: #e0e0e0;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+    }
+
+    .menfess-form input[type="text"]:focus,
+    .menfess-form textarea:focus {
+        outline: none;
+        border-color: #ff775c;
+    }
+
+    .menfess-form textarea {
+        resize: vertical;
+        min-height: 120px;
+    }
+    
+    .menfess-submit-btn {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        margin-top: 20px;
+        background-color: #7e62ff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.1s;
+    }
+
+    .menfess-submit-btn:hover {
+        background-color: #6a44d8;
+    }
+
+    /* --- DISPLAY MENFESS --- */
+    #menfessSection {
+        width: 100%;
+        max-width: 1300px;
+        margin: 40px auto 60px auto;
+        padding-top: 20px;
+        border-top: 2px dashed rgba(126, 98, 255, 0.4);
+    }
+
+    #menfessSection h2 {
+        text-align: center;
+        color: #ff775c;
+        font-size: 2rem;
+        margin-bottom: 30px;
+    }
+
+    .menfess-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+        padding: 0 10px;
+    }
+
+    .menfess-card {
+        background: linear-gradient(145deg, #35224d, #1d1d33);
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+        border: 1px solid #7e62ff;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s;
+    }
+
+    .menfess-card:hover {
+        transform: translateY(-3px) scale(1.01);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+    }
+    
+    .menfess-to {
+        font-weight: 700;
+        color: #ff775c;
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        border-bottom: 1px dashed rgba(255, 119, 92, 0.5);
+        padding-bottom: 5px;
+    }
+
+    .menfess-content {
+        font-style: italic;
+        color: #e0e0e0;
+        line-height: 1.5;
+        flex-grow: 1; /* Agar konten mengisi ruang */
+        margin-bottom: 15px;
+    }
+
+    .menfess-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.85rem;
+        color: #bdb6f0;
+        margin-top: auto; 
+        padding-top: 10px;
+        border-top: 1px solid rgba(189, 182, 240, 0.2);
+    }
+
+    .menfess-from {
+        font-weight: 600;
+    }
+    
+    .menfess-date {
+        font-style: normal;
+        font-size: 0.8rem;
+    }
+
+    /* END CSS MENFESS */
+
+
     /* --- Optimasi Mobile --- */
     @media (max-width: 600px) {
       body {
@@ -782,6 +954,14 @@
       .quote-modal-text { font-size: 1.1rem; }
       .quote-modal-author img { width: 30px; height: 30px; }
       .quote-modal-author span { font-size: 0.9rem; }
+
+      /* Mobile Optimasi Menfess */
+      #menfessButton {
+            bottom: 70px; /* Sesuaikan posisi mobile, di atas tombol Spotify */
+            right: 10px;
+            width: 45px;
+            height: 45px;
+      }
     }
 
   </style>
@@ -812,6 +992,11 @@
           loading="lazy">
       </iframe>
   </div>
+
+  <button id="menfessButton" aria-label="Tulis Menfess Baru">
+      <i class="fas fa-paper-plane"></i> 
+  </button>
+  
   <a href="https://xcerdas1.vercel.app/" class="nav-link-left">Home / Beranda</a>
   <a href="prestasi.html" class="nav-link-right">Prestasi Kelas 🏆</a>
 
@@ -856,7 +1041,13 @@
       </div>
   </div>
   <div class="container" id="studentContainer"></div>
-
+  
+  <div id="menfessSection">
+    <h2>Menfess</h2>
+    <div id="menfessGrid" class="menfess-grid">
+        <p style="text-align: center; color: #bdb6f0; width: 100%; grid-column: 1 / -1;">Memuat menfess...</p>
+    </div>
+  </div>
   <div id="studentModal" class="modal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeStudentModal()">×</span>
@@ -907,6 +1098,27 @@
         </div>
     </div>
   </div>
+
+  <div id="menfessModal" class="modal" style="z-index: 160;">
+    <div class="modal-content menfess-modal-content">
+        <span class="close-btn" onclick="closeMenfessModal()">×</span>
+        <form id="menfessForm" class="menfess-form">
+            <h3>Kirim Pesan Rahasia (Menfess)</h3>
+            
+            <label for="menfessTo">Kepada Siapa nih? (Contoh: Akil, Cipa, Nopal)</label>
+            <input type="text" id="menfessTo" required placeholder="Nama Siswa">
+
+            <label for="menfessContent">Isi Pesan</label>
+            <textarea id="menfessContent" required minlength="10" maxlength="300" placeholder="Tuliskan menfess-mu di sini (maks. 300 karakter)"></textarea>
+
+            <label for="menfessFrom">Dari (Opsional)</label>
+            <input type="text" id="menfessFrom" placeholder="Nama atau Anonim (default: Anonim)">
+
+            <button type="submit" class="menfess-submit-btn">Kirim Menfess</button>
+        </form>
+    </div>
+  </div>
+
 
   <div id="lightbox" class="lightbox">
     <span class="lightbox-close-btn">×</span>
@@ -995,7 +1207,7 @@
       {name: "Aulia", age: 16, hobby: "Menggambar", instagram: "auliaaa_dn", photo: "image/Aul.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: "", description: "Misterius", quote: "Believe in yourself."},
       {name: "ACOK NI BOS", age: 15, hobby: "anu", instagram: "rrezxkyy30", photo: "image/Aco.jpeg", religion: "Islam", organization: "OSIS/Paskibra", gallery: [], birthDate: "01-30", description: "Cool, Keren, Gantenk, Beraura, Baik, Positip vibes, GrinFleg", quote: "Don't plan too much, some of the most beatiful moments in our lives are actually unplanned."},
       {name: "Syifa BTR", age: 16, hobby: "nda tau", instagram: "syfabhtr_", photo: "image/Cipa.jpg", religion: "Islam", organization: "KITS/Inteens/Sanggar/PPS", gallery: [], birthDate: "09-09", description: "#Bata Out", quote: "Always breathe until you die."},
-      {name: "Vanezia", age: 15, hobby: "Menari", instagram: "vvsloav_19", photo: "image/Vanes.jpeg", religion: "Islam", organization: "Sanggar Seni", gallery: [], birthDate: "", description: "Pendek", quote: "There is no such thing as failure in this life, except when you give up when facing trials."},
+      {name: "Vanezia", age: 15, hobby: "Menari", instagram: "vvsloav_19", photo: "https://randomuser.me/api/portraits/men/33.jpg", religion: "Islam", organization: "Sanggar Seni", gallery: [], birthDate: "", description: "Pendek", quote: "There is no such thing as failure in this life, except when you give up when facing trials."},
       {name: "Wilyam", age: 15, hobby: "pegang konde", instagram: "ultraawill", photo: "image/Wilyam.jpg", religion: "Katolik", organization: "Smansa Voice", gallery: [], birthDate: "", description: "Hati-hati dengannya lengah dikit pegang konde", quote: "Stay cool, for sure"},
       {name: "Zahra Mauaja", age: 16, hobby: "Apa yak", instagram: "zhrmdkyya", photo: "image/Yayaa.jpg", religion: "Islam", organization: "Tahfidz", gallery: [], birthDate: "", description: "Zahra mau aja", quote: "Dame ungger? Ungkeh."},
       {name: "Zyqri Al Farezqhi", age: 15, hobby: "main roblox", instagram: "zyqrialfarezqhi18", photo: "image/Zyqri.jpg", religion: "Islam", organization: "KITS/PMR", gallery: [], birthDate: "01-18", description: "Teman Teka Nagym", quote: "Better to fail trying than to regret for doing nothing."},
@@ -1274,6 +1486,8 @@
       if (event.target == lightbox) { closeLightBox(); } 
       // Tambahan: Tutup quote modal jika klik di luar
       if (event.target == document.getElementById('quoteModal')) { closeQuoteModal(); }
+      // Tambahan: Tutup menfess modal jika klik di luar
+      if (event.target == document.getElementById('menfessModal')) { closeMenfessModal(); }
     }
 
     // ** LOGIKA GESER (SWIPE) & KEYBOARD UNTUK MOBILE/DESKTOP LIGHTBOX **
@@ -1375,7 +1589,7 @@
     const quotesCollection = [
         { text: "Sekolah itu tempat menuntut ilmu, bukan menuntut dia peka.", author: "Anonim" },
         { text: "janganlah kamu menjadi seperti ekspektasi seseorang tapi bertindaklah seperti keinginanmu walau nanti kamu gagal kamu akan tetap bahagia jika itu adalah pilihanmu", author: "KINK MUPLI" },
-        { text: "Di suatu tempat, sesuatu yang luar biasa sedang menunggu untuk diketahui", author: "Carl Sagan" },
+        { text: "Kami sebenarnya bisa, cuma males aja", author: "Ibe" },
         { text: "Solidaritas tanpa batas, X.C1 GANK jangan sampai lepas!", author: "Admin Kece" },
         { text: "Matematika mungkin rumit, tapi memahami kode cewek lebih rumit.", author: "Siswa Galau" },
         { text: "Jarak antara mimpi dan kenyataan itu namanya DISIPLIN.", author: "Motivasi Pagi" },
@@ -1439,9 +1653,8 @@
 
     // ** FUNGSI BARU: MEMBUKA DAN MENUTUP MODAL QUOTE **
     function openQuoteModal(index) {
-        // PERBAIKAN: Jika terdeteksi adanya pergerakan (drag/swipe), blokir klik
+        // PERBAIKAN DARI PERMINTAAN SEBELUMNYA: Cek apakah ada pergerakan
         if (clickBlocked) {
-             // Reset flag agar klik berikutnya bisa bekerja
              clickBlocked = false; 
              return; 
         } 
@@ -1462,7 +1675,7 @@
 
 
     // ==========================================
-    // LOGIKA DRAG/SWIPE & AUTO SCROLL (PENGGANTI ANIMASI CSS)
+    // LOGIKA DRAG/SWIPE & AUTO SCROLL
     // ==========================================
     const scrollWrapper = document.querySelector('.running-quotes-wrapper');
     // Variabel untuk Kontrol Scroll Otomatis & Drag
@@ -1647,6 +1860,113 @@
             toggleButton.querySelector('i').className = 'fas fa-chevron-down'; 
         }
     }
+    
+    // ==========================================
+    // FITUR BARU: MENFESS (MENTION/CONFESSION)
+    // ==========================================
+
+    function openMenfessModal() {
+        document.getElementById('menfessModal').style.display = 'flex';
+    }
+
+    function closeMenfessModal() {
+        document.getElementById('menfessModal').style.display = 'none';
+        document.getElementById('menfessForm').reset();
+    }
+    
+    // ** LOGIKA MENFESS: SUBMIT KE FIRESTORE **
+    async function saveMenfess(e) {
+        e.preventDefault();
+
+        const to = document.getElementById('menfessTo').value.trim() || 'All';
+        const content = document.getElementById('menfessContent').value.trim();
+        const from = document.getElementById('menfessFrom').value.trim() || 'Anonim';
+        const submitBtn = document.querySelector('.menfess-submit-btn');
+
+        if (content.length < 10) {
+            alert('Isi pesan terlalu pendek (minimal 10 karakter).');
+            return;
+        }
+
+        submitBtn.textContent = 'Mengirim...';
+        submitBtn.disabled = true;
+
+        try {
+            // Simpan ke koleksi 'menfess' di Firestore
+            await db.collection('menfess').add({
+                to: to,
+                content: content,
+                from: from,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+
+            alert('Menfess berhasil dikirim! Pesan akan muncul di bawah setelah web direfresh/dimuat ulang.');
+            closeMenfessModal();
+            
+            // Muat ulang daftar menfess setelah 1 detik
+            setTimeout(loadMenfess, 1000); 
+
+        } catch (error) {
+            console.error("Error saat mengirim menfess: ", error);
+            alert("Gagal mengirim menfess. Cek konsol atau hubungi Admin.");
+        } finally {
+            submitBtn.textContent = 'Kirim Menfess';
+            submitBtn.disabled = false;
+        }
+    }
+
+
+    // ** LOGIKA MENFESS: MUAT DARI FIRESTORE **
+    async function loadMenfess() {
+        const menfessGrid = document.getElementById('menfessGrid');
+        if (!menfessGrid) return;
+        menfessGrid.innerHTML = '<p style="text-align: center; color: #bdb6f0; width: 100%; grid-column: 1 / -1;">Memuat menfess...</p>';
+
+        try {
+            // Ambil menfess terbaru (maksimal 20)
+            const snapshot = await db.collection('menfess')
+                                     .orderBy('timestamp', 'desc') 
+                                     .limit(20) 
+                                     .get();
+            
+            if (snapshot.empty) {
+                menfessGrid.innerHTML = '<p style="text-align: center; color: #bdb6f0; width: 100%; grid-column: 1 / -1;">Belum ada pesan rahasia.</p>';
+                return;
+            }
+
+            let menfessHTML = '';
+            snapshot.docs.forEach(doc => {
+                const data = doc.data();
+                const to = data.to || 'All';
+                const content = data.content || 'Pesan kosong';
+                const from = data.from || 'Anonim';
+                
+                // Format tanggal
+                let dateStr = 'Baru Saja';
+                if (data.timestamp && data.timestamp.toDate) {
+                    const date = data.timestamp.toDate();
+                    dateStr = date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+                }
+
+                menfessHTML += `
+                    <div class="menfess-card">
+                        <div class="menfess-to">Untuk: ${to}</div>
+                        <div class="menfess-content">${content}</div>
+                        <div class="menfess-footer">
+                            <span class="menfess-from">Dari: ${from}</span>
+                            <span class="menfess-date">${dateStr}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            menfessGrid.innerHTML = menfessHTML;
+
+        } catch (error) {
+            console.error("Error saat memuat menfess: ", error);
+            menfessGrid.innerHTML = '<p style="text-align: center; color: #ff775c; width: 100%; grid-column: 1 / -1;">Gagal memuat menfess. Cek koneksi Firebase.</p>';
+        }
+    }
 
 
     // ** JALANKAN SAAT LOAD **
@@ -1669,6 +1989,21 @@
             // Secara default, tunjukkan icon Spotify saat pertama kali dimuat
             toggleButton.querySelector('i').className = 'fab fa-spotify';
         }
+        
+        // --- LOGIKA MENFESS INIT ---
+        const menfessBtn = document.getElementById('menfessButton');
+        if (menfessBtn) {
+            menfessBtn.addEventListener('click', openMenfessModal);
+        }
+        
+        const menfessForm = document.getElementById('menfessForm');
+        if (menfessForm) {
+            menfessForm.addEventListener('submit', saveMenfess);
+        }
+
+        // Muat data menfess saat halaman dimuat
+        loadMenfess();
+        // --- AKHIR LOGIKA MENFESS INIT ---
     });
   </script>
 </body>
