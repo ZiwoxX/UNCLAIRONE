@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   
  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
     body {
       margin: 0;
@@ -20,6 +20,8 @@
       flex-direction: column;
       align-items: center;
       padding: 20px; /* Padding default untuk desktop/tablet */
+      /* FIX PENTING: Mencegah horizontal scrolling (geser kanan-kiri) */
+      overflow-x: hidden; 
     }
 
     /* --- CSS HYPERLINK (NAVIGASI) --- */
@@ -57,58 +59,55 @@
 
     h1 {
       margin-bottom: 30px;
-      font-weight: 800;
+      font-weight: 700;
       font-size: 2.5rem;
-      letter-spacing: 2px;
+      letter-spacing: 1.5px;
       color: #ffffff;
-      text-shadow: 0 0 15px #6a44d8;
+      text-shadow: 0 0 10px #6a44d8;
       margin-top: 40px; 
       text-align: center;
     }
 
-    /* --- STYLE QUOTE OF THE DAY (RE-DESIGN) --- */
+    /* --- STYLE QUOTE OF THE DAY --- */
     .quote-box {
-        background: #2a1b3d;
-        border: 2px solid #ff775c;
-        border-radius: 20px;
-        padding: 30px 40px;
+        background: rgba(255, 255, 255, 0.05);
+        border-left: 5px solid #ff775c; 
+        border-radius: 15px;
+        padding: 20px 30px;
         margin: 0 auto 30px auto; 
-        max-width: 750px; 
-        width: 90%; 
+        max-width: 800px;
+        width: 90%;
         text-align: center;
         position: relative;
-        box-shadow: 0 0 25px rgba(255, 119, 92, 0.4), 0 5px 15px rgba(0,0,0,0.5); 
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         backdrop-filter: blur(5px);
-        transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+        transition: transform 0.3s;
     }
     .quote-box:hover {
-        transform: scale(1.01); 
-        background: #3d2c66;
-        box-shadow: 0 0 30px rgba(255, 119, 92, 0.6), 0 8px 20px rgba(0,0,0,0.7);
+        transform: scale(1.02);
+        background: rgba(255, 255, 255, 0.08);
     }
     .quote-icon {
-        font-size: 2rem;
+        font-size: 1.5rem;
         color: #ff775c;
-        margin-bottom: 15px; 
-        opacity: 1;
-        display: block; 
+        margin-bottom: 10px;
+        opacity: 0.8;
     }
     .quote-text {
-        font-family: 'Inter', sans-serif;
-        font-size: 1.25rem; 
+        font-size: 1.1rem;
         font-style: italic;
         line-height: 1.6;
-        margin: 0 0 15px 0;
-        color: #ffffff; 
-        font-weight: 400;
+        margin: 0;
+        color: #e0e0e0;
+        font-weight: 300;
     }
     .quote-author {
-        margin-top: 15px;
+        margin-top: 10px;
         font-weight: 700;
         color: #bdb6f0;
-        font-size: 1rem;
+        font-size: 0.9rem;
         text-transform: uppercase;
-        letter-spacing: 2px;
+        letter-spacing: 1px;
     }
 
     /* --- STYLE STATISTIK KELAS BARU --- */
@@ -116,8 +115,8 @@
         display: flex;
         justify-content: center;
         gap: 20px;
-        margin: 0 auto 30px auto; 
-        width: 100%; 
+        margin-bottom: 30px;
+        width: 90%;
         max-width: 800px;
     }
     .stat-box {
@@ -166,12 +165,13 @@
     }
 
     .search-container {
+        /* UI Blocky Baru */
         width: 100%; 
         position: relative;
         border-radius: 8px; 
-        background: #1a1a2e; 
-        box-shadow: 0 0 15px rgba(255, 119, 92, 0.4); 
-        border: 1px solid #ff775c; 
+        background: #1a1a2e; /* Darker base */
+        box-shadow: 0 0 15px rgba(255, 119, 92, 0.4); /* Neon Glow */
+        border: 1px solid #ff775c; /* Accent border color */
         display: flex; 
         align-items: stretch; 
         padding: 0;
@@ -192,6 +192,7 @@
         background: rgba(42, 27, 61, 0.5); 
     }
 
+    /* Area Tombol/Ikon Pencarian yang Dedikasi */
     .search-button-area {
         padding: 12px 15px;
         background: #ff775c; 
@@ -381,16 +382,16 @@
       font-size: 40px; font-weight: bold; cursor: pointer;
     }
 
-    /* --- Responsif Mobile --- */
+    /* --- Responsif Mobile (Perbaikan Centering) --- */
     @media (max-width: 600px) {
-      /* PERBAIKAN UTAMA UNTUK PEMUSATAN DI HP */
+      /* PERBAIKAN UTAMA: Hapus padding body agar elemen di dalamnya terpusat dengan sempurna */
       body {
-        padding: 0; /* Hapus padding body agar elemen dapat mengisi 100% dan margin auto bekerja optimal */
+        padding: 0; 
       }
       
       .card { padding: 20px; }
       .photo { width: 110px; height: 110px; }
-      h1 { font-size: 2rem; margin-top: 30px; }
+      h1 { font-size: 2rem; }
       
       /* Posisi Navigasi Mobile */
       .nav-link-left { top: 10px; left: 10px; font-size: 0.9rem; padding: 3px 8px; }
@@ -399,26 +400,26 @@
         max-width: 45%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
       }
       
-      /* Pastikan quote-box, stats, dan filter terpusat di tengah layar HP */
+      /* PERBAIKAN CENTERING QUOTE BOX */
       .quote-box {
-          width: 95%; /* Lebih lebar untuk mengisi area, sisa 5% terpusat oleh margin auto */
-          margin: 15px auto 30px auto; 
-          padding: 20px 25px; 
+          width: 95%; /* Tetapkan lebar agar margin auto bekerja sempurna */
+          margin: 15px auto 30px auto; /* Pastikan rata tengah */
+          padding: 20px; /* Sesuaikan padding */
       }
       
-      .quote-text { font-size: 1.1rem; }
+      .quote-text { font-size: 1rem; } 
       
-      /* KODE PERBAIKAN MOBILE UNTUK PENCARIAN BARU */
+      /* PERBAIKAN CENTERING STATS DAN FILTER */
       .stats-container {
           flex-direction: column;
           gap: 15px;
-          width: 95%; /* Sesuaikan lebar */
+          width: 95%; /* Tetapkan lebar dan margin auto akan memusatkannya */
           margin: 0 auto 30px auto;
       }
       .filter-controls {
           padding: 0; 
           max-width: 100%; 
-          width: 95%; /* Sesuaikan lebar */
+          width: 95%; /* Tetapkan lebar dan margin auto akan memusatkannya */
           margin: 0 auto 30px auto; 
       }
       
