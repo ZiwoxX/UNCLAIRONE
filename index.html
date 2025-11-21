@@ -7,7 +7,7 @@
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   
-  <style>
+ <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
     body {
@@ -151,7 +151,7 @@
         letter-spacing: 0.5px;
     }
 
-    /* --- STYLE PENCARIAN & FILTER BARU --- */
+    /* --- STYLE PENCARIAN & FILTER BARU (REVISI) --- */
     .filter-controls {
         display: flex;
         gap: 15px;
@@ -192,8 +192,10 @@
         color: #bdb6f0;
         font-size: 1.1rem;
     }
+    
+    /* PERBAIKAN UTAMA UNTUK SELECT BOX */
     #filterOrganization {
-        /* PERBAIKAN: Mencegah penyusutan dan memastikan lebar minimum */
+        /* Mencegah penyusutan dan memastikan lebar minimum */
         flex-shrink: 0; 
         min-width: 200px; 
         
@@ -205,9 +207,14 @@
         font-size: 1rem;
         transition: all 0.3s;
         height: 44px;
-        appearance: none;
+        appearance: none; /* Menyembunyikan panah dropdown default */
         cursor: pointer;
-        /* Tambahkan style untuk panah dropdown custom jika diperlukan */
+        /* Tambahkan style untuk panah dropdown custom (menggunakan SVG base64) */
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23bdb6f0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 15px;
+        padding-right: 40px; /* Tambahkan ruang untuk panah kustom */
     }
     #filterOrganization:focus {
         border-color: #ff775c;
@@ -383,7 +390,7 @@
       font-size: 40px; font-weight: bold; cursor: pointer;
     }
 
-    /* --- Responsif Mobile --- */
+    /* --- Responsif Mobile (REVISI) --- */
     @media (max-width: 600px) {
       .card { padding: 20px; }
       .photo { width: 110px; height: 110px; }
@@ -407,13 +414,31 @@
           flex-direction: column;
           gap: 15px;
       }
+      
+      /* Memastikan kedua elemen filter mengambil lebar penuh saat ditumpuk */
       #filterOrganization, #searchInput {
           width: 100%;
           max-width: 100%;
+          font-size: 1rem; /* Gunakan ukuran font standar */
       }
-      .search-container { max-width: 100%; }
-      #searchInput { padding: 10px 15px 10px 40px; font-size: 0.9rem; }
-      .search-container .fa-search { font-size: 1rem; left: 12px; }
+      .search-container { max-width: 100%; width: 100%; }
+
+      /* Penyesuaian Padding Input Pencarian */
+      #searchInput { 
+          padding: 12px 15px 12px 45px; 
+      }
+      .search-container .fa-search { 
+          font-size: 1.1rem; 
+          left: 15px; 
+      }
+      
+      /* Penyesuaian Style Select agar konsisten */
+      #filterOrganization {
+        padding: 12px 15px;
+        height: 44px; /* Tinggi disamakan dengan input pencarian */
+        padding-right: 40px; /* Pertahankan ruang untuk panah kustom */
+      }
+
 
       .modal-content { padding: 20px 15px; width: 95%; }
       .modal-name { font-size: 1.5rem; }
@@ -560,7 +585,7 @@
         gallery: [],
         birthDate: "05-15"
       },
-      {name: "Akil Maula S", age: 16, hobby: "Mancing", instagram: "kikiuuuz", photo: "image/Akil.jpg", religion: "Islam", organization: "SEGA", gallery: [], birthDate: ""},
+      {name: "Akil Maula S", age: 16, hobby: "Mancing", instagram: "kikiuuuz", photo: "image/Akil.jpg", religion: "Islam", organization: "SEGA", gallery: [], birthDate: "12-31"},
       {name: "Amirah Zafirah", age: 15, hobby: "Yapping", instagram: "amirahpspra", photo: "image/Amirah.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: "03-22"},
       {name: "Andi Naurah", age: 16, hobby: "Nonton Windah", instagram: "nauurahkhalilah", photo: "image/Naura.jpg", religion: "Islam", organization: "KITS/Sega/Sanggar Seni", gallery: [], birthDate: ""},
       {name: "Anindya Ainun", age: 15, hobby: "gatau", instagram: "_anindyainun", photo: "image/Ainun purba.jpg", religion: "Islam", organization: "Smansa Voice", gallery: [], birthDate: "03-15"},
@@ -580,7 +605,7 @@
       {name: "Kink Muflih", age: 15, hobby: "Nonton Anime", instagram: "muflih_zaky", photo: "image/Mupli.jpg", religion: "Islam", organization: "Tidak Ada", gallery: [], birthDate: ""},
       {name: "M.Raihaan", age: 15, hobby: "Topup Dm", instagram: "rhnzki_16", photo: "image/Rehan.jpg", religion: "Islam", organization: "Putra Putri Smansa", gallery: [], birthDate: ""},
       {name: "Nagym", age: 15, hobby: "Tidur", instagram: "nagymm_", photo: "image/Nagym.jpg", religion: "Islam", organization: "KITS", gallery: [], birthDate: "06-23"},
-      {name: "Naufal Qawwiy", age: 15, hobby: "Tektok Gn", instagram: "naufalqawiyy", photo: "image/nopal.jpg", religion: "Islam", organization: "Wasipalah", gallery: [], birthDate: ""},
+      {name: "Naufal Qawwiy", age: 15, hobby: "Tektok Gn", instagram: "naufalqawiyy", photo: "image/nopal.jpg", religion: "Islam", organization: "Wasipalah", gallery: [], birthDate: "04-23"},
       {name: "Nur Nadya Afifah", age: 16, hobby: "Mengaji", instagram: "dyaafifah_", photo: "image/Afifah.jpg", religion: "Islam", organization: "Komunitas Pelajar Muslim", gallery: [], birthDate: ""},
       {name: "Nurfadillah Quinsya", age: 16, hobby: "Cari Cogan", instagram: "nurfdilhqsya_", photo: "image/Nyonyo.jpg", religion: "Islam", organization: "Sanggar Seni", gallery: [], birthDate: ""},
       {name: "Qonitha Cleonima", age: 16, hobby: "Silat", instagram: "qoniitataa", photo: "image/Qoni.jpeg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: ""},
@@ -588,7 +613,7 @@
       {name: "Raihanah Nadira", age: 16, hobby: "Nonton yutub", instagram: "raihanadiraa", photo: "image/Raihana.jpg", religion: "Islam", organization: "Sega/Sanggar Seni", gallery: [], birthDate: ""},
       {name: "Rasya Az'Zahra", age: 16, hobby: "Basket", instagram: "rasya_azzahra", photo: "image/Rasyaa.jpg", religion: "Islam", organization: "Basket", gallery: [], birthDate: ""},
       {name: "Aulia", age: 16, hobby: "Menggambar", instagram: "auliaaa_dn", photo: "image/Aul.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: ""},
-      {name: "ACOK NI BOS", age: 15, hobby: "main Bola", instagram: "rrezxkyy30", photo: "image/Aco.jpeg", religion: "Islam", organization: "OSIS/Paskibra", gallery: [], birthDate: ""},
+      {name: "ACOK NI BOS", age: 15, hobby: "main Bola", instagram: "rrezxkyy30", photo: "image/Aco.jpeg", religion: "Islam", organization: "OSIS/Paskibra", gallery: [], birthDate: "01-30"},
       {name: "Syifa BTR", age: 16, hobby: "nda tau", instagram: "syfabhtr_", photo: "image/Cipa.jpg", religion: "Islam", organization: "KITS/Inteens/Sanggar/PPS", gallery: [], birthDate: ""},
       {name: "Vanezia", age: 15, hobby: "Menari", instagram: "vvsloav_19", photo: "https://randomuser.me/api/portraits/men/33.jpg", religion: "Islam", organization: "Sanggar Seni", gallery: [], birthDate: ""},
       {name: "Wilyam", age: 15, hobby: "Apa ya", instagram: "ultraawill", photo: "image/Wilyam.jpg", religion: "Katolik", organization: "Smansa Voice", gallery: [], birthDate: ""},
