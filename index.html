@@ -450,14 +450,18 @@
       }
 
       /* PERBAIKAN CONTAINER KARTU */
+      /* --- FIX CENTERING MOBILE STARTS HERE --- */
       .container {
-        padding: 0 15px; 
+        /* Dihapus padding horizontal (0 15px) yang menyebabkan pergeseran, diganti dengan width yang dikontrol */
+        padding: 0; 
         gap: 15px; 
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
         max-width: 100%;
-        margin-left: auto;
-        margin-right: auto;
+        /* Menetapkan width eksplisit dan margin auto untuk centering yang lebih stabil */
+        width: 95%; 
+        margin: 0 auto; 
       }
+      /* --- FIX CENTERING MOBILE ENDS HERE --- */
       
       .modal-content { padding: 20px 15px; width: 95%; }
       .modal-name { font-size: 1.5rem; }
@@ -489,7 +493,7 @@
   <div class="stats-container">
     <div class="stat-box">
         <i class="fas fa-users"></i>
-        <span id="statTotalStudents" class="stat-value">0</span>
+        <span id="statTotalStudents" class="stat-value">36</span>
         <span class="stat-label">Total Siswa</span>
     </div>
     <div class="stat-box">
@@ -499,7 +503,7 @@
     </div>
     <div class="stat-box">
         <i class="fas fa-trophy"></i>
-        <span id="statMostOrganization" class="stat-value">Loading...</span>
+        <span id="statMostOrganization" class="stat-value">Paskibra (6)</span>
         <span class="stat-label">Org. Terbanyak</span>
     </div>
   </div>
@@ -857,7 +861,7 @@
             modalUltah.style.display = 'flex';
             fireConfetti();
         }
-    } // <--- KURUNG KURAWAL PENUTUP FUNGSI DITAMBAHKAN DI SINI!
+    } 
 
     function fireConfetti() {
         var duration = 3 * 1000;
