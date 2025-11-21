@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   
  <style>
+    /* ... (CSS Anda sebelumnya, tidak ada perubahan) ... */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
     body {
@@ -1115,7 +1116,7 @@
                 birthdayCount++;
             }
 
-            // Count Organization 
+            // Count Organization
             const orgs = s.organization.split('/').map(o => o.trim()).filter(o => o !== 'Tidak Ada' && o !== 'gatau' && o !== '');
             orgs.forEach(org => {
                 organizationCounts[org] = (organizationCounts[org] || 0) + 1;
@@ -1158,7 +1159,7 @@
         return { organizationCounts: organizationCounts };
     }
 
-    // Pencarian ea
+    // ** LOGIKA PENCARIAN SAJA **
     function filterStudents() {
         const input = document.getElementById('searchInput');
         const filterText = input.value.toUpperCase();
@@ -1438,8 +1439,12 @@
 
     // ** FUNGSI BARU: MEMBUKA DAN MENUTUP MODAL QUOTE **
     function openQuoteModal(index) {
-        // Mencegah modal muncul jika sedang dalam mode drag (untuk mencegah klik tidak sengaja)
-        if (isDragging) return; 
+        // PERBAIKAN: Jika terdeteksi adanya pergerakan (drag/swipe), blokir klik
+        if (clickBlocked) {
+             // Reset flag agar klik berikutnya bisa bekerja
+             clickBlocked = false; 
+             return; 
+        } 
         
         const s = students[index];
         const modal = document.getElementById('quoteModal');
@@ -1462,28 +1467,25 @@
     const scrollWrapper = document.querySelector('.running-quotes-wrapper');
     // Variabel untuk Kontrol Scroll Otomatis & Drag
     let scrollInterval;
-    let isDragging = false;
+    let isDragging = false; // Status drag aktif
+    let clickBlocked = false; // FLAG BARU: Untuk memblokir klik/tap jika ada pergerakan
     let startX;
     let scrollLeft;
+    let startPageX; // NEW: Simpan posisi awal X untuk cek pergerakan
     
     // --- FUNGSI AUTO SCROLL ---
     function startAutoScroll() {
         if (!scrollWrapper) return;
-        // Hentikan interval yang berjalan (jika ada)
         if (scrollInterval) clearInterval(scrollInterval);
         
-        const scrollSpeed = 0.5; // Kecepatan (piksel per 10ms). Sesuaikan nilai ini.
+        const scrollSpeed = 0.5; 
         const intervalMs = 10;
         
         scrollInterval = setInterval(() => {
-            // Hentikan jika pengguna sedang melakukan drag
             if (isDragging) return; 
 
-            // Scroll ke kanan untuk membuat konten bergerak dari kanan ke kiri
             scrollWrapper.scrollLeft += scrollSpeed; 
 
-            // Ketika sudah mencapai ujung, reset ke awal
-            // Memberi sedikit margin (misalnya 1 piksel) agar tidak terus-menerus mereset saat mendekati ujung.
             if (scrollWrapper.scrollLeft + scrollWrapper.clientWidth >= scrollWrapper.scrollWidth - 1) {
                 scrollWrapper.scrollLeft = 0; 
             }
@@ -1502,13 +1504,14 @@
         const onMouseDown = (e) => {
             if (e.button !== 0) return; 
             isDragging = true;
+            clickBlocked = false; // Reset flag pergerakan di awal
             scrollWrapper.classList.add('active-drag');
-            // PAUSE AUTO SCROLL SAAT MULAI DRAG
             stopAutoScroll(); 
             
             startX = e.pageX - scrollWrapper.offsetLeft;
+            startPageX = e.pageX; // Simpan posisi awal
             scrollLeft = scrollWrapper.scrollLeft;
-            // Menambahkan event listener ke window agar tetap melacak gerakan mouse jika keluar dari wrapper
+            // PENTING: Tambahkan listener ke window agar mousemove tetap terdeteksi meski keluar elemen
             window.addEventListener('mousemove', onMouseMove);
             window.addEventListener('mouseup', onMouseUp);
         };
@@ -1516,13 +1519,13 @@
         const onTouchStart = (e) => {
             if (e.touches.length !== 1) return;
             isDragging = true;
+            clickBlocked = false; // Reset flag pergerakan di awal
             scrollWrapper.classList.add('active-drag');
-            // PAUSE AUTO SCROLL SAAT MULAI DRAG
             stopAutoScroll(); 
 
             startX = e.touches[0].pageX - scrollWrapper.offsetLeft;
+            startPageX = e.touches[0].pageX; // Simpan posisi awal
             scrollLeft = scrollWrapper.scrollLeft;
-            // Menambahkan event listener ke window
             window.addEventListener('touchmove', onTouchMove, { passive: false });
             window.addEventListener('touchend', onTouchEnd);
         };
@@ -1530,9 +1533,15 @@
         const onMouseMove = (e) => {
             if (!isDragging) return;
             e.preventDefault(); 
+            
             const x = e.pageX - scrollWrapper.offsetLeft;
-            const walk = (x - startX) * 1.5; // Faktor pengali
+            const walk = (x - startX) * 1.5; 
             scrollWrapper.scrollLeft = scrollLeft - walk; 
+            
+            // LOGIKA PENTING BARU: Set clickBlocked jika ada pergerakan horizontal > 5px
+            if (Math.abs(e.pageX - startPageX) > 5) {
+                clickBlocked = true;
+            }
         };
 
         const onTouchMove = (e) => {
@@ -1547,22 +1556,27 @@
                 e.preventDefault(); 
             }
             scrollWrapper.scrollLeft = scrollLeft - walk;
+            
+            // LOGIKA PENTING BARU: Set clickBlocked jika ada pergerakan horizontal > 5px
+            if (Math.abs(e.touches[0].pageX - startPageX) > 5) {
+                clickBlocked = true;
+            }
         };
         
         const onMouseUp = () => {
-            // Sedikit jeda untuk memastikan event 'click' tidak terpicu
-            setTimeout(() => { isDragging = false; }, 100); 
+            // PERBAIKAN: isDragging direset SEGERA setelah MouseUp, tanpa timeout
+            isDragging = false; 
             scrollWrapper.classList.remove('active-drag');
             window.removeEventListener('mousemove', onMouseMove);
             window.removeEventListener('mouseup', onMouseUp);
             
             // RESTART AUTO SCROLL SETELAH SELESAI DRAG
-            // Jeda sebentar sebelum restart
             setTimeout(startAutoScroll, 500); 
         };
 
         const onTouchEnd = () => {
-            setTimeout(() => { isDragging = false; }, 100);
+            // PERBAIKAN: isDragging direset SEGERA setelah TouchEnd, tanpa timeout
+            isDragging = false;
             scrollWrapper.classList.remove('active-drag');
             window.removeEventListener('touchmove', onTouchMove);
             window.removeEventListener('touchend', onTouchEnd);
@@ -1572,7 +1586,6 @@
         };
 
         scrollWrapper.addEventListener('mousedown', onMouseDown);
-        // Menggunakan { passive: true } di sini agar performa awal touch lebih baik
         scrollWrapper.addEventListener('touchstart', onTouchStart, { passive: true }); 
     }
 
