@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" /> 
+  <meta id="viewportMeta" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" /> 
   <title>10 C.1 GANK - Detail Siswa</title>
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
@@ -114,7 +114,7 @@
         display: flex;
         justify-content: center;
         gap: 20px;
-        margin: 0 auto 30px auto; /* DITAMBAH: margin auto untuk centering di desktop/tablet */
+        margin: 0 auto 30px auto; 
         width: 90%;
         max-width: 800px;
     }
@@ -160,17 +160,16 @@
         justify-content: center; 
         width: 100%;
         max-width: 500px; 
-        margin: 0 auto 30px auto; /* Penting: margin auto agar rata tengah */
+        margin: 0 auto 30px auto; 
     }
 
     .search-container {
-        /* UI Blocky Baru */
         width: 100%; 
         position: relative;
         border-radius: 8px; 
-        background: #1a1a2e; /* Darker base */
-        box-shadow: 0 0 15px rgba(255, 119, 92, 0.4); /* Neon Glow */
-        border: 1px solid #ff775c; /* Accent border color */
+        background: #1a1a2e; 
+        box-shadow: 0 0 15px rgba(255, 119, 92, 0.4); 
+        border: 1px solid #ff775c; 
         display: flex; 
         align-items: stretch; 
         padding: 0;
@@ -383,12 +382,11 @@
 
     /* --- Responsif Mobile (Perbaikan Centering) --- */
     @media (max-width: 600px) {
-      /* PERBAIKAN UTAMA: Hapus padding body agar elemen di dalamnya terpusat dengan sempurna */
       body {
         padding: 0; 
-        padding-top: 50px; /* Tambahkan padding atas untuk memberi ruang pada nav */
+        padding-top: 50px; 
         padding-bottom: 20px;
-        align-items: center; /* Pastikan centering horizontal untuk flex container */
+        align-items: center; 
       }
       
       .card { padding: 20px; }
@@ -401,10 +399,10 @@
       /* 🏆 Perbaikan Posisi Prestasi Kelas agar lebih ke kanan */
       .nav-link-right { 
         top: 10px; 
-        right: 10px; /* Mengatur jarak 10px dari tepi kanan */
+        right: 10px; 
         font-size: 0.9rem; 
         padding: 3px 8px;
-        max-width: 50%; /* Memperluas lebar maksimum yang diperbolehkan */
+        max-width: 50%; 
         overflow: hidden; 
         text-overflow: ellipsis; 
         white-space: nowrap;
@@ -412,10 +410,10 @@
       
       /* PERBAIKAN CENTERING QUOTE BOX */
       .quote-box {
-          width: 95%; /* Tetapkan lebar agar margin auto bekerja sempurna */
-          margin: 15px auto 30px auto; /* Pastikan rata tengah */
-          padding: 20px; /* Sesuaikan padding */
-          box-sizing: border-box; /* Penting untuk konsistensi lebar */
+          width: 95%; 
+          margin: 15px auto 30px auto; 
+          padding: 20px; 
+          box-sizing: border-box; 
       }
       
       .quote-text { font-size: 1rem; } 
@@ -424,14 +422,14 @@
       .stats-container {
           flex-direction: column;
           gap: 15px;
-          width: 95%; /* Tetapkan lebar dan margin auto akan memusatkannya */
+          width: 95%; 
           margin: 0 auto 30px auto;
           box-sizing: border-box;
       }
       .filter-controls {
           padding: 0; 
           max-width: 100%; 
-          width: 95%; /* Tetapkan lebar dan margin auto akan memusatkannya */
+          width: 95%; 
           margin: 0 auto 30px auto; 
           box-sizing: border-box;
       }
@@ -453,9 +451,8 @@
 
       /* PERBAIKAN CONTAINER KARTU */
       .container {
-        padding: 0 15px; /* Tambahkan padding di samping agar kartu tidak menempel tepi */
-        gap: 15px; /* Kurangi jarak antar kartu */
-        /* Mengubah grid agar kartu tetap terlihat baik */
+        padding: 0 15px; 
+        gap: 15px; 
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
         max-width: 100%;
         margin-left: auto;
@@ -647,11 +644,26 @@
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImage');
     const lightboxCloseBtn = document.querySelector('.lightbox-close-btn');
+    
+    // Elemen untuk manipulasi zoom
+    const viewportMeta = document.getElementById('viewportMeta');
+    const DEFAULT_META = "width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no";
+    const ZOOMABLE_META = "width=device-width, initial-scale=1, user-scalable=yes"; 
 
     // Fungsi Lightbox
     function openLightBox(src) {
+        // AKTIFKAN ZOOM saat Lightbox terbuka
+        viewportMeta.content = ZOOMABLE_META; 
+        
         lightboxImg.src = src;
         lightbox.style.display = 'flex'; 
+    }
+
+    // Fungsi untuk menutup Lightbox dan mengembalikan zoom
+    function closeLightBox() {
+        // KEMBALIKAN KE NON-ZOOM saat Lightbox tertutup
+        viewportMeta.content = DEFAULT_META; 
+        lightbox.style.display = 'none';
     }
 
     // ** LOGIKA STATISTIK KELAS **
@@ -668,7 +680,7 @@
                 birthdayCount++;
             }
 
-            // Count Organization (Tetap dihitung untuk Stat Org. Terbanyak)
+            // Count Organization 
             const orgs = s.organization.split('/').map(o => o.trim()).filter(o => o !== 'Tidak Ada' && o !== 'gatau' && o !== '');
             orgs.forEach(org => {
                 organizationCounts[org] = (organizationCounts[org] || 0) + 1;
@@ -722,7 +734,6 @@
             const nameElement = card.querySelector('.name');
             const name = nameElement.textContent || nameElement.innerText;
             
-            // Hanya ada 1 filter: Pencarian Nama
             const nameMatch = name.toUpperCase().indexOf(filterText) > -1;
 
             if (nameMatch) {
@@ -741,7 +752,6 @@
         document.getElementById('modalAge').textContent = student.age;
         document.getElementById('modalHobby').textContent = student.hobby;
         
-        // Perbaikan typo pada data Hodia
         let religion = student.religion || 'Tidak Diketahui';
         if (religion.includes('Prot  estan')) {
             religion = 'Protestan';
@@ -809,15 +819,19 @@
     });
 
     // Event Listeners untuk Menutup Modal
-    function closeStudentModal() { modal.style.display = 'none'; }
-    lightboxCloseBtn.onclick = function() { lightbox.style.display = 'none'; }
+    function closeStudentModal() { 
+        modal.style.display = 'none'; 
+    }
+    
+    // Panggil fungsi penutup Lightbox yang akan mengembalikan meta tag
+    lightboxCloseBtn.onclick = function() { closeLightBox(); }
+    
     window.onclick = function(event) {
-      if (event.target == modal) { modal.style.display = 'none'; }
-      if (event.target == lightbox) { lightbox.style.display = 'none'; }
+      if (event.target == modal) { closeStudentModal(); }
+      if (event.target == lightbox) { closeLightBox(); } // Menggunakan closeLightBox
     }
 
-    // ** LOGIKA FITUR ULANG TAHUN ** (Dipertahankan)
-    function checkBirthday() {
+    // ** LOGIKA FITUR ULANG TAHUN ** function checkBirthday() {
         const today = new Date();
         const month = String(today.getMonth() + 1).padStart(2, '0');
         const day = String(today.getDate()).padStart(2, '0');
@@ -842,7 +856,7 @@
             modalUltah.style.display = 'flex';
             fireConfetti();
         }
-    }
+    
 
     function fireConfetti() {
         var duration = 3 * 1000;
@@ -864,7 +878,7 @@
     }
 
     // ==========================================
-    // FITUR QUOTES OF THE DAY (Dipertahankan)
+    // FITUR QUOTES OF THE DAY 
     // ==========================================
     const quotesCollection = [
         { text: "Sekolah itu tempat menuntut ilmu, bukan menuntut dia peka.", author: "Anonim" },
@@ -903,7 +917,6 @@
         checkBirthday(); 
         displayDailyQuote();
         
-        // Panggil fungsi statistik saat dokumen dimuat
         calculateAndDisplayStats();
     });
   </script>
