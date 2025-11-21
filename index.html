@@ -329,7 +329,8 @@
       max-width: 800px;
       position: relative;
       color: #e0e0e0;
-      animation: slideIn 0.4s ease-out;
+      /* ANIMASI POP-UP (SLIDE-IN) */
+      animation: slideIn 0.4s ease-out; 
       border: 2px solid #6a44d8;
       max-height: 95vh; 
       overflow-y: auto; 
@@ -337,6 +338,7 @@
     }
 
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    /* KEYFRAME ANIMASI SLIDE-IN POP-UP */
     @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
     .close-btn {
@@ -429,15 +431,78 @@
     }
     /* --- END TAMBAHAN CSS NAVIGASI --- */
 
-    /* --- KONTROL SPOTIFY (HANYA UNTUK POSISI DI MOBILE) --- */
+    
+    /* --- KONTROL SPOTIFY (CSS BARU DENGAN ANIMASI SLIDE) --- */
+    
+    /* Tombol Floating untuk Toggle Spotify (Selalu Terlihat) */
+    #toggleButton {
+        position: fixed; /* FIXED agar selalu terlihat */
+        bottom: 20px; 
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #1DB954; /* Warna hijau Spotify */
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(29, 185, 84, 0.6);
+        z-index: 12; /* Pastikan di atas container */
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    #toggleButton:hover {
+        background-color: #1ed760;
+        transform: scale(1.05);
+    }
+
+    /* Style untuk icon di dalam tombol */
+    #toggleButton i {
+        transition: transform 0.3s ease;
+    }
+
+    /* Saat player terbuka, putar icon (ganti menjadi panah ke bawah) */
+    #spotifyPlayerContainer.open + #toggleButton i,
+    #toggleButton.open i { /* Menambahkan kelas 'open' di tombol */
+        transform: rotate(180deg);
+    }
+    
+    /* Container untuk Iframe Spotify (Yang akan bergeser) */
     #spotifyPlayerContainer {
         position: fixed;
-        bottom: 20px;
         right: 20px;
-        z-index: 10;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        bottom: 20px;
+        z-index: 11; 
+        box-shadow: none; 
         border-radius: 12px;
-        overflow: hidden;
+        overflow: visible; 
+        
+        /* Pengaturan untuk animasi slide */
+        transition: transform 0.4s ease-out;
+        
+        /* Awalnya sembunyikan player utama (geser ke bawah) 
+           Tinggi Iframe = 80px + margin. Geser 100px ke bawah untuk memastikan hilang */
+        transform: translateY(100px); 
+    }
+
+    /* Kelas untuk menampilkan player (menggeser ke atas) */
+    #spotifyPlayerContainer.open {
+        /* Iframe height 80px. Button height 50px.
+           Shift UP by: -(Iframe height + Margin) = -90px 
+           Ini membuat Iframe muncul tepat di atas tombol */
+        transform: translateY(-90px); 
+    }
+
+    /* Style untuk iframe saat terbuka */
+    #spotifyPlayerContainer iframe {
+        margin-bottom: 0; /* Menghilangkan margin yang tidak perlu */
+        box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        transition: box-shadow 0.4s;
+        border-radius: 12px;
     }
 
     /* --- Optimasi Mobile --- */
@@ -456,7 +521,6 @@
       /* Posisi Navigasi Mobile */
       .nav-link-left { top: 10px; left: 10px; font-size: 0.9rem; padding: 3px 8px; }
       
-      /* Perbaikan Posisi Prestasi Kelas agar lebih ke kanan */
       .nav-link-right { 
         top: 10px; 
         right: 10px; 
@@ -468,7 +532,6 @@
         white-space: nowrap;
       }
       
-      /* PERBAIKAN CENTERING QUOTE BOX */
       .quote-box {
           width: 95%; 
           margin: 15px auto 30px auto; 
@@ -477,7 +540,6 @@
       
       .quote-text { font-size: 1rem; } 
       
-      /* PERBAIKAN CENTERING STATS DAN FILTER */
       .stats-container {
           flex-direction: column;
           gap: 15px;
@@ -508,7 +570,6 @@
           border-radius: 0 8px 8px 0;
       }
 
-      /* PERBAIKAN CONTAINER KARTU */
       .container {
         padding: 0; 
         gap: 15px; 
@@ -523,29 +584,20 @@
       .modal-photo { width: 100px; height: 100px; }
       .gallery-grid { grid-template-columns: repeat(3, 1fr); }
       
-      /* Tombol Navigasi Lightbox lebih kecil di mobile */
       .lightbox-nav-btn {
           font-size: 20px;
           padding: 10px;
       }
       
-      /* Mobile Optimasi Spotify Player */
-      #spotifyPlayerContainer {
+      /* Mobile Optimasi Spotify Control */
+      #spotifyPlayerContainer, #toggleButton {
           bottom: 10px;
           right: 10px;
       }
-      #spotifyPlayerContainer iframe {
-          width: 280px; /* Lebar lebih kecil di mobile */
-          height: 80px; 
+      #toggleButton {
+          width: 45px;
+          height: 45px;
       }
-    }
-    
-    /* CSS untuk mode desktop, membuat iframe lebih ringkas (hanya kontrol) */
-    @media (min-width: 601px) {
-        #spotifyPlayerContainer iframe {
-             width: 300px;
-             height: 80px; /* Mode Compact */
-        }
     }
 
   </style>
@@ -559,10 +611,14 @@
 </head>
 <body>
   
+  <button id="toggleButton" aria-label="Buka/Tutup Spotify Player">
+      <i class="fab fa-spotify"></i> 
+  </button>
+  
   <div id="spotifyPlayerContainer">
       <iframe 
           id="spotifyIframe"
-          style="border-radius:12px" 
+          style="border-radius:12px; transition: box-shadow 0.4s;" 
           src="" 
           width="300" 
           height="80" 
@@ -659,10 +715,9 @@
 
   <script>
     // ==========================================
-    // ** KONTROL MUSIK LAMA (DIPINDAHKAN KE SPOTIFY EMBED) **
-    // Semua fungsi dan variabel terkait audio lokal telah dihapus.
+    // ** LOGIKA UTAMA **
     // ==========================================
-
+    
 
     // **LANGKAH 1: KONFIGURASI FIREBASE**
     const firebaseConfig = {
@@ -692,7 +747,7 @@
         organization: "Inteens", 
         gallery: [],
         birthDate: "03-13",
-        description: "Si paling 'Gatahu', tapi selalu tahu kapan ada makanan. Anggota Inteens yang aktif." 
+        description: "Najim hotspott 1" 
       },
       {
         name: "Akifa Naila",
@@ -704,7 +759,7 @@
         organization: "OSIS",
         gallery: [],
         birthDate: "05-15",
-        description: "Sang bendahara kelas yang jago nagih dan sumber hotspot utama. Aktif di OSIS."
+        description: "Najim hotspot 2"
       },
       {name: "Akil Maula S", age: 16, hobby: "Mancing", instagram: "kikiuuuz", photo: "image/Akil.jpg", religion: "Islam", organization: "SEGA", gallery: [], birthDate: "12-31", description: "Starboy, Cool, Jenius, Proplayer epep"},
       {name: "Amirah Zafirah", age: 15, hobby: "Yapping", instagram: "amirahpspra", photo: "image/Amirah.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: "03-22", description: "Duta Yapping"},
@@ -736,9 +791,9 @@
       {name: "Aulia", age: 16, hobby: "Menggambar", instagram: "auliaaa_dn", photo: "image/Aul.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: "", description: "Misterius"},
       {name: "ACOK NI BOS", age: 15, hobby: "anu", instagram: "rrezxkyy30", photo: "image/Aco.jpeg", religion: "Islam", organization: "OSIS/Paskibra", gallery: [], birthDate: "01-30", description: "Cool, Keren, Gantenk, Beraura, Baik, Positip vibes, GrinFleg"},
       {name: "Syifa BTR", age: 16, hobby: "nda tau", instagram: "syfabhtr_", photo: "image/Cipa.jpg", religion: "Islam", organization: "KITS/Inteens/Sanggar/PPS", gallery: [], birthDate: "09-09", description: "#Bata Out"},
-      {name: "Vanezia", age: 15, hobby: "Menari", instagram: "vvsloav_19", photo: "image/Vanes.jpeg", religion: "Islam", organization: "Sanggar Seni", gallery: [], birthDate: "", description: "Pendek"},
+      {name: "Vanezia", age: 15, hobby: "Menari", instagram: "vvsloav_19", photo: "https://randomuser.me/api/portraits/men/33.jpg", religion: "Islam", organization: "Sanggar Seni", gallery: [], birthDate: "", description: "Pendek"},
       {name: "Wilyam", age: 15, hobby: "pegang konde", instagram: "ultraawill", photo: "image/Wilyam.jpg", religion: "Katolik", organization: "Smansa Voice", gallery: [], birthDate: "", description: "Hati-hati dengannya lengah dikit pegang konde"},
-      {name: "Zahra Mauaja", age: 16, hobby: "Apa yak", instagram: "zhrmdkyya", photo: "image/Yayaa.jpg", religion: "Islam", organization: "Tahfidz", gallery: [], birthDate: "", description: "Jahra mau aja"},
+      {name: "Zahra Mauaja", age: 16, hobby: "Apa yak", instagram: "zhrmdkyya", photo: "image/Yayaa.jpg", religion: "Islam", organization: "Tahfidz", gallery: [], birthDate: "", description: "Zahra mau aja"},
       {name: "Zyqri Al Farezqhi", age: 15, hobby: "main roblox", instagram: "zyqrialfarezqhi18", photo: "image/Zyqri.jpg", religion: "Islam", organization: "KITS/PMR", gallery: [], birthDate: "01-18", description: "Teman Teka Nagym"},
     ];
 
@@ -816,7 +871,7 @@
              return;
         }
 
-        prevBtn.style.display = 'flex'; // Menggunakan flex agar ikon di tengah
+        prevBtn.style.display = 'flex'; 
         nextBtn.style.display = 'flex';
 
         // Logika untuk menyembunyikan panah di ujung array
@@ -838,7 +893,7 @@
                 lightboxImg.src = currentGalleryPhotos[currentPhotoIndex];
                 lightboxImg.style.opacity = 1; // Kembali tampil
                 updateLightboxNav(); 
-            }, 150); // Waktu pudar (harus sinkron dengan CSS transition)
+            }, 150); 
         }
     }
 
@@ -853,7 +908,7 @@
         
         students.forEach(s => {
             // Count Birthday
-            if (s.birthDate && s.birthDate.length >= 5 && s.birthDate.substring(0, 2) === currentMonth) { // Perbaikan logika bulan, hanya mengambil 2 digit pertama
+            if (s.birthDate && s.birthDate.length >= 5 && s.birthDate.substring(0, 2) === currentMonth) {
                 birthdayCount++;
             }
 
@@ -946,7 +1001,7 @@
         
         let galleryPhotos = student.gallery && student.gallery.length > 0 ? student.gallery : [student.photo]; 
 
-        // Ambil Data dari Firestore (Logika tetap sama)
+        // Ambil Data dari Firestore
         try {
             const galleryCollection = db.collection('studentsGallery');
             const snapshot = await galleryCollection.where('name', '==', student.name).limit(1).get();
@@ -967,7 +1022,6 @@
             img.className = 'gallery-img';
             img.src = url;
             img.alt = `Foto ${student.name} ${index + 1}`;
-            // PERUBAHAN DI SINI: Meneruskan array foto dan indeks ke openLightBox
             img.addEventListener('click', (e) => { 
                 e.stopPropagation(); 
                 openLightBox(url, galleryPhotos, index); 
@@ -999,6 +1053,7 @@
       `;
       card.addEventListener('click', () => { showStudentDetails(students[index]); });
       container.appendChild(card);
+      // Pemicu animasi fadeSlideUp
       setTimeout(() => { card.classList.add('animate'); }, index * 100);
     });
 
@@ -1012,7 +1067,7 @@
     
     window.onclick = function(event) {
       if (event.target == modal) { closeStudentModal(); }
-      if (event.target == lightbox) { closeLightBox(); } // Menggunakan closeLightBox
+      if (event.target == lightbox) { closeLightBox(); } 
     }
 
     // ** LOGIKA GESER (SWIPE) & KEYBOARD UNTUK MOBILE/DESKTOP LIGHTBOX **
@@ -1032,35 +1087,26 @@
     let touchstartX = 0;
     let touchendX = 0;
 
-    // Tambahkan event listener untuk mendeteksi awal sentuhan
     lightboxImg.addEventListener('touchstart', function(event) {
-        // Hanya perlu satu sentuhan (jari)
         if (event.touches.length === 1) {
             touchstartX = event.touches[0].screenX;
         }
     }, false);
 
-    // Tambahkan event listener untuk mendeteksi akhir sentuhan
     lightboxImg.addEventListener('touchend', function(event) {
-        // Pastikan sentuhan terakhir di dalam layar (tidak harus di elemen)
         if (lightbox.style.display === 'flex') {
-             // Pastikan sentuhan terakhir di dalam layar (tidak harus di elemen)
             touchendX = event.changedTouches[0].screenX;
             handleGesture();
         }
     }, false);
 
     function handleGesture() {
-        const minSwipeDistance = 50; // Jarak minimal gesekan untuk dianggap sebagai geser
-
+        const minSwipeDistance = 50; 
         if (touchendX < touchstartX - minSwipeDistance) {
-            // Geser ke Kiri (Mau pindah ke foto Berikutnya/Kanan)
-            changePhoto(1); 
+            changePhoto(1); // Geser ke Kiri -> Next Photo
         }
-
         if (touchendX > touchstartX + minSwipeDistance) {
-            // Geser ke Kanan (Mau pindah ke foto Sebelumnya/Kiri)
-            changePhoto(-1);
+            changePhoto(-1); // Geser ke Kanan -> Previous Photo
         }
     }
     
@@ -1071,7 +1117,6 @@
         const day = String(today.getDate()).padStart(2, '0');
         const todayString = `${month}-${day}`;
 
-        // Mengambil 2 digit bulan dan tanggal dari birthDate siswa
         const birthdayStudents = students.filter(s => {
             if (s.birthDate && s.birthDate.length >= 5) {
                 return s.birthDate.substring(0, 5) === todayString;
@@ -1098,6 +1143,10 @@
         }
     } 
 
+    function closeBirthdayModal() {
+        document.getElementById('birthdayModal').style.display = 'none';
+    }
+    
     function fireConfetti() {
         var duration = 3 * 1000;
         var animationEnd = Date.now() + duration;
@@ -1113,9 +1162,6 @@
         }, 250);
     }
 
-    function closeBirthdayModal() {
-        document.getElementById('birthdayModal').style.display = 'none';
-    }
 
     // ==========================================
     // FITUR QUOTES OF THE DAY 
@@ -1123,7 +1169,7 @@
     const quotesCollection = [
         { text: "Sekolah itu tempat menuntut ilmu, bukan menuntut dia peka.", author: "Anonim" },
         { text: "janganlah kamu menjadi seperti ekspektasi seseorang tapi bertindaklah seperti keinginanmu walau nanti kamu gagal kamu akan tetap bahagia jika itu adalah pilihanmu", author: "KINK MUPLI" },
-        { text: "Tugas menumpuk bukan cobaan, itu hobi guru memberi perhatian.", author: "Pejuang Deadline" },
+        { text: "Kami sebenarnya bisa, cuma males aja", author: "Ibe" },
         { text: "Solidaritas tanpa batas, X.C1 GANK jangan sampai lepas!", author: "Admin Kece" },
         { text: "Matematika mungkin rumit, tapi memahami kode cewek lebih rumit.", author: "Siswa Galau" },
         { text: "Jarak antara mimpi dan kenyataan itu namanya DISIPLIN.", author: "Motivasi Pagi" },
@@ -1152,14 +1198,16 @@
         document.getElementById('dailyAuthor').textContent = `- ${todaysQuote.author}`;
     }
 
- // ==========================================
+
+    // ==========================================
     // FITUR SPOTIFY DYNAMIC RANDOM TRACK
     // ==========================================
 
     const spotifyIframe = document.getElementById('spotifyIframe');
+    const playerContainer = document.getElementById('spotifyPlayerContainer');
+    const toggleButton = document.getElementById('toggleButton');
 
     // GANTI DENGAN ID TRACK DARI PLAYLIST ANDA
-    // ID yang Anda berikan di bawah ini sudah benar.
     const trackIds = [
         '1Q7EgiMOuwDcB0PJC6AzON', 
         '5TTGoX70AFrTvuEtqHK37S', 
@@ -1173,23 +1221,6 @@
         '0KKkJNfGyhkQ5aFogxQAPU',
         '3rPtS4nfpy7PsARctAWpzd',
         '1ShRHPAiiIrh0arZbSFmx1',
-        '34xTFwjPQ1dC6uJmleno7x',
-        '43kiDtoYD0nDJYxzQwclpT',
-        '3siwsiaEoU4Kuuc9WKMUy5',
-        '1f8zcJPvJKvxAOjEqM0pyc',
-        '3TgMcrV32NUKjEG2ujn9eh',
-        '2Ghp894n1laIf2w98VeAOJ',
-        '6jbYpRPTEFl1HFKHk1IC0m',
-        '5rDXfGMWI6S8wkXR0MHsvv',
-        '6qZoQsBTQW2tix6KViDC7F',
-        '0wfnEetPwlLHmnzhRXvPuk',
-        '709p9UGPAuyImWf1Z3vjRo',
-        '736PP5LTtREkDgktNmX3Gu',
-        '2fuYa3Lx06QQJAm0MjztKr',
-        '10nyNJ6zNy2YVYLrcwLccB',
-        '2LMkwUfqC6S6s6qDVlEuzV',
-        
-        // Tambahkan sebanyak mungkin ID lagu dari playlist Anda untuk variasi!
     ];
 
     function loadRandomSpotifyTrack() {
@@ -1199,12 +1230,31 @@
         const randomIndex = Math.floor(Math.random() * trackIds.length);
         const randomTrackId = trackIds[randomIndex];
         
-        // 2. Membangun URL embed untuk single track (mode compact)
-        // ** INI BARIS KRITIS YANG DIPERBAIKI **
-        const embedUrl = `https://open.spotify.com/embed/track/${randomTrackId}?utm_source=generator&autoplay=1`;
+        // 2. Membangun URL embed untuk single track
+        const embedUrl = `https://open.spotify.com/embed/track/${randomTrackId}?utm_source=generator&autoplay=1&theme=0&compact=1`;
         
         // Set sumber iframe
         spotifyIframe.src = embedUrl;
+    }
+
+    // Fungsi untuk membuka dan menutup container (dengan animasi CSS)
+    function toggleSpotifyPlayer() {
+        if (!playerContainer || !toggleButton) return;
+        
+        const isOpen = playerContainer.classList.contains('open');
+
+        if (isOpen) {
+            // Jika terbuka, tutup
+            playerContainer.classList.remove('open');
+            toggleButton.classList.remove('open');
+            toggleButton.querySelector('i').className = 'fab fa-spotify'; // Kembali ke icon Spotify
+        } else {
+            // Jika tertutup, buka
+            playerContainer.classList.add('open');
+            toggleButton.classList.add('open');
+            // Ganti icon menjadi panah ke bawah (menandakan bisa ditutup)
+            toggleButton.querySelector('i').className = 'fas fa-chevron-down'; 
+        }
     }
 
 
@@ -1216,7 +1266,14 @@
         
         // PANGGIL FUNGSI RANDOM TRACK SAAT HALAMAN DIMUAT
         loadRandomSpotifyTrack();
+        
+        // Tambahkan Event Listener ke Tombol Toggle Spotify
+        if (toggleButton) {
+            toggleButton.addEventListener('click', toggleSpotifyPlayer);
+            // Secara default, tunjukkan icon Spotify saat pertama kali dimuat
+            toggleButton.querySelector('i').className = 'fab fa-spotify';
+        }
     });
-</script>
+  </script>
 </body>
 </html>
