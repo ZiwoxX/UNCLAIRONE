@@ -110,35 +110,38 @@
     }
 
     /* ========================================= */
-    /* --- STYLE RUNNING QUOTES (ANIMASI) --- */
+    /* --- STYLE RUNNING QUOTES (HYBRID SCROLL) --- */
     /* ========================================= */
     .running-quotes-wrapper {
         width: 100%;
-        overflow: hidden;
+        /* Mengaktifkan Scroll Horizontal manual */
+        overflow-x: auto; 
         margin-bottom: 40px;
         padding: 20px 0;
         position: relative;
         background: linear-gradient(to right, rgba(106, 68, 216, 0.05), rgba(0, 0, 0, 0.2), rgba(106, 68, 216, 0.05));
         border-top: 1px solid rgba(106, 68, 216, 0.4);
         border-bottom: 1px solid rgba(106, 68, 216, 0.4);
-        mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-        -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-        box-shadow: inset 0 0 30px rgba(106, 68, 216, 0.2);
+        box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
+        
+        /* Mengubah kursor untuk indikasi drag */
+        cursor: grab; 
+        /* Menyembunyikan scrollbar di beberapa browser */
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
     }
-
+    .running-quotes-wrapper::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
+    
     .running-track {
         display: flex;
         width: max-content;
-        animation: scrollLeft 80s linear infinite; /* Kecepatan lambat */
+        /* ANIMASI CSS DIHAPUS, DIGANTI OLEH JS SCROLL */
         padding-left: 20px;
+        white-space: nowrap; 
     }
     
-    /* MODIFIKASI: Menghapus efek pause on hover agar tetap berjalan */
-    /* .running-quotes-wrapper:hover .running-track {
-        animation-play-state: paused;
-    } 
-    */
-
     .student-quote-card {
         background: linear-gradient(145deg, #2a1b3d, #151525);
         border-left: 3px solid #7e62ff;
@@ -152,9 +155,19 @@
         justify-content: center;
         box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         transition: all 0.3s ease;
-        cursor: pointer; /* MODIFIKASI: Mengubah kursor jadi pointer */
+        cursor: pointer; 
+        user-select: none; 
+
+        /* --- PERBAIKAN: Menjaga KONSISTENSI tinggi card --- */
+        min-height: 120px; 
+        height: auto; 
+        box-sizing: border-box; 
     }
     
+    .running-quotes-wrapper.active-drag {
+        cursor: grabbing;
+    }
+
     .student-quote-card:hover {
         transform: scale(1.05) translateY(-5px);
         background: linear-gradient(145deg, #35224d, #1d1d33);
@@ -173,7 +186,14 @@
         color: #e0e0e0;
         margin-bottom: 10px;
         line-height: 1.5;
-        pointer-events: none; /* Agar klik tembus ke card */
+        pointer-events: none; 
+        
+        /* --- PERBAIKAN: Memotong teks yang terlalu panjang dengan ellipsis --- */
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4; /* Batasi hingga 4 baris */
+        overflow: hidden;
+        text-overflow: ellipsis; 
     }
 
     .sq-author {
@@ -199,11 +219,8 @@
     .student-quote-card:hover .sq-author img {
         border-color: #ff775c;
     }
-
-    @keyframes scrollLeft {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); } 
-    }
+    
+    /* Keyframes untuk animasi CSS dihilangkan karena diganti JS Scroll */
 
     /* --- STYLE STATISTIK KELAS --- */
     .stats-container {
@@ -754,10 +771,11 @@
           min-width: 210px;
           padding: 12px 15px;
           margin: 0 10px;
+          min-height: 110px; /* Sesuaikan min-height mobile */
       }
+
       .sq-text { font-size: 0.85rem; }
-      /* KECEPATAN MOBILE DIPERLAMBAT: Diubah dari 30s menjadi 60s */
-      .running-track { animation-duration: 60s; }
+      /* Properti animasi CSS dihilangkan */
 
       /* Mobile Quote Popup */
       .quote-modal-text { font-size: 1.1rem; }
@@ -1140,7 +1158,7 @@
         return { organizationCounts: organizationCounts };
     }
 
-    // ** LOGIKA PENCARIAN SAJA **
+    // Pencarian ea
     function filterStudents() {
         const input = document.getElementById('searchInput');
         const filterText = input.value.toUpperCase();
@@ -1386,14 +1404,13 @@
     }
 
     // ==========================================
-    // FITUR RUNNING STUDENT QUOTES (MODIFIKASI: Tambah Event Click)
+    // FITUR STUDENT QUOTES (HYBRID: JS SCROLL + DRAG)
     // ==========================================
     function renderStudentQuotes() {
         const track = document.getElementById('studentQuotesTrack');
         if (!track) return;
 
         // Mengambil siswa yang punya QUOTE yang valid (bukan string kosong)
-        // Kita simpan juga index asli dari array `students` agar mudah diambil datanya
         const activeStudentsData = students.map((s, index) => ({...s, originalIndex: index}))
                                            .filter(s => s.quote && s.quote.length > 2);
 
@@ -1415,12 +1432,15 @@
             allCardsHTML += createCard(studentData);
         });
 
-        // 2. DUPLIKASI KONTEN (Agar loop animasi berjalan mulus tanpa jeda)
-        track.innerHTML = allCardsHTML + allCardsHTML; 
+        // Hanya render 1 set
+        track.innerHTML = allCardsHTML; 
     }
 
     // ** FUNGSI BARU: MEMBUKA DAN MENUTUP MODAL QUOTE **
     function openQuoteModal(index) {
+        // Mencegah modal muncul jika sedang dalam mode drag (untuk mencegah klik tidak sengaja)
+        if (isDragging) return; 
+        
         const s = students[index];
         const modal = document.getElementById('quoteModal');
         
@@ -1433,6 +1453,127 @@
 
     function closeQuoteModal() {
         document.getElementById('quoteModal').style.display = 'none';
+    }
+
+
+    // ==========================================
+    // LOGIKA DRAG/SWIPE & AUTO SCROLL (PENGGANTI ANIMASI CSS)
+    // ==========================================
+    const scrollWrapper = document.querySelector('.running-quotes-wrapper');
+    // Variabel untuk Kontrol Scroll Otomatis & Drag
+    let scrollInterval;
+    let isDragging = false;
+    let startX;
+    let scrollLeft;
+    
+    // --- FUNGSI AUTO SCROLL ---
+    function startAutoScroll() {
+        if (!scrollWrapper) return;
+        // Hentikan interval yang berjalan (jika ada)
+        if (scrollInterval) clearInterval(scrollInterval);
+        
+        const scrollSpeed = 0.5; // Kecepatan (piksel per 10ms). Sesuaikan nilai ini.
+        const intervalMs = 10;
+        
+        scrollInterval = setInterval(() => {
+            // Hentikan jika pengguna sedang melakukan drag
+            if (isDragging) return; 
+
+            // Scroll ke kanan untuk membuat konten bergerak dari kanan ke kiri
+            scrollWrapper.scrollLeft += scrollSpeed; 
+
+            // Ketika sudah mencapai ujung, reset ke awal
+            // Memberi sedikit margin (misalnya 1 piksel) agar tidak terus-menerus mereset saat mendekati ujung.
+            if (scrollWrapper.scrollLeft + scrollWrapper.clientWidth >= scrollWrapper.scrollWidth - 1) {
+                scrollWrapper.scrollLeft = 0; 
+            }
+        }, intervalMs);
+    }
+
+    function stopAutoScroll() {
+        if (scrollInterval) {
+            clearInterval(scrollInterval);
+            scrollInterval = null;
+        }
+    }
+
+    // --- LOGIKA DRAG/SWIPE ---
+    if (scrollWrapper) {
+        const onMouseDown = (e) => {
+            if (e.button !== 0) return; 
+            isDragging = true;
+            scrollWrapper.classList.add('active-drag');
+            // PAUSE AUTO SCROLL SAAT MULAI DRAG
+            stopAutoScroll(); 
+            
+            startX = e.pageX - scrollWrapper.offsetLeft;
+            scrollLeft = scrollWrapper.scrollLeft;
+            // Menambahkan event listener ke window agar tetap melacak gerakan mouse jika keluar dari wrapper
+            window.addEventListener('mousemove', onMouseMove);
+            window.addEventListener('mouseup', onMouseUp);
+        };
+
+        const onTouchStart = (e) => {
+            if (e.touches.length !== 1) return;
+            isDragging = true;
+            scrollWrapper.classList.add('active-drag');
+            // PAUSE AUTO SCROLL SAAT MULAI DRAG
+            stopAutoScroll(); 
+
+            startX = e.touches[0].pageX - scrollWrapper.offsetLeft;
+            scrollLeft = scrollWrapper.scrollLeft;
+            // Menambahkan event listener ke window
+            window.addEventListener('touchmove', onTouchMove, { passive: false });
+            window.addEventListener('touchend', onTouchEnd);
+        };
+        
+        const onMouseMove = (e) => {
+            if (!isDragging) return;
+            e.preventDefault(); 
+            const x = e.pageX - scrollWrapper.offsetLeft;
+            const walk = (x - startX) * 1.5; // Faktor pengali
+            scrollWrapper.scrollLeft = scrollLeft - walk; 
+        };
+
+        const onTouchMove = (e) => {
+            if (!isDragging) return;
+            if (e.touches.length !== 1) return; 
+
+            const x = e.touches[0].pageX - scrollWrapper.offsetLeft;
+            const walk = (x - startX) * 1.5;
+            
+            // Mencegah aksi default hanya ketika gerakan dominan horizontal
+            if (Math.abs(x - startX) > 10) { 
+                e.preventDefault(); 
+            }
+            scrollWrapper.scrollLeft = scrollLeft - walk;
+        };
+        
+        const onMouseUp = () => {
+            // Sedikit jeda untuk memastikan event 'click' tidak terpicu
+            setTimeout(() => { isDragging = false; }, 100); 
+            scrollWrapper.classList.remove('active-drag');
+            window.removeEventListener('mousemove', onMouseMove);
+            window.removeEventListener('mouseup', onMouseUp);
+            
+            // RESTART AUTO SCROLL SETELAH SELESAI DRAG
+            // Jeda sebentar sebelum restart
+            setTimeout(startAutoScroll, 500); 
+        };
+
+        const onTouchEnd = () => {
+            setTimeout(() => { isDragging = false; }, 100);
+            scrollWrapper.classList.remove('active-drag');
+            window.removeEventListener('touchmove', onTouchMove);
+            window.removeEventListener('touchend', onTouchEnd);
+            
+            // RESTART AUTO SCROLL SETELAH SELESAI SWIPE
+            setTimeout(startAutoScroll, 500); 
+        };
+
+        scrollWrapper.addEventListener('mousedown', onMouseDown);
+        // Menggunakan { passive: true } di sini agar performa awal touch lebih baik
+        scrollWrapper.addEventListener('touchstart', onTouchStart, { passive: true }); 
     }
 
 
@@ -1501,7 +1642,10 @@
         displayDailyQuote();
         calculateAndDisplayStats(); 
         
-        renderStudentQuotes(); // Panggil fitur Running Quotes
+        renderStudentQuotes(); // Panggil fitur Running Quotes (sekarang Hybrid Scroll)
+        
+        // PANGGIL FUNGSI AUTO SCROLL BARU
+        startAutoScroll(); 
         
         // PANGGIL FUNGSI RANDOM TRACK SAAT HALAMAN DIMUAT
         loadRandomSpotifyTrack();
