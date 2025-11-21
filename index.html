@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>10 C.1 GANK - Detail Siswa</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
@@ -19,7 +22,7 @@
       padding: 20px;
     }
 
-    /* CSS BARU UNTUK HYPERLINK DI KIRI ATAS */
+    /* --- CSS HYPERLINK (NAVIGASI) --- */
     .nav-link-left { 
         position: absolute;
         top: 20px;
@@ -34,13 +37,8 @@
         transition: background 0.3s, color 0.3s;
         z-index: 2; 
     }
-
-    .nav-link-left:hover {
-        background: #6a44d8;
-        color: #ffffff;
-    }
+    .nav-link-left:hover { background: #6a44d8; color: #ffffff; }
     
-    /* CSS BARU UNTUK HYPERLINK DI KANAN ATAS */
     .nav-link-right {
         position: absolute;
         top: 20px;
@@ -55,12 +53,7 @@
         transition: background 0.3s, color 0.3s;
         z-index: 2;
     }
-
-    .nav-link-right:hover {
-        background: #6a44d8;
-        color: #ffffff;
-    }
-    /* AKHIR CSS HYPERLINK */
+    .nav-link-right:hover { background: #6a44d8; color: #ffffff; }
 
     h1 {
       margin-bottom: 30px;
@@ -69,6 +62,50 @@
       letter-spacing: 1.5px;
       color: #ffffff;
       text-shadow: 0 0 10px #6a44d8;
+      margin-top: 40px; /* Jarak agar tidak tertutup nav */
+      text-align: center;
+    }
+
+    /* --- STYLE QUOTE OF THE DAY (BARU) --- */
+    .quote-box {
+        background: rgba(255, 255, 255, 0.05);
+        border-left: 5px solid #ff775c; /* Aksen oranye */
+        border-radius: 15px;
+        padding: 20px 30px;
+        margin: 0 auto 40px auto; /* Margin bawah agar tidak nempel card siswa */
+        max-width: 800px;
+        width: 90%;
+        text-align: center;
+        position: relative;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        backdrop-filter: blur(5px);
+        transition: transform 0.3s;
+    }
+    .quote-box:hover {
+        transform: scale(1.02);
+        background: rgba(255, 255, 255, 0.08);
+    }
+    .quote-icon {
+        font-size: 1.5rem;
+        color: #ff775c;
+        margin-bottom: 10px;
+        opacity: 0.8;
+    }
+    .quote-text {
+        font-size: 1.1rem;
+        font-style: italic;
+        line-height: 1.6;
+        margin: 0;
+        color: #e0e0e0;
+        font-weight: 300;
+    }
+    .quote-author {
+        margin-top: 10px;
+        font-weight: 700;
+        color: #bdb6f0;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
     .container {
@@ -79,7 +116,7 @@
       max-width: 1300px;
     }
 
-    /* Modifikasi Card: Tambah kursor pointer */
+    /* --- Card Siswa --- */
     .card {
       background: linear-gradient(145deg, #2a1b3d, #1a1a2e);
       border-radius: 25px;
@@ -94,7 +131,6 @@
       padding: 25px;
       border: 1px solid #4a3c7a;
       cursor: pointer; 
-
       opacity: 0;
       transform: translateY(20px);
       animation-fill-mode: forwards;
@@ -113,14 +149,8 @@
     }
 
     @keyframes fadeSlideUp {
-      0% {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
     .photo {
@@ -134,33 +164,11 @@
       background-color: #3d2c66;
     }
 
-    .name {
-      font-weight: 700;
-      font-size: 1.3rem;
-      margin-bottom: 10px;
-      text-align: center;
-      color: #ffffff;
-    }
+    .name { font-weight: 700; font-size: 1.3rem; margin-bottom: 10px; text-align: center; color: #ffffff; }
+    .info { font-size: 0.95rem; line-height: 1.4; text-align: center; margin-bottom: 5px; }
+    .label { font-weight: 600; color: #bdb6f0; }
+    .ig-label { display: block; text-align: center; margin-bottom: 2px; }
 
-    .info {
-      font-size: 0.95rem;
-      line-height: 1.4;
-      text-align: center;
-      margin-bottom: 5px;
-    }
-
-    .label {
-      font-weight: 600;
-      color: #bdb6f0;
-    }
-    
-    .ig-label {
-      display: block; 
-      text-align: center;
-      margin-bottom: 2px;
-    }
-
-    /* --- Style Instagram Link --- */
     .instagram-link {
       color: #bdb6f0;
       text-decoration: none;
@@ -169,24 +177,16 @@
       align-items: center; 
       justify-content: center; 
     }
-
     .instagram-link::before {
       content: url('https://cdn-icons-png.flaticon.com/16/2111/2111463.png');
-      width: 16px;
-      height: 16px;
-      margin-right: 6px; 
+      width: 16px; height: 16px; margin-right: 6px; 
     }
-    /* --- AKHIR Style Instagram Link --- */
-
-    .instagram-link:hover {
-      color: #7e62ff;
-      text-decoration: underline;
-    }
+    .instagram-link:hover { color: #7e62ff; text-decoration: underline; }
 
     /* --- Style Modal / Pop-up --- */
     .modal {
       position: fixed;
-      z-index: 1;
+      z-index: 100;
       left: 0;
       top: 0;
       width: 100%;
@@ -194,12 +194,11 @@
       background-color: rgba(0, 0, 0, 0.8); 
       backdrop-filter: blur(5px);
       animation: fadeIn 0.3s;
-      
       display: none; 
       justify-content: center; 
       align-items: center; 
       overflow-y: auto; 
-      padding: 0; /* PERBAIKAN 1: Dibuat 0 */
+      padding: 0; /* Fix untuk mobile centering */
     }
 
     .modal-content {
@@ -209,231 +208,93 @@
       box-shadow: 0 0 50px rgba(106, 68, 216, 0.8);
       width: 90%;
       max-width: 800px;
-
-      /* PERBAIKAN 2: Tambahkan margin auto untuk pemusatan yang lebih kuat */
-      margin-top: 20px;
-      margin-bottom: 20px;
-      margin-left: auto;
-      margin-right: auto;
-      
       position: relative;
       color: #e0e0e0;
       animation: slideIn 0.4s ease-out;
       border: 2px solid #6a44d8;
-
       max-height: 95vh; 
       overflow-y: auto; 
+      
+      /* Centering Fix */
+      margin: auto; 
     }
 
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-
-    @keyframes slideIn {
-        from { transform: translateY(-50px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
-    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
     .close-btn {
       color: #bbb;
-      position: absolute; /* Ganti float: right dengan absolute position */
+      position: absolute; 
       top: 15px;
       right: 25px;
       font-size: 35px;
       font-weight: bold;
       transition: color 0.3s;
       cursor: pointer;
-      z-index: 1; 
+      z-index: 10; 
     }
+    .close-btn:hover { color: #7e62ff; }
 
-    .close-btn:hover,
-    .close-btn:focus {
-      color: #7e62ff;
-      text-decoration: none;
-    }
-
-    .modal-header {
-      text-align: center;
-      margin-bottom: 20px;
-      border-bottom: 2px solid #4a3c7a;
-      padding-bottom: 10px;
-    }
-
+    .modal-header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #4a3c7a; padding-bottom: 10px; }
     .modal-photo {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 5px solid #7e62ff;
-      box-shadow: 0 0 30px rgba(106, 68, 216, 0.5);
-      margin-bottom: 15px;
+      width: 150px; height: 150px; border-radius: 50%; object-fit: cover;
+      border: 5px solid #7e62ff; box-shadow: 0 0 30px rgba(106, 68, 216, 0.5); margin-bottom: 15px;
     }
-
-    .modal-name {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #ffffff;
-    }
-
-    .modal-details {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 20px;
-      padding: 10px;
-      border-radius: 10px;
-      background: #1a1a2e;
-      border-left: 5px solid #6a44d8;
-    }
-
-    .modal-details p {
-        margin: 0;
-        line-height: 1.6;
-    }
+    .modal-name { font-size: 2rem; font-weight: 700; color: #ffffff; }
     
-    .modal-details .label {
-        color: #7e62ff;
-        font-weight: 700;
-        width: 100px;
-        display: inline-block;
+    .modal-details {
+      display: flex; flex-direction: column; gap: 10px; margin-top: 20px;
+      padding: 10px; border-radius: 10px; background: #1a1a2e; border-left: 5px solid #6a44d8;
     }
+    .modal-details p { margin: 0; line-height: 1.6; }
+    .modal-details .label { color: #7e62ff; font-weight: 700; width: 100px; display: inline-block; }
 
     /* Style Galeri Foto */
-    .photo-gallery {
-      margin-top: 30px;
-    }
-    .photo-gallery h3 {
-        color: #bdb6f0;
-        border-bottom: 1px solid #4a3c7a;
-        padding-bottom: 5px;
-        margin-bottom: 15px;
-        font-weight: 600;
-    }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-      gap: 10px;
-    }
+    .photo-gallery { margin-top: 30px; }
+    .photo-gallery h3 { color: #bdb6f0; border-bottom: 1px solid #4a3c7a; padding-bottom: 5px; margin-bottom: 15px; font-weight: 600; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
     .gallery-img {
-      width: 100%;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 10px;
-      transition: transform 0.3s ease;
-      border: 2px solid #4a3c7a;
-      cursor: pointer;
+      width: 100%; height: 100px; object-fit: cover; border-radius: 10px;
+      transition: transform 0.3s ease; border: 2px solid #4a3c7a; cursor: pointer;
     }
-    .gallery-img:hover {
-      transform: scale(1.05);
-      border-color: #7e62ff;
-    }
+    .gallery-img:hover { transform: scale(1.05); border-color: #7e62ff; }
 
-    /* --- Style LightBox/Full-Screen Viewer --- */
+    /* --- LightBox --- */
     .lightbox {
-      display: none; 
-      position: fixed;
-      z-index: 10; 
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.9);
-      animation: fadeIn 0.3s;
-      
-      justify-content: center; 
-      align-items: center; 
+      display: none; position: fixed; z-index: 200; left: 0; top: 0;
+      width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.9);
+      animation: fadeIn 0.3s; justify-content: center; align-items: center; 
     }
-
     .lightbox-content {
-      width: auto; 
-      height: auto;
-      max-width: 90%; 
-      max-height: 90vh; 
-      
-      display: block;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(106, 68, 216, 0.5);
-      animation: zoomIn 0.4s;
-      
-      margin: auto; 
+      width: auto; height: auto; max-width: 90%; max-height: 90vh; 
+      display: block; border-radius: 10px; box-shadow: 0 0 20px rgba(106, 68, 216, 0.5);
+      animation: zoomIn 0.4s; margin: auto; 
     }
-
-    @keyframes zoomIn {
-      from { transform: scale(0.8); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
+    @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     .lightbox-close-btn {
-      position: absolute;
-      top: 15px;
-      right: 35px;
-      color: #f1f1f1;
-      font-size: 40px;
-      font-weight: bold;
-      transition: 0.3s;
-      cursor: pointer;
+      position: absolute; top: 15px; right: 35px; color: #f1f1f1;
+      font-size: 40px; font-weight: bold; cursor: pointer;
     }
 
-    .lightbox-close-btn:hover,
-    .lightbox-close-btn:focus {
-      color: #7e62ff;
-    }
-    
+    /* --- Responsif Mobile --- */
     @media (max-width: 480px) {
-      .card {
-        padding: 20px;
-      }
-      .photo {
-        width: 110px;
-        height: 110px;
-      }
-      h1 {
-        font-size: 2rem;
-      }
-      /* Sesuaikan posisi link di mobile */
-      .nav-link-left { 
-        top: 10px;
-        left: 10px;
-        font-size: 0.9rem;
-        padding: 3px 8px;
-      }
+      .card { padding: 20px; }
+      .photo { width: 110px; height: 110px; }
+      h1 { font-size: 2rem; }
+      
+      /* Posisi Navigasi Mobile */
+      .nav-link-left { top: 10px; left: 10px; font-size: 0.9rem; padding: 3px 8px; }
       .nav-link-right { 
-        top: 10px;
-        right: 10px;
-        font-size: 0.9rem;
-        padding: 3px 8px;
-        max-width: 45%; 
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        top: 10px; right: 10px; font-size: 0.9rem; padding: 3px 8px;
+        max-width: 45%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
       }
 
-      .modal-content {
-          padding: 20px 15px; /* Kurangi padding horizontal */
-          width: 95%; 
-          margin-top: 10px; /* Jarak dari atas di mobile */
-          margin-bottom: 10px; /* Jarak dari bawah di mobile */
-      }
-      .modal-name {
-          font-size: 1.5rem;
-      }
-      .modal-photo {
-          width: 100px;
-          height: 100px;
-      }
-      .gallery-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-      .lightbox-content {
-        max-width: 95%; 
-        max-height: 90vh; 
-      }
-      .lightbox {
-        padding-top: 0; 
-      }
+      .quote-text { font-size: 1rem; } /* Font quote lebih kecil di mobile */
+
+      .modal-content { padding: 20px 15px; width: 95%; }
+      .modal-name { font-size: 1.5rem; }
+      .modal-photo { width: 100px; height: 100px; }
+      .gallery-grid { grid-template-columns: repeat(3, 1fr); }
     }
   </style>
   
@@ -441,20 +302,26 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 </head>
 <body>
   <a href="https://xcerdas1.vercel.app/" class="nav-link-left">Home / Beranda</a>
-  
   <a href="prestasi.html" class="nav-link-right">Prestasi Kelas 🏆</a>
 
-
   <h1>UNCLAIRONE STUDENTS</h1>
+
+  <div class="quote-box">
+      <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+      <p id="dailyQuote" class="quote-text">Loading quote...</p>
+      <p id="dailyAuthor" class="quote-author"></p>
+  </div>
+
   <div class="container" id="studentContainer"></div>
 
   <div id="studentModal" class="modal">
     <div class="modal-content">
-      <span class="close-btn">&times;</span>
+      <span class="close-btn" onclick="closeStudentModal()">&times;</span>
       <div class="modal-header">
         <img id="modalPhoto" class="modal-photo" src="" alt="" title="" /> 
         <h2 id="modalName" class="modal-name"></h2>
@@ -472,9 +339,22 @@
 
       <div class="photo-gallery">
           <h3>Galeri Foto Lainnya (Klik untuk memperbesar)</h3>
-          <div class="gallery-grid" id="modalGallery">
-              </div>
+          <div class="gallery-grid" id="modalGallery"></div>
       </div>
+    </div>
+  </div>
+
+  <div id="birthdayModal" class="modal" style="display: none; z-index: 9999;">
+    <div class="modal-content" style="text-align: center; border: 3px solid #ff4359; max-width: 500px;">
+        <span class="close-btn" onclick="closeBirthdayModal()">&times;</span>
+        <div style="font-size: 4rem; margin-bottom: 10px;">🎂</div>
+        <h2 style="color: #ff775c; font-size: 2rem; margin-bottom: 10px;">HAPPY BIRTHDAY!</h2>
+        <p style="font-size: 1.2rem;">Selamat Ulang Tahun untuk:</p>
+        
+        <div id="birthdayPerson" style="margin: 20px 0; display: flex; flex-direction: column; align-items: center;"></div>
+        
+        <p style="color: #bdb6f0;">Semoga panjang umur, sehat selalu, dan makin solid di 10 C.1!</p>
+        <button onclick="closeBirthdayModal()" style="margin-top: 20px; padding: 10px 25px; background: #ff4359; color: white; border: none; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 1rem;">Aamiin 🤲</button>
     </div>
   </div>
 
@@ -485,24 +365,24 @@
 
 
   <script>
-    // **LANGKAH 1: INISIALISASI FIREBASE (HARUS DIGANTI DENGAN KUNCI ANDA!)**
+    // **LANGKAH 1: KONFIGURASI FIREBASE**
     const firebaseConfig = {
-  apiKey: "AIzaSyAnouQgMTahiA0R3pyKb6n_qHYFhX4tfgU",
-  authDomain: "website-25711.firebaseapp.com",
-  databaseURL: "https://website-25711-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "website-25711",
-  storageBucket: "website-25711.appspot.com",
-  messagingSenderId: "38660762483",
-  appId: "1:38660762483:web:8f0fa0be46a2e901ceb306",
-  measurementId: "G-6VB4PRBFYV"
+      apiKey: "AIzaSyAnouQgMTahiA0R3pyKb6n_qHYFhX4tfgU",
+      authDomain: "website-25711.firebaseapp.com",
+      databaseURL: "https://website-25711-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "website-25711",
+      storageBucket: "website-25711.appspot.com",
+      messagingSenderId: "38660762483",
+      appId: "1:38660762483:web:8f0fa0be46a2e901ceb306",
+      measurementId: "G-6VB4PRBFYV"
     };
 
     // Inisialisasi Firebase
     const app = firebase.initializeApp(firebaseConfig);
     const db = app.firestore();
-    // const storage = app.storage(); // Tidak perlu storage di sini, hanya firestore
 
-    // Data Siswa
+    // ** DATA SISWA (Termasuk Tanggal Lahir) **
+    // Format birthDate: "BB-HH" (Bulan-Hari)
     const students = [
       {
         name: "Ainun Mardiansyah",
@@ -512,8 +392,8 @@
         photo: "image/Ainun.jpg",
         religion: "Islam",
         organization: "Inteens", 
-        // Data gallery lokal (digunakan sebagai fallback jika Firestore gagal)
-        gallery: ["image/Ainun.jpg", "Foto Lainnya XC1/1.Ainun Mardi/AinunM1.jpeg", "Foto Lainnya XC1/1.Ainun Mardi/AinunM2.jpeg",]
+        gallery: [],
+        birthDate: "03-13" 
       },
       {
         name: "Akifa Naila",
@@ -522,61 +402,61 @@
         instagram: "akiipanaila",
         photo: "image/Naila.jpg",
         religion: "Islam",
-        organization: "UNIONE/Sanggar Seni",
-        gallery: ["image/Naila.jpg", "Foto Lainnya XC1/2.Akifa/Naila1.jpg",]
+        organization: "OSIS",
+        gallery: [],
+        birthDate: "05-15"
       },
-      {name: "Akil Maula S", age: 16, hobby: "Mancing", instagram: "kikiuuuz", photo: "image/Akil.jpg", religion: "Islam", organization: "SEGA", gallery: ["Foto Lainnya XC1/3.Akil/Akil.jpg", "Foto Lainnya XC1/3.Akil/Akil1.jpg", "Foto Lainnya XC1/3.Akil/Akil2.jpg",]},
-      {name: "Amirah Zafirah", age: 16, hobby: "Yapping", instagram: "amirahpspra", photo: "image/Amirah.jpg", religion: "Islam", organization: "Paskibra", gallery: ["image/Amirah.jpg"]},
-      {name: "Andi Naurah", age: 16, hobby: "Nonton Windah", instagram: "nauurahkhalilah", photo: "image/Naura.jpg", religion: "Islam", organization: "KITS/Sega/Sanggar Seni", gallery: []},
-      {name: "Anindya Ainun", age: 16, hobby: "gatau", instagram: "_anindyainun", photo: "image/Ainun purba.jpg", religion: "Islam", organization: "Smansa Voice", gallery: ["https://randomuser.me/api/portraits/men/6.jpg", "image/Claring.jpg"]},
-      {name: "Annisa Maylafaiza", age: 16, hobby: "Minta Hotspots", instagram: "annisamaylaa_", photo: "image/Anisa.jpg", religion: "Islam", organization: "Sanggar Seni", gallery: ["image/Anisa.jpg"]},
-      {name: "Aprilia Hastikasari", age: 16, hobby: "Bebeng", instagram: "liaaahyy", photo: "image/April.jpg", religion: "Islam", organization: "Pramuka", gallery: ["image/April.jpg",]},
-      {name: "Clarinta Amabel", age: 16, hobby: "Main ML", instagram: "claebell", photo: "image/Claring.jpg", religion: "Protestan", organization: "KITS/Inteens/Sega/PPKS", gallery: ["image/Claring.jpg",]},
-      {name: "Dhia Syarafana", age: 16, hobby: "Slowmotion", instagram: "syeradelrey", photo: "image/Dhia.jpg", religion: "Islam", organization: "Tidak Ada", gallery: ["image/Dhia.jpg"]},
-      {name: "Fitri", age: 16, hobby: "yapping", instagram: "ffitri1_", photo: "image/Titi.jpg", religion: "Islam", organization: "Tidak Ada", gallery: ["image/Titi.jpg"]},
-      {name: "Hodia", age: 16, hobby: "Nonton Windah", instagram: "odiaa_a", photo: "image/Odi.jpg", religion: "Protestan", organization: "Sega/OSIS/Inteens", gallery: ["image/Odi.jpg"]},
-      {name: "Husnul Khatimah", age: 16, hobby: "Main sama Rasya", instagram: "hsnllkhtmh__", photo: "image/Husnul.jpg", religion: "Islam", organization: "Pramuka", gallery: ["image/Husnul.jpg",]},
-      {name: "Miftahul", age: 16, hobby: "Minta Hotspot", instagram: "miftahuljannah1507_", photo: "image/Mita.jpg", religion: "Islam", organization: "Paskibra", gallery: ["image/Mita.jpg",]},
-      {name: "Fathur Jibriel", age: 15, hobby: "Basket", instagram: "ndadapateuy", photo: "image/patur.jpg", religion: "Islam", organization: "Basket", gallery: ["image/patur.jpg", "image/Ibe.jpg"]},
-      {name: "Muh.Ibrahim", age: 15, hobby: "Takraw", instagram: "ibe_6610", photo: "image/Ibe.jpg", religion: "Islam", organization: "Paskibra", gallery: ["Foto Lainnya XC1/16.Ibrahim/Ibe1.jpeg", "Foto Lainnya XC1/16.Ibrahim/Ibe2.jpeg", "Foto Lainnya XC1/16.Ibrahim/Ibe3.jpeg", "Foto Lainnya XC1/16.Ibrahim/Ibe4.jpeg",]},
-      {name: "Muh.Tsaqiff", age: 15, hobby: "Main epep", instagram: "muhtsaqiffal", photo: "image/Tsaqif.jpg", religion: "Islam", organization: "Smansa Voice", gallery: ["image/Tsaqif.jpg",]},
-      {name: "Muh.Alif Falah Jordan", age: 15, hobby: "Basket", instagram: "_alipjrdan", photo: "image/Alip.jpg", religion: "Islam", organization: "Basket", gallery: ["Foto Lainnya XC1/18.Alif/Alif1.jpeg", "Foto Lainnya XC1/18.Alif/Alif2.jpeg"]},
-      {name: "Muh.Faiz Aswin", age: 15, hobby: "Bewan sama Akil", instagram: "mhmmdfaizz28", photo: "image/Faiz.jpg", religion: "Islam", organization: "Tidak Ada", gallery: ["image/Faiz.jpg",]},
-      {name: "Kink Muflih", age: 15, hobby: "Nonton Anime", instagram: "muflih_zaky", photo: "image/Mupli.jpg", religion: "Islam", organization: "Tidak Ada", gallery: ["image/Mupli.jpg",]},
-      {name: "M.Raihaan", age: 15, hobby: "Topup Dm", instagram: "rhnzki_16", photo: "image/Rehan.jpg", religion: "Islam", organization: "Putra Putri Smansa", gallery: ["image/Rehan.jpg",]},
-      {name: "Nagym", age: 15, hobby: "Tidur", instagram: "nagymm_", photo: "image/Nagym.jpg", religion: "Islam", organization: "KITS", gallery: ["image/Nagym.jpg",]},
-      {name: "Naufal Qawwiy", age: 15, hobby: "Tektok Gn", instagram: "naufalqawiyy", photo: "image/nopal.jpg", religion: "Islam", organization: "Wasipalah", gallery: ["Foto Lainnya XC1/23.Naufal/Naufal1.jpeg", "Foto Lainnya XC1/23.Naufal/Naufal2.jpeg"]},
-      {name: "Nur Nadya Afifah", age: 16, hobby: "Mengaji", instagram: "dyaafifah_", photo: "image/Afifah.jpg", religion: "Islam", organization: "Komunitas Pelajar Muslim", gallery: ["image/Afifah.jpg",]},
-      {name: "Nurfadillah Quinsya", age: 16, hobby: "Cari Cogan", instagram: "nurfdilhqsya_", photo: "image/Nyonyo.jpg", religion: "Islam", organization: "Sanggar Seni", gallery: ["image/Nyonyo.jpg", "Foto Lainnya XC1/25.Nyonyo/Nyonyo.jpg", "Foto Lainnya XC1/25.Nyonyo/Nyonyo1.jpg"]},
-      {name: "Qonitha Cleonima", age: 16, hobby: "Silat", instagram: "qoniitataa", photo: "image/Qoni.jpeg", religion: "Islam", organization: "Paskibra", gallery: ["image/Qoni.jpeg", "Foto Lainnya XC1/26.Qonita/Qoni.jpg"]},
-      {name: "Rafailah Andini", age: 16, hobby: "Nda tau", instagram: "rafailahandini", photo: "image/dini.jpg", religion: "Islam", organization: "OSIS/PMR", gallery: ["image/dini.jpg",]},
-      {name: "Raihanah Nadira", age: 16, hobby: "Nonton yutub", instagram: "raihanadiraa", photo: "image/Raihana.jpg", religion: "Islam", organization: "Sega/Sanggar Seni", gallery: ["image/Raihana.jpg",]},
-      {name: "Rasya Az'Zahra", age: 16, hobby: "Basket", instagram: "rasya_azzahra", photo: "image/Rasyaa.jpg", religion: "Islam", organization: "Basket", gallery: ["image/Rasyaa.jpg",]},
-      {name: "Aulia", age: 16, hobby: "Menggambar", instagram: "auliaaa_dn", photo: "image/Aul.jpg", religion: "Islam", organization: "Paskibra", gallery: ["image/Aul.jpg", "image/Aco.jpg"]},
-      {name: "ACOK NI BOS", age: 15, hobby: "main Bola", instagram: "rrezxkyy30", photo: "image/Aco.jpeg", religion: "Islam", organization: "OSIS/Paskibra", gallery: ["Foto Lainnya XC1/31.Aco/Aco1.jpeg", "image/Aco.jpg"]},
-      {name: "Syifa BTR", age: 16, hobby: "nda tau", instagram: "syfabhtr_", photo: "image/Cipa.jpg", religion: "Islam", organization: "KITS/Inteens/Sanggar/PPS", gallery: ["Foto Lainnya XC1/32.Cipa/Cipa1.jpeg", "Foto Lainnya XC1/32.Cipa/Cipa2.jpeg", "Foto Lainnya XC1/32.Cipa/Cipa3.jpeg", "Foto Lainnya XC1/32.Cipa/Cipa.jpg", "Foto Lainnya XC1/32.Cipa/Cipa1.jpg", "Foto Lainnya XC1/32.Cipa/Cipa2.jpg", "Foto Lainnya XC1/32.Cipa/Cipa3.jpg", "Foto Lainnya XC1/32.Cipa/Cipa4.jpg", "Foto Lainnya XC1/32.Cipa/Cipa5.jpg", "Foto Lainnya XC1/32.Cipa/Cipa6.jpg",]},
-      {name: "Vanezia", age: 15, hobby: "Menari", instagram: "vvsloav_19", photo: "https://randomuser.me/api/portraits/men/33.jpg", religion: "Islam", organization: "Sanggar Seni", gallery: ["https://randomuser.me/api/portraits/men/33.jpg", "image/Wilyam.jpg"]},
-      {name: "Wilyam", age: 15, hobby: "Apa ya", instagram: "ultraawill", photo: "image/Wilyam.jpg", religion: "Katolik", organization: "Smansa Voice", gallery: ["Foto Lainnya XC1/34.Wilyam/Wilyam1.jpeg", "Foto Lainnya XC1/34.Wilyam/Wilyam2.jpeg", "Foto Lainnya XC1/34.Wilyam/Wilyam3.jpeg", "Foto Lainnya XC1/34.Wilyam/Wilyam4.jpeg",]},
-      {name: "Zahra Mauaja", age: 16, hobby: "Apa yak", instagram: "zhrmdkyya", photo: "image/Yayaa.jpg", religion: "Islam", organization: "Tahfidz", gallery: ["image/Yayaa.jpg",]},
-      {name: "Zyqri Al Farezqhi", age: 15, hobby: "main roblox", instagram: "zyqrialfarezqhi18", photo: "image/Zyqri.jpg", religion: "Islam", organization: "KITS/PMR", gallery: ["image/Zyqri.jpg",]},
+      {name: "Akil Maula S", age: 16, hobby: "Mancing", instagram: "kikiuuuz", photo: "image/Akil.jpg", religion: "Islam", organization: "SEGA", gallery: [], birthDate: ""},
+      {name: "Amirah Zafirah", age: 15, hobby: "Yapping", instagram: "amirahpspra", photo: "image/Amirah.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: "03-22"},
+      {name: "Andi Naurah", age: 16, hobby: "Nonton Windah", instagram: "nauurahkhalilah", photo: "image/Naura.jpg", religion: "Islam", organization: "KITS/Sega/Sanggar Seni", gallery: [], birthDate: ""},
+      {name: "Anindya Ainun", age: 15, hobby: "gatau", instagram: "_anindyainun", photo: "image/Ainun purba.jpg", religion: "Islam", organization: "Smansa Voice", gallery: [], birthDate: "03-15"},
+      {name: "Annisa Maylafaiza", age: 16, hobby: "Minta Hotspots", instagram: "annisamaylaa_", photo: "image/Anisa.jpg", religion: "Islam", organization: "Sanggar Seni", gallery: [], birthDate: "05-05"},
+      {name: "Aprilia Hastikasari", age: 16, hobby: "Bebeng", instagram: "liaaahyy", photo: "image/April.jpg", religion: "Islam", organization: "Pramuka", gallery: [], birthDate: "04-29"},
+      {name: "Clarinta Amabel", age: 15, hobby: "Main ML", instagram: "claebell", photo: "image/Claring.jpg", religion: "Protestan", organization: "KITS/Inteens/Sega/PPKS", gallery: [], birthDate: "03-29"},
+      {name: "Dhia Syarafana", age: 16, hobby: "Slowmotion", instagram: "syeradelrey", photo: "image/Dhia.jpg", religion: "Islam", organization: "Tidak Ada", gallery: [], birthDate: ""},
+      {name: "Fitri", age: 15, hobby: "yapping", instagram: "ffitri1_", photo: "image/Titi.jpg", religion: "Islam", organization: "Tidak Ada", gallery: [], birthDate: "01-11"},
+      {name: "Hodia", age: 16, hobby: "Nonton Windah", instagram: "odiaa_a", photo: "image/Odi.jpg", religion: "Protestan", organization: "Sega/OSIS/Inteens", gallery: [], birthDate: "08-26"},
+      {name: "Husnul Khatimah", age: 16, hobby: "Main sama Rasya", instagram: "hsnllkhtmh__", photo: "image/Husnul.jpg", religion: "Islam", organization: "Pramuka", gallery: [], birthDate: "03-17"},
+      {name: "Miftahul", age: 16, hobby: "Minta Hotspot", instagram: "miftahuljannah1507_", photo: "image/Mita.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: "07-15"},
+      {name: "Fathur Jibriel", age: 15, hobby: "Basket", instagram: "ndadapateuy", photo: "image/patur.jpg", religion: "Islam", organization: "Basket", gallery: [], birthDate: ""},
+      {name: "Muh.Ibrahim", age: 15, hobby: "Takraw", instagram: "ibe_6610", photo: "image/Ibe.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: ""},
+      {name: "Muh.Tsaqiff", age: 15, hobby: "Main epep", instagram: "muhtsaqiffal", photo: "image/Tsaqif.jpg", religion: "Islam", organization: "Smansa Voice", gallery: [], birthDate: ""},
+      {name: "Muh.Alif Falah Jordan", age: 15, hobby: "Basket", instagram: "_alipjrdan", photo: "image/Alip.jpg", religion: "Islam", organization: "Basket", gallery: [], birthDate: ""},
+      {name: "Muh.Faiz Aswin", age: 15, hobby: "Bewan sama Akil", instagram: "mhmmdfaizz28", photo: "image/Faiz.jpg", religion: "Islam", organization: "Tidak Ada", gallery: [], birthDate: ""},
+      {name: "Kink Muflih", age: 15, hobby: "Nonton Anime", instagram: "muflih_zaky", photo: "image/Mupli.jpg", religion: "Islam", organization: "Tidak Ada", gallery: [], birthDate: ""},
+      {name: "M.Raihaan", age: 15, hobby: "Topup Dm", instagram: "rhnzki_16", photo: "image/Rehan.jpg", religion: "Islam", organization: "Putra Putri Smansa", gallery: [], birthDate: ""},
+      {name: "Nagym", age: 15, hobby: "Tidur", instagram: "nagymm_", photo: "image/Nagym.jpg", religion: "Islam", organization: "KITS", gallery: [], birthDate: "11-21"},
+      {name: "Naufal Qawwiy", age: 15, hobby: "Tektok Gn", instagram: "naufalqawiyy", photo: "image/nopal.jpg", religion: "Islam", organization: "Wasipalah", gallery: [], birthDate: ""},
+      {name: "Nur Nadya Afifah", age: 16, hobby: "Mengaji", instagram: "dyaafifah_", photo: "image/Afifah.jpg", religion: "Islam", organization: "Komunitas Pelajar Muslim", gallery: [], birthDate: ""},
+      {name: "Nurfadillah Quinsya", age: 16, hobby: "Cari Cogan", instagram: "nurfdilhqsya_", photo: "image/Nyonyo.jpg", religion: "Islam", organization: "Sanggar Seni", gallery: [], birthDate: ""},
+      {name: "Qonitha Cleonima", age: 16, hobby: "Silat", instagram: "qoniitataa", photo: "image/Qoni.jpeg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: ""},
+      {name: "Rafailah Andini", age: 16, hobby: "Nda tau", instagram: "rafailahandini", photo: "image/dini.jpg", religion: "Islam", organization: "OSIS/PMR", gallery: [], birthDate: ""},
+      {name: "Raihanah Nadira", age: 16, hobby: "Nonton yutub", instagram: "raihanadiraa", photo: "image/Raihana.jpg", religion: "Islam", organization: "Sega/Sanggar Seni", gallery: [], birthDate: ""},
+      {name: "Rasya Az'Zahra", age: 16, hobby: "Basket", instagram: "rasya_azzahra", photo: "image/Rasyaa.jpg", religion: "Islam", organization: "Basket", gallery: [], birthDate: ""},
+      {name: "Aulia", age: 16, hobby: "Menggambar", instagram: "auliaaa_dn", photo: "image/Aul.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: ""},
+      {name: "ACOK NI BOS", age: 15, hobby: "main Bola", instagram: "rrezxkyy30", photo: "image/Aco.jpeg", religion: "Islam", organization: "OSIS/Paskibra", gallery: [], birthDate: ""},
+      {name: "Syifa BTR", age: 16, hobby: "nda tau", instagram: "syfabhtr_", photo: "image/Cipa.jpg", religion: "Islam", organization: "KITS/Inteens/Sanggar/PPS", gallery: [], birthDate: ""},
+      {name: "Vanezia", age: 15, hobby: "Menari", instagram: "vvsloav_19", photo: "https://randomuser.me/api/portraits/men/33.jpg", religion: "Islam", organization: "Sanggar Seni", gallery: [], birthDate: ""},
+      {name: "Wilyam", age: 15, hobby: "Apa ya", instagram: "ultraawill", photo: "image/Wilyam.jpg", religion: "Katolik", organization: "Smansa Voice", gallery: [], birthDate: ""},
+      {name: "Zahra Mauaja", age: 16, hobby: "Apa yak", instagram: "zhrmdkyya", photo: "image/Yayaa.jpg", religion: "Islam", organization: "Tahfidz", gallery: [], birthDate: ""},
+      {name: "Zyqri Al Farezqhi", age: 15, hobby: "main roblox", instagram: "zyqrialfarezqhi18", photo: "image/Zyqri.jpg", religion: "Islam", organization: "KITS/PMR", gallery: [], birthDate: ""},
     ];
 
+    // Elemen DOM
     const container = document.getElementById('studentContainer');
     const modal = document.getElementById('studentModal');
-    const modalCloseBtn = document.querySelector('.close-btn');
-    
-    // Elemen LightBox
+    const modalCloseBtn = document.querySelector('.close-btn'); 
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImage');
     const lightboxCloseBtn = document.querySelector('.lightbox-close-btn');
 
-    // Fungsi untuk membuka LightBox
+    // Fungsi Lightbox
     function openLightBox(src) {
         lightboxImg.src = src;
         lightbox.style.display = 'flex'; 
     }
 
-    // **LANGKAH 2: FUNGSI UTAMA UNTUK MENAMPILKAN MODAL SISWA**
+    // ** LOGIKA UTAMA: TAMPILKAN DETAIL SISWA & AMBIL GALERI FIREBASE **
     async function showStudentDetails(student) {
         document.getElementById('modalPhoto').src = student.photo;
         document.getElementById('modalName').textContent = student.name;
@@ -593,46 +473,37 @@
         const galleryGrid = document.getElementById('modalGallery');
         galleryGrid.innerHTML = 'Loading Gallery...'; 
         
-        let galleryPhotos = student.gallery || [student.photo]; // Default ke data lokal/fallback
+        let galleryPhotos = student.gallery || [student.photo]; 
 
-        // **LANGKAH 3: AMBIL DATA GALERI DARI FIRESTORE**
+        // Ambil Data dari Firestore
         try {
             const galleryCollection = db.collection('studentsGallery');
-            // Cari dokumen di Firestore yang field 'name'-nya cocok dengan nama siswa
             const snapshot = await galleryCollection.where('name', '==', student.name).limit(1).get();
-
             if (!snapshot.empty) {
                 const firestoreData = snapshot.docs[0].data();
-                // Jika data ditemukan, gunakan array galleryPhotos dari Firestore
                 if (firestoreData.galleryPhotos && firestoreData.galleryPhotos.length > 0) {
                     galleryPhotos = firestoreData.galleryPhotos;
                 }
             }
         } catch (error) {
-            console.error("Gagal mengambil data Galeri dari Firestore. Menggunakan data lokal. Error:", error);
-            // Tetap gunakan 'galleryPhotos' yang sudah diset ke data lokal/fallback
+            console.error("Gagal akses Firestore:", error);
         }
 
-        // Tampilkan galeri foto (menggunakan data Firestore atau fallback)
+        // Render Galeri
         galleryGrid.innerHTML = '';
         galleryPhotos.forEach((url, index) => {
             const img = document.createElement('img');
             img.className = 'gallery-img';
             img.src = url;
             img.alt = `Foto ${student.name} ${index + 1}`;
-            
-            img.addEventListener('click', (e) => {
-                e.stopPropagation(); 
-                openLightBox(url); 
-            });
-
+            img.addEventListener('click', (e) => { e.stopPropagation(); openLightBox(url); });
             galleryGrid.appendChild(img);
         });
 
         modal.style.display = 'flex'; 
     }
 
-    // Loop untuk membuat kartu siswa
+    // Render Kartu Siswa
     students.forEach((s, index) => {
       const card = document.createElement('div');
       card.className = 'card';
@@ -648,37 +519,107 @@
           <a href="https://instagram.com/${s.instagram}" target="_blank" class="instagram-link">@${s.instagram}</a>
         </div>
       `;
-
-      card.addEventListener('click', () => {
-          showStudentDetails(students[index]);
-      });
-
+      card.addEventListener('click', () => { showStudentDetails(students[index]); });
       container.appendChild(card);
-
-      setTimeout(() => {
-        card.classList.add('animate');
-      }, index * 100);
+      setTimeout(() => { card.classList.add('animate'); }, index * 100);
     });
 
-    // Menutup Modal saat tombol (x) diklik
-    modalCloseBtn.onclick = function() {
-      modal.style.display = 'none';
-    }
-
-    // Menutup LightBox saat tombol (x) diklik
-    lightboxCloseBtn.onclick = function() {
-        lightbox.style.display = 'none';
-    }
-
-    // Menutup Modal atau LightBox saat mengklik di luar area
+    // Event Listeners untuk Menutup Modal
+    function closeStudentModal() { modal.style.display = 'none'; }
+    lightboxCloseBtn.onclick = function() { lightbox.style.display = 'none'; }
     window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = 'none';
-      }
-      if (event.target == lightbox) {
-          lightbox.style.display = 'none';
-      }
+      if (event.target == modal) { modal.style.display = 'none'; }
+      if (event.target == lightbox) { lightbox.style.display = 'none'; }
     }
+
+    // ** LOGIKA FITUR ULANG TAHUN **
+    function checkBirthday() {
+        const today = new Date();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        const todayString = `${month}-${day}`;
+
+        const birthdayStudents = students.filter(s => s.birthDate === todayString);
+
+        if (birthdayStudents.length > 0) {
+            const modalUltah = document.getElementById('birthdayModal');
+            const containerUltah = document.getElementById('birthdayPerson');
+            containerUltah.innerHTML = '';
+
+            birthdayStudents.forEach(s => {
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <img src="${s.photo}" style="width: 120px; height: 120px; border-radius: 50%; border: 4px solid #ff4359; object-fit: cover; margin-bottom: 10px;">
+                    <h3 style="color: #ffffff; margin: 0;">${s.name}</h3>
+                `;
+                containerUltah.appendChild(div);
+            });
+
+            modalUltah.style.display = 'flex';
+            fireConfetti();
+        }
+    }
+
+    function fireConfetti() {
+        var duration = 3 * 1000;
+        var animationEnd = Date.now() + duration;
+        var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 10000 };
+        function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+
+        var interval = setInterval(function() {
+            var timeLeft = animationEnd - Date.now();
+            if (timeLeft <= 0) { return clearInterval(interval); }
+            var particleCount = 50 * (timeLeft / duration);
+            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+        }, 250);
+    }
+
+    function closeBirthdayModal() {
+        document.getElementById('birthdayModal').style.display = 'none';
+    }
+
+    // ==========================================
+    // FITUR QUOTES OF THE DAY (BARU)
+    // ==========================================
+    
+    const quotesCollection = [
+        { text: "Sekolah itu tempat menuntut ilmu, bukan menuntut dia peka.", author: "Anonim" },
+        { text: "Kami sebenarnya bisa, tapi males aja", author: "Siapa ya?" },
+        { text: "Tugas menumpuk bukan cobaan, itu hobi guru memberi perhatian.", author: "Pejuang Deadline" },
+        { text: "Solidaritas tanpa batas, X.C1 GANK jangan sampai lepas!", author: "Admin Kece" },
+        { text: "Matematika mungkin rumit, tapi memahami kode cewek lebih rumit.", author: "Siswa Galau" },
+        { text: "Jarak antara mimpi dan kenyataan itu namanya DISIPLIN.", author: "Motivasi Pagi" },
+        { text: "Sukses itu berawal dari niat, bukan dari 'Besok aja deh'.", author: "Pengingat Diri" },
+        { text: "Kejarlah impianmu, meski itu sampai ke kantin sekolah.", author: "Anak Lapar" },
+        { text: "Sahabat itu seperti bintang, kadang tak terlihat tapi selalu ada.", author: "Bestie" },
+        { text: "Jangan lupa bahagia hari ini, karena besok mungkin ada PR Fisika.", author: "Realita" },
+        { text: "Pintar itu relatif, nyontek itu inisiatif (tapi jangan ditiru ya).", author: "Candaan Kelas" },
+        { text: "Masa depan cerah dimulai dari bangun pagi, bukan scroll TikTok sampai pagi.", author: "Mamah Dedeh KW" },
+        { text: "Hidup itu seperti ujian sekolah, banyak soal yang gak kita ngerti.", author: "Filosofi Siswa" },
+        { text: "Kelas yang bersih mencerminkan siswa yang... takut didenda bendahara.", author: "Seksi Kebersihan" },
+        { text: "Berakit-rakit ke hulu, berenang-renang ke tepian. Sakit-sakit dahulu, remidial kemudian.", author: "Pantun Gagal" },
+        { text: "Jadilah versi terbaik dari dirimu sendiri, bukan versi KW dari orang lain.", author: "Motivasi" },
+        { text: "Uang kas tolong dibayar ya teman-teman, jangan pura-pura lupa.", author: "Bendahara Galak" },
+        { text: "Kalau mimpimu belum tercapai, coba tidur lagi.", author: "Kaum Rebaahan" },
+        { text: "Bermimpilah setinggi langit. Jika engkau jatuh, engkau akan jatuh di antara bintang-bintang.", author: "Soekarno" },
+        { text: "Kegagalan adalah kesuksesan yang tertunda... kalau kamu gak nyerah.", author: "Semangat!" }
+    ];
+
+    function displayDailyQuote() {
+        const date = new Date().getDate();
+        const index = date % quotesCollection.length;
+        const todaysQuote = quotesCollection[index];
+
+        document.getElementById('dailyQuote').textContent = `"${todaysQuote.text}"`;
+        document.getElementById('dailyAuthor').textContent = `- ${todaysQuote.author}`;
+    }
+
+    // ** JALANKAN SAAT LOAD **
+    document.addEventListener('DOMContentLoaded', () => {
+        checkBirthday(); 
+        displayDailyQuote(); // Jalankan fitur quotes
+    });
   </script>
 </body>
 </html>
