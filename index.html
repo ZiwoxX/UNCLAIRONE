@@ -63,7 +63,7 @@
         white-space: nowrap; padding: 10px 5px; display: flex; gap: 15px;
         scrollbar-width: none; border-bottom: 1px solid rgba(126, 98, 255, 0.2);
         justify-content: flex-start;
-        min-height: 90px; /* Menjaga tinggi agar tidak collapse saat kosong */
+        min-height: 90px;
     }
     .stories-container::-webkit-scrollbar { display: none; }
 
@@ -73,7 +73,6 @@
     }
     .story-item:hover { transform: scale(1.05); }
 
-    /* Ring Gradient untuk Story Aktif */
     .story-ring {
         width: 64px; height: 64px; border-radius: 50%; padding: 3px;
         background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
@@ -120,7 +119,6 @@
         position: relative; background: #111; width: 100%; height: 100%;
     }
 
-    /* Support Video & Image in Story */
     .story-image-display { 
         max-width: 100%; max-height: 100vh; object-fit: contain; width: auto; height: auto;
     }
@@ -138,13 +136,89 @@
         cursor: pointer; z-index: 2005; opacity: 0.7;
     }
 
-    /* --- MODAL ADD STORY --- */
-    .add-story-modal-content { 
-        border: 2px solid #7e62ff; max-width: 400px; background: #1a1a2e; 
-        max-height: 90vh; overflow-y: auto;
+    /* ========================================= */
+    /* --- IG STYLE UPLOAD OVERLAY (NEW) --- */
+    /* ========================================= */
+    #igUploadOverlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: #000; z-index: 9999; display: none; flex-direction: column;
+        font-family: 'Inter', sans-serif;
     }
 
-    /* --- QUOTE OF THE DAY --- */
+    .ig-top-bar {
+        padding: 15px; display: flex; justify-content: space-between; align-items: center;
+        position: absolute; top: 0; left: 0; right: 0; z-index: 10;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
+    }
+
+    .ig-user-pill {
+        background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+        padding: 5px 15px 5px 5px; border-radius: 30px; display: flex; align-items: center;
+        cursor: pointer; border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .ig-user-thumb {
+        width: 32px; height: 32px; border-radius: 50%; object-fit: cover; margin-right: 10px; border: 2px solid #fff;
+    }
+
+    .ig-user-name { font-weight: 600; font-size: 0.9rem; color: #fff; max-width: 150px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+    .ig-close { font-size: 2rem; color: #fff; cursor: pointer; padding: 0 10px; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+
+    /* Preview Area */
+    .ig-preview-stage {
+        flex: 1; position: relative; display: flex; align-items: center; justify-content: center;
+        background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045); /* Default Text BG */
+        overflow: hidden;
+    }
+
+    .ig-media-preview {
+        width: 100%; height: 100%; object-fit: contain; position: absolute; top: 0; left: 0; display: none;
+        background: #000;
+    }
+
+    .ig-caption-input {
+        position: absolute; z-index: 5; background: transparent; border: none;
+        color: #fff; font-size: 1.5rem; text-align: center; width: 80%;
+        font-family: 'Inter', sans-serif; font-weight: 600;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.8); resize: none; outline: none;
+        overflow: hidden;
+    }
+    .ig-caption-input::placeholder { color: rgba(255,255,255,0.7); }
+
+    /* Bottom Controls */
+    .ig-bottom-bar {
+        padding: 20px; display: flex; justify-content: space-between; align-items: center;
+        background: #000;
+    }
+
+    .ig-mode-switch {
+        display: flex; gap: 20px; color: #888; font-weight: 600; text-transform: uppercase; font-size: 0.9rem;
+    }
+    .ig-mode-item { cursor: pointer; padding: 5px; transition: 0.3s; }
+    .ig-mode-item.active { color: #fff; border-bottom: 2px solid #fff; }
+
+    .ig-send-btn {
+        background: #fff; color: #000; border: none; padding: 10px 25px;
+        border-radius: 30px; font-weight: 700; cursor: pointer; font-size: 1rem;
+        display: flex; align-items: center; gap: 5px;
+    }
+    .ig-send-btn:disabled { opacity: 0.5; }
+
+    /* User Selection Modal List */
+    .ig-user-list-modal {
+        position: absolute; top: 60px; left: 15px; background: #1a1a2e;
+        border: 1px solid #4a3c7a; border-radius: 15px; width: 250px; max-height: 300px;
+        overflow-y: auto; z-index: 20; display: none; box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    }
+    .ig-user-option {
+        padding: 10px; display: flex; align-items: center; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .ig-user-option:hover { background: rgba(126, 98, 255, 0.2); }
+    .ig-user-option img { width: 30px; height: 30px; border-radius: 50%; margin-right: 10px; }
+    .ig-user-option span { color: #e0e0e0; font-size: 0.9rem; }
+
+    /* --- QUOTE & MAIN CONTENT --- */
     .quote-box {
         background: rgba(255, 255, 255, 0.05); border-left: 5px solid #ff775c; 
         border-radius: 15px; padding: 20px 30px; margin: 0 auto 25px auto; 
@@ -344,19 +418,23 @@
     .lightbox-nav-btn.next { right: 0; border-radius: 4px 0 0 4px; }
     .lightbox-nav-btn:hover { background-color: rgba(0, 0, 0, 0.8); opacity: 1; }
 
-    /* --- SPOTIFY & MENFESS BUTTONS --- */
+    /* --- SPOTIFY & MENFESS BUTTONS (UPDATED POSITION) --- */
     #toggleButton {
-        position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; border-radius: 50%;
+        position: fixed; bottom: 20px; left: 20px; /* Kiri Bawah */
+        width: 50px; height: 50px; border-radius: 50%;
         background-color: #1DB954; color: white; border: none; cursor: pointer; font-size: 20px;
         display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(29, 185, 84, 0.6);
         z-index: 12; transition: background-color 0.3s, transform 0.3s;
     }
     #toggleButton:hover { background-color: #1ed760; transform: scale(1.05); }
+
     #spotifyPlayerContainer {
-        position: fixed; right: 20px; bottom: 20px; z-index: 11; box-shadow: none; border-radius: 12px;
+        position: fixed; left: 20px; bottom: 20px; /* Kiri Bawah */
+        z-index: 11; box-shadow: none; border-radius: 12px;
         overflow: visible; transition: transform 0.4s ease-out; transform: translateY(100px); 
     }
     #spotifyPlayerContainer.open { transform: translateY(-90px); }
+    
     #menfessButton {
         position: fixed; bottom: 80px; right: 20px; width: 50px; height: 50px; border-radius: 50%;
         background-color: #ff775c; color: white; border: none; cursor: pointer; font-size: 20px;
@@ -438,7 +516,10 @@
       .search-container { width: 100%; max-width: 100%; border-radius: 8px; }
       .container { padding: 0; gap: 15px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); max-width: 100%; width: 95%; margin: 0 auto; }
       .modal-content { padding: 20px 15px; width: 95%; }
-      #spotifyPlayerContainer, #toggleButton { bottom: 10px; right: 10px; }
+      
+      /* PERBAIKAN: Spotify pindah ke Kiri di Mobile */
+      #spotifyPlayerContainer, #toggleButton { bottom: 10px; left: 10px; right: auto; }
+      
       #menfessButton { bottom: 70px; right: 10px; width: 45px; height: 45px; }
       /* Posisi Tombol Upload Story di Mobile */
       #addStoryButton { bottom: 130px; right: 10px; width: 45px; height: 45px; }
@@ -537,40 +618,36 @@
       </div>
   </div>
 
-  <div id="addStoryModal" class="modal" style="z-index: 2100;">
-      <div class="modal-content add-story-modal-content">
-          <span class="close-btn" onclick="closeAddStoryModal()">×</span>
-          <h3 style="color:#7e62ff; text-align:center;">Update Story Kelas</h3>
-          <form id="storyForm" style="display:flex; flex-direction:column; gap:15px;">
-              <div>
-                  <label style="color:#bdb6f0; display:block; margin-bottom:5px;">Kamu Siapa?</label>
-                  <select id="storyAuthorSelect" style="width:100%; padding:10px; border-radius:8px; background:#1a1a2e; color:white; border:1px solid #4a3c7a;">
-                  </select>
-              </div>
-              <div>
-                  <label style="color:#bdb6f0; display:block; margin-bottom:5px;">Tipe Story</label>
-                  <select id="storyType" onchange="toggleStoryInput()" style="width:100%; padding:10px; border-radius:8px; background:#1a1a2e; color:white; border:1px solid #4a3c7a;">
-                      <option value="text">Teks / Status</option>
-                      <option value="media">Foto / Video (Galeri)</option>
-                  </select>
-              </div>
-              <div id="inputContentArea">
-                  <label style="color:#bdb6f0; display:block; margin-bottom:5px;">Isi Konten</label>
-                  
-                  <textarea id="storyTextContent" placeholder="Tulis statusmu..." rows="4" style="width:95%; padding:10px; background:#1a1a2e; color:white; border:1px solid #4a3c7a; border-radius:8px;"></textarea>
-                  
-                  <div id="storyMediaContent" style="display:none;">
-                      <input type="file" id="storyFileInput" accept="image/*,video/*" style="width:95%; padding:10px; background:#1a1a2e; color:white; border:1px solid #4a3c7a; border-radius:8px;">
-                      <p style="font-size:0.8rem; color:#888; margin-top:5px;">*Maksimal ukuran file disarankan < 50MB</p>
-                  </div>
-              </div>
+  <div id="igUploadOverlay">
+      <input type="file" id="igHiddenFileInput" accept="image/*,video/*" style="display: none;" onchange="handleFileSelect(this)">
 
-              <div id="uploadProgressContainer" style="display:none; width:100%; background:#000; height:5px; border-radius:5px;">
-                   <div id="uploadProgressBar" style="width:0%; height:100%; background:#7e62ff; transition:width 0.3s;"></div>
+      <div class="ig-top-bar">
+          <div class="ig-user-pill" onclick="toggleIgUserList()">
+              <img id="igActiveUserThumb" src="https://via.placeholder.com/50" class="ig-user-thumb">
+              <span id="igActiveUserName" class="ig-user-name">Pilih Namamu</span>
+              <i class="fas fa-chevron-down" style="margin-left: 5px; font-size: 0.8rem;"></i>
+          </div>
+          <div class="ig-close" onclick="closeIgModal()">×</div>
+          
+          <div id="igUserListDropdown" class="ig-user-list-modal">
               </div>
+      </div>
 
-              <button type="submit" class="menfess-submit-btn" id="btnPostStory">Bagikan Story</button>
-          </form>
+      <div class="ig-preview-stage" id="igPreviewStage">
+          <img id="igImgPreview" class="ig-media-preview">
+          <video id="igVidPreview" class="ig-media-preview" playsinline loop muted></video>
+          
+          <textarea id="igCaption" class="ig-caption-input" rows="2" placeholder="Ketik sesuatu..."></textarea>
+      </div>
+
+      <div class="ig-bottom-bar">
+          <div class="ig-mode-switch">
+              <div class="ig-mode-item active" id="modeTextBtn" onclick="setIgMode('text')">Aa Teks</div>
+              <div class="ig-mode-item" id="modeMediaBtn" onclick="triggerFileSelect()">Galeri</div>
+          </div>
+          <button class="ig-send-btn" id="igPostBtn" onclick="postIgStory()">
+              Kirim <i class="fas fa-paper-plane"></i>
+          </button>
       </div>
   </div>
 
@@ -891,7 +968,6 @@ const storage = firebase.storage(); // <--- Pastikan ini ada
       if (event.target == lightbox) closeLightBox();
       if (event.target == document.getElementById('quoteModal')) closeQuoteModal();
       if (event.target == document.getElementById('menfessModal')) closeMenfessModal();
-      if (event.target == document.getElementById('addStoryModal')) closeAddStoryModal();
     }
 
     // --- Swipe/Nav Logic ---
@@ -1012,121 +1088,182 @@ const storage = firebase.storage(); // <--- Pastikan ini ada
     }
 
     // ==========================================
-    // ** LOGIKA STORY KELAS (FOTO & VIDEO) **
+    // ** LOGIKA BARU: IG STYLE UPLOAD **
     // ==========================================
     
+    let currentIgMode = 'text';
+    let selectedStoryFile = null;
+    let selectedAuthorData = null;
+
     function openAddStoryModal() {
-        const select = document.getElementById('storyAuthorSelect');
-        select.innerHTML = '<option value="" disabled selected>Pilih Namamu</option>';
-        [...students].sort((a, b) => a.name.localeCompare(b.name)).forEach(s => {
-            const opt = document.createElement('option'); opt.value = s.name; opt.textContent = s.name; select.appendChild(opt);
+        document.getElementById('igUploadOverlay').style.display = 'flex';
+        populateIgUserList();
+        setIgMode('text'); // Default ke mode teks
+    }
+
+    function closeIgModal() {
+        document.getElementById('igUploadOverlay').style.display = 'none';
+        resetIgForm();
+    }
+
+    function resetIgForm() {
+        selectedStoryFile = null;
+        document.getElementById('igCaption').value = "";
+        document.getElementById('igImgPreview').style.display = 'none';
+        document.getElementById('igVidPreview').style.display = 'none';
+        document.getElementById('igHiddenFileInput').value = "";
+        // Jangan reset user agar tidak perlu pilih lagi jika mau post lagi
+    }
+
+    function populateIgUserList() {
+        const listContainer = document.getElementById('igUserListDropdown');
+        listContainer.innerHTML = '';
+        
+        // Sort siswa abjad
+        const sortedStudents = [...students].sort((a, b) => a.name.localeCompare(b.name));
+
+        sortedStudents.forEach(s => {
+            const div = document.createElement('div');
+            div.className = 'ig-user-option';
+            div.innerHTML = `<img src="${s.photo}"><span>${s.name}</span>`;
+            div.onclick = () => selectIgUser(s);
+            listContainer.appendChild(div);
         });
-        document.getElementById('addStoryModal').style.display = 'flex';
-        // Reset form
-        document.getElementById('storyForm').reset();
-        toggleStoryInput();
-        document.getElementById('uploadProgressContainer').style.display = 'none';
     }
 
-    function closeAddStoryModal() { document.getElementById('addStoryModal').style.display = 'none'; }
-
-    function toggleStoryInput() {
-        const type = document.getElementById('storyType').value;
-        document.getElementById('storyTextContent').style.display = (type === 'text') ? 'block' : 'none';
-        document.getElementById('storyMediaContent').style.display = (type === 'media') ? 'block' : 'none';
+    function toggleIgUserList() {
+        const list = document.getElementById('igUserListDropdown');
+        list.style.display = (list.style.display === 'block') ? 'none' : 'block';
     }
 
-    // --- LOGIKA UPLOAD & SAVE STORY ---
-    document.getElementById('storyForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const authorName = document.getElementById('storyAuthorSelect').value;
-        if (!authorName) { alert("Pilih namamu dulu!"); return; }
-        
-        const typeSelect = document.getElementById('storyType').value; // 'text' atau 'media'
-        const btn = document.getElementById('btnPostStory');
-        const studentData = students.find(s => s.name === authorName);
-        const authorPhoto = studentData ? studentData.photo : 'https://via.placeholder.com/100';
-        
-        let finalType = 'text';
-        let finalContent = '';
+    function selectIgUser(student) {
+        selectedAuthorData = student;
+        document.getElementById('igActiveUserName').textContent = student.name.split(' ')[0]; // Ambil nama depan aja biar muat
+        document.getElementById('igActiveUserThumb').src = student.photo;
+        document.getElementById('igUserListDropdown').style.display = 'none';
+    }
 
-        if (typeSelect === 'text') {
-            finalContent = document.getElementById('storyTextContent').value;
-            if(!finalContent) { alert("Isi teks statusmu!"); return; }
-            finalType = 'text';
-            saveStoryToFirestore(authorName, authorPhoto, finalType, finalContent, btn);
-        } 
-        else if (typeSelect === 'media') {
-            const fileInput = document.getElementById('storyFileInput');
-            const file = fileInput.files[0];
-            
-            if (!file) { alert("Pilih foto atau video dari galeri!"); return; }
+    function setIgMode(mode) {
+        currentIgMode = mode;
+        const stage = document.getElementById('igPreviewStage');
+        const textBtn = document.getElementById('modeTextBtn');
+        const mediaBtn = document.getElementById('modeMediaBtn');
 
-            // VALIDASI SIZE (MAX 50MB)
-            const maxSize = 50 * 1024 * 1024; // 50MB dalam bytes
-            if (file.size > maxSize) {
-                alert("File terlalu besar! Maksimal ukuran adalah 50MB.");
-                return;
-            }
-            
-            // Cek apakah file Image atau Video
-            if (file.type.startsWith('image/')) { finalType = 'image'; }
-            else if (file.type.startsWith('video/')) { finalType = 'video'; }
-            else { alert("Format file tidak didukung!"); return; }
+        // Reset Preview Media
+        document.getElementById('igImgPreview').style.display = 'none';
+        document.getElementById('igVidPreview').style.display = 'none';
 
-            // Mulai Upload ke Firebase Storage
-            btn.textContent = "Mengupload... 0%";
-            btn.disabled = true;
-            document.getElementById('uploadProgressContainer').style.display = 'block';
-
-            const storageRef = firebase.storage().ref();
-            // Nama file unik: timestamp_namafile
-            const fileName = `stories/${Date.now()}_${file.name}`;
-            const uploadTask = storageRef.child(fileName).put(file);
-
-            uploadTask.on('state_changed', 
-                (snapshot) => {
-                    // Update Progress Bar
-                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    document.getElementById('uploadProgressBar').style.width = progress + '%';
-                    btn.textContent = `Mengupload... ${Math.floor(progress)}%`;
-                }, 
-                (error) => {
-                    console.error(error);
-                    alert("Gagal upload file.");
-                    btn.textContent = "Bagikan Story";
-                    btn.disabled = false;
-                }, 
-                () => {
-                    // Upload Sukses, Dapatkan URL
-                    uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                        saveStoryToFirestore(authorName, authorPhoto, finalType, downloadURL, btn);
-                    });
-                }
-            );
+        if (mode === 'text') {
+            textBtn.classList.add('active');
+            mediaBtn.classList.remove('active');
+            stage.style.background = "linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045)";
+            selectedStoryFile = null; // Hapus file jika pindah ke mode text
+        } else {
+            // Mode Media: background hitam, tunggu file dipilih
+            textBtn.classList.remove('active');
+            mediaBtn.classList.add('active');
+            stage.style.background = "#000";
         }
-    });
+    }
 
-    async function saveStoryToFirestore(author, photo, type, content, btn) {
+    function triggerFileSelect() {
+        document.getElementById('igHiddenFileInput').click();
+    }
+
+    function handleFileSelect(input) {
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
+            selectedStoryFile = file;
+            
+            // Set UI ke Mode Media
+            setIgMode('media'); 
+
+            const reader = new FileReader();
+            const isVideo = file.type.startsWith('video/');
+            
+            reader.onload = function(e) {
+                if (isVideo) {
+                    const vid = document.getElementById('igVidPreview');
+                    vid.src = e.target.result;
+                    vid.style.display = 'block';
+                    vid.play();
+                } else {
+                    const img = document.getElementById('igImgPreview');
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                }
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // --- FUNGSI POST STORY ---
+    async function postIgStory() {
+        if (!selectedAuthorData) {
+            alert("Pilih namamu dulu di pojok kiri atas!");
+            toggleIgUserList();
+            return;
+        }
+
+        const caption = document.getElementById('igCaption').value;
+        const btn = document.getElementById('igPostBtn');
+        
+        // Validasi: Harus ada konten (File ATAU Teks)
+        if (currentIgMode === 'text' && !caption) {
+            alert("Ketik sesuatu dong!");
+            return;
+        }
+        if (currentIgMode === 'media' && !selectedStoryFile) {
+            alert("Pilih foto/video dulu!");
+            return;
+        }
+
+        // Mulai Proses Upload
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
+        btn.disabled = true;
+
         try {
-            btn.textContent = "Menyimpan...";
+            let finalType = currentIgMode; // 'text' atau 'media'
+            let finalContent = caption;
+
+            // Jika ada file, upload dulu
+            if (currentIgMode === 'media' && selectedStoryFile) {
+                // Tentukan tipe
+                if (selectedStoryFile.type.startsWith('image/')) finalType = 'image';
+                else if (selectedStoryFile.type.startsWith('video/')) finalType = 'video';
+
+                // Upload ke Storage
+                const storageRef = firebase.storage().ref();
+                const fileName = `stories/${Date.now()}_${selectedStoryFile.name}`;
+                const uploadTask = storageRef.child(fileName).put(selectedStoryFile);
+
+                // Kita pakai Promise agar bisa await
+                const snapshot = await uploadTask;
+                finalContent = await snapshot.ref.getDownloadURL();
+            }
+
             await db.collection('class_stories').add({
-                author: author, 
-                authorPhoto: photo, 
-                type: type, // 'text', 'image', atau 'video'
-                content: content,
+                author: selectedAuthorData.name,
+                authorPhoto: selectedAuthorData.photo,
+                type: finalType, 
+                content: finalContent, // URL Gambar/Video atau Isi Teks
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000) 
             });
-            alert("Story berhasil dibagikan!"); 
-            closeAddStoryModal();
-        } catch (err) { 
-            console.error(err); 
-            alert("Error menyimpan ke database."); 
-        } finally { 
-            btn.textContent = "Bagikan Story"; 
-            btn.disabled = false; 
+
+            // Animasi Confetti kecil
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            
+            // Tutup Modal
+            closeIgModal();
+            alert("Story berhasil diupload!");
+
+        } catch (error) {
+            console.error(error);
+            alert("Gagal upload: " + error.message);
+        } finally {
+            btn.innerHTML = 'Kirim <i class="fas fa-paper-plane"></i>';
+            btn.disabled = false;
         }
     }
 
@@ -1211,7 +1348,6 @@ const storage = firebase.storage(); // <--- Pastikan ini ada
             imgDisplay.style.display = 'block';
             imgDisplay.src = data.content;
         } 
-// ... (di dalam function showStorySlide)
         else if (data.type === 'video') {
             videoDisplay.style.display = 'block';
             videoDisplay.src = data.content;
