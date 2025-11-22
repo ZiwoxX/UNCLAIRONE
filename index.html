@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta id="viewportMeta" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" /> 
-  <title>10 C.1 GANK - Detail Siswa & Stories</title>
+  <title>10 C.1 GANK - Detail Siswa, Stories & Admin</title>
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
@@ -137,7 +137,7 @@
     }
 
     /* ========================================= */
-    /* --- IG STYLE UPLOAD OVERLAY (NEW) --- */
+    /* --- IG STYLE UPLOAD OVERLAY --- */
     /* ========================================= */
     #igUploadOverlay {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -502,6 +502,35 @@
     .menfess-content { font-style: italic; color: #e0e0e0; line-height: 1.5; flex-grow: 1; margin-bottom: 15px; }
     .menfess-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #bdb6f0; margin-top: auto; padding-top: 10px; border-top: 1px solid rgba(189, 182, 240, 0.2); }
 
+    /* --- STYLE ADMIN DASHBOARD --- */
+    .admin-menfess-item {
+        background: #1a1a2e;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #4a3c7a;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+    }
+    .admin-menfess-text {
+        color: #e0e0e0;
+        font-size: 0.9rem;
+        flex: 1;
+    }
+    .admin-delete-btn {
+        background: #ff4359;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.3s;
+        white-space: nowrap;
+    }
+    .admin-delete-btn:hover { background: #d12c40; }
+
     /* --- MOBILE OPTIMIZATION --- */
     @media (max-width: 600px) {
       body { padding: 0; padding-top: 50px; padding-bottom: 20px; align-items: center; }
@@ -517,16 +546,15 @@
       .container { padding: 0; gap: 15px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); max-width: 100%; width: 95%; margin: 0 auto; }
       .modal-content { padding: 20px 15px; width: 95%; }
       
-      /* PERBAIKAN: Spotify pindah ke Kiri di Mobile */
       #spotifyPlayerContainer, #toggleButton { bottom: 10px; left: 10px; right: auto; }
-      
       #menfessButton { bottom: 70px; right: 10px; width: 45px; height: 45px; }
-      /* Posisi Tombol Upload Story di Mobile */
       #addStoryButton { bottom: 130px; right: 10px; width: 45px; height: 45px; }
       
-      /* Mobile Story Fixes */
       .stories-container { width: 95%; justify-content: flex-start; }
       .story-text-display { font-size: 1.2rem; width: 95%; }
+      
+      .admin-menfess-item { flex-direction: column; align-items: flex-start; }
+      .admin-delete-btn { width: 100%; }
     }
   </style>
   
@@ -731,6 +759,31 @@
     <img class="lightbox-content" id="lightboxImage" alt="" title=""> 
   </div>
 
+  <button onclick="openAdminLogin()" style="position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); background: transparent; border: none; color: rgba(255,255,255,0.2); font-size: 12px; cursor: pointer; z-index: 9999;">
+    Admin Access
+  </button>
+
+  <div id="adminLoginModal" class="modal" style="z-index: 10000;">
+    <div class="modal-content" style="max-width: 300px; text-align: center; border: 2px solid #7e62ff;">
+      <span class="close-btn" onclick="document.getElementById('adminLoginModal').style.display='none'">×</span>
+      <h3 style="color: #fff;">Admin Login</h3>
+      <input type="password" id="adminPassword" placeholder="Masukkan Password" style="width: 90%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: none; background: #fff;">
+      <button onclick="checkAdminLogin()" style="padding: 10px 20px; background: #7e62ff; color: white; border: none; border-radius: 5px; cursor: pointer;">Masuk</button>
+    </div>
+  </div>
+
+  <div id="adminDashboardModal" class="modal" style="z-index: 10001;">
+    <div class="modal-content" style="max-width: 800px; border: 2px solid #ff775c;">
+      <span class="close-btn" onclick="closeAdminDashboard()">×</span>
+      <h2 style="color: #ff775c; text-align: center;">Dashboard Admin</h2>
+      <p style="text-align: center; color: #bdb6f0;">Klik tombol "Hapus" untuk menghilangkan pesan.</p>
+      <button onclick="loadAdminMenfess()" style="margin-bottom: 15px; padding: 5px 15px; background: #7e62ff; color: white; border: none; border-radius: 5px; cursor: pointer;">Refresh Data</button>
+      
+      <div id="adminMenfessList" style="max-height: 60vh; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;">
+        </div>
+    </div>
+  </div>
+
   <script>
     // CONFIG FIREBASE
     const firebaseConfig = {
@@ -743,9 +796,9 @@
   appId: "1:38660762483:web:8f0fa0be46a2e901ceb306",
   measurementId: "G-6VB4PRBFYV"
     };
-const app = firebase.initializeApp(firebaseConfig);
-const db = app.firestore();
-const storage = firebase.storage(); // <--- Pastikan ini ada
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = app.firestore();
+    const storage = firebase.storage();
 
     // DATA SISWA
    const students = [
@@ -1431,6 +1484,93 @@ const storage = firebase.storage(); // <--- Pastikan ini ada
         document.getElementById('svVideo').src = "";
     }
 
+    // ==========================================
+    // ** ADMIN DASHBOARD LOGIC **
+    // ==========================================
+    const ADMIN_PASSWORD = "admin"; // GANTI PASSWORD DI SINI
+
+    function openAdminLogin() {
+        document.getElementById('adminLoginModal').style.display = 'flex';
+    }
+
+    function checkAdminLogin() {
+        const inputPass = document.getElementById('adminPassword').value;
+        if (inputPass === ADMIN_PASSWORD) {
+            document.getElementById('adminLoginModal').style.display = 'none';
+            document.getElementById('adminPassword').value = '';
+            openAdminDashboard();
+        } else {
+            alert("Password Salah!");
+        }
+    }
+
+    function openAdminDashboard() {
+        document.getElementById('adminDashboardModal').style.display = 'flex';
+        loadAdminMenfess();
+    }
+
+    function closeAdminDashboard() {
+        document.getElementById('adminDashboardModal').style.display = 'none';
+    }
+
+    async function loadAdminMenfess() {
+        const listContainer = document.getElementById('adminMenfessList');
+        listContainer.innerHTML = '<p style="text-align:center; color:white;">Memuat data...</p>';
+
+        try {
+            const snapshot = await db.collection('menfess')
+                .orderBy('timestamp', 'desc')
+                .get();
+
+            listContainer.innerHTML = '';
+
+            if (snapshot.empty) {
+                listContainer.innerHTML = '<p style="text-align:center; color:white;">Tidak ada menfess.</p>';
+                return;
+            }
+
+            snapshot.docs.forEach(doc => {
+                const data = doc.data();
+                const id = doc.id;
+                const date = data.timestamp && data.timestamp.toDate ? 
+                             data.timestamp.toDate().toLocaleDateString('id-ID') : '-';
+
+                const item = document.createElement('div');
+                item.className = 'admin-menfess-item';
+                item.innerHTML = `
+                    <div class="admin-menfess-text">
+                        <div style="color: #ff775c; font-weight:bold; margin-bottom:5px;">
+                            To: ${data.to} | From: ${data.from} <span style="font-size:0.7rem; color:#888;">(${date})</span>
+                        </div>
+                        <div style="font-style: italic;">"${data.content}"</div>
+                    </div>
+                    <button class="admin-delete-btn" onclick="deleteMenfess('${id}')">
+                        <i class="fas fa-trash"></i> Hapus
+                    </button>
+                `;
+                listContainer.appendChild(item);
+            });
+
+        } catch (error) {
+            console.error("Error loading admin menfess:", error);
+            listContainer.innerHTML = '<p style="color:red;">Gagal memuat data.</p>';
+        }
+    }
+
+    async function deleteMenfess(docId) {
+        if (confirm("Yakin ingin menghapus pesan ini secara permanen?")) {
+            try {
+                await db.collection('menfess').doc(docId).delete();
+                alert("Pesan berhasil dihapus!");
+                loadAdminMenfess(); // Refresh Admin List
+                if(typeof loadMenfess === "function") loadMenfess(); // Refresh Public View
+            } catch (error) {
+                console.error("Gagal menghapus:", error);
+                alert("Terjadi kesalahan saat menghapus.");
+            }
+        }
+    }
+
     // --- MAIN INIT ---
     document.addEventListener('DOMContentLoaded', () => {
         checkBirthday(); displayDailyQuote(); calculateAndDisplayStats(); 
@@ -1439,7 +1579,7 @@ const storage = firebase.storage(); // <--- Pastikan ini ada
         if (document.getElementById('menfessButton')) document.getElementById('menfessButton').addEventListener('click', openMenfessModal);
         if (document.getElementById('menfessForm')) document.getElementById('menfessForm').addEventListener('submit', saveMenfess);
         
-        loadStories(); // Load fitur story
+        loadStories(); 
     });
   </script>
 </body>
