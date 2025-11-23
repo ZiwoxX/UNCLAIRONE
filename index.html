@@ -324,60 +324,70 @@
     }
     #spotifyPlayerContainer.open { transform: translateY(-80px); }
 
-    /* --- MODALS & ANIMATION (SMOOTH) --- */
+    /* --- MODALS (OPTIMIZED FOR MOBILE) --- */
     .modal {
-        display: none; /* Tetap hidden saat awal */
+        display: none;
         position: fixed; 
         z-index: 9999; 
         left: 0; 
         top: 0;
         width: 100%; 
         height: 100%; 
-        overflow: auto;
-        /* Start state untuk Background */
-        background-color: rgba(0, 0, 0, 0); 
-        backdrop-filter: blur(0px);
-        /* Transisi background agar fade in/out */
-        transition: background-color 0.4s ease, backdrop-filter 0.4s ease;
+        overflow-y: auto;
+        overflow-x: hidden;
+        
+        /* Optimization: Use Opacity for Fade Effect */
+        background-color: rgba(0, 0, 0, 0.85);
+        
+        /* Keep blur mostly static or remove transition to save GPU */
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+
         justify-content: center; 
         align-items: center;
-        opacity: 0; /* Invisible secara default */
+        
+        /* Transition only opacity and visibility */
+        opacity: 0; 
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
     }
 
-    /* Kelas ini ditambahkan lewat JS saat modal dibuka */
     .modal.show {
         opacity: 1;
-        background-color: rgba(0, 0, 0, 0.85);
-        backdrop-filter: blur(8px);
+        visibility: visible;
     }
 
     .modal-content {
         background: #13131f; 
         border: 1px solid var(--glass-border);
-        border-radius: 30px; 
-        box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        border-radius: 24px; 
+        box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         color: #fff; 
-        padding: 40px; 
+        padding: 30px; 
         position: relative; 
-        max-width: 700px; 
+        max-width: 600px; 
         width: 90%; 
         margin: auto;
 
-        /* Start state untuk Kartu (Sedikit kecil & turun ke bawah) */
+        /* Start state for Card */
         opacity: 0;
-        transform: scale(0.92) translateY(20px);
+        transform: scale(0.95) translateY(15px);
         
-        /* Magic Animation Curve (Apple/iOS style) */
-        transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        /* HARDWARE ACCELERATION HINT */
+        will-change: transform, opacity;
+        backface-visibility: hidden;
+        
+        /* Smooth Transition Curve */
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
     }
 
-    /* Saat modal punya class .show, ubah state kartu menjadi normal */
+    /* When modal has .show class */
     .modal.show .modal-content {
         opacity: 1;
         transform: scale(1) translateY(0);
     }
     
-    .close-btn { top: 20px; right: 30px; color: #666; font-size: 2rem; position: absolute; cursor: pointer; }
+    .close-btn { top: 20px; right: 30px; color: #666; font-size: 2rem; position: absolute; cursor: pointer; z-index: 10; }
     .close-btn:hover { color: #fff; }
 
     .quote-modal-author img {
@@ -502,7 +512,24 @@
         #toggleButton { bottom: 20px; left: 20px; }
         #menfessButton { bottom: 20px; right: 20px; }
         #spotifyPlayerContainer.open { transform: translateY(-70px); }
-        .modal-content { padding: 30px 20px; }
+        
+        /* Mobile Modal Animation Override */
+        .modal {
+            align-items: flex-end; /* Bottom sheet style for mobile */
+            padding-bottom: 0;
+        }
+        .modal-content {
+            width: 100%;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            margin-bottom: 0;
+            max-height: 85vh;
+            overflow-y: auto;
+            transform: translateY(100%); /* Start off-screen (bottom) */
+        }
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
         .modal-photo { width: 120px; height: 120px; }
         .modal-name { font-size: 2rem; }
     }
@@ -653,10 +680,10 @@
         <label for="menfessTo">Kepada Siapa?</label>
         <input type="text" id="menfessTo" required placeholder="Nama Siswa / All / Lainnya">
         <label for="menfessContent">Isi Pesanmu</label>
-        <textarea id="menfessContent" required minlength="10" maxlength="5000" placeholder="Tuliskan apa saja di sini..."></textarea>
+        <textarea id="menfessContent" required minlength="10" maxlength="5000" placeholder="Tuliskan menfess-mu di sini..."></textarea>
         <label for="menfessFrom">Dari (Opsional)</label>
         <input type="text" id="menfessFrom" placeholder="Anonim (Default)">
-        <button type="submit" class="menfess-submit-btn">Kirim</button>
+        <button type="submit" class="menfess-submit-btn">Kirim Menfess</button>
       </form>
     </div>
   </div>
@@ -908,16 +935,12 @@
           containerUltah.appendChild(div);
         });
         
-        const m = document.getElementById('birthdayModal');
-        m.style.display = 'flex';
-        setTimeout(() => m.classList.add('show'), 10);
+        openModalSmooth('birthdayModal');
       }
     }
 
     function closeBirthdayModal() {
-      const m = document.getElementById('birthdayModal');
-      m.classList.remove('show');
-      setTimeout(() => m.style.display = 'none', 400);
+        closeModalSmooth('birthdayModal');
     }
 
     // --- Daily Quote Logic ---
@@ -940,6 +963,28 @@
         </div>`).join('');
     }
 
+    // Helper function untuk animasi super smooth
+    function openModalSmooth(modalId) {
+        const m = document.getElementById(modalId);
+        m.style.display = 'flex';
+        // Trigger reflow
+        void m.offsetWidth; 
+        
+        requestAnimationFrame(() => {
+            m.classList.add('show');
+        });
+    }
+
+    function closeModalSmooth(modalId, callback = null) {
+        const m = document.getElementById(modalId);
+        m.classList.remove('show');
+        
+        setTimeout(() => {
+            m.style.display = 'none';
+            if (callback) callback();
+        }, 300); // 300ms transition time
+    }
+
     function openQuoteModal(index) {
         if (clickBlocked) { 
             clickBlocked = false; 
@@ -950,15 +995,11 @@
         document.getElementById('quoteModalName').textContent = s.name;
         document.getElementById('quoteModalPhoto').src = s.photo;
         
-        const m = document.getElementById('quoteModal');
-        m.style.display = 'flex';
-        setTimeout(() => m.classList.add('show'), 10);
+        openModalSmooth('quoteModal');
     }
 
     function closeQuoteModal() {
-        const m = document.getElementById('quoteModal');
-        m.classList.remove('show');
-        setTimeout(() => m.style.display = 'none', 400);
+        closeModalSmooth('quoteModal');
     }
 
     // --- Scroll Logic ---
@@ -1275,43 +1316,28 @@
       loadInteractions(student.name);
 
       // 4. Tampilkan Modal dengan Animasi Smooth
-      const m = document.getElementById('studentModal');
-      m.style.display = 'flex'; // Render dulu
-      // Beri jeda super singkat agar browser memproses display:flex, baru tambahkan class 'show'
-      setTimeout(() => {
-          m.classList.add('show');
-      }, 10);
+      openModalSmooth('studentModal');
     }
 
     // --- Close Modal (SMOOTH) ---
     function closeStudentModal() {
-      const m = document.getElementById('studentModal');
-      m.classList.remove('show'); // Memicu animasi keluar
-      
-      // Tunggu animasi CSS selesai (0.4s) baru hilangkan dari layout
-      setTimeout(() => {
-        m.style.display = 'none';
+      closeModalSmooth('studentModal', () => {
         if (interactionListener) {
             interactionListener();
             interactionListener = null;
         }
-      }, 400);
+      });
     }
 
     // --- Menfess Logic ---
     function openMenfessModal() {
-        const m = document.getElementById('menfessModal');
-        m.style.display = 'flex';
-        setTimeout(() => m.classList.add('show'), 10);
+        openModalSmooth('menfessModal');
     }
 
     function closeMenfessModal() {
-        const m = document.getElementById('menfessModal');
-        m.classList.remove('show');
-        setTimeout(() => {
-            m.style.display = 'none';
+        closeModalSmooth('menfessModal', () => {
             document.getElementById('menfessForm').reset();
-        }, 400);
+        });
     }
 
     async function saveMenfess(e) {
@@ -1421,15 +1447,11 @@
     // ==========================================
 
     function openAdminModal() {
-        const m = document.getElementById('adminModal');
-        m.style.display = 'flex';
-        setTimeout(() => m.classList.add('show'), 10);
+        openModalSmooth('adminModal');
     }
 
     function closeAdminModal() {
-        const m = document.getElementById('adminModal');
-        m.classList.remove('show');
-        setTimeout(() => m.style.display = 'none', 400);
+        closeModalSmooth('adminModal');
     }
 
     function checkAdminPassword() {
