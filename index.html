@@ -21,25 +21,17 @@
     ========================================
     */
     :root {
-        /* Palet Warna "Malam Kerajaan Gowa" */
         --c-void: #020408;
         --c-depth: #0a1124;
-        
         --c-gold-1: #bf953f;
         --c-gold-2: #fcf6ba;
         --c-gold-3: #b38728;
-        
         --c-maroon: #720e1e;
         --c-maroon-glow: #ff2a4d;
-        
         --c-text-main: #e2e8f0;
         --c-text-muted: #94a3b8;
-        
-        /* Glassmorphism */
         --glass-bg: rgba(15, 23, 42, 0.6);
         --glass-border: 1px solid rgba(255, 255, 255, 0.08);
-        
-        /* Transitions */
         --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
         --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
@@ -60,7 +52,6 @@
         position: relative;
     }
 
-    /* Scrollbar Mewah */
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: var(--c-void); }
     ::-webkit-scrollbar-thumb { 
@@ -113,34 +104,21 @@
     }
 
     /* ========================================
-    3. ANIMATIONS & LOADERS
+    3. ANIMATIONS & LOADERS (UPDATED FOR LOGO)
     ========================================
     */
-    @keyframes shine {
-        0% { background-position: -200% center; }
-        100% { background-position: 200% center; }
-    }
-    @keyframes float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-10px); }
-    }
-    @keyframes pulse-gold {
-        0% { box-shadow: 0 0 0 0 rgba(191, 149, 63, 0.4); }
-        70% { box-shadow: 0 0 0 15px rgba(191, 149, 63, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(191, 149, 63, 0); }
-    }
-    @keyframes rotate-slow {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-    }
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes lockPulse {
-        0% { transform: scale(1); text-shadow: 0 0 20px var(--c-gold-1); }
-        50% { transform: scale(1.1); text-shadow: 0 0 40px var(--c-gold-2); }
-        100% { transform: scale(1); text-shadow: 0 0 20px var(--c-gold-1); }
+    @keyframes shine { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes pulse-gold { 0% { box-shadow: 0 0 0 0 rgba(191, 149, 63, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(191, 149, 63, 0); } 100% { box-shadow: 0 0 0 0 rgba(191, 149, 63, 0); } }
+    @keyframes rotate-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes lockPulse { 0% { transform: scale(1); text-shadow: 0 0 20px var(--c-gold-1); } 50% { transform: scale(1.1); text-shadow: 0 0 40px var(--c-gold-2); } 100% { transform: scale(1); text-shadow: 0 0 20px var(--c-gold-1); } }
+
+    /* NEW: Animasi Mengapung untuk Logo */
+    @keyframes floatWater {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-15px); }
+        100% { transform: translateY(0px); }
     }
 
     /* Loader Screen */
@@ -151,15 +129,24 @@
         justify-content: center; align-items: center;
         transition: opacity 0.8s ease;
     }
-    .loader-diamond {
-        width: 80px; height: 80px;
-        border: 2px solid var(--c-gold-1);
-        transform: rotate(45deg);
-        position: relative;
-        animation: pulse-gold 2s infinite;
+    
+    /* GAYA LOGO BARU (MENGGANTIKAN DIAMOND) */
+/* GAYA LOGO BARU: MEDALI KERAJAAN (BULAT & EMAS) */
+    .loader-logo {
+        width: 130px;           /* Ukuran sedikit diperbesar */
+        height: 130px;          /* Tinggi disamakan agar jadi bulat sempurna */
+        object-fit: cover;      /* Memastikan gambar mengisi lingkaran tanpa gepeng */
+        border-radius: 50%;     /* INI YANG MEMBUATNYA JADI BULAT */
+        border: 5px solid var(--c-gold-1); /* Menambahkan bingkai emas tebal */
+        background-color: var(--c-depth);  /* Warna latar belakang jika gambar transparan */
+        box-shadow: 
+            0 0 30px rgba(191, 149, 63, 0.6), /* Cahaya emas luar (Glow) */
+            inset 0 0 20px rgba(0, 0, 0, 0.5); /* Bayangan dalam agar terlihat timbul (3D) */
+        animation: floatWater 3s ease-in-out infinite; /* Tetap gunakan animasi mengapung */
+        margin-bottom: 25px;
     }
+
     .loader-text {
-        margin-top: 50px;
         font-family: 'Cinzel Decorative', cursive;
         color: var(--c-gold-2);
         letter-spacing: 5px;
@@ -516,6 +503,36 @@
     .m-name { font-family: 'Cinzel Decorative'; font-size: 1.8rem; color: var(--c-gold-2); margin-bottom: 5px; line-height: 1.2; }
     .m-tag { background: var(--c-maroon); color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; margin-bottom: 20px; }
 
+    .m-stats-row {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        width: 100%;
+        margin: 15px 0;
+        padding: 10px 0;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .ms-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .ms-val {
+        font-family: 'Cinzel Decorative';
+        font-size: 1.1rem;
+        color: #fff;
+    }
+    
+    .ms-lbl {
+        font-size: 0.7rem;
+        color: var(--c-text-muted);
+        text-transform: uppercase;
+        margin-top: 2px;
+    }
+
     .m-content { display: flex; flex-direction: column; height: 100%; background: #0b101a; }
     .m-tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.05); }
     .tab-btn {
@@ -573,7 +590,7 @@
         border-radius: 12px;
     }
 
-    /* === ADMIN DASHBOARD STYLING (NEW) === */
+    /* === ADMIN DASHBOARD STYLING === */
     .admin-login-wrapper {
         display: flex; flex-direction: column; align-items: center; justify-content: center;
         height: 100%; width: 100%; text-align: center;
@@ -641,9 +658,7 @@
     .close-modal-btn { position: absolute; top: 20px; right: 20px; color: #fff; font-size: 2rem; cursor: pointer; z-index: 10; transition: 0.3s; }
     .close-modal-btn:hover { color: var(--c-maroon-glow); transform: rotate(90deg); }
 
-    /* ========================================
-       NEW STYLES FOR LIGHTBOX SLIDER
-       ======================================== */
+    /* Lightbox Navigation */
     .lb-nav-btn {
         position: absolute;
         top: 50%;
@@ -679,15 +694,41 @@
         .lb-nav-btn.next { right: 10px; }
     }
 
-    /* Responsive */
+    /* RESPONSIVE LAYOUT FIX (MOBILE) */
     @media (max-width: 900px) {
         .bento-grid { grid-template-columns: 1fr; gap: 15px; }
         .b-quote { grid-column: span 1; padding: 30px 20px; flex-direction: column; text-align: center; }
         .q-text { font-size: 1.5rem; }
         .b-stat { grid-column: span 1; }
-        .royal-modal { grid-template-columns: 1fr; overflow-y: auto; height: 90vh; }
-        .m-sidebar { flex-direction: row; padding: 20px; text-align: left; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .m-avatar-large { width: 80px; height: 80px; margin-bottom: 0; margin-right: 15px; }
+        
+        /* Modal Profile Responsive */
+        .royal-modal { 
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto; 
+            height: 90vh;
+        }
+        
+        .m-sidebar { 
+            flex-direction: column; /* Stack vertikal */
+            padding: 30px 20px; 
+            text-align: center; 
+            border-right: none; 
+            border-bottom: 1px solid rgba(255,255,255,0.1); 
+            width: 100%;
+        }
+        
+        .m-avatar-large { 
+            width: 100px; 
+            height: 100px; 
+            margin-bottom: 15px; 
+            margin-right: 0;
+        }
+
+        .m-content {
+            height: auto;
+            overflow-y: visible;
+        }
     }
   </style>
 </head>
@@ -702,7 +743,7 @@
   </a>
 
   <div id="loader">
-    <div class="loader-diamond"></div>
+    <img src="image/logo unclairone.png" class="loader-logo" alt="Logo Kelas"> 
     <div class="loader-text">UNCLAIRONE</div>
   </div>
 
