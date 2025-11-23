@@ -12,7 +12,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Plus+Jakarta+Sans:wght@200;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Plus+Jakarta+Sans:wght@200;400;500;700&family=Noto+Sans+Buginese&display=swap" rel="stylesheet">
 
     <style>
     /* ========================================
@@ -87,7 +87,8 @@
     /* ========================================
        3. BACKGROUND ELEMENTS
        ======================================== */
-    #canvas-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: 0.6; }
+    /* Opacity canvas disesuaikan agar Lontara terlihat jelas namun tidak mengganggu */
+    #canvas-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: 0.5; image-rendering: optimizeSpeed; }
     .vignette { position: fixed; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(circle at center, transparent 0%, var(--c-void) 120%); }
     
     .ornament-corner {
@@ -371,13 +372,18 @@
         ];
 
         /* ========================================
-           2. BACKGROUND PARTICLES
+           2. LONTARA PARTICLE SYSTEM (BACKGROUND) - DIPERBARUI
            ======================================== */
         const canvas = document.getElementById('canvas-bg');
         const ctx = canvas.getContext('2d');
         let particles = [];
+        // Daftar karakter Lontara
+        const lontaraChars = ['ᨀ', 'ᨁ', 'ᨂ', 'ᨃ', 'ᨄ', 'ᨅ', 'ᨆ', 'ᨇ', 'ᨈ', 'ᨉ', 'ᨊ', 'ᨋ', 'ᨌ', 'ᨍ', 'ᨎ', 'ᨏ', 'ᨐ', 'ᨑ', 'ᨒ', 'ᨓ', 'ᨔ', 'ᨕ', 'ᨖ'];
         
-        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
@@ -386,29 +392,48 @@
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2;
-                this.speedX = (Math.random() - 0.5) * 0.5;
-                this.speedY = (Math.random() - 0.5) * 0.5;
-                this.alpha = Math.random();
+                this.size = Math.random() * 20 + 10; // Ukuran lebih besar untuk teks
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.alpha = Math.random() * 0.5;
+                // Pilih karakter dan rotasi acak
+                this.char = lontaraChars[Math.floor(Math.random() * lontaraChars.length)];
+                this.rotation = Math.random() * Math.PI * 2;
             }
             update() {
                 this.x += this.speedX; this.y += this.speedY;
-                if(this.alpha > 0) this.alpha -= 0.002; else this.reset();
+                this.rotation += 0.002; // Rotasi perlahan
+                // Reset jika keluar layar (tidak fade out seperti sebelumnya)
                 if(this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
             }
             draw() {
-                ctx.fillStyle = `rgba(191, 149, 63, ${this.alpha})`;
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.fillStyle = 'rgba(191, 149, 63, ' + this.alpha + ')'; // Warna Emas
+                // Menggunakan font Noto Sans Buginese
+                ctx.font = this.size + "px 'Noto Sans Buginese', serif";
+                ctx.fillText(this.char, 0, 0);
+                ctx.restore();
             }
         }
 
-        function initParticles() { for(let i=0; i<80; i++) particles.push(new Particle()); }
+        function initParticles() {
+            // Optimasi jumlah partikel untuk HP vs Desktop
+            const isMobile = window.innerWidth < 768;
+            const count = isMobile ? 20 : 50; 
+            
+            particles = [];
+            for(let i=0; i<count; i++) particles.push(new Particle());
+        }
+        
         function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             particles.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(animateParticles);
         }
-        initParticles(); animateParticles();
+        initParticles();
+        animateParticles();
 
         /* ========================================
            3. LOGIC PRESTASI
