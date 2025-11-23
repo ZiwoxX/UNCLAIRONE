@@ -53,6 +53,7 @@
     ::-webkit-scrollbar-thumb { 
         background: linear-gradient(to bottom, var(--c-gold-3), var(--c-maroon)); 
         border-radius: 10px; 
+        border: 2px solid var(--c-void);
     }
 
     /* ========================================
@@ -74,6 +75,12 @@
     @keyframes fadeInUp {
         from { opacity: 0; transform: translateY(30px); }
         to { opacity: 1; transform: translateY(0); }
+    }
+    /* Animasi Mengapung untuk Logo */
+    @keyframes floatWater {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-15px); }
+        100% { transform: translateY(0px); }
     }
 
     /* ========================================
@@ -227,15 +234,35 @@
         font-family: 'Cinzel Decorative'; font-size: 0.8rem;
     }
 
-    /* Loader */
+    /* ========================================
+       LOADER BARU (MEDALI KERAJAAN)
+       ======================================== */
     #loader {
         position: fixed; inset: 0; z-index: 9999; background: var(--c-void);
         display: flex; flex-direction: column; justify-content: center; align-items: center;
         transition: opacity 0.8s ease;
     }
-    .loader-diamond {
-        width: 60px; height: 60px; border: 2px solid var(--c-gold-1);
-        transform: rotate(45deg); animation: pulse-gold 2s infinite;
+    
+    .loader-logo {
+        width: 130px;           /* Ukuran */
+        height: 130px;          /* Bulat sempurna */
+        object-fit: cover;      
+        border-radius: 50%;     /* Bikin bulat */
+        border: 5px solid var(--c-gold-1); /* Bingkai Emas */
+        background-color: var(--c-depth);
+        box-shadow: 
+            0 0 30px rgba(191, 149, 63, 0.6), 
+            inset 0 0 20px rgba(0, 0, 0, 0.5);
+        animation: floatWater 3s ease-in-out infinite; /* Mengapung */
+        margin-bottom: 25px;
+    }
+
+    .loader-text {
+        font-family: 'Cinzel Decorative', cursive;
+        color: var(--c-gold-2);
+        letter-spacing: 5px;
+        font-size: 1.5rem;
+        animation: float 2s ease-in-out infinite;
     }
     
     @media (max-width: 768px) {
@@ -249,8 +276,8 @@
 <body>
 
     <div id="loader">
-        <div class="loader-diamond"></div>
-        <p style="margin-top:20px; color:var(--c-gold-2); font-family:'Cinzel Decorative'; letter-spacing:3px;">MEMUAT...</p>
+        <img src="image/logo unclairone.png" class="loader-logo" alt="Logo Kelas">
+        <div class="loader-text">UNCLAIRONE</div>
     </div>
 
     <canvas id="canvas-bg"></canvas>
