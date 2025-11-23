@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="/image/logo unclairone.png" />     
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#050914">
   <meta name="description" content="Portal Kelas 10 C.1 - SMAN 1 PAREPARE">
@@ -104,12 +105,11 @@
     }
 
     /* ========================================
-    3. ANIMATIONS & LOADERS (UPDATED FOR LOGO)
+    3. ANIMATIONS & LOADERS
     ========================================
     */
     @keyframes shine { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
     @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-    @keyframes pulse-gold { 0% { box-shadow: 0 0 0 0 rgba(191, 149, 63, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(191, 149, 63, 0); } 100% { box-shadow: 0 0 0 0 rgba(191, 149, 63, 0); } }
     @keyframes rotate-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes lockPulse { 0% { transform: scale(1); text-shadow: 0 0 20px var(--c-gold-1); } 50% { transform: scale(1.1); text-shadow: 0 0 40px var(--c-gold-2); } 100% { transform: scale(1); text-shadow: 0 0 20px var(--c-gold-1); } }
@@ -130,19 +130,17 @@
         transition: opacity 0.8s ease;
     }
     
-    /* GAYA LOGO BARU (MENGGANTIKAN DIAMOND) */
-/* GAYA LOGO BARU: MEDALI KERAJAAN (BULAT & EMAS) */
     .loader-logo {
-        width: 130px;           /* Ukuran sedikit diperbesar */
-        height: 130px;          /* Tinggi disamakan agar jadi bulat sempurna */
-        object-fit: cover;      /* Memastikan gambar mengisi lingkaran tanpa gepeng */
-        border-radius: 50%;     /* INI YANG MEMBUATNYA JADI BULAT */
-        border: 5px solid var(--c-gold-1); /* Menambahkan bingkai emas tebal */
-        background-color: var(--c-depth);  /* Warna latar belakang jika gambar transparan */
+        width: 130px;           
+        height: 130px;          
+        object-fit: cover;      
+        border-radius: 50%;     
+        border: 5px solid var(--c-gold-1); 
+        background-color: var(--c-depth);  
         box-shadow: 
-            0 0 30px rgba(191, 149, 63, 0.6), /* Cahaya emas luar (Glow) */
-            inset 0 0 20px rgba(0, 0, 0, 0.5); /* Bayangan dalam agar terlihat timbul (3D) */
-        animation: floatWater 3s ease-in-out infinite; /* Tetap gunakan animasi mengapung */
+            0 0 30px rgba(191, 149, 63, 0.6), 
+            inset 0 0 20px rgba(0, 0, 0, 0.5); 
+        animation: floatWater 3s ease-in-out infinite; 
         margin-bottom: 25px;
     }
 
@@ -1133,6 +1131,9 @@
             setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 800);
         }, 2000); 
         initContent();
+        
+        // PANGGIL FUNGSI FAVICON DISINI
+        makeFaviconCircular();
     });
 
     // 2. Initialize
@@ -1655,6 +1656,45 @@
             scrollWrapper.scrollLeft = scrollLeft - walk;
         }, {passive: true});
     }
+
+    /* ========================================
+    K. AUTO CIRCULAR FAVICON (NEW FUNCTION)
+    ========================================
+    */
+    function makeFaviconCircular() {
+        // Ambil elemen link favicon
+        const link = document.querySelector("link[rel~='icon']");
+        if (!link) return;
+
+        // Buat image object untuk memuat gambar favicon
+        const img = new Image();
+        img.crossOrigin = "Anonymous"; // Jaga-jaga jika lintas domain
+        img.src = link.href;
+
+        img.onload = function() {
+            // Buat canvas
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            
+            // Tentukan ukuran persegi (ambil sisi terkecil agar tidak gepeng)
+            const size = Math.min(img.width, img.height);
+            canvas.width = size;
+            canvas.height = size;
+
+            // 1. Gambar lingkaran (Clipping Path)
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size/2, 0, 2 * Math.PI);
+            ctx.closePath();
+            ctx.clip(); // Potong area di luar lingkaran
+
+            // 2. Gambar image original ke dalam canvas yang sudah di-clip
+            ctx.drawImage(img, 0, 0, size, size);
+
+            // 3. Update href favicon dengan data URL dari canvas
+            link.href = canvas.toDataURL();
+        };
+    }
+
   </script>
 </body>
 </html>
