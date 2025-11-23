@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌟 QR Code Ikonik Siap Cetak dan Unduh</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        /* Reset dan Box Sizing Universal */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* === CSS TAMPILAN LAYAR (SCREEN VIEW) === */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Gradien Latar Belakang Lebih Dalam & Modern */
+            background: linear-gradient(135deg, #1f4068 0%, #151d3b 100%); 
+            color: #fff;
+            text-align: center;
+            padding: 30px 20px; 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            margin-bottom: 25px;
+            font-size: 2.4em; 
+            /* Teks dengan Efek Neon */
+            text-shadow: 0 0 5px #00aaff, 0 0 10px #00aaff, 0 0 15px rgba(0,0,0,0.5); 
+        }
+        .container {
+            max-width: 550px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.15); /* Transparan */
+            padding: 30px;
+            border-radius: 20px;
+            /* Bayangan dengan Efek Kedalaman */
+            box-shadow: 0 18px 50px rgba(0,0,0,0.7); 
+            backdrop-filter: blur(12px); 
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        /* Input dan Tombol */
+        input {
+            padding: 14px;
+            margin: 10px 0;
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-sizing: border-box;
+        }
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            margin-bottom: 25px;
+            justify-content: center;
+        }
+        button {
+            padding: 12px 30px;
+            /* Gradien Tombol Utama Baru */
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 17px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+        }
+        #downloadButton {
+            /* Gradien Tombol Unduh */
+            background: linear-gradient(45deg, #1abc9c, #16a085);
+        }
+
+        /* Styling Utama QR Code Mirip Ikon (SCREEN) */
+        #qrcode-wrapper {
+            position: relative;
+            padding: 30px 30px 70px; /* Padding lebih besar */
+            background: #002244; /* Warna Ikon (Biru Tua Gelap) */
+            border-radius: 25px; 
+            box-shadow: 0 15px 50px rgba(0,0,0,0.8); 
+            display: none; 
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+            z-index: 1; 
+        }
+        #qrcode-wrapper:hover {
+            transform: scale(1.02); 
+        }
+
+        /* Teks "SCAN ME" (SCREEN) */
+        #qrcode-text {
+            color: #ffffff; 
+            font-weight: 800; 
+            font-size: 1.5em; 
+            padding: 10px 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px; 
+            position: absolute; 
+            bottom: 8px; 
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            text-shadow: 0 0 5px #ffcc00; 
+        }
+        
+        /* Garis Separator/Pemisah (SCREEN) */
+        #qrcode-text::before {
+            content: '';
+            position: absolute;
+            top: -5px; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ffcc00, transparent);
+            border-radius: 1.5px;
+        }
+
+        /* Area QR Code (Canvas/Image) (SCREEN) */
+        #qrcode {
+            padding: 15px; 
+            background: #ffffff; 
+            border-radius: 15px; 
+            position: relative;
+            box-shadow: 0 0 20px rgba(255,255,255,0.3); 
+            margin-bottom: 0; 
+            background-color: #ffffff; 
+        }
+        
+        /* Ekor Bubble (SCREEN) */
+        #qrcode::after {
+            content: '';
+            position: absolute;
+            bottom: -25px; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 25px solid #ffffff; 
+            z-index: 4; 
+        }
+        
+        /* Menyesuaikan Canvas */
+        #qrcode canvas {
+            display: block;
+            position: relative;
+            z-index: 5; 
+            border-radius: 8px; 
+        }
+        
+        /* ---- Bingkai Pemindai (SCREEN) ---- */
+        .scanner-frame {
+            position: absolute;
+            top: 8px; 
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            pointer-events: none;
+            z-index: 6; 
+        }
+        
+        /* Animasi */
+        @keyframes rotateCorners {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Gaya Sudut (SCREEN) */
+        .scanner-frame::before, 
+        .scanner-frame::after, 
+        #qrcode-wrapper .scanner-frame > div::before, 
+        #qrcode-wrapper .scanner-frame > div::after {
+            content: '';
+            position: absolute;
+            width: 25px; height: 25px; 
+            border: none; 
+            z-index: 7;
+            box-sizing: border-box;
+        }
+
+        /* Sudut Kiri Atas (SCREEN) */
+        .scanner-frame::before {
+            top: 0; left: 0;
+            border-top: 4px solid #ffcc00; 
+            border-left: 4px solid #ffcc00;
+            border-top-left-radius: 8px;
+            animation: rotateCorners 8s linear infinite reverse; 
+        }
+
+        /* Sudut Kanan Atas (SCREEN) */
+        .scanner-frame::after {
+            top: 0; right: 0;
+            border-top: 4px solid #ffcc00;
+            border-right: 4px solid #ffcc00;
+            border-top-right-radius: 8px;
+            animation: rotateCorners 8s linear infinite;
+        }
+        
+        /* Sudut Kiri Bawah (SCREEN) */
+        #qrcode-wrapper .scanner-frame > div::before { 
+            bottom: 0; left: 0;
+            border-bottom: 4px solid #ffcc00;
+            border-left: 4px solid #ffcc00;
+            border-bottom-left-radius: 8px;
+            animation: rotateCorners 8s linear infinite;
+        }
+
+        /* Sudut Kanan Bawah (SCREEN) */
+        #qrcode-wrapper .scanner-frame > div::after {
+            bottom: 0; right: 0;
+            border-bottom: 4px solid #ffcc00;
+            border-right: 4px solid #ffcc00;
+            border-bottom-right-radius: 8px;
+            animation: rotateCorners 8s linear infinite reverse;
+        }
+        
+        /* ============================================== */
+        /* === MEDIA QUERY KHUSUS UNTUK CETAK (PRINT) === */
+        /* ============================================== */
+        @media print {
+            /* Sembunyikan elemen yang tidak perlu dicetak (input, tombol, judul utama) */
+            h1, .container input, .button-group {
+                display: none;
+            }
+
+            /* Atur latar belakang tubuh menjadi putih dan warna teks menjadi hitam */
+            body {
+                background: #ffffff;
+                color: #000000;
+                padding: 0;
+                justify-content: center;
+                align-items: center; /* Tambahkan ini agar di pratinjau cetak terpusat */
+                min-height: auto;
+            }
+
+            /* Kontainer tampilan, pastikan tidak ada bayangan atau latar belakang yang menghabiskan tinta */
+            .container {
+                width: auto;
+                max-width: none;
+                background: none;
+                box-shadow: none;
+                backdrop-filter: none;
+                border: none;
+                padding: 0;
+                margin: 0 auto; /* Pusatkan di kertas */
+            }
+
+            /* QR Code Wrapper: Tetap menjadi kotak keren, tapi dengan background putih atau border solid */
+            #qrcode-wrapper {
+                display: flex; /* Pastikan tetap terlihat */
+                background: #ffffff; /* Latar belakang putih solid */
+                /* Border tebal biru tua untuk efek kotak keren saat dicetak */
+                border: 4px solid #1f4068; 
+                border-radius: 15px; 
+                padding: 20px 20px 50px; 
+                box-shadow: none; 
+                transform: none; 
+                margin: 20px; /* Tambahkan margin agar tidak terlalu mepet ke ujung kertas */
+            }
+            
+            /* Area QR Code: Tetap putih */
+            #qrcode {
+                background: #ffffff;
+                box-shadow: none;
+                padding: 10px;
+                border-radius: 10px;
+            }
+            
+            /* Teks "SCAN ME": Dibuat hitam dan jelas */
+            #qrcode-text {
+                color: #1f4068; /* Warna biru tua kontras tinggi */
+                text-shadow: none; 
+                bottom: 5px; 
+                font-size: 1.2em; /* Sedikit dikecilkan agar lebih proporsional saat dicetak */
+                font-weight: bold;
+            }
+            
+            /* Garis Separator: Dibuat solid agar jelas dicetak */
+            #qrcode-text::before {
+                background: #1f4068; /* Solid blue line */
+                height: 2px;
+                width: 40%;
+            }
+
+            /* Ekor Bubble: Dihapus saat dicetak */
+            #qrcode::after {
+                content: none; 
+            }
+
+            /* Sudut Scanner Frame: Dibuat solid dan berwarna/hitam jelas */
+            .scanner-frame::before, 
+            .scanner-frame::after, 
+            #qrcode-wrapper .scanner-frame > div::before, 
+            #qrcode-wrapper .scanner-frame > div::after {
+                animation: none !important; 
+                /* Warna emas atau hitam jika printer BW */
+                border-color: #ffcc00 !important; 
+                border-width: 3px !important; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>🌟 QR Code Ikonik Generator</h1>
+    <div class="container">
+        <input type="text" id="text" placeholder="Masukkan URL (Contoh: https://www.google.com)" value="https://www.google.com">
+        <input type="text" id="displayText" placeholder="Teks Tampilan (Contoh: SCAN ME!)" value="SCAN ME">
+        
+        <div class="button-group">
+            <button onclick="generateQR()">Buat QR Code</button>
+            <button id="downloadButton" style="display: none;" onclick="downloadQR()">Unduh QR Bergaya PNG</button>
+        </div>
+
+        <div id="qrcode-wrapper">
+            <div id="qrcode">
+                <div class="scanner-frame">
+                    <div></div>
+                </div>
+            </div>
+            <div id="qrcode-text"></div>
+        </div>
+    </div>
+
+    <script>
+        let qrCodeInstance = null;
+        const qrcodeWrapper = document.getElementById('qrcode-wrapper');
+        const downloadBtn = document.getElementById('downloadButton');
+        const qrcodeTextElement = document.getElementById('qrcode-text');
+
+        const DEFAULT_SIZE = 256; 
+        // Warna QR Code diubah menjadi Biru Tua/Navy untuk tampilan premium
+        const DEFAULT_FG_COLOR = '#1f4068'; 
+        const DEFAULT_BG_COLOR = '#ffffff'; 
+
+        function generateQR() {
+            const text = document.getElementById('text').value.trim();
+            const displayText = document.getElementById('displayText').value.trim() || 'SCAN ME'; 
+
+            if (text === '') {
+                alert('Tolong masukkan URL terlebih dahulu!');
+                return;
+            }
+
+            // Hapus isi div qrcode sebelumnya
+            document.getElementById('qrcode').innerHTML = '';
+            
+            // Re-append scanner-frame
+            const frame = document.createElement('div');
+            frame.className = 'scanner-frame';
+            const innerDiv = document.createElement('div');
+            frame.appendChild(innerDiv);
+            document.getElementById('qrcode').appendChild(frame);
+
+            // Generate QR Code
+            qrCodeInstance = new QRCode(document.getElementById('qrcode'), {
+                text: text,
+                width: DEFAULT_SIZE,
+                height: DEFAULT_SIZE,
+                colorDark: DEFAULT_FG_COLOR, 
+                colorLight: DEFAULT_BG_COLOR,
+                correctLevel: QRCode.CorrectLevel.M 
+            });
+
+            qrcodeTextElement.textContent = displayText.toUpperCase();
+            qrcodeWrapper.style.display = 'flex';
+            downloadBtn.style.display = 'inline-block';
+        }
+
+        async function downloadQR() {
+            if (!qrCodeInstance) {
+                alert('Buat QR Code terlebih dahulu sebelum mengunduh!');
+                return;
+            }
+            
+            // Sembunyikan tombol download sementara agar tidak ikut terekam oleh html2canvas
+            downloadBtn.style.display = 'none';
+
+            // html2canvas akan mengambil screenshot dari #qrcode-wrapper
+            await html2canvas(qrcodeWrapper, {
+                useCORS: true, 
+                backgroundColor: null, 
+                scale: 3 // Tingkatkan skala untuk kualitas gambar yang sangat baik saat diunduh
+            }).then(function(canvas) {
+                const dataUrl = canvas.toDataURL("image/png");
+                const a = document.createElement('a');
+                a.href = dataUrl;
+                a.download = `qrcode_ikonik_siap_scan_${Date.now()}.png`; 
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+
+                // Tampilkan kembali tombol download setelah selesai
+                downloadBtn.style.display = 'inline-block';
+            }).catch(error => {
+                console.error("Gagal mengunduh gambar:", error);
+                alert("Terjadi kesalahan saat mencoba mengunduh QR Code. Silakan coba lagi.");
+                downloadBtn.style.display = 'inline-block'; 
+            });
+        }
+        
+        window.onload = generateQR;
+    </script>
+</body>
+</html>
