@@ -83,6 +83,7 @@
         transition: color 0.3s ease, background-color 0.3s ease;
         text-transform: uppercase;
         letter-spacing: 1px;
+        cursor: pointer;
     }
     .admin-footer-link:hover {
         color: rgba(255, 255, 255, 0.8);
@@ -127,22 +128,6 @@
     }
 
     /* --- QUOTE & STATS --- */
-    .quote-box {
-        background: var(--glass-bg); backdrop-filter: var(--glass-blur);
-        border: 1px solid var(--glass-border); border-radius: 20px; 
-        padding: 30px; margin: 0 auto 40px auto; 
-        max-width: 700px; width: 90%; text-align: center;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        position: relative; overflow: hidden;
-    }
-    .quote-box::before {
-        content:''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
-        background: var(--accent);
-    }
-    .quote-icon { font-size: 2rem; color: var(--accent); margin-bottom: 15px; opacity: 0.8; }
-    .quote-text { font-size: 1.2rem; font-weight: 300; line-height: 1.6; color: var(--text-main); margin: 0; }
-    .quote-author { margin-top: 15px; font-weight: 700; color: var(--secondary); font-size: 0.9rem; letter-spacing: 1px; }
-
     .running-quotes-wrapper {
         width: 100%; overflow-x: auto; margin-bottom: 40px; padding: 20px 0;
         background: rgba(0,0,0,0.2); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border);
@@ -259,7 +244,7 @@
     .instagram-link:hover { color: var(--secondary); }
     .instagram-link::before { content: '\f16d'; font-family: 'Font Awesome 6 Brands'; margin-right: 5px; }
 
-    /* --- MENFESS SECTION (List Pesan) --- */
+    /* --- MENFESS SECTION --- */
     #menfessSection { 
         width: 100%; max-width: 1200px; margin: 60px auto; 
         padding-top: 40px; border-top: 1px solid var(--glass-border); 
@@ -339,21 +324,58 @@
     }
     #spotifyPlayerContainer.open { transform: translateY(-80px); }
 
-    /* --- MODALS --- */
+    /* --- MODALS & ANIMATION (SMOOTH) --- */
     .modal {
-        display: none; position: fixed; z-index: 9999; left: 0; top: 0;
-        width: 100%; height: 100%; overflow: auto;
-        background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
-        justify-content: center; align-items: center;
+        display: none; /* Tetap hidden saat awal */
+        position: fixed; 
+        z-index: 9999; 
+        left: 0; 
+        top: 0;
+        width: 100%; 
+        height: 100%; 
+        overflow: auto;
+        /* Start state untuk Background */
+        background-color: rgba(0, 0, 0, 0); 
+        backdrop-filter: blur(0px);
+        /* Transisi background agar fade in/out */
+        transition: background-color 0.4s ease, backdrop-filter 0.4s ease;
+        justify-content: center; 
+        align-items: center;
+        opacity: 0; /* Invisible secara default */
+    }
+
+    /* Kelas ini ditambahkan lewat JS saat modal dibuka */
+    .modal.show {
+        opacity: 1;
+        background-color: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(8px);
     }
 
     .modal-content {
-        background: #13131f; border: 1px solid var(--glass-border);
-        border-radius: 30px; box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-        color: #fff; padding: 40px; position: relative; max-width: 700px; width: 90%;
-        animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); margin: auto;
+        background: #13131f; 
+        border: 1px solid var(--glass-border);
+        border-radius: 30px; 
+        box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        color: #fff; 
+        padding: 40px; 
+        position: relative; 
+        max-width: 700px; 
+        width: 90%; 
+        margin: auto;
+
+        /* Start state untuk Kartu (Sedikit kecil & turun ke bawah) */
+        opacity: 0;
+        transform: scale(0.92) translateY(20px);
+        
+        /* Magic Animation Curve (Apple/iOS style) */
+        transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
     }
-    @keyframes modalPop { from{ transform: scale(0.8); opacity: 0; } to{ transform: scale(1); opacity: 1; } }
+
+    /* Saat modal punya class .show, ubah state kartu menjadi normal */
+    .modal.show .modal-content {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
     
     .close-btn { top: 20px; right: 30px; color: #666; font-size: 2rem; position: absolute; cursor: pointer; }
     .close-btn:hover { color: #fff; }
@@ -385,7 +407,7 @@
     .like-btn { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--accent); color: var(--accent); background: transparent; cursor: pointer; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; }
     .like-btn.liked { background: var(--accent); color: #fff; box-shadow: 0 0 20px var(--accent); }
     
-    /* === PERBAIKAN STYLE KOMENTAR (BOX STYLE) === */
+    /* === COMMENT STYLE === */
     .comments-list {
         max-height: 250px;
         overflow-y: auto;
@@ -641,7 +663,7 @@
 
   <div id="adminModal" class="modal" style="z-index: 170;">
     <div class="modal-content" style="max-width: 500px;">
-      <span class="close-btn" onclick="document.getElementById('adminModal').style.display='none';">×</span>
+      <span class="close-btn" onclick="closeAdminModal()">×</span>
       <h3 style="text-align: center; color: var(--primary); margin-bottom: 20px;">Admin Dashboard</h3>
       <input type="password" id="adminPassword" placeholder="Masukkan Password Admin" style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #444; background: #1a1a24; color: #fff;">
       <button onclick="checkAdminPassword()" style="width: 100%; padding: 10px; background: var(--accent); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Masuk</button>
@@ -655,7 +677,7 @@
     </div>
   </div>
   
-  <a href="#" onclick="document.getElementById('adminModal').style.display='flex'; return false;" class="admin-footer-link">
+  <a href="#" onclick="openAdminModal(); return false;" class="admin-footer-link">
     <i class="fas fa-user-secret"></i> Admin
   </a>
 
@@ -831,25 +853,19 @@
       });
     }
 
-    // --- Close Modals ---
-    function closeStudentModal() {
-      modal.style.display = 'none';
-      if (interactionListener) {
-        interactionListener();
-        interactionListener = null;
-      }
-    }
-
+    // --- Close Modals (GLOBAL HANDLER) ---
     lightboxCloseBtn.onclick = function() {
       closeLightBox();
     }
 
+    // Update Global Click Handler for Smooth Modals
     window.onclick = function(event) {
-      if (event.target == modal) closeStudentModal();
-      if (event.target == lightbox) closeLightBox();
+      if (event.target == document.getElementById('studentModal')) closeStudentModal();
+      if (event.target == document.getElementById('lightbox')) closeLightBox();
       if (event.target == document.getElementById('quoteModal')) closeQuoteModal();
       if (event.target == document.getElementById('menfessModal')) closeMenfessModal();
       if (event.target == document.getElementById('birthdayModal')) closeBirthdayModal();
+      if (event.target == document.getElementById('adminModal')) closeAdminModal();
     }
 
     // --- Swipe/Nav Logic ---
@@ -892,12 +908,16 @@
           containerUltah.appendChild(div);
         });
         
-        document.getElementById('birthdayModal').style.display = 'flex';
+        const m = document.getElementById('birthdayModal');
+        m.style.display = 'flex';
+        setTimeout(() => m.classList.add('show'), 10);
       }
     }
 
     function closeBirthdayModal() {
-      document.getElementById('birthdayModal').style.display = 'none';
+      const m = document.getElementById('birthdayModal');
+      m.classList.remove('show');
+      setTimeout(() => m.style.display = 'none', 400);
     }
 
     // --- Daily Quote Logic ---
@@ -929,11 +949,16 @@
         document.getElementById('quoteModalText').textContent = `"${s.quote}"`;
         document.getElementById('quoteModalName').textContent = s.name;
         document.getElementById('quoteModalPhoto').src = s.photo;
-        document.getElementById('quoteModal').style.display = 'flex';
+        
+        const m = document.getElementById('quoteModal');
+        m.style.display = 'flex';
+        setTimeout(() => m.classList.add('show'), 10);
     }
 
     function closeQuoteModal() {
-        document.getElementById('quoteModal').style.display = 'none';
+        const m = document.getElementById('quoteModal');
+        m.classList.remove('show');
+        setTimeout(() => m.style.display = 'none', 400);
     }
 
     // --- Scroll Logic ---
@@ -1194,10 +1219,9 @@
     }
 
 
-    // --- Show Detail Logic ---
-// --- GANTI FUNGSI showStudentDetails DENGAN YANG INI ---
+    // --- Show Detail Logic (SMOOTH ANIMATION) ---
     async function showStudentDetails(student) {
-      // 1. Set Data Dasar (Static)
+      // 1. Set Data
       document.getElementById('modalPhoto').src = student.photo;
       document.getElementById('modalName').textContent = student.name;
       document.getElementById('modalAge').textContent = student.age;
@@ -1214,28 +1238,26 @@
       // 2. Siapkan Wadah Galeri
       const galleryContainer = document.getElementById('galleryContainer');
       const photoGalleryGrid = document.getElementById('photoGalleryGrid');
-      photoGalleryGrid.innerHTML = ''; // Kosongkan dulu
+      photoGalleryGrid.innerHTML = ''; 
       let allPhotos = [];
 
-      // 3. Masukkan Foto dari Array Static (Jika ada)
+      // 3. Static + Dynamic Photos
       if (student.gallery && student.gallery.length > 0) {
           allPhotos = [...student.gallery];
       }
 
-      // 4. AMBIL FOTO DARI FIREBASE (Dynamic)
       try {
           const doc = await db.collection('galleries').doc(student.name).get();
           if (doc.exists) {
               const data = doc.data();
               if (data.images && Array.isArray(data.images)) {
-                  allPhotos = [...allPhotos, ...data.images]; // Gabungkan foto
+                  allPhotos = [...allPhotos, ...data.images]; 
               }
           }
       } catch (err) {
-          console.log("Belum ada foto tambahan di database untuk user ini.");
+          console.log("Belum ada foto tambahan.");
       }
 
-      // 5. Render Galeri
       if (allPhotos.length > 0) {
         galleryContainer.style.display = 'block';
         allPhotos.forEach((photo, index) => {
@@ -1249,19 +1271,47 @@
         galleryContainer.style.display = 'none';
       }
 
-      // 6. Tampilkan Modal
-      modal.style.display = 'flex';
+      // Load Interaksi
       loadInteractions(student.name);
+
+      // 4. Tampilkan Modal dengan Animasi Smooth
+      const m = document.getElementById('studentModal');
+      m.style.display = 'flex'; // Render dulu
+      // Beri jeda super singkat agar browser memproses display:flex, baru tambahkan class 'show'
+      setTimeout(() => {
+          m.classList.add('show');
+      }, 10);
+    }
+
+    // --- Close Modal (SMOOTH) ---
+    function closeStudentModal() {
+      const m = document.getElementById('studentModal');
+      m.classList.remove('show'); // Memicu animasi keluar
+      
+      // Tunggu animasi CSS selesai (0.4s) baru hilangkan dari layout
+      setTimeout(() => {
+        m.style.display = 'none';
+        if (interactionListener) {
+            interactionListener();
+            interactionListener = null;
+        }
+      }, 400);
     }
 
     // --- Menfess Logic ---
     function openMenfessModal() {
-        document.getElementById('menfessModal').style.display = 'flex';
+        const m = document.getElementById('menfessModal');
+        m.style.display = 'flex';
+        setTimeout(() => m.classList.add('show'), 10);
     }
 
     function closeMenfessModal() {
-        document.getElementById('menfessModal').style.display = 'none';
-        document.getElementById('menfessForm').reset();
+        const m = document.getElementById('menfessModal');
+        m.classList.remove('show');
+        setTimeout(() => {
+            m.style.display = 'none';
+            document.getElementById('menfessForm').reset();
+        }, 400);
     }
 
     async function saveMenfess(e) {
@@ -1369,6 +1419,18 @@
     // ==========================================
     // ** ADMIN DASHBOARD LOGIC **
     // ==========================================
+
+    function openAdminModal() {
+        const m = document.getElementById('adminModal');
+        m.style.display = 'flex';
+        setTimeout(() => m.classList.add('show'), 10);
+    }
+
+    function closeAdminModal() {
+        const m = document.getElementById('adminModal');
+        m.classList.remove('show');
+        setTimeout(() => m.style.display = 'none', 400);
+    }
 
     function checkAdminPassword() {
         const input = document.getElementById('adminPassword').value;
