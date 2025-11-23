@@ -9,7 +9,7 @@
   <title>UNCLAIRONE AREA</title>
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
@@ -44,6 +44,8 @@
         margin: 0;
         padding: 0;
         -webkit-font-smoothing: antialiased;
+        /* Hardware Acceleration untuk scrolling lebih mulus */
+        -webkit-tap-highlight-color: transparent;
     }
 
     body {
@@ -76,7 +78,7 @@
         align-items: center;
         gap: 10px;
         padding: 12px 30px;
-        background: rgba(15, 23, 42, 0.6);
+        background: rgba(15, 23, 42, 0.85); /* Kurangi transparansi untuk performa */
         border: 1px solid var(--c-gold-3);
         border-radius: 2px 20px 2px 20px;
         color: var(--c-text-main);
@@ -84,6 +86,7 @@
         font-family: 'Cinzel Decorative', cursive;
         font-size: 0.9rem;
         letter-spacing: 1px;
+        /* Blur dihapus untuk mobile nanti */
         backdrop-filter: blur(10px);
         transition: all 0.3s var(--ease-out);
         box-shadow: 0 5px 15px rgba(0,0,0,0.3);
@@ -102,7 +105,7 @@
     .nav-right { right: 40px; }
 
     @media (max-width: 768px) {
-        .nav-btn { top: 20px; padding: 8px 15px; font-size: 0.75rem; gap: 5px; }
+        .nav-btn { top: 20px; padding: 8px 15px; font-size: 0.75rem; gap: 5px; backdrop-filter: none; background: #0f172a; }
         .nav-left { left: 15px; }
         .nav-right { right: 15px; }
         .nav-btn span { display: none; } 
@@ -155,6 +158,8 @@
     #canvas-bg {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         z-index: 0; pointer-events: none; opacity: 0.5;
+        /* Performa canvas */
+        image-rendering: optimizeSpeed; 
     }
     .vignette {
         position: fixed; inset: 0; z-index: 1; pointer-events: none;
@@ -256,10 +261,14 @@
         backdrop-filter: blur(12px); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
         opacity: 0; animation: fadeInUp 1s ease-out forwards;
     }
-    .bento-card:nth-child(1) { animation-delay: 1.2s; } 
-    .bento-card:nth-child(2) { animation-delay: 1.4s; }
-    .bento-card:nth-child(3) { animation-delay: 1.6s; }
-    .bento-card:nth-child(4) { animation-delay: 1.8s; }
+    
+    /* Optimize Animation for Mobile - Reduce Stagger */
+    @media (min-width: 769px) {
+        .bento-card:nth-child(1) { animation-delay: 1.2s; } 
+        .bento-card:nth-child(2) { animation-delay: 1.4s; }
+        .bento-card:nth-child(3) { animation-delay: 1.6s; }
+        .bento-card:nth-child(4) { animation-delay: 1.8s; }
+    }
 
     .bento-card:hover {
         transform: translateY(-5px); border-color: var(--c-gold-3);
@@ -338,6 +347,8 @@
         border: 1px solid rgba(255,255,255,0.05); border-radius: 30px; padding: 40px 20px; position: relative;
         display: flex; flex-direction: column; align-items: center;
         transition: all 0.5s var(--ease-out); overflow: hidden;
+        /* Force hardware acceleration */
+        transform: translateZ(0); 
     }
     .jewel-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, transparent, var(--c-gold-1), transparent); opacity: 0; transition: 0.5s; }
     .jewel-card:hover { transform: translateY(-15px); background: rgba(22, 42, 71, 0.3); box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
@@ -486,7 +497,27 @@
     .lb-nav-btn.prev { left: 20px; } .lb-nav-btn.next { right: 20px; }
     @media (max-width: 768px) { .lb-nav-btn { width: 40px; height: 40px; font-size: 1rem; background: rgba(0,0,0,0.5); } .lb-nav-btn.prev { left: 10px; } .lb-nav-btn.next { right: 10px; } }
 
+    /* ========================================
+       OPTIMASI KHUSUS HP (ANTI LAG)
+       ======================================== */
     @media (max-width: 900px) {
+        /* Hilangkan Backdrop Blur (Berat di GPU) */
+        .bento-card, .student-quote-card, .search-input, .royal-modal, .modal-overlay, .mf-ticket {
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+        }
+
+        /* Ganti dengan warna solid transparan */
+        .bento-card { background: rgba(10, 17, 36, 0.95); box-shadow: none !important; border: 1px solid #333; }
+        .royal-modal { background: #0b101a; }
+        .student-quote-card { background: rgba(20, 20, 30, 0.95); }
+        .search-input { background: #0f172a; }
+
+        /* Matikan animasi shadow */
+        .jewel-card:hover { transform: none !important; box-shadow: none !important; background: rgba(255,255,255,0.05); }
+        .bento-card:hover { transform: none !important; }
+        
+        /* Layout Adjustments */
         .bento-grid { grid-template-columns: 1fr; gap: 15px; }
         .b-quote { grid-column: span 1; padding: 30px 20px; flex-direction: column; text-align: center; }
         .q-text { font-size: 1.5rem; }
@@ -906,7 +937,7 @@
       {name: "Clarinta Amabel", age: 15, hobby: "Gemar Makan Batagor", instagram: "claebell", photo: "image/Aring.jpeg", religion: "Protestan", organization: "KITS/Inteens/Sega/PPKS", gallery: [], birthDate: "03-29", description: "Najim hotspot 4", quote: "The future is not waited for, but is shaped from today."},
       {name: "Dhia Syarafana", age: 16, hobby: "Slowmotion", instagram: "syeradelrey", photo: "image/Dhia.jpg", religion: "Islam", organization: "Tidak Ada", gallery: [], birthDate: "06-06", description: "Mati aja ni orang", quote: "Follow your dreams, not your boyfriends."},
       {name: "Fitri", age: 15, hobby: "yapping", instagram: "ffitri1_", photo: "image/Titi.jpg", religion: "Islam", organization: "Tidak Ada", gallery: [], birthDate: "01-11", description: "Gengster", quote: "Life is a journey, Enjoy the ride."},
-      {name: "Hodia", age: 16, hobby: "Nonton Windah", instagram: "odiaa_a", photo: "image/Odi.jpg", religion: "Protestan", organization: "Sega/OSIS/Inteens", gallery: [], birthDate: "08-26", description: "Kakram Lovers", quote: "𝑆𝑝𝑒𝑎𝑘 𝑙𝑒𝑠𝑠, 𝒍𝒊𝒔𝒕𝒆𝒏 𝒎𝒐𝒓𝒆. 𝑅𝑒𝑎𝑐𝑡 𝑙𝑒𝑠𝑠, 𝒐𝒃𝒔𝒆𝒓𝒗𝒆 𝒎𝒐𝒓𝒆."},
+      {name: "Hodia", age: 16, hobby: "Nonton Windah", instagram: "odiaa_a", photo: "image/Odi.jpg", religion: "Protestan", organization: "Sega/OSIS/Inteens", gallery: [], birthDate: "08-26", description: "Kakram Lovers", quote: "𝑆𝑝𝑒𝑎𝑘 𝑙𝑒𝑠𝑠, 𝑙𝑖𝑠𝑡𝑒𝑛 𝑚𝑜𝑟𝑒. 𝑅𝑒𝑎𝑐𝑡 𝑙𝑒𝑠𝑠, 𝑜𝑏𝑠𝑒𝑟𝑣𝑒 𝑚𝑜𝑟𝑒."},
       {name: "Husnul Khatimah", age: 16, hobby: "Main sama Rasya", instagram: "hsnllkhtmh__", photo: "image/Husnul.jpg", religion: "Islam", organization: "Pramuka", gallery: [], birthDate: "03-17", description: "Misterius", quote: "..."},
       {name: "Miftahul", age: 16, hobby: "Minta Hotspot", instagram: "miftahuljannah1507_", photo: "image/Mita.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: "07-15", description: "Najim hotspot 5", quote: "Learning is the key to opening the door to succes, make every lesson an opportunity to grow and develop."},
       {name: "Fathur Jibriel", age: 15, hobby: "Basket", instagram: "ndadapateuy", photo: "image/patur.jpg", religion: "Islam", organization: "Basket", gallery: [], birthDate: "", description: "Proplayer emel", quote: "Learn from the past, live in the present, and plan for the future"},
@@ -1002,8 +1033,14 @@
     }
 
     function initParticles() {
-        for(let i=0; i<50; i++) particles.push(new Particle());
+        // OPTIMISASI PARTICLE: Kurangi jumlah partikel di layar kecil
+        const isMobile = window.innerWidth < 768;
+        const count = isMobile ? 20 : 50; 
+        
+        particles = []; // reset array
+        for(let i=0; i<count; i++) particles.push(new Particle());
     }
+    
     function animateParticles() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         particles.forEach(p => { p.update(); p.draw(); });
@@ -1076,6 +1113,10 @@
     function renderStudents() {
         const cont = document.getElementById('studentContainer');
         cont.innerHTML = '';
+        
+        // Cek ukuran layar untuk VanillaTilt
+        const isDesktop = window.innerWidth > 900;
+
         students.forEach((s, i) => {
             const el = document.createElement('div');
             el.className = 'jewel-card';
@@ -1089,7 +1130,11 @@
                 <button class="btn-detail" onclick="openStudentModal('${s.name}')"><i class="fas fa-eye"></i> LIHAT PROFIL</button>
             `;
             cont.appendChild(el);
-            VanillaTilt.init(el, { max: 5, speed: 400, glare: true, "max-glare": 0.1 });
+            
+            // OPTIMISASI: HANYA NYALAKAN TILT DI DESKTOP
+            if(isDesktop && window.VanillaTilt) {
+                 VanillaTilt.init(el, { max: 5, speed: 400, glare: true, "max-glare": 0.1 });
+            }
         });
     }
 
@@ -1363,11 +1408,16 @@
     const scrollWrapper = document.getElementById('quoteWrapper');
     function startAutoScroll() {
         if (!scrollWrapper) return;
-        clearInterval(scrollInterval); 
+        clearInterval(scrollInterval);
+        
+        // OPTIMISASI: Jika di HP, intervalnya diperlambat agar tidak berat
+        const isMobile = window.innerWidth < 768;
+        const intervalTime = isMobile ? 30 : 15; // 30ms for mobile, 15ms for desktop
+
         scrollInterval = setInterval(() => {
             scrollWrapper.scrollLeft += 0.8; 
             if (scrollWrapper.scrollLeft + scrollWrapper.clientWidth >= scrollWrapper.scrollWidth - 1) { scrollWrapper.scrollLeft = 0; }
-        }, 15);
+        }, intervalTime);
     }
 
     let isDown = false; let startX; let scrollLeft;
@@ -1376,6 +1426,10 @@
         scrollWrapper.addEventListener('mouseleave', () => { isDown = false; startAutoScroll(); });
         scrollWrapper.addEventListener('mouseup', () => { isDown = false; startAutoScroll(); });
         scrollWrapper.addEventListener('mousemove', (e) => { if (!isDown) return; e.preventDefault(); const x = e.pageX - scrollWrapper.offsetLeft; const walk = (x - startX) * 2; scrollWrapper.scrollLeft = scrollLeft - walk; });
+        
+        // Touch events for mobile
+        scrollWrapper.addEventListener('touchstart', () => clearInterval(scrollInterval));
+        scrollWrapper.addEventListener('touchend', () => startAutoScroll());
     }
 
     /* ========================================
@@ -1402,26 +1456,36 @@
 
     function initScrollAnimations() {
         gsap.registerPlugin(ScrollTrigger);
-        gsap.utils.toArray('.section-title').forEach(section => {
-          gsap.from(section, { scrollTrigger: { trigger: section, start: "top 85%", toggleActions: "play none none reverse" }, y: 50, opacity: 0, duration: 1, ease: "power3.out" });
-        });
         
-        gsap.from(".running-quotes-wrapper", { scrollTrigger: { trigger: ".running-quotes-wrapper", start: "top 85%" }, scale: 0.9, opacity: 0, duration: 1, ease: "power2.out" });
-        
-        ScrollTrigger.batch(".jewel-card", {
-          onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration: 0.8, stagger: 0.15, overwrite: true }),
-          onLeave: batch => gsap.set(batch, { opacity: 0, y: 50 }), 
-          onEnterBack: batch => gsap.to(batch, { opacity: 1, y: 0, stagger: 0.15, overwrite: true }),
-          onLeaveBack: batch => gsap.set(batch, { opacity: 0, y: 50 }), 
-        });
+        // OPTIMISASI: Sederhanakan animasi scroll di Mobile
+        const isMobile = window.innerWidth < 768;
+
+        if(!isMobile) {
+            gsap.utils.toArray('.section-title').forEach(section => {
+              gsap.from(section, { scrollTrigger: { trigger: section, start: "top 85%", toggleActions: "play none none reverse" }, y: 50, opacity: 0, duration: 1, ease: "power3.out" });
+            });
+            
+            gsap.from(".running-quotes-wrapper", { scrollTrigger: { trigger: ".running-quotes-wrapper", start: "top 85%" }, scale: 0.9, opacity: 0, duration: 1, ease: "power2.out" });
+            
+            ScrollTrigger.batch(".jewel-card", {
+              onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration: 0.8, stagger: 0.15, overwrite: true }),
+              onLeave: batch => gsap.set(batch, { opacity: 0, y: 50 }), 
+              onEnterBack: batch => gsap.to(batch, { opacity: 1, y: 0, stagger: 0.15, overwrite: true }),
+              onLeaveBack: batch => gsap.set(batch, { opacity: 0, y: 50 }), 
+            });
+
+             gsap.from(".philosophy-bar", {
+                scrollTrigger: { trigger: ".philosophy-bar", start: "top 90%" },
+                opacity: 0, y: 20, duration: 1, delay: 0.5
+            });
+        } else {
+            // Animasi Simple untuk Mobile (Hanya Fade In sekali)
+            ScrollTrigger.batch(".jewel-card", {
+              onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration: 0.5, stagger: 0.05 }),
+            });
+        }
         
         gsap.from(".menfess-container", { scrollTrigger: { trigger: ".menfess-container", start: "top 80%" }, x: -100, opacity: 0, duration: 1.2, ease: "power2.out" });
-        
-        // PHILOSOPHY BAR ANIMATION
-        gsap.from(".philosophy-bar", {
-            scrollTrigger: { trigger: ".philosophy-bar", start: "top 90%" },
-            opacity: 0, y: 20, duration: 1, delay: 0.5
-        });
     }
   </script>
 </body>
