@@ -199,21 +199,19 @@
     .stat-lbl { color: var(--c-text-muted); text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; margin-top: 10px; font-weight: 600; }
 
     /* ========================================
-    6. RUNNING QUOTES & STUDENTS (PERBAIKAN DISINI)
+    6. RUNNING QUOTES & STUDENTS
     ========================================
     */
     .running-quotes-wrapper {
         width: 100%; overflow-x: hidden; margin-bottom: 80px; padding: 30px 0;
         background: rgba(0, 0, 0, 0.3); border-top: 1px solid var(--c-gold-3); border-bottom: 1px solid var(--c-gold-3); position: relative;
         /* Tambahan Masking agar tidak terpotong kasar di kiri/kanan */
-        -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-        mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+        -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
     }
     .running-track { 
         display: flex; width: max-content; 
-        padding-left: 20px; 
-        /* Tambahkan padding kanan agar item terakhir tidak mepet */
-        padding-right: 20px; 
+        padding-left: 20px; padding-right: 20px; 
         gap: 30px; cursor: grab; 
     }
     .running-track:active { cursor: grabbing; }
@@ -355,7 +353,7 @@
     @media (max-width: 768px) { .lb-nav-btn { width: 40px; height: 40px; font-size: 1rem; background: rgba(0,0,0,0.5); } .lb-nav-btn.prev { left: 10px; } .lb-nav-btn.next { right: 10px; } }
 
     /* ========================================
-       OPTIMASI KHUSUS HP (ANTI LAG)
+       OPTIMASI KHUSUS HP (ANTI LAG & FIX LAYOUT)
        ======================================== */
     @media (max-width: 900px) {
         /* Hilangkan Backdrop Blur (Berat di GPU) */
@@ -381,6 +379,16 @@
         .m-avatar-large { width: 100px; height: 100px; margin-bottom: 15px; margin-right: 0; }
         .m-content { height: auto; overflow-y: visible; }
         .philosophy-bar { font-size: 0.6rem; flex-wrap: wrap; gap: 10px; }
+
+        /* FIX SEARCH BAR TERTINDIH (HP) */
+        .search-dock {
+            top: 15px; /* Turunkan sedikit posisi sticky agar sejajar tombol */
+            background: transparent; /* Hilangkan background kotak agar terlihat menyatu */
+            box-shadow: none;
+        }
+        .search-input-wrapper {
+            width: calc(100% - 120px) !important; /* Kecilkan lebar search bar agar muat di tengah tombol */
+        }
     }
   </style>
 </head>
