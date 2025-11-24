@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg/xml" href="image/unclairone.png" />     
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#050914">
+  <meta name="theme-color" content="#0c2b30">
   <meta name="description" content="Portal Kelas 10 C.1 - SMAN 1 PAREPARE">
   <title>UNCLAIRONE AREA</title>
   
@@ -20,82 +20,95 @@
 
   <style>
     /* ========================================
-    1. CORE VARIABLES & RESET
+    1. CORE VARIABLES
     ========================================
     */
     :root {
-        --c-void: #020408;
-        --c-depth: #0a1124;
+        --main-bg-gradient: linear-gradient(180deg, #0c2b30 0%, #061424 100%);
+        --c-void: #061424; 
+        --c-depth: #113038; 
         --c-gold-1: #bf953f;
         --c-gold-2: #fcf6ba;
         --c-gold-3: #b38728;
-        --c-maroon: #720e1e;
+        --c-maroon: #8c2131; 
         --c-maroon-glow: #ff2a4d;
         --c-text-main: #e2e8f0;
         --c-text-muted: #94a3b8;
-        --glass-bg: rgba(15, 23, 42, 0.6);
+        --glass-bg: rgba(17, 48, 56, 0.65);
         --glass-border: 1px solid rgba(255, 255, 255, 0.08);
         --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
         --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
 
-    *, *::before, *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        -webkit-font-smoothing: antialiased;
-        -webkit-tap-highlight-color: transparent;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
+    /* TEKSTUR LIPA' SABBE (SUTRA HALUS) */
     body {
         background-color: var(--c-void);
+        background-image: 
+            linear-gradient(30deg, rgba(255,255,255,0.015) 12%, transparent 12.5%, transparent 87%, rgba(255,255,255,0.015) 87.5%, rgba(255,255,255,0.015)),
+            linear-gradient(150deg, rgba(255,255,255,0.015) 12%, transparent 12.5%, transparent 87%, rgba(255,255,255,0.015) 87.5%, rgba(255,255,255,0.015)),
+            linear-gradient(30deg, rgba(255,255,255,0.015) 12%, transparent 12.5%, transparent 87%, rgba(255,255,255,0.015) 87.5%, rgba(255,255,255,0.015)),
+            linear-gradient(150deg, rgba(255,255,255,0.015) 12%, transparent 12.5%, transparent 87%, rgba(255,255,255,0.015) 87.5%, rgba(255,255,255,0.015)),
+            var(--main-bg-gradient);
+        background-size: 80px 140px, 80px 140px, 80px 140px, 80px 140px, cover;
+        background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0;
+        background-attachment: fixed;
         color: var(--c-text-main);
         font-family: 'Plus Jakarta Sans', sans-serif;
         overflow-x: hidden;
         min-height: 100vh;
+        width: 100%;
         position: relative;
     }
 
-    /* Scrollbar */
     ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #1a1a1a; }
+    ::-webkit-scrollbar-track { background: #081018; }
     ::-webkit-scrollbar-thumb { 
-        background: linear-gradient(to bottom, #3e2723, #5d4037, #3e2723); 
-        border-radius: 10px; 
-        border: 1px solid var(--c-gold-3);
+        background: linear-gradient(to bottom, #113038, var(--c-gold-3), #113038); 
+        border-radius: 10px; border: 1px solid var(--c-gold-3);
     }
 
-    /* ========================================
-    2. NAVIGATION BUTTONS
-    ========================================
-    */
+    /* NAVIGASI SOLID */
     .nav-btn {
         position: fixed; top: 30px; z-index: 2000;
         display: flex; align-items: center; gap: 10px; padding: 12px 30px;
-        background: rgba(15, 23, 42, 0.85); border: 1px solid var(--c-gold-3);
+        background: var(--c-depth); border: 1px solid var(--c-gold-3); backdrop-filter: none;
         border-radius: 2px 20px 2px 20px; color: var(--c-text-main);
-        text-decoration: none; font-family: 'Cinzel Decorative', cursive;
-        font-size: 0.9rem; letter-spacing: 1px; backdrop-filter: blur(10px);
-        transition: all 0.3s var(--ease-out); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        text-decoration: none; font-family: 'Cinzel Decorative', cursive; font-size: 0.9rem; letter-spacing: 1px; 
+        transition: all 0.3s var(--ease-out); box-shadow: 0 5px 15px rgba(0,0,0,0.5);
     }
-    .nav-btn:hover {
-        background: var(--c-gold-1); color: #000; transform: translateY(-3px) scale(1.05);
-        box-shadow: 0 0 20px rgba(191, 149, 63, 0.5); border-color: #fff;
-    }
-    .nav-left { left: 40px; }
-    .nav-right { right: 40px; }
+    .nav-btn:hover { background: var(--c-gold-1); color: #000; transform: translateY(-3px) scale(1.05); box-shadow: 0 0 20px rgba(191, 149, 63, 0.6); border-color: #fff; }
+    .nav-left { left: 40px; } .nav-right { right: 40px; }
 
     @media (max-width: 768px) {
-        .nav-btn { top: 20px; padding: 8px 15px; font-size: 0.75rem; gap: 5px; backdrop-filter: none; background: #0f172a; }
-        .nav-left { left: 15px; }
-        .nav-right { right: 15px; }
-        .nav-btn span { display: none; } 
+        .nav-btn { top: 20px; padding: 8px 15px; font-size: 0.75rem; gap: 5px; }
+        .nav-left { left: 15px; } .nav-right { right: 15px; } .nav-btn span { display: none; } 
     }
 
-    /* ========================================
-    3. ANIMATIONS
-    ========================================
-    */
+    /* LOADER SULAPA EPPA */
+    #loader {
+        position: fixed; inset: 0; z-index: 9999; 
+        background: radial-gradient(circle at center, #0e2a35 0%, #020408 100%);
+        display: flex; flex-direction: column; justify-content: center; align-items: center; 
+        transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+    .loader-culture-wrapper { position: relative; width: 200px; height: 200px; display: flex; justify-content: center; align-items: center; margin-bottom: 30px; }
+    .sulapa-eppa { position: absolute; width: 140px; height: 140px; border: 2px solid rgba(191, 149, 63, 0.3); transform: rotate(45deg); animation: pulse-culture 3s infinite ease-in-out; box-shadow: 0 0 30px rgba(191, 149, 63, 0.1); }
+    .sulapa-eppa::after { content: ''; position: absolute; inset: 10px; border: 1px dashed var(--c-gold-1); opacity: 0.5; }
+    .lontara-orbit { position: absolute; width: 220px; height: 220px; border-radius: 50%; border: 1px dashed rgba(255,255,255,0.1); animation: rotate-slow 20s linear infinite; }
+    .lontara-orbit::before {
+        content: 'ᨔ ᨗ ᨄ ᨀ ᨈ ᨕ ᨘ  •  ᨔ ᨗ ᨄ ᨀ ᨕ ᨗ ᨂ ᨙ  •  ᨔ ᨗ ᨄ ᨀ ᨒ ᨙ ᨅ ᨗ';
+        font-family: 'Noto Sans Buginese', sans-serif; color: var(--c-gold-3); font-size: 1.5rem;
+        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%;
+        text-align: center; opacity: 0.3; display: flex; justify-content: center; align-items: center; animation: rotate-reverse 30s linear infinite;
+    }
+    .loader-logo-new { width: 100px; height: 100px; object-fit: cover; border-radius: 50%; border: 3px solid var(--c-gold-1); box-shadow: 0 0 50px rgba(191, 149, 63, 0.4); position: relative; z-index: 2; animation: floatWater 3s ease-in-out infinite; }
+    .loading-text-group { text-align: center; z-index: 2; }
+    .main-load-text { font-family: 'Cinzel Decorative', cursive; color: var(--c-gold-1); font-size: 1.8rem; letter-spacing: 5px; margin-bottom: 5px; text-shadow: 0 5px 15px rgba(0,0,0,0.5); animation: fadeInUp 1s forwards; }
+    .sub-load-text { font-family: 'Noto Sans Buginese', sans-serif; color: var(--c-text-muted); font-size: 1.2rem; opacity: 0.7; margin-top: 5px; letter-spacing: 2px; }
+    .sub-load-indo { font-family: 'Cormorant Garamond', serif; color: #666; font-size: 0.9rem; font-style: italic; margin-top: 5px; }
+
     @keyframes shine { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
     @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     @keyframes rotate-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -103,34 +116,24 @@
     @keyframes lockPulse { 0% { transform: scale(1); text-shadow: 0 0 20px var(--c-gold-1); } 50% { transform: scale(1.1); text-shadow: 0 0 40px var(--c-gold-2); } 100% { transform: scale(1); text-shadow: 0 0 20px var(--c-gold-1); } }
     @keyframes rockBoat { 0% { transform: rotate(-5deg) translateY(0); } 50% { transform: rotate(5deg) translateY(-10px); } 100% { transform: rotate(-5deg) translateY(0); } }
     @keyframes floatWater { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
-
-    /* Loader */
-    #loader {
-        position: fixed; inset: 0; z-index: 9999; background: var(--c-void);
-        display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.8s ease;
+    @keyframes pulse-culture { 0%, 100% { transform: rotate(45deg) scale(1); opacity: 0.5; border-color: rgba(191, 149, 63, 0.3); } 50% { transform: rotate(45deg) scale(1.1); opacity: 1; border-color: var(--c-gold-1); box-shadow: 0 0 40px rgba(191, 149, 63, 0.3); } }
+    @keyframes rotate-reverse { from { transform: translate(-50%, -50%) rotate(360deg); } to { transform: translate(-50%, -50%) rotate(0deg); } }
+    
+    /* ANIMASI MATTAPPA (CAHAYA) UNTUK MOBILE */
+    @keyframes mattappa-pulse {
+        0%, 100% { opacity: 0.2; transform: translate(-50%, -50%) scale(0.9); }
+        50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.1); }
     }
-    .loader-logo {
-        width: 130px; height: 130px; object-fit: cover; border-radius: 50%;     
-        border: 5px solid var(--c-gold-1); background-color: var(--c-depth);  
-        box-shadow: 0 0 30px rgba(191, 149, 63, 0.6); animation: floatWater 3s ease-in-out infinite; margin-bottom: 25px;
-    }
-    .loader-text { font-family: 'Cinzel Decorative', cursive; color: var(--c-gold-2); letter-spacing: 5px; font-size: 1.5rem; animation: float 2s ease-in-out infinite; }
 
-    /* Backgrounds */
     #canvas-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: 0.5; image-rendering: optimizeSpeed; }
-    .vignette { position: fixed; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(circle at center, transparent 0%, var(--c-void) 120%); }
+    .vignette { position: fixed; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(circle at center, transparent 10%, rgba(2, 8, 15, 0.8) 130%); }
     .ornament-corner {
         position: fixed; width: 300px; height: 300px; z-index: 1; opacity: 0.15;
         background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0 L100 50 L50 100 L0 50 Z' fill='none' stroke='%23bf953f' stroke-width='1'/%3E%3C/svg%3E");
         mask-image: radial-gradient(black, transparent 70%);
     }
-    .oc-tl { top: -100px; left: -100px; transform: rotate(0deg); }
-    .oc-br { bottom: -100px; right: -100px; transform: rotate(180deg); }
+    .oc-tl { top: -100px; left: -100px; transform: rotate(0deg); } .oc-br { bottom: -100px; right: -100px; transform: rotate(180deg); }
 
-    /* ========================================
-    4. HEADER
-    ========================================
-    */
     .main-wrapper { position: relative; z-index: 10; width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 20px 100px; }
     header { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; }
     .royal-badge {
@@ -150,8 +153,8 @@
         background: linear-gradient(45deg, transparent 45%, #fff 50%, transparent 55%); background-size: 200%;
         -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 5s infinite linear; opacity: 0.5;
     }
-    .subtitle-wrapper { height: 30px; overflow: hidden; margin-top: 20px; opacity: 0; animation: fadeInUp 1s forwards 1.1s; }
-    .subtitle { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--c-text-muted); font-style: italic; transition: opacity 0.5s ease; }
+    .subtitle-wrapper { width: 90%; max-width: 700px; margin-top: 20px; opacity: 0; animation: fadeInUp 1s forwards 1.1s; }
+    .subtitle { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--c-text-muted); font-style: italic; transition: opacity 0.5s ease; line-height: 1.4; }
     .scroll-indicator { position: absolute; bottom: 50px; cursor: pointer; opacity: 0; animation: fadeInUp 1s forwards 1.5s; display: flex; justify-content: center; align-items: center; }
     .phinisi-icon { width: 80px; height: auto; filter: invert(67%) sepia(18%) saturate(1374%) hue-rotate(6deg) brightness(95%) contrast(88%); animation: rockBoat 3s ease-in-out infinite; }
     .tongkonan-divider {
@@ -160,67 +163,39 @@
         background-repeat: no-repeat; background-position: center bottom; background-size: cover; pointer-events: none;
     }
 
-    /* ========================================
-    5. DASHBOARD & CARDS
-    ========================================
-    */
     .section-title { text-align: center; margin: 80px 0 40px; position: relative; }
     .section-title h2 { font-family: 'Cinzel Decorative'; font-size: 2.5rem; color: var(--c-text-main); margin-bottom: 10px; }
-    .section-title span { display: block; width: 80px; height: 3px; background: linear-gradient(90deg, transparent, var(--c-gold-1), transparent); margin: 0 auto; }
+    
+    /* ULU BADIK (PAMOR BESI) DIVIDER */
+    .section-title span { 
+        display: block; width: 150px; height: 15px; margin: 15px auto 0;
+        background: 
+            linear-gradient(135deg, transparent 33%, var(--c-gold-1) 33%, var(--c-gold-1) 66%, transparent 66%) 0 0,
+            linear-gradient(45deg, transparent 33%, var(--c-gold-1) 33%, var(--c-gold-1) 66%, transparent 66%) 0 0;
+        background-size: 20px 100%; background-repeat: repeat-x; opacity: 0.8; filter: drop-shadow(0 0 5px rgba(191, 149, 63, 0.5));
+    }
+    
     .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 80px; }
     .bento-card {
         background: var(--glass-bg); border: var(--glass-border); border-radius: 20px; padding: 30px;
         position: relative; overflow: hidden; transition: 0.4s var(--ease-out); display: flex; flex-direction: column; justify-content: center;
         backdrop-filter: blur(12px); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5); opacity: 0; animation: fadeInUp 1s ease-out forwards;
     }
-    @media (min-width: 769px) {
-        .bento-card:nth-child(1) { animation-delay: 1.2s; } 
-        .bento-card:nth-child(2) { animation-delay: 1.4s; }
-        .bento-card:nth-child(3) { animation-delay: 1.6s; }
-        .bento-card:nth-child(4) { animation-delay: 1.8s; }
-    }
     .bento-card:hover { transform: translateY(-5px); border-color: var(--c-gold-3); box-shadow: 0 20px 50px -10px rgba(191, 149, 63, 0.15); background: rgba(20, 28, 48, 0.8); }
-    .b-quote { 
-        grid-column: span 3; min-height: 220px; border-left: 5px solid var(--c-gold-1);
-        background: linear-gradient(90deg, rgba(11, 16, 26, 0.9), rgba(114, 14, 30, 0.15));
-        display: flex; flex-direction: row; align-items: center; justify-content: center; padding: 0 60px; text-align: center;
-    }
+    .b-quote { grid-column: span 3; min-height: 220px; border-left: 5px solid var(--c-gold-1); background: linear-gradient(90deg, rgba(11, 16, 26, 0.9), rgba(114, 14, 30, 0.15)); display: flex; flex-direction: row; align-items: center; justify-content: center; padding: 0 60px; text-align: center; }
     .q-icon-floating { font-size: 8rem; position: absolute; top: -20px; left: 20px; color: var(--c-gold-1); opacity: 0.1; font-family: 'Cinzel Decorative'; }
     .quote-content-wrapper { position: relative; z-index: 2; }
     .q-text { font-family: 'Cormorant Garamond'; font-size: 2.2rem; font-style: italic; line-height: 1.3; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
     .q-author { margin-top: 25px; color: var(--c-gold-1); font-weight: 700; letter-spacing: 4px; text-transform: uppercase; font-size: 0.9rem; display: inline-block; border-bottom: 1px solid var(--c-maroon); padding-bottom: 5px; }
     .b-stat { grid-column: span 1; min-height: 180px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
-    .stat-icon-circle {
-        width: 60px; height: 60px; margin: 0 auto 15px; background: rgba(191, 149, 63, 0.1); border-radius: 50%;
-        display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--c-gold-1);
-        border: 1px solid rgba(191, 149, 63, 0.2); box-shadow: 0 0 15px rgba(191, 149, 63, 0.1);
-    }
+    .stat-icon-circle { width: 60px; height: 60px; margin: 0 auto 15px; background: rgba(191, 149, 63, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--c-gold-1); border: 1px solid rgba(191, 149, 63, 0.2); box-shadow: 0 0 15px rgba(191, 149, 63, 0.1); }
     .stat-val { font-size: 3rem; font-family: 'Cinzel Decorative'; color: #fff; line-height: 1; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
     .stat-lbl { color: var(--c-text-muted); text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; margin-top: 10px; font-weight: 600; }
 
-    /* ========================================
-    6. RUNNING QUOTES & STUDENTS
-    ========================================
-    */
-    .running-quotes-wrapper {
-        width: 100%; overflow-x: hidden; margin-bottom: 80px; padding: 30px 0;
-        background: rgba(0, 0, 0, 0.3); border-top: 1px solid var(--c-gold-3); border-bottom: 1px solid var(--c-gold-3); position: relative;
-        /* Tambahan Masking agar tidak terpotong kasar di kiri/kanan */
-        -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-    }
-    .running-track { 
-        display: flex; width: max-content; 
-        padding-left: 20px; padding-right: 20px; 
-        gap: 30px; cursor: grab; 
-    }
+    .running-quotes-wrapper { width: 100%; overflow-x: hidden; margin-bottom: 80px; padding: 30px 0; background: rgba(0, 0, 0, 0.3); border-top: 1px solid var(--c-gold-3); border-bottom: 1px solid var(--c-gold-3); position: relative; -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
+    .running-track { display: flex; width: max-content; padding-left: 20px; padding-right: 20px; gap: 30px; cursor: grab; }
     .running-track:active { cursor: grabbing; }
-
-    .student-quote-card {
-        background: var(--glass-bg); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 15px;
-        padding: 20px; min-width: 300px; max-width: 320px; display: flex; flex-direction: column; justify-content: space-between;
-        transition: 0.3s var(--ease-out); position: relative; backdrop-filter: blur(5px);
-    }
+    .student-quote-card { background: var(--glass-bg); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 15px; padding: 20px; min-width: 300px; max-width: 320px; display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s var(--ease-out); position: relative; backdrop-filter: blur(5px); }
     .student-quote-card:hover { background: rgba(191, 149, 63, 0.1); border-color: var(--c-gold-1); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
     .sq-icon { font-size: 1.5rem; color: var(--c-gold-3); margin-bottom: 10px; font-family: 'Cinzel Decorative'; }
     .sq-text { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: #ddd; font-style: italic; line-height: 1.4; margin-bottom: 15px; }
@@ -228,166 +203,131 @@
     .sq-avatar { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1px solid var(--c-gold-1); }
     .sq-author { font-family: 'Cinzel Decorative'; font-size: 0.8rem; color: var(--c-gold-1); font-weight: bold; }
 
-    .search-dock {
-        position: sticky; top: 0; z-index: 50; display: flex; justify-content: center; 
-        margin-bottom: 50px; padding: 20px 0; background: var(--c-void); box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-    }
+    .search-dock { position: sticky; top: 20px; z-index: 50; display: flex; justify-content: center; margin-bottom: 50px; padding: 0; background: transparent; box-shadow: none; backdrop-filter: none; }
     .search-input-wrapper { position: relative; width: 100%; max-width: 500px; }
-    .search-input {
-        width: 100%; padding: 15px 50px 15px 25px; background: rgba(10, 17, 36, 0.95);
-        border: 1px solid var(--c-gold-3); border-radius: 50px; color: var(--c-gold-2); font-family: 'Plus Jakarta Sans'; font-size: 1rem;
-        backdrop-filter: blur(20px); box-shadow: 0 5px 20px rgba(0,0,0,0.5); transition: all 0.3s;
-    }
-    .search-input:focus { outline: none; box-shadow: 0 0 25px rgba(191, 149, 63, 0.4); border-color: var(--c-gold-1); transform: scale(1.02); }
+    .search-input { width: 100%; padding: 15px 50px 15px 25px; background: #061424; backdrop-filter: none; border: 1px solid var(--c-gold-3); border-radius: 50px; color: var(--c-gold-2); font-family: 'Plus Jakarta Sans'; font-size: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: all 0.3s; }
+    .search-input:focus { outline: none; box-shadow: 0 0 25px rgba(191, 149, 63, 0.4); border-color: var(--c-gold-1); transform: scale(1.02); background: #000; }
     .search-icon { position: absolute; right: 25px; top: 50%; transform: translateY(-50%); color: var(--c-gold-1); pointer-events: none; }
 
+    /* Grid Jewels */
     .grid-jewels { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; }
+    
+    /* EFEK MATTAPPA (SUMANGE' LIGHT) PADA KARTU */
     .jewel-card {
         background: linear-gradient(160deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
         border: 1px solid rgba(255,255,255,0.05); border-radius: 30px; padding: 40px 20px; position: relative;
-        display: flex; flex-direction: column; align-items: center; transition: all 0.5s var(--ease-out); overflow: hidden; transform: translateZ(0); 
+        display: flex; flex-direction: column; align-items: center; transition: all 0.5s var(--ease-out); 
+        overflow: visible; /* Biar cahaya keluar */
+        transform: translateZ(0); 
     }
+    
+    /* Cahaya Emas di Belakang */
+    .jewel-card::after {
+        content: ''; position: absolute; top: 50%; left: 50%; width: 100%; height: 100%;
+        transform: translate(-50%, -50%) scale(0.8);
+        background: radial-gradient(circle, var(--c-gold-1) 0%, transparent 70%);
+        opacity: 0; z-index: -1; transition: all 0.5s ease; filter: blur(30px);
+    }
+    /* Hover Desktop: Cahaya Muncul */
+    .jewel-card:hover::after { opacity: 0.4; transform: translate(-50%, -50%) scale(1.2); }
+    
     .jewel-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, transparent, var(--c-gold-1), transparent); opacity: 0; transition: 0.5s; }
     .jewel-card:hover { transform: translateY(-15px); background: rgba(22, 42, 71, 0.3); box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
     .jewel-card:hover::before { opacity: 1; }
     .avatar-wrapper { position: relative; width: 130px; height: 130px; margin-bottom: 25px; }
     .avatar-ring { position: absolute; inset: -5px; border-radius: 50%; border: 1px dashed var(--c-gold-3); animation: rotate-slow 20s linear infinite; }
-    .avatar-img {
-        width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
-        border: 3px solid rgba(255,255,255,0.1); transition: 0.5s; position: relative; z-index: 2; background: var(--c-depth);
-    }
-    .jewel-card:hover .avatar-img { border-color: var(--c-gold-1); transform: scale(1.05); }
+    .avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255,255,255,0.1); transition: 0.5s; position: relative; z-index: 2; background: var(--c-depth); }
+    .jewel-card:hover .avatar-img { border-color: #fff; box-shadow: 0 0 20px var(--c-gold-1); transform: scale(1.05); }
+    
     .jewel-name { font-family: 'Cinzel Decorative', cursive; font-size: 1.4rem; color: #fff; text-align: center; margin-bottom: 5px; }
     .jewel-role { font-size: 0.8rem; color: var(--c-maroon-glow); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; }
     .jewel-desc { text-align: center; color: var(--c-text-muted); font-size: 0.9rem; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-    .btn-detail {
-        margin-top: 20px; background: transparent; border: 1px solid var(--c-gold-3); color: var(--c-gold-3);
-        padding: 10px 25px; font-family: 'Cinzel Decorative'; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 10px; border-radius: 2px 15px 2px 15px; 
-    }
+    .btn-detail { margin-top: 20px; background: transparent; border: 1px solid var(--c-gold-3); color: var(--c-gold-3); padding: 10px 25px; font-family: 'Cinzel Decorative'; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 10px; border-radius: 2px 15px 2px 15px; }
     .btn-detail:hover { background: var(--c-gold-1); color: #000; box-shadow: 0 0 20px rgba(191, 149, 63, 0.4); border-radius: 15px 2px 15px 2px; }
 
-    /* ========================================
-    7. MODALS & WIDGETS
-    ========================================
-    */
-    .modal-overlay {
-        position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.9); backdrop-filter: blur(15px);
-        opacity: 0; visibility: hidden; transition: 0.5s; display: flex; justify-content: center; align-items: center;
-    }
+    .modal-overlay { position: fixed; inset: 0; z-index: 3000; background: rgba(0,0,0,0.9); backdrop-filter: blur(15px); opacity: 0; visibility: hidden; transition: 0.5s; display: flex; justify-content: center; align-items: center; }
     .modal-overlay.active { opacity: 1; visibility: visible; }
-    .royal-modal {
-        width: 95%; max-width: 900px; height: 85vh; background: #0b101a; border: 1px solid var(--c-gold-3); border-radius: 20px;
-        display: grid; grid-template-columns: 300px 1fr; overflow: hidden; box-shadow: 0 0 100px rgba(191, 149, 63, 0.15); transform: scale(0.9); transition: 0.5s var(--ease-elastic); position: relative;
-    }
-    .modal-overlay.active .royal-modal { transform: scale(1); }
-    .m-sidebar {
-        background: linear-gradient(rgba(2, 4, 8, 0.9), rgba(2, 4, 8, 0.95)), repeating-linear-gradient(45deg, rgba(191, 149, 63, 0.05) 0px, rgba(191, 149, 63, 0.05) 1px, transparent 1px, transparent 10px);
-        padding: 40px 20px; display: flex; flex-direction: column; align-items: center; text-align: center; border-right: 2px solid var(--c-gold-3); position: relative; overflow: hidden;
-    }
-    .m-sidebar::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 5px; background-image: repeating-linear-gradient(to bottom, var(--c-gold-1), var(--c-gold-1) 5px, transparent 5px, transparent 10px); opacity: 0.5; }
+    .royal-modal { width: 95%; max-width: 900px; height: 85vh; background: var(--c-depth); border: 1px solid var(--c-gold-3); border-radius: 20px; display: grid; grid-template-columns: 320px 1fr; overflow: hidden; box-shadow: 0 0 100px rgba(191, 149, 63, 0.15); transform: scale(0.9); opacity: 0; transition: 0.5s var(--ease-elastic); position: relative; }
+    .modal-overlay.active .royal-modal { transform: scale(1); opacity: 1; }
+    .m-sidebar { background: linear-gradient(rgba(12, 43, 48, 0.95), rgba(6, 20, 36, 0.98)), repeating-linear-gradient(45deg, rgba(191, 149, 63, 0.05) 0px, rgba(191, 149, 63, 0.05) 1px, transparent 1px, transparent 10px); padding: 40px 20px; display: flex; flex-direction: column; align-items: center; text-align: center; border-right: 2px solid var(--c-gold-3); position: relative; overflow: hidden; }
     .lontara-bg-char { position: absolute; top: 10%; left: 50%; transform: translateX(-50%); font-size: 15rem; color: var(--c-gold-1); opacity: 0.03; font-family: 'Noto Sans Buginese', serif; pointer-events: none; z-index: 0; }
-    .m-avatar-large {
-        width: 150px; height: 150px; border-radius: 50%; border: 4px solid var(--c-gold-1); margin-bottom: 20px; object-fit: cover; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 1;
-        transform: scale(0); transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s;
-    }
+    .m-avatar-large { width: 140px; height: 140px; border-radius: 50%; border: 4px solid var(--c-gold-1); margin-bottom: 20px; object-fit: cover; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 1; transform: scale(0); transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s; }
     .modal-overlay.active .m-avatar-large { transform: scale(1); }
-    .m-name { font-family: 'Cinzel Decorative'; font-size: 1.8rem; color: var(--c-gold-2); margin-bottom: 5px; line-height: 1.2; z-index: 1; opacity: 0; transform: translateY(20px); transition: 0.5s ease 0.4s; }
-    .m-tag { background: var(--c-maroon); color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; margin-bottom: 20px; z-index: 1; opacity: 0; transform: translateY(20px); transition: 0.5s ease 0.5s; }
-    .modal-overlay.active .m-name, .modal-overlay.active .m-tag { opacity: 1; transform: translateY(0); }
-    .tabe-badge { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--c-gold-3); margin-bottom: 10px; letter-spacing: 2px; font-size: 0.9rem; opacity: 0; animation: fadeInUp 1s forwards 0.3s; }
+    .m-name { font-family: 'Cinzel Decorative'; font-size: 1.6rem; color: var(--c-gold-2); margin-bottom: 5px; line-height: 1.2; z-index: 1; }
+    .m-tag { background: var(--c-maroon); color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; margin-bottom: 20px; z-index: 1; }
+    .tabe-badge { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--c-gold-3); margin-bottom: 10px; letter-spacing: 2px; font-size: 0.9rem; }
     .m-stats-row { display: flex; justify-content: center; gap: 20px; width: 100%; margin: 15px 0; padding: 10px 0; z-index: 1; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); }
     .ms-item { display: flex; flex-direction: column; align-items: center; }
     .ms-val { font-family: 'Cinzel Decorative'; font-size: 1.1rem; color: #fff; }
     .ms-lbl { font-size: 0.7rem; color: var(--c-text-muted); text-transform: uppercase; margin-top: 2px; }
-    .m-content { display: flex; flex-direction: column; height: 100%; background: #0b101a; }
-    .m-tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .tab-btn { flex: 1; background: transparent; border: none; color: #666; padding: 20px; font-family: 'Cinzel Decorative'; cursor: pointer; transition: 0.3s; border-bottom: 3px solid transparent; }
+    .m-content { display: flex; flex-direction: column; height: 100%; background: var(--c-depth); overflow: hidden; } 
+    .m-tabs { display: flex; border-bottom: 1px solid rgba(191, 149, 63, 0.3); justify-content: center; padding-top: 10px; }
+    .tab-btn { background: transparent; border: none; color: var(--c-text-muted); padding: 15px 25px; font-family: 'Cinzel Decorative'; font-size: 0.9rem; cursor: pointer; transition: 0.3s; border-bottom: 3px solid transparent; letter-spacing: 1px; }
     .tab-btn.active { color: var(--c-gold-1); border-bottom-color: var(--c-gold-1); }
     .tab-panel { flex: 1; padding: 30px; overflow-y: auto; display: none; animation: fadeInUp 0.5s; }
     .tab-panel.active { display: block; }
     .info-list { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .il-item h4 { font-size: 0.7rem; color: var(--c-text-muted); margin-bottom: 5px; }
+    .il-item h4 { font-size: 0.7rem; color: var(--c-text-muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
     .il-item p { font-size: 1.1rem; color: #fff; font-family: 'Cormorant Garamond'; }
-    .chat-box { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px; height: 300px; overflow-y: auto; margin-bottom: 15px; }
+    .chat-box { background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 15px; height: 300px; overflow-y: auto; margin-bottom: 15px; }
     .chat-bubble { margin-bottom: 10px; padding: 10px; border-radius: 8px; background: rgba(255,255,255,0.05); border-left: 2px solid var(--c-gold-3); }
     .cb-user { color: var(--c-gold-1); font-size: 0.8rem; font-weight: bold; }
     .cb-txt { color: #ddd; font-size: 0.9rem; }
-    .fancy-input { flex: 1; background: #1a2333; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 8px; width: 100%; }
-    .btn-send { background: var(--c-gold-1); color: #000; border: none; padding: 0 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-    .menfess-container { position: relative; overflow: hidden; padding: 20px 0; }
-    .menfess-track { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; scroll-behavior: smooth; }
-    .mf-ticket { min-width: 300px; background: var(--glass-bg); border-left: 3px solid var(--c-maroon); padding: 20px; border-radius: 0 15px 15px 0; transition: 0.3s; }
-    .mf-ticket:hover { background: rgba(255,255,255,0.05); transform: translateX(5px); }
-    .mf-msg { font-style: italic; color: #ccc; line-height: 1.5; font-family: 'Cormorant Garamond'; font-size: 1.2rem; }
-    .mf-to { font-family: 'Cinzel Decorative'; color: var(--c-gold-2); font-size: 0.9rem; }
-    .philosophy-bar { width: 100%; padding: 15px 0; background: rgba(0,0,0,0.5); border-top: 1px solid var(--c-gold-3); margin-bottom: 20px; display: flex; justify-content: center; gap: 30px; font-family: 'Cinzel Decorative'; font-size: 0.8rem; color: var(--c-gold-2); letter-spacing: 2px; opacity: 0.7; }
-    .philosophy-bar span { position: relative; }
-    .philosophy-bar span::after { content: '•'; color: var(--c-maroon-glow); position: absolute; right: -18px; top: 0; }
-    .philosophy-bar span:last-child::after { display: none; }
-    .dock-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 100; display: flex; gap: 20px; align-items: flex-end; }
-    .dock-item { width: 50px; height: 50px; border-radius: 50%; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.2); color: #fff; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(10px); cursor: pointer; transition: 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-    .dock-item:hover { transform: translateY(-10px) scale(1.2); background: var(--c-gold-1); color: #000; }
-    .music-widget { position: fixed; bottom: 100px; left: 30px; z-index: 90; background: #0b101a; border: 1px solid var(--c-gold-3); width: 320px; padding: 10px; border-radius: 15px; transform: translateX(-150%); transition: 0.5s; box-shadow: 0 0 30px rgba(0,0,0,0.8); }
-    .music-widget.active { transform: translateX(0); }
-    #spotifyEmbedContainer iframe { border-radius: 12px; }
+    .input-bar { background: rgba(0,0,0,0.3); border-radius: 50px; padding: 5px; border: 1px solid rgba(255,255,255,0.1); display: flex; }
+    .fancy-input { flex: 1; background: transparent; border: none; color: #fff; padding: 10px 20px; width: 100%; outline: none; }
+    .btn-send { background: var(--c-gold-1); color: #000; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
+    .close-modal-btn { position: absolute; top: 20px; right: 20px; color: #fff; font-size: 2rem; cursor: pointer; z-index: 10; transition: 0.3s; }
+    .close-modal-btn:hover { color: var(--c-maroon-glow); transform: rotate(90deg); }
+    .dock-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 2000; display: flex; gap: 20px; align-items: flex-end; background: transparent; border: none; box-shadow: none; padding: 0; }
+    .dock-item { width: 55px; height: 55px; border-radius: 50%; background: rgba(17, 48, 56, 0.85); border: 1px solid var(--c-gold-3); color: var(--c-text-main); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); font-size: 1.2rem; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; }
+    .dock-item:hover { background: var(--c-gold-1); color: #000; transform: translateY(-10px) scale(1.15); box-shadow: 0 0 25px rgba(191, 149, 63, 0.6); border-color: #fff; }
+    .dock-item::after { content: attr(title); position: absolute; top: -45px; left: 50%; transform: translateX(-50%) scale(0); background: var(--c-gold-1); color: #000; padding: 5px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; opacity: 0; transition: 0.2s; pointer-events: none; white-space: nowrap; }
+    .dock-item:hover::after { transform: translateX(-50%) scale(1); opacity: 1; }
+    .music-widget { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px); width: 320px; z-index: 1999; opacity: 0; visibility: hidden; transition: all 0.4s; background: var(--c-depth); border: 1px solid var(--c-gold-3); border-radius: 15px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+    .music-widget.active { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
     .admin-login-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; text-align: center; }
     .admin-lock-icon { font-size: 4rem; color: var(--c-gold-1); margin-bottom: 20px; animation: lockPulse 3s infinite; }
     .admin-title { font-family: 'Cinzel Decorative'; font-size: 1.5rem; color: #fff; margin-bottom: 30px; letter-spacing: 2px; }
     .admin-header-bar { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
     .btn-logout { background: rgba(255, 50, 50, 0.2); color: #ff5555; border: 1px solid #ff5555; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; transition: 0.3s; }
-    .btn-logout:hover { background: #ff5555; color: #fff; }
-    .admin-list-container { display: grid; grid-template-columns: 1fr; gap: 15px; max-height: 400px; overflow-y: auto; padding-right: 5px; }
     .admin-card-item { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-left: 3px solid var(--c-gold-3); border-radius: 8px; padding: 15px; display: flex; justify-content: space-between; align-items: flex-start; transition: 0.3s; }
-    .admin-card-item:hover { background: rgba(255, 255, 255, 0.06); transform: translateX(5px); border-color: var(--c-gold-1); }
-    .aci-content { flex: 1; margin-right: 15px; }
-    .aci-meta { font-size: 0.75rem; color: var(--c-gold-3); margin-bottom: 5px; font-weight: 700; text-transform: uppercase; display: flex; gap: 10px; }
-    .aci-text { font-family: 'Cormorant Garamond'; font-size: 1.1rem; color: #ddd; font-style: italic; }
+    .admin-list-container { display: grid; grid-template-columns: 1fr; gap: 15px; max-height: 400px; overflow-y: auto; padding-right: 5px; }
     .btn-delete-icon { background: transparent; border: 1px solid #444; color: #666; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; flex-shrink: 0; }
-    .btn-delete-icon:hover { border-color: #ff2a4d; color: #ff2a4d; background: rgba(255, 42, 77, 0.1); box-shadow: 0 0 15px rgba(255, 42, 77, 0.4); }
-    .close-modal-btn { position: absolute; top: 20px; right: 20px; color: #fff; font-size: 2rem; cursor: pointer; z-index: 10; transition: 0.3s; }
-    .close-modal-btn:hover { color: var(--c-maroon-glow); transform: rotate(90deg); }
+    .btn-delete-icon:hover { border-color: #ff2a4d; color: #ff2a4d; background: rgba(255, 42, 77, 0.1); }
     .lb-nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.1); color: var(--c-gold-1); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.5rem; border: 1px solid var(--c-gold-3); transition: all 0.3s; user-select: none; z-index: 2001; }
     .lb-nav-btn:hover { background: var(--c-gold-1); color: #000; box-shadow: 0 0 20px rgba(191, 149, 63, 0.6); }
     .lb-nav-btn.prev { left: 20px; } .lb-nav-btn.next { right: 20px; }
 
-    @media (max-width: 768px) { .lb-nav-btn { width: 40px; height: 40px; font-size: 1rem; background: rgba(0,0,0,0.5); } .lb-nav-btn.prev { left: 10px; } .lb-nav-btn.next { right: 10px; } }
-
-    /* ========================================
-       OPTIMASI KHUSUS HP (ANTI LAG & FIX LAYOUT)
-       ======================================== */
     @media (max-width: 900px) {
-        /* Hilangkan Backdrop Blur (Berat di GPU) */
-        .bento-card, .student-quote-card, .search-input, .royal-modal, .modal-overlay, .mf-ticket {
-            backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
-        }
-        /* Ganti dengan warna solid transparan */
-        .bento-card { background: rgba(10, 17, 36, 0.95); box-shadow: none !important; border: 1px solid #333; }
-        .royal-modal { background: #0b101a; }
-        .student-quote-card { background: rgba(20, 20, 30, 0.95); }
-        .search-input { background: #0f172a; }
-        /* Matikan animasi shadow */
-        .jewel-card:hover { transform: none !important; box-shadow: none !important; background: rgba(255,255,255,0.05); }
-        .bento-card:hover { transform: none !important; }
-        /* Layout Adjustments */
-        .bento-grid { grid-template-columns: 1fr; gap: 15px; }
-        .b-quote { grid-column: span 1; padding: 30px 20px; flex-direction: column; text-align: center; }
-        .q-text { font-size: 1.5rem; }
-        .b-stat { grid-column: span 1; }
-        .royal-modal { display: flex; flex-direction: column; overflow-y: auto; height: 90vh; }
-        .m-sidebar { flex-direction: column; padding: 30px 20px; text-align: center; border-right: none; border-bottom: 2px solid var(--c-gold-3); width: 100%; }
-        .m-sidebar::after { right: auto; bottom: 0; left: 0; top: auto; width: 100%; height: 5px; background-image: repeating-linear-gradient(to right, var(--c-gold-1), var(--c-gold-1) 5px, transparent 5px, transparent 10px); }
-        .m-avatar-large { width: 100px; height: 100px; margin-bottom: 15px; margin-right: 0; }
-        .m-content { height: auto; overflow-y: visible; }
-        .philosophy-bar { font-size: 0.6rem; flex-wrap: wrap; gap: 10px; }
-
-        /* FIX SEARCH BAR TERTINDIH (HP) */
-        .search-dock {
-            top: 15px; /* Turunkan sedikit posisi sticky agar sejajar tombol */
-            background: transparent; /* Hilangkan background kotak agar terlihat menyatu */
-            box-shadow: none;
-        }
-        .search-input-wrapper {
-            width: calc(100% - 120px) !important; /* Kecilkan lebar search bar agar muat di tengah tombol */
+        body { overflow-x: hidden !important; width: 100% !important; }
+        .main-wrapper { padding: 0 15px 120px 15px !important; }
+        .royal-modal { display: flex !important; flex-direction: column !important; width: 92% !important; height: 85vh !important; margin: 5vh auto !important; background: #0b101a !important; border: 1px solid var(--c-gold-3) !important; border-radius: 20px !important; overflow: hidden !important; }
+        .m-sidebar { flex: 0 0 auto !important; width: 100% !important; padding: 15px !important; border-right: none !important; border-bottom: 2px dashed var(--c-gold-3) !important; display: flex !important; flex-direction: column !important; align-items: center !important; background: #0b101a !important; z-index: 2; }
+        .m-sidebar .lontara-bg-char, .m-sidebar .tabe-badge, #likeBtnAction { display: none !important; }
+        .m-avatar-large { width: 70px !important; height: 70px !important; margin-bottom: 5px !important; border-width: 2px !important; }
+        .m-name { font-size: 1.2rem !important; margin-bottom: 0 !important; }
+        .m-tag { font-size: 0.6rem !important; padding: 2px 10px !important; margin-bottom: 5px !important; }
+        .m-stats-row { margin: 0 !important; padding: 0 !important; gap: 20px !important; border: none !important; }
+        .ms-val { font-size: 0.9rem !important; } .ms-lbl { font-size: 0.6rem !important; }
+        .m-content { flex: 1 !important; width: 100% !important; background: rgba(0, 0, 0, 0.2) !important; display: flex !important; flex-direction: column !important; overflow: hidden !important; }
+        .m-tabs { flex: 0 0 auto !important; padding: 0 !important; background: rgba(255,255,255,0.02) !important; }
+        .tab-btn { padding: 12px !important; font-size: 0.75rem !important; }
+        .tab-panel { flex: 1 !important; overflow-y: auto !important; padding: 20px !important; display: none; flex-direction: column !important; }
+        .tab-panel.active { display: flex !important; }
+        #tab-chat { padding: 15px !important; overflow: hidden !important; }
+        .chat-box { flex: 1 !important; height: auto !important; max-height: none !important; margin-bottom: 10px !important; overflow-y: auto !important; }
+        .input-bar { flex: 0 0 auto !important; margin-top: 0 !important; }
+        .ornament-corner, .music-widget { display: none !important; }
+        .close-modal-btn { top: 10px !important; right: 15px !important; font-size: 1.5rem !important; }
+        .dock-container { bottom: 20px !important; width: 100% !important; border:none !important; background: transparent !important; box-shadow: none !important; justify-content: center !important; gap: 15px !important; }
+        .dock-item { width: 45px !important; height: 45px !important; border: 1px solid var(--c-gold-3) !important; }
+        .dock-item::after { display: none !important; }
+        .search-dock { position: relative !important; top: 0 !important; margin-bottom: 20px !important; padding:0 !important; box-shadow:none !important;}
+        
+        /* MATTAPPA MOBILE (AUTO-PULSE) */
+        /* Cahaya berdenyut otomatis di HP */
+        .jewel-card::after {
+            animation: mattappa-pulse 3s infinite alternate;
         }
     }
   </style>
@@ -403,8 +343,16 @@
   </a>
 
   <div id="loader">
-    <img src="image/unclairone.png" class="loader-logo" alt="Logo Kelas"> 
-    <div class="loader-text">UNCLAIRONE</div>
+    <div class="loader-culture-wrapper">
+        <div class="lontara-orbit"></div>
+        <div class="sulapa-eppa"></div>
+        <img src="image/unclairone.png" class="loader-logo-new" alt="Logo Unclairone">
+    </div>
+    <div class="loading-text-group">
+        <div class="main-load-text">UNCLAIRONE</div>
+        <div class="sub-load-text">ᨔᨗᨄᨀᨈᨕᨘ • ᨔᨗᨄᨀᨕᨗᨂᨙ • ᨔᨗᨄᨀᨒᨙᨅᨗ</div>
+        <div class="sub-load-indo">"Saling Memanusiakan, Mengingatkan, & Menghargai"</div>
+    </div>
   </div>
 
   <canvas id="canvas-bg"></canvas>
@@ -413,15 +361,14 @@
   <div class="ornament-corner oc-br"></div>
 
   <div class="music-widget" id="musicPlayer">
-    <div id="spotifyEmbedContainer">
-        </div>
+    <div id="spotifyEmbedContainer"></div>
   </div>
 
   <div class="dock-container">
     <div class="dock-item" onclick="toggleMusic()" title="Musik"><i class="fas fa-music"></i></div>
-    <div class="dock-item" onclick="openMenfessModal()" title="Menfess"><i class="fas fa-feather-alt"></i></div>
-    <div class="dock-item" onclick="openAdminModal()" title="Admin"><i class="fas fa-user-shield"></i></div>
-    <div class="dock-item" onclick="openTechModal()" title="Teknologi & Filosofi"><i class="fas fa-microchip"></i></div>
+    <div class="dock-item" onclick="openMenfessModal()" title="Menfess"><i class="fas fa-leaf"></i></div>
+    <div class="dock-item" onclick="openAdminModal()" title="Admin"><i class="fas fa-user"></i></div>
+    <div class="dock-item" onclick="openTechModal()" title="Teknologi & Filosofi"><i class="fas fa-cog"></i></div>
     <div class="dock-item" onclick="scrollToTop()" title="Ke Atas"><i class="fas fa-arrow-up"></i></div>
   </div>
 
@@ -480,9 +427,9 @@
     </div>
 
     <div class="running-quotes-wrapper" id="quoteWrapper">
-        <div class="running-track" id="studentQuotesTrack">
-            </div>
+        <div class="running-track" id="studentQuotesTrack"></div>
     </div>
+
     <div class="section-title">
         <h2>UNCLAIRONE STUDENTS</h2>
         <span></span>
@@ -490,13 +437,12 @@
 
     <div class="search-dock">
         <div class="search-input-wrapper">
-            <input type="text" id="searchInput" class="search-input" onkeyup="filterStudents()" placeholder="Cari Siswa...">
+            <input type="text" id="searchInput" class="search-input" onkeyup="filterStudents()" placeholder="Tabe', siapa kita cari?">
             <i class="fas fa-search search-icon"></i>
         </div>
     </div>
 
-    <div class="grid-jewels" id="studentContainer">
-        </div>
+    <div class="grid-jewels" id="studentContainer"></div>
 
     <div class="section-title" style="margin-top:150px;">
         <h2>PESAN ANONIM</h2>
@@ -504,8 +450,8 @@
     </div>
 
     <div class="menfess-container">
-        <div class="menfess-track" id="menfessTrack">
-            </div>
+
+        <div class="menfess-track" id="menfessTrack"></div>
     </div>
     
     <div class="philosophy-bar">
@@ -515,7 +461,7 @@
     </div>
 
   </div> 
-  
+
   <div id="studentModalOverlay" class="modal-overlay">
     <div class="royal-modal">
         <span class="close-modal-btn" onclick="closeStudentModal()">×</span>
@@ -524,60 +470,65 @@
             <div class="lontara-bg-char">ᨄ</div>
             <div class="tabe-badge">Tabe' Ki..</div>
 
-            <img id="mPhoto" src="" class="m-avatar-large">
+            <img id="mPhoto" src="" class="m-avatar-large" alt="Foto Siswa">
+            
             <h2 id="mName" class="m-name">Nama Siswa</h2>
             <span class="m-tag" id="mRole">SISWA</span>
             
             <div class="m-stats-row">
                 <div class="ms-item">
                     <span class="ms-val" id="likeCountDisplay">0</span>
-                    <span class="ms-lbl">Likes</span>
+                    <span class="ms-lbl">LIKES</span>
                 </div>
                 <div class="ms-item">
                     <span class="ms-val">X</span>
-                    <span class="ms-lbl">Kelas</span>
+                    <span class="ms-lbl">KELAS</span>
                 </div>
             </div>
 
-             <button id="likeBtnAction" onclick="handleLike()" style="margin-top:20px; background:transparent; border:1px solid var(--c-gold-1); color:var(--c-gold-1); padding:10px 20px; border-radius:30px; cursor:pointer; transition:0.3s;">
+             <button id="likeBtnAction" onclick="handleLike()" style="margin-top:10px; background:transparent; border:1px solid var(--c-gold-1); color:var(--c-gold-1); padding:8px 25px; border-radius:30px; cursor:pointer; transition:0.3s; font-family:'Cinzel Decorative'; display:flex; align-items:center; gap:8px; font-size:0.8rem;">
                 <i id="likeIconAction" class="far fa-heart"></i> Like
             </button>
         </div>
 
         <div class="m-content">
             <div class="m-tabs">
-                <button class="tab-btn active" onclick="switchTab('tab-bio')">Biodata</button>
-                <button class="tab-btn" onclick="switchTab('tab-gallery')">Galeri</button>
-                <button class="tab-btn" onclick="switchTab('tab-chat')">Komentar</button>
+                <button class="tab-btn active" onclick="switchTab('tab-bio')">BIODATA</button>
+                <button class="tab-btn" onclick="switchTab('tab-gallery')">GALERI</button>
+                <button class="tab-btn" onclick="switchTab('tab-chat')">KOMENTAR</button>
             </div>
 
             <div id="tab-bio" class="tab-panel active">
                 <div class="info-list">
-                    <div class="il-item"><h4>UMUR</h4><p id="mAge">16</p></div>
-                    <div class="il-item"><h4>HOBI</h4><p id="mHobby">Gaming</p></div>
-                    <div class="il-item"><h4>ORGANISASI</h4><p id="mOrg">OSIS</p></div>
-                    <div class="il-item"><h4>AGAMA</h4><p id="mRel">Islam</p></div>
+                    <div class="il-item"><h4>UMUR</h4><p id="mAge">-</p></div>
+                    <div class="il-item"><h4>HOBI</h4><p id="mHobby">-</p></div>
+                    <div class="il-item"><h4>ORGANISASI</h4><p id="mOrg">-</p></div>
+                    <div class="il-item"><h4>AGAMA</h4><p id="mRel">-</p></div>
                 </div>
-                <div style="margin-top:30px;">
-                    <h4 style="color:var(--c-gold-3); font-size:0.8rem;">QUOTE</h4>
-                    <p id="mQuote" style="font-style:italic; font-size:1.2rem; color:#fff; font-family:'Cormorant Garamond'; margin-top:5px;">"..."</p>
+                
+                <div style="margin-top:30px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.1);">
+                    <h4 style="color:var(--c-gold-3); font-size:0.7rem; letter-spacing:2px; margin-bottom:10px;">QUOTE</h4>
+                    <p id="mQuote" style="font-style:italic; font-size:1.2rem; color:#fff; font-family:'Cormorant Garamond'; line-height:1.4;">"..."</p>
                 </div>
+                
                 <div style="margin-top:20px;">
-                    <h4 style="color:var(--c-gold-3); font-size:0.8rem;">DESKRIPSI</h4>
-                    <p id="mDesc" class="bio-text">...</p>
+                    <h4 style="color:var(--c-gold-3); font-size:0.7rem; letter-spacing:2px; margin-bottom:5px;">DESKRIPSI</h4>
+                    <p id="mDesc" style="color:#ccc; font-size:0.95rem; line-height:1.6;">...</p>
                 </div>
             </div>
 
             <div id="tab-gallery" class="tab-panel">
                 <div id="mGalleryGrid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px;"></div>
-                <p id="noGalleryMsg" style="text-align:center; color:#666; margin-top:50px;">Belum ada dokumentasi.</p>
+                <p id="noGalleryMsg" style="text-align:center; color:#666; margin-top:50px; font-style:italic;">Belum ada dokumentasi.</p>
             </div>
 
             <div id="tab-chat" class="tab-panel">
                 <div class="chat-box" id="mChatBox"></div>
-                <div class="input-bar" style="display:flex; gap:10px;">
+                <div class="input-bar">
                     <input type="text" id="mCommentInput" class="fancy-input" placeholder="Tulis sesuatu...">
-                    <button class="btn-send" onclick="sendComment()"><i class="fas fa-paper-plane"></i></button>
+                    <button class="btn-send" onclick="sendComment()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -585,27 +536,27 @@
   </div>
 
   <div id="menfessModalOverlay" class="modal-overlay">
-    <div class="royal-modal" style="grid-template-columns: 1fr; max-width:500px; height:auto; padding:40px;">
+    <div class="royal-modal" style="grid-template-columns: 1fr; max-width:500px; height:auto; padding:40px; display:flex; flex-direction:column; background:var(--c-depth);">
         <span class="close-modal-btn" onclick="closeMenfessModal()">×</span>
         <h3 style="text-align:center; font-family:'Cinzel Decorative'; color:var(--c-gold-1); font-size:2rem; margin-bottom:30px;">Kirim Surat</h3>
         <form id="menfessForm" style="display:flex; flex-direction:column; gap:20px;">
-            <input type="text" id="mfTo" class="fancy-input" placeholder="Kepada..." required>
-            <textarea id="mfContent" class="fancy-input" rows="5" placeholder="Isi pesan rahasia..." required></textarea>
-            <input type="text" id="mfFrom" class="fancy-input" placeholder="Dari (Opsional)">
-            <button type="submit" class="btn-send" style="padding:15px; width:100%;">KIRIM BURUNG MERPATI</button>
+            <input type="text" id="mfTo" class="search-input" placeholder="Kepada..." required style="background:rgba(0,0,0,0.3);">
+            <textarea id="mfContent" class="search-input" rows="5" placeholder="Isi pesan..." required style="background:rgba(0,0,0,0.3); border-radius:15px;"></textarea>
+            <input type="text" id="mfFrom" class="search-input" placeholder="Dari (Opsional)" style="background:rgba(0,0,0,0.3);">
+            <button type="submit" class="btn-detail" style="width:100%; justify-content:center; background:var(--c-gold-1); color:#000;">KIRIM BURUNG MERPATI</button>
         </form>
     </div>
   </div>
 
   <div id="adminModalOverlay" class="modal-overlay">
-    <div class="royal-modal" style="grid-template-columns: 1fr; max-width:600px; height:auto; min-height:500px; padding:40px;">
+    <div class="royal-modal" style="grid-template-columns: 1fr; max-width:600px; height:auto; min-height:500px; padding:40px; display:flex; flex-direction:column; background:var(--c-depth);">
         <span class="close-modal-btn" onclick="closeAdminModal()">×</span>
         <div id="adminLoginSection" class="admin-login-wrapper">
             <i class="fas fa-user-shield admin-lock-icon"></i>
             <h3 class="admin-title">ADMIN AREA</h3>
             <p style="color:#888; margin-bottom:20px; font-size:0.9rem;">Masukkan passwordnya.</p>
-            <input type="password" id="adminPass" class="fancy-input" style="margin-bottom:20px; text-align:center; letter-spacing:5px; font-size:1.2rem;" placeholder="••••••">
-            <button onclick="loginAdmin()" class="btn-send" style="width:100%; padding:15px;"><i class="fas fa-key"></i> Masuk!</button>
+            <input type="password" id="adminPass" class="search-input" style="margin-bottom:20px; text-align:center; letter-spacing:5px; font-size:1.2rem; background:rgba(0,0,0,0.3);" placeholder="••••••">
+            <button onclick="loginAdmin()" class="btn-detail" style="width:100%; justify-content:center;"><i class="fas fa-key"></i> Masuk!</button>
         </div>
         <div id="adminPanel" style="display:none; width:100%;">
             <div class="admin-header-bar">
@@ -618,7 +569,7 @@
   </div>
 
   <div id="techModalOverlay" class="modal-overlay">
-    <div class="royal-modal" style="grid-template-columns: 1fr; max-width: 1000px; height: 90vh; overflow: hidden; display: flex; flex-direction: column;">
+    <div class="royal-modal" style="grid-template-columns: 1fr; max-width: 1000px; height: 90vh; overflow: hidden; display: flex; flex-direction: column; background: var(--c-depth);">
       
       <div style="padding: 30px; border-bottom: 1px solid var(--c-gold-3); display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2);">
           <div>
@@ -628,7 +579,7 @@
           <span class="close-modal-btn" onclick="closeTechModal()" style="position: static;">×</span>
       </div>
   
-      <div style="flex: 1; overflow-y: auto; padding: 40px; background: var(--c-depth);">
+      <div style="flex: 1; overflow-y: auto; padding: 40px;">
           
           <div class="section-title" style="margin-top: 0;">
               <h2 style="font-size: 1.8rem;">BAHASA & TEKNOLOGI</h2>
@@ -644,7 +595,7 @@
                       <h4 style="color: #e34c26; font-family: 'Cinzel Decorative';">HTML <Var></Var> V5</h4>
                       <i class="fab fa-html5" style="color: #e34c26; font-size:1.5rem;"></i>
                   </div>
-                  <p style="font-size: 0.85rem; color: #ccc;">Website ini disusun menggunakan HTML V5 dengan struktur markup modern yang memiliki fungsi jelas, yang membuat setiap bagian halaman web tersusun secara sistematis dan lebih mudah dioptimalkan</p>
+                  <p style="font-size: 0.85rem; color: #ccc;">Website ini disusun menggunakan HTML V5 dengan struktur markup modern yang memiliki fungsi jelas, yang membuat setiap bagian halaman web tersusun secara sistematis dan lebih mudah dioptimalkan.</p>
               </div>
               <div class="tech-item" style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; border: 1px solid rgba(38, 77, 228, 0.3);">
                   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
@@ -655,17 +606,17 @@
               </div>
               <div class="tech-item" style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; border: 1px solid rgba(247, 223, 30, 0.3);">
                   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                      <h4 style="color: #f7df1e; font-family: 'Cinzel Decorative';">JavaScript ES6+</h4>
+                      <h4 style="color: #f7df1e; font-family: 'Cinzel Decorative';">JavaScript</h4>
                       <i class="fab fa-js" style="color: #f7df1e; font-size:1.5rem;"></i>
                   </div>
-                  <p style="font-size: 0.85rem; color: #ccc;">Berperan sebagai “otak” dari website ini. JavaScript yang mengatur proses pencarian data siswa, menampilkan data secara dinamis, mengelola fitur jam digital, dan membuat berbagai tombol dapat berfungsi tanpa harus memuat ulang halaman web.</p>
+                  <p style="font-size: 0.85rem; color: #ccc;">Berperan sebagai “otak” dari website ini. JavaScript yang mengatur proses pencarian data siswa, menampilkan data secara dinamis, mengelola fitur jam digital, dan membuat berbagai tombol dapat berfungsi tanpa harus memuat ulang halaman web..</p>
               </div>
               <div class="tech-item" style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; border: 1px solid rgba(255, 202, 40, 0.3);">
                   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                       <h4 style="color: #FFA611; font-family: 'Cinzel Decorative';">Firebase</h4>
                       <i class="fas fa-database" style="color: #FFA611; font-size:1.5rem;"></i>
                   </div>
-                  <p style="font-size: 0.85rem; color: #ccc;">Database Cloud dari Google. Berfungsi untuk Menyimpan foto gallery, komentar, dan jumlah Likes secara <strong>Real-time</strong> (Langsung update). Tanpa Firebase fitur seperti foto gallery, komentar, dan jumlah likes tidak akan bisa berfungsi</p>
+                  <p style="font-size: 0.85rem; color: #ccc;">Database Cloud dari Google. Berfungsi untuk Menyimpan foto gallery, komentar, dan jumlah Likes secara <strong>Real-time</strong> (Langsung update). Tanpa Firebase fitur seperti foto gallery, komentar, dan jumlah likes tidak akan bisa berfungsi.</p>
               </div>
                <div class="tech-item" style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; border: 1px solid rgba(136, 206, 2, 0.3);">
                   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
@@ -681,33 +632,35 @@
               <span></span>
           </div>
   
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
-              <div class="bento-card" style="opacity: 1; animation: none; padding:25px; min-height:auto;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+              <div class="bento-card" style="opacity: 1; animation: none; padding:25px; min-height:auto; border-color: rgba(255,255,255,0.1);">
                   <div style="color: var(--c-gold-1); font-size: 1.5rem; margin-bottom: 10px;"><i class="fas fa-id-card"></i></div>
                   <h3 style="color: #fff; font-family: 'Cinzel Decorative'; margin-bottom: 5px; font-size:1.2rem;">Kartu Pelajar Digital</h3>
-                  <p style="color: #aaa; font-size: 0.85rem; line-height: 1.5;">Setiap siswa mempunyai profil yang interaktif lengkap dengan biodata, media sosial, galeri foto pribadi, dan motto.</p>
+                  <p style="color: #aaa; font-size: 0.85rem; line-height: 1.5;">Profil interaktif siswa lengkap dengan biodata, media sosial, galeri, dan motto.</p>
               </div>
-              <div class="bento-card" style="opacity: 1; animation: none; padding:25px; min-height:auto;">
+              <div class="bento-card" style="opacity: 1; animation: none; padding:25px; min-height:auto; border-color: rgba(255,255,255,0.1);">
                   <div style="color: var(--c-gold-1); font-size: 1.5rem; margin-bottom: 10px;"><i class="fas fa-heart"></i></div>
                   <h3 style="color: #fff; font-family: 'Cinzel Decorative'; margin-bottom: 5px; font-size:1.2rem;">Fitur Apresiasi</h3>
-                  <p style="color: #aaa; font-size: 0.85rem; line-height: 1.5;">Implementasi nilai budaya saling menghargai. Kamu bisa memberikan <strong>Like</strong> dan menulis <strong>Komentar</strong> di profil tiap siswa.</p>
+                  <p style="color: #aaa; font-size: 0.85rem; line-height: 1.5;">Budaya saling menghargai melalui fitur <strong>Like</strong> dan <strong>Komentar</strong> di profil teman.</p>
               </div>
-              <div class="bento-card" style="opacity: 1; animation: none; padding:25px; min-height:auto;">
+              <div class="bento-card" style="opacity: 1; animation: none; padding:25px; min-height:auto; border-color: rgba(255,255,255,0.1);">
                   <div style="color: var(--c-gold-1); font-size: 1.5rem; margin-bottom: 10px;"><i class="fas fa-feather-alt"></i></div>
                   <h3 style="color: #fff; font-family: 'Cinzel Decorative'; margin-bottom: 5px; font-size:1.2rem;">Chat Anonim</h3>
-                  <p style="color: #aaa; font-size: 0.85rem; line-height: 1.5;">Kirim pesan rahasia ke teman sekelas secara anonim. Pesan tersimpan aman di Cloud(Firebase) dan muncul di halaman utama web.</p>
+                  <p style="color: #aaa; font-size: 0.85rem; line-height: 1.5;">Kirim pesan rahasia ke teman sekelas. Pesan tersimpan aman di Cloud dan muncul di dashboard.</p>
               </div>
-              <div class="bento-card" style="opacity: 1; animation: none; padding:25px; min-height:auto;">
+              <div class="bento-card" style="opacity: 1; animation: none; padding:25px; min-height:auto; border-color: rgba(255,255,255,0.1);">
                   <div style="color: var(--c-gold-1); font-size: 1.5rem; margin-bottom: 10px;"><i class="fas fa-user-shield"></i></div>
                   <h3 style="color: #fff; font-family: 'Cinzel Decorative'; margin-bottom: 5px; font-size:1.2rem;">Admin Panel</h3>
-                  <p style="color: #aaa; font-size: 0.85rem; line-height: 1.5;">Halaman khusus admin untuk memngatur atau menghapus chat/komentar yang tidak pantas.</p>
+                  <p style="color: #aaa; font-size: 0.85rem; line-height: 1.5;">Halaman khusus admin untuk memantau dan menghapus pesan yang tidak pantas.</p>
               </div>
           </div>
   
           <div style="margin-top: 50px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px;">
               <p style="font-family: 'Cinzel Decorative'; font-size:1.2rem; color: var(--c-gold-3);">"FILOSOFI: PHINISI & LONTARA"</p>
-              <p style="font-size: 0.85rem; color: #666; max-width:600px; margin:0 auto; font-style:italic;">Web ini menggunakan simbol <strong>Phinisi</strong> sebagai navigasi, dan background partikel <strong>Aksara Lontara</strong> sebagai pengingat agar tidak melupakan budaya di tengah canggihnya teknologi jaman sekarang.</p>
-              <p style="font-size: 0.8rem; color: #444; margin-top: 20px;">Code by Najim Al Haqoni Kelas 10 C.1 © 2024</p>
+              <p style="font-size: 0.85rem; color: #94a3b8; max-width:600px; margin:0 auto; font-style:italic; line-height: 1.6;">
+                  Web ini menggunakan simbol <strong>Phinisi</strong> sebagai navigasi penjelajah ilmu, dan partikel background <strong>Aksara Lontara</strong> sebagai pengingat agar tidak melupakan akar budaya di tengah canggihnya teknologi.
+              </p>
+              <p style="font-size: 0.8rem; color: #555; margin-top: 20px;">Code by Najim Al Haqoni Kelas 10 C.1 © 2024</p>
           </div>
       </div>
     </div>
@@ -722,12 +675,12 @@
   </div>
   
   <div id="birthdayModalOverlay" class="modal-overlay" style="z-index:1100;">
-    <div class="royal-modal" style="grid-template-columns: 1fr; max-width:400px; height:auto; padding:40px; text-align:center;">
+    <div class="royal-modal" style="grid-template-columns: 1fr; max-width:400px; height:auto; padding:40px; text-align:center; display:flex; flex-direction:column; background:var(--c-depth);">
         <span class="close-modal-btn" onclick="document.getElementById('birthdayModalOverlay').classList.remove('active')">×</span>
         <i class="fas fa-crown" style="font-size:3rem; color:var(--c-gold-1); margin-bottom:20px;"></i>
         <h3 style="color:#fff; font-family:'Cinzel Decorative';">SELAMAT ULANG TAHUN</h3>
         <div id="birthdayContent" style="margin:20px 0;"></div>
-        <button onclick="document.getElementById('birthdayModalOverlay').classList.remove('active')" class="btn-send">RAYAKAN</button>
+        <button onclick="document.getElementById('birthdayModalOverlay').classList.remove('active')" class="btn-detail" style="width:100%; justify-content:center;">RAYAKAN</button>
     </div>
   </div>
 
@@ -735,6 +688,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
 
   <script>
+    // 1. FIREBASE CONFIG
     const firebaseConfig = {
       apiKey: "AIzaSyAnouQgMTahiA0R3pyKb6n_qHYFhX4tfgU",
       authDomain: "website-25711.firebaseapp.com",
@@ -747,14 +701,11 @@
     };
     const app = firebase.initializeApp(firebaseConfig);
     const db = app.firestore();
-    const ADMIN_PW = "admin123";
+    const ADMIN_PW = "admin123"; 
 
-    /* ========================================
-    B. DATASET (SAME)
-    ========================================
-    */
+    // 2. DATA SISWA LENGKAP
     const students = [
-      {name: "Ainun Mardiansyah", age: 16, hobby: "Gatahu", instagram: "4inunranii_", photo: "image/Ainun.jpg", religion: "Islam", organization: "Inteens", gallery: [], birthDate: "03-13", description: "Najim hotspott 1", quote: "The best way to predict the future is to create it."},
+      {name: "Ainun Mardiansyah", age: 16, hobby: "Gatahu", instagram: "4inunranii_", photo: "image/Ainun.jpg", religion: "Islam", organization: "Rahasia", gallery: [], birthDate: "03-13", description: "Najim hotspott 1", quote: "The best way to predict the future is to create it."},
       {name: "Akifa Naila", age: 16, hobby: "Minta hotspot", instagram: "akiipanaila", photo: "image/Naila.jpg", religion: "Islam", organization: "UNIONE", gallery: [], birthDate: "05-15", description: "Najim hotspot 2", quote: "Every moment is a fresh beginning."},
       {name: "Akil Maula S", age: 16, hobby: "Mancing", instagram: "kikiuuuz", photo: "image/Akil.jpg", religion: "Islam", organization: "SEGA", gallery: [], birthDate: "12-31", description: "Starboy, Cool, Jenius, Proplayer epep", quote: "Know yourself, and be the best of yourself."},
       {name: "Amirah Zafirah", age: 15, hobby: "Yapping", instagram: "amirahpspra", photo: "image/Amirah.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: "03-22", description: "Duta Yapping", quote: "Appreciate every process, because everything has its time."},
@@ -773,7 +724,7 @@
       {name: "Muh.Tsaqiff", age: 15, hobby: "Main epep", instagram: "muhtsaqiffal", photo: "image/Tsaqif.jpg", religion: "Islam", organization: "Smansa Voice", gallery: [], birthDate: "", description: "Kul, Proplayer epep", quote: "Don't give up, keep fighting"},
       {name: "Muh.Alif Falah Jordan", age: 15, hobby: "Basket", instagram: "_alipjrdan", photo: "image/Alip.jpg", religion: "Islam", organization: "Basket", gallery: [], birthDate: "", description: "Pro player basket. Sering dipanggil Alip Jordang.", quote: "No pain, no gain."},
       {name: "Muh.Faiz Aswin", age: 15, hobby: "Bewan sama Akil", instagram: "mhmmdfaizz28", photo: "image/Faiz.jpg", religion: "Islam", organization: "Tidak Ada", gallery: [], birthDate: "02-28", description: "Cool, Tampan, Berwibawa, Gantenk, Rival Akil", quote: "There is always a way for those who want to try."},
-      {name: "Kink Muflih", age: 15, hobby: "Nonton Anime", instagram: "muflih_zaky", photo: "image/Mupli.jpg", religion: "Islam", organization: "Tidak Ada", gallery: [], birthDate: "", description: "Rapper, Coach ML", quote: "It is obligatory to be good in the eyes of God, it is not necessary to look good in the eyes of humans."},
+      {name: "Kink Muflih", age: 15, hobby: "Nonton Anime", instagram: "muflih_zaky", photo: "image/Mupli.jpg", religion: "Islam", organization: "Volly", gallery: [], birthDate: "", description: "Rapper, Coach ML", quote: "It is obligatory to be good in the eyes of God, it is not necessary to look good in the eyes of humans."},
       {name: "M.Raihaan", age: 15, hobby: "Topup Dm", instagram: "rhnzki_16", photo: "image/Rehan.jpg", religion: "Islam", organization: "Putra Putri Smansa", gallery: [], birthDate: "", description: "Multiteleng", quote: "Character is formed in the stormy waves of the world."},
       {name: "Nagym", age: 15, hobby: "Tidur", instagram: "nagymm_", photo: "image/Nagym.jpg", religion: "Islam", organization: "KITS", gallery: [], birthDate: "06-23", description: "Tidur adalah koentji'.", quote: "Be Yourself And Never Surrender."},
       {name: "Naufal Qawwiy", age: 15, hobby: "Tektok Gn", instagram: "naufalqawiyy", photo: "image/nopal.jpg", religion: "Islam", organization: "Wasipalah", gallery: [], birthDate: "04-23", description: "Setarboy, Multiteleng, Jenius, Anak Gunung", quote: "Believe you can and you're halfway there."},
@@ -791,35 +742,18 @@
       {name: "Zahra Mauaja", age: 16, hobby: "Apa yak", instagram: "zhrmdkyya", photo: "image/Yayaa.jpg", religion: "Islam", organization: "Tahfidz", gallery: [], birthDate: "", description: "Zahra mau aja", quote: "Dame ungger? Ungkeh."},
       {name: "Zyqri Al Farezqhi", age: 15, hobby: "main roblox", instagram: "zyqrialfarezqhi18", photo: "image/Zyqri.jpg", religion: "Islam", organization: "KITS/PMR", gallery: [], birthDate: "01-18", description: "Teman Teka Nagym", quote: "Better to fail trying than to regret for doing nothing."},
     ];
+
     const quotesCollection = [
         {text: "The only way to do great work is to love what you do.", author: "Steve Jobs"},
         {text: "Strive not to be a success, but rather to be of value.", author: "Albert Einstein"},
-        {text: "Your time is limited, don't waste it living someone else's life.", author: "Steve Jobs"},
-        {text: "Change the world by being yourself.", author: "Amy Poehler"},
-        {text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt"},
-        {text: "It always seems impossible until it is done.", author: "Nelson Mandela"},
-        {text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson"},
-        {text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill"},
-        {text: "You are never too old to set another goal or to dream a new dream.", author: "C.S. Lewis"},
-        {text: "Work hard in silence, let your success be your noise.", author: "Frank Ocean"},
-        {text: "If you can dream it, you can do it.", author: "Walt Disney"},
-        {text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt"},
-        {text: "Happiness depends upon ourselves.", author: "Aristotle"},
         {text: "Jangan takut berjalan lambat, takutlah jika hanya berdiri diam.", author: "Pepatah"},
         {text: "Masa depan adalah milik mereka yang menyiapkannya hari ini.", author: "Unknown"},
-        {text: "Bermimpilah setinggi langit. Jika engkau jatuh, engkau akan jatuh di antara bintang-bintang.", author: "Ir. Soekarno"},
         {text: "Pendidikan adalah senjata paling ampuh untuk mengubah dunia.", author: "Nelson Mandela"},
-        {text: "Barang siapa bersungguh-sungguh, maka dia akan mendapatkan kesuksesan.", author: "Man Jadda Wajada"},
-        {text: "Kegagalan hanyalah kesempatan untuk memulai lagi dengan lebih cerdas.", author: "Henry Ford"},
-        {text: "Satu-satunya batasan untuk meraih mimpi adalah keragu-raguan kita akan hari ini.", author: "Franklin D. Roosevelt"},
-        {text: "Ilmu tanpa amal bagaikan pohon tanpa buah.", author: "Pepatah"},
-        {text: "Sahabat sejati adalah ia yang datang saat seluruh dunia pergi.", author: "Walter Winchell"}
     ];
 
     /* ========================================
-    C. LONTARA PARTICLE SYSTEM (BACKGROUND)
-    ========================================
-    */
+       3. LONTARA PARTICLE SYSTEM
+       ======================================== */
     const canvas = document.getElementById('canvas-bg');
     const ctx = canvas.getContext('2d');
     let particles = [];
@@ -853,7 +787,7 @@
             ctx.save();
             ctx.translate(this.x, this.y);
             ctx.rotate(this.rotation);
-            ctx.fillStyle = 'rgba(191, 149, 63, ' + this.alpha + ')'; // Gold color
+            ctx.fillStyle = 'rgba(191, 149, 63, ' + this.alpha + ')';
             ctx.font = this.size + "px 'Noto Sans Buginese', serif";
             ctx.fillText(this.char, 0, 0);
             ctx.restore();
@@ -861,11 +795,9 @@
     }
 
     function initParticles() {
-        // OPTIMISASI PARTICLE: Kurangi jumlah partikel di layar kecil
         const isMobile = window.innerWidth < 768;
-        const count = isMobile ? 20 : 50; 
-        
-        particles = []; // reset array
+        const count = isMobile ? 15 : 40; 
+        particles = [];
         for(let i=0; i<count; i++) particles.push(new Particle());
     }
     
@@ -878,10 +810,9 @@
     animateParticles();
 
     /* ========================================
-    D. DYNAMIC SUBTITLE
-    ========================================
-    */
-    const greetingWords = ["Aga Kareba?", "Kami bukan yang terbaik, tapi kami selalu memberi yang terbaik.", "Ewako!", "Kami bukan yang terbaik, tapi kami selalu memberi yang terbaik.", "Kami bukan yang terbaik, tapi kami selalu memberi yang terbaik."];
+       4. DYNAMIC SUBTITLE
+       ======================================== */
+    const greetingWords = ["Aga Kareba?", "Kami bukan yang terbaik, tapi kami selalu memberi yang terbaik.", "Ewako!"];
     let greetingIdx = 0;
     
     function cycleSubtitle() {
@@ -898,9 +829,8 @@
 
 
     /* ========================================
-    E. CORE LOGIC
-    ========================================
-    */
+       5. MAIN LOGIC (Students, Stats, Search)
+       ======================================== */
     window.addEventListener('load', () => {
         setTimeout(() => {
             document.getElementById('loader').style.opacity = '0';
@@ -1009,8 +939,6 @@
         document.getElementById('mQuote').textContent = `"${s.quote}"`;
         document.getElementById('mDesc').textContent = s.description;
         
-        // --- BADIK REMOVED HERE ---
-
         switchTab('tab-bio');
         const gGrid = document.getElementById('mGalleryGrid');
         gGrid.innerHTML = '';
@@ -1233,7 +1161,6 @@
         if (!scrollWrapper) return;
         clearInterval(scrollInterval);
         
-        // Interval disesuaikan agar tidak berat di HP
         const isMobile = window.innerWidth < 768;
         const intervalTime = isMobile ? 30 : 15; 
 
@@ -1245,13 +1172,11 @@
 
     let isDown = false; let startX; let scrollLeft;
     if (scrollWrapper) {
-        // MOUSE EVENTS
         scrollWrapper.addEventListener('mousedown', (e) => { isDown = true; clearInterval(scrollInterval); startX = e.pageX - scrollWrapper.offsetLeft; scrollLeft = scrollWrapper.scrollLeft; });
         scrollWrapper.addEventListener('mouseleave', () => { isDown = false; startAutoScroll(); });
         scrollWrapper.addEventListener('mouseup', () => { isDown = false; startAutoScroll(); });
         scrollWrapper.addEventListener('mousemove', (e) => { if (!isDown) return; e.preventDefault(); const x = e.pageX - scrollWrapper.offsetLeft; const walk = (x - startX) * 2; scrollWrapper.scrollLeft = scrollLeft - walk; });
         
-        // TOUCH EVENTS (PERBAIKAN DISINI)
         scrollWrapper.addEventListener('touchstart', (e) => {
             clearInterval(scrollInterval);
             const touch = e.touches[0];
@@ -1263,7 +1188,7 @@
             if(!startX) return;
             const touch = e.touches[0];
             const x = touch.pageX - scrollWrapper.offsetLeft;
-            const walk = (x - startX) * 2; // Kecepatan geser
+            const walk = (x - startX) * 2;
             scrollWrapper.scrollLeft = scrollLeft - walk;
         }, { passive: true });
 
