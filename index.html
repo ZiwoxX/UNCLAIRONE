@@ -5,6 +5,8 @@
   <link rel="icon" type="image/svg/xml" href="image/unclairone.png" />     
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#0c2b30">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="image/10X1.jpg">
   <meta name="description" content="Portal Kelas 10 C.1 - SMAN 1 PAREPARE">
   <title>UNCLAIRONE AREA</title>
 
@@ -1269,5 +1271,15 @@
         gsap.from(".menfess-container", { scrollTrigger: { trigger: ".menfess-container", start: "top 80%" }, x: -100, opacity: 0, duration: 1.2, ease: "power2.out" });
     }
   </script>
+  <script>
+  // Registrasi Service Worker untuk PWA
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('PWA Service Worker registered!', reg))
+        .catch(err => console.log('PWA registration failed:', err));
+    });
+  }
+</script>
 </body>
 </html>
