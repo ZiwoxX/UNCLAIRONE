@@ -207,6 +207,27 @@
     .stat-val { font-size: 3rem; font-family: 'Cinzel Decorative'; color: #fff; line-height: 1; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
     .stat-lbl { color: var(--c-text-muted); text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; margin-top: 10px; font-weight: 600; }
 
+    /* --- TAMBAHAN STYLE UNTUK EVENT GALLERY --- */
+    .event-scroll-container {
+        display: flex; gap: 25px; overflow-x: auto; padding: 10px 5px 30px 5px; 
+        scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
+    }
+    .event-scroll-container::-webkit-scrollbar { height: 8px; }
+    .event-scroll-container::-webkit-scrollbar-thumb { background: var(--c-gold-3); border-radius: 10px; }
+    
+    .event-card {
+        min-width: 280px; max-width: 280px; background: var(--glass-bg); border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px; overflow: hidden; position: relative; transition: all 0.4s; cursor: pointer; backdrop-filter: blur(10px);
+    }
+    .event-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5); border-color: var(--c-gold-1); }
+    .event-thumb { width: 100%; height: 180px; object-fit: cover; border-bottom: 1px solid var(--c-gold-3); transition: 0.5s; }
+    .event-card:hover .event-thumb { filter: brightness(1.1); transform: scale(1.1); }
+    .event-info { padding: 20px; position: relative; z-index: 2; background: linear-gradient(to top, var(--c-depth), transparent); }
+    .event-date { font-size: 0.7rem; color: var(--c-gold-1); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; display: block; }
+    .event-title { font-family: 'Cinzel Decorative'; font-size: 1.1rem; color: #fff; margin: 0; line-height: 1.4; }
+    .event-count { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: #fff; padding: 3px 10px; border-radius: 10px; font-size: 0.7rem; border: 1px solid var(--c-gold-3); backdrop-filter: blur(4px); }
+    /* ------------------------------------------- */
+
     .running-quotes-wrapper { width: 100%; overflow-x: hidden; margin-bottom: 80px; padding: 30px 0; background: rgba(0, 0, 0, 0.3); border-top: 1px solid var(--c-gold-3); border-bottom: 1px solid var(--c-gold-3); position: relative; -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
     .running-track { display: flex; width: max-content; padding-left: 20px; padding-right: 20px; gap: 30px; cursor: grab; }
     .running-track:active { cursor: grabbing; }
@@ -515,6 +536,13 @@
     </div>
 
     <div class="section-title">
+        <h2>MOMEN KELAS</h2>
+        <span></span>
+    </div>
+    <div class="event-scroll-container" id="eventContainer">
+        </div>
+
+    <div class="section-title">
         <h2>QUOTES</h2>
         <span></span>
     </div>
@@ -737,7 +765,7 @@
     const db = app.firestore();
     const ADMIN_PW = "admin123"; 
 
-    // 2. nama siswa bebeng
+    // 2. DATA SISWA
     const students = [
       {name: "Ainun Mardiansyah", age: 16, hobby: "Gatahu", instagram: "4inunranii_", photo: "image/Ainun.jpg", religion: "Islam", organization: "Rahasia", gallery: [], birthDate: "03-13", description: "Najim hotspott 1", quote: "The best way to predict the future is to create it."},
       {name: "Akifa Naila", age: 16, hobby: "Minta hotspot", instagram: "akiipanaila", photo: "image/Naila.jpg", religion: "Islam", organization: "UNIONE", gallery: [], birthDate: "05-15", description: "Najim hotspot 2", quote: "Every moment is a fresh beginning."},
@@ -783,6 +811,31 @@
         {text: "Jangan takut berjalan lambat, takutlah jika hanya berdiri diam.", author: "Pepatah"},
         {text: "Masa depan adalah milik mereka yang menyiapkannya hari ini.", author: "Unknown"},
         {text: "Pendidikan adalah senjata paling ampuh untuk mengubah dunia.", author: "Nelson Mandela"},
+    ];
+
+    /* ==========================================================
+       DATA BARU: GALLERY KEGIATAN (MOMEN KELAS)
+       Silakan ganti link fotonya di sini
+    ========================================================== */
+    const classEvents = [
+        {
+            title: "Classmeet Desember",
+            date: "15 DES 2024",
+            cover: "https://via.placeholder.com/400x300/0c2b30/bf953f?text=Classmeet", 
+            images: ["image/foto_lomba1.jpg", "image/foto_lomba2.jpg"] 
+        },
+        {
+            title: "Hari Guru Nasional",
+            date: "25 NOV 2024",
+            cover: "https://via.placeholder.com/400x300/300c15/bf953f?text=Hari+Guru", 
+            images: ["image/guru1.jpg", "image/guru2.jpg"]
+        },
+        {
+            title: "Batik Day",
+            date: "02 OKT 2024",
+            cover: "https://via.placeholder.com/400x300/061424/bf953f?text=Batik+Day",
+            images: ["image/batik1.jpg"]
+        }
     ];
 
     /* 3. LONTARA PARTICLE SYSTEM */
@@ -868,6 +921,10 @@
 
     function initContent() {
         renderStudents(); renderStats(); renderDailyQuote(); renderRunningQuotes();
+        
+        // --- PANGGIL FUNGSI RENDER EVENT DI SINI ---
+        renderEvents(); 
+        
         loadMenfess(); initSpotifyPlayer(); initScrollAnimations();
         const today = new Date();
         const m = String(today.getMonth()+1).padStart(2,'0');
@@ -880,6 +937,34 @@
              });
              document.getElementById('birthdayModalOverlay').classList.add('active');
         }
+    }
+
+    // --- FUNGSI RENDER EVENTS (Momen Kelas) ---
+    function renderEvents() {
+        const container = document.getElementById('eventContainer');
+        if(!container) return;
+        container.innerHTML = '';
+        classEvents.forEach((evt, index) => {
+            const card = document.createElement('div');
+            card.className = 'event-card';
+            card.style.opacity = '0';
+            // Animasi sederhana
+            card.style.animation = `fadeInUp 0.8s forwards ${index * 0.2}s`;
+
+            card.innerHTML = `
+                <div style="overflow:hidden; position:relative;">
+                    <span class="event-count"><i class="fas fa-camera"></i> ${evt.images.length}</span>
+                    <img src="${evt.cover}" class="event-thumb" alt="${evt.title}">
+                </div>
+                <div class="event-info">
+                    <span class="event-date">${evt.date}</span>
+                    <h3 class="event-title">${evt.title}</h3>
+                </div>
+            `;
+            // Gunakan Lightbox yang SUDAH ADA di kodemu
+            card.onclick = () => openLightboxGallery(evt.images, 0);
+            container.appendChild(card);
+        });
     }
 
     function updateClock() {
@@ -1155,17 +1240,13 @@
         const imgEl = document.getElementById('lbImg');
         const counterEl = document.getElementById('lbCounter');
         
-        // 1. Ganti gambar
         imgEl.src = currentGalleryImages[currentImageIndex];
 
-        // 2. Animasi POP UP (Zoom In + Elastic) menggunakan GSAP
-        // Foto mulai dari kecil (scale 0.5) dan transparan, lalu membesar memantul
         gsap.fromTo(imgEl, 
             { scale: 0.5, opacity: 0 }, 
             { scale: 1, opacity: 1, duration: 0.8, ease: "elastic.out(1, 0.6)" }
         );
 
-        // Update Text Counter (1 / 5)
         if(counterEl) counterEl.textContent = `${currentImageIndex + 1} / ${currentGalleryImages.length}`;
     }
     window.changeLightboxImage = (direction) => {
@@ -1272,7 +1353,6 @@
     }
   </script>
   <script>
-  // Registrasi Service Worker untuk PWA
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('/sw.js')

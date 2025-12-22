@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peta Digital Sulawesi Selatan - Kearifan Lokal</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+
+    <style>
+        /* Reset margin dasar */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Styling Container Peta */
+        #map { 
+            height: 90vh; /* Tinggi peta 90% dari layar */
+            width: 100%;
+            z-index: 1;
+        }
+
+        /* Styling Header Sederhana */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .info-panel {
+            padding: 10px;
+            background: #f1f1f1;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Peta Interaktif Sulawesi Selatan</h1>
+    </header>
+
+    <div id="map"></div>
+    
+    <div class="info-panel">
+        Dibuat untuk Proyek Rekayasa Teknologi - SMAN 1 Parepare
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+
+    <script>
+        // 1. Inisialisasi Peta
+        // Koordinat [-4.3, 120.0] adalah titik tengah kasar Sulawesi Selatan
+        // Zoom level 8 cukup untuk melihat satu provinsi
+        var map = L.map('map').setView([-4.3, 120.0], 8);
+
+        // 2. Menambahkan Layer Peta (Tile Layer) dari OpenStreetMap
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        // 3. Menambahkan Marker (Penanda Lokasi)
+
+        // Marker: Parepare (Lokasi Sekolah/User)
+        var markerParepare = L.marker([-4.0166, 119.6249]).addTo(map);
+        markerParepare.bindPopup("<b>Kota Parepare</b><br>Lokasi SMAN 1 Parepare.<br><i>Kota Cinta Habibie & Ainun.</i>").openPopup();
+
+        // Marker: Makassar (Ibukota)
+        var markerMakassar = L.marker([-5.1477, 119.4328]).addTo(map);
+        markerMakassar.bindPopup("<b>Kota Makassar</b><br>Ibukota Provinsi Sulawesi Selatan.<br><i>Pusat kuliner Coto & Pallubasa.</i>");
+
+        // Marker: Tana Toraja (Contoh Wisata Kearifan Lokal)
+        var markerToraja = L.marker([-3.1047, 119.8465]).addTo(map);
+        markerToraja.bindPopup("<b>Tana Toraja</b><br>Destinasi Budaya & Kearifan Lokal.<br><i>Rumah adat Tongkonan.</i>");
+
+        // Marker: Tanjung Bira (Bulukumba)
+        var markerBira = L.marker([-5.6175, 120.4578]).addTo(map);
+        markerBira.bindPopup("<b>Tanjung Bira</b><br>Keindahan Laut Selatan.<br><i>Pembuatan Perahu Phinisi.</i>");
+
+        // 4. Menambahkan Fungsi Klik pada Peta (Untuk melihat koordinat)
+        var popup = L.popup();
+
+        function onMapClick(e) {
+            popup
+                .setLatLng(e.latlng)
+                .setContent("Anda mengklik koordinat: " + e.latlng.toString())
+                .openOn(map);
+        }
+
+        map.on('click', onMapClick);
+
+    </script>
+</body>
+</html>
