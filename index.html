@@ -35,9 +35,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Buginese&display=swap" rel="stylesheet">
 
   <style>
-    /* ========================================
-    1. CORE VARIABLES
-    ========================================
+  
     */
     :root {
         --main-bg-gradient: linear-gradient(180deg, #0c2b30 0%, #061424 100%);
@@ -306,9 +304,6 @@
     .lb-nav-btn:hover { background: var(--c-gold-1); color: #000; box-shadow: 0 0 20px rgba(191, 149, 63, 0.6); }
     .lb-nav-btn.prev { left: 20px; } .lb-nav-btn.next { right: 20px; }
     
-    /* ========================================
-       CSS BARU (GRID & FILOSOFI) - UPDATE
-    ======================================== */
     .menfess-container {
         width: 100%; max-width: 1100px; margin: 0 auto 80px; padding: 0 20px;
         display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px;
@@ -1155,11 +1150,8 @@
         const imgEl = document.getElementById('lbImg');
         const counterEl = document.getElementById('lbCounter');
         
-        // 1. Ganti gambar
         imgEl.src = currentGalleryImages[currentImageIndex];
 
-        // 2. Animasi POP UP (Zoom In + Elastic) menggunakan GSAP
-        // Foto mulai dari kecil (scale 0.5) dan transparan, lalu membesar memantul
         gsap.fromTo(imgEl, 
             { scale: 0.5, opacity: 0 }, 
             { scale: 1, opacity: 1, duration: 0.8, ease: "elastic.out(1, 0.6)" }
@@ -1272,7 +1264,6 @@
     }
   </script>
   <script>
-  // Registrasi Service Worker untuk PWA
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('/sw.js')
