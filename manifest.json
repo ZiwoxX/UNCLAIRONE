@@ -1,0 +1,24 @@
+{
+  "name": "UNCLAIRONE - 10 C.1",
+  "short_name": "UNCLAIRONE",
+  "description": "Portal Kelas 10 C.1 SMAN 1 Parepare",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0c2b30",
+  "theme_color": "#0c2b30",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "image/10X1.jpg",
+      "sizes": "192x192",
+      "type": "image/jpg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "image/10X1.jpg",
+      "sizes": "512x512",
+      "type": "image/jpg",
+      "purpose": "any maskable"
+    }
+  ]
+}
