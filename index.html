@@ -5,8 +5,6 @@
   <link rel="icon" type="image/svg/xml" href="image/unclairone.png" />     
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#0c2b30">
-  <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="image/10X1.jpg">
   <meta name="description" content="Portal Kelas 10 C.1 - SMAN 1 PAREPARE">
   <title>UNCLAIRONE AREA</title>
 
@@ -35,7 +33,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Buginese&display=swap" rel="stylesheet">
 
   <style>
-  
+    /* ========================================
+    1. CORE VARIABLES
+    ========================================
     */
     :root {
         --main-bg-gradient: linear-gradient(180deg, #0c2b30 0%, #061424 100%);
@@ -55,7 +55,8 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    
+
+    /* TEKSTUR LIPA' SABBE (SUTRA HALUS) */
     body {
         background-color: var(--c-void);
         background-image: 
@@ -66,7 +67,7 @@
             var(--main-bg-gradient);
         background-size: 80px 140px, 80px 140px, 80px 140px, 80px 140px, cover;
         background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0;
-        background-attachment: scroll;
+        background-attachment: fixed;
         color: var(--c-text-main);
         font-family: 'Plus Jakarta Sans', sans-serif;
         overflow-x: hidden;
@@ -82,6 +83,7 @@
         border-radius: 10px; border: 1px solid var(--c-gold-3);
     }
 
+    /* NAVIGASI SOLID */
     .nav-btn {
         position: fixed; top: 30px; z-index: 2000;
         display: flex; align-items: center; gap: 10px; padding: 12px 30px;
@@ -98,7 +100,7 @@
         .nav-left { left: 15px; } .nav-right { right: 15px; } .nav-btn span { display: none; } 
     }
 
-
+    /* LOADER SULAPA EPPA */
     #loader {
         position: fixed; inset: 0; z-index: 9999; 
         background: radial-gradient(circle at center, #0e2a35 0%, #020408 100%);
@@ -203,27 +205,6 @@
     .stat-val { font-size: 3rem; font-family: 'Cinzel Decorative'; color: #fff; line-height: 1; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
     .stat-lbl { color: var(--c-text-muted); text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; margin-top: 10px; font-weight: 600; }
 
-    /* --- TAMBAHAN STYLE UNTUK EVENT GALLERY --- */
-    .event-scroll-container {
-        display: flex; gap: 25px; overflow-x: auto; padding: 10px 5px 30px 5px; 
-        scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
-    }
-    .event-scroll-container::-webkit-scrollbar { height: 8px; }
-    .event-scroll-container::-webkit-scrollbar-thumb { background: var(--c-gold-3); border-radius: 10px; }
-    
-    .event-card {
-        min-width: 280px; max-width: 280px; background: var(--glass-bg); border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 20px; overflow: hidden; position: relative; transition: all 0.4s; cursor: pointer; backdrop-filter: blur(10px);
-    }
-    .event-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5); border-color: var(--c-gold-1); }
-    .event-thumb { width: 100%; height: 180px; object-fit: cover; border-bottom: 1px solid var(--c-gold-3); transition: 0.5s; }
-    .event-card:hover .event-thumb { filter: brightness(1.1); transform: scale(1.1); }
-    .event-info { padding: 20px; position: relative; z-index: 2; background: linear-gradient(to top, var(--c-depth), transparent); }
-    .event-date { font-size: 0.7rem; color: var(--c-gold-1); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; display: block; }
-    .event-title { font-family: 'Cinzel Decorative'; font-size: 1.1rem; color: #fff; margin: 0; line-height: 1.4; }
-    .event-count { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: #fff; padding: 3px 10px; border-radius: 10px; font-size: 0.7rem; border: 1px solid var(--c-gold-3); backdrop-filter: blur(4px); }
-    /* ------------------------------------------- */
-
     .running-quotes-wrapper { width: 100%; overflow-x: hidden; margin-bottom: 80px; padding: 30px 0; background: rgba(0, 0, 0, 0.3); border-top: 1px solid var(--c-gold-3); border-bottom: 1px solid var(--c-gold-3); position: relative; -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
     .running-track { display: flex; width: max-content; padding-left: 20px; padding-right: 20px; gap: 30px; cursor: grab; }
     .running-track:active { cursor: grabbing; }
@@ -323,6 +304,9 @@
     .lb-nav-btn:hover { background: var(--c-gold-1); color: #000; box-shadow: 0 0 20px rgba(191, 149, 63, 0.6); }
     .lb-nav-btn.prev { left: 20px; } .lb-nav-btn.next { right: 20px; }
     
+    /* ========================================
+       CSS BARU (GRID & FILOSOFI) - UPDATE
+    ======================================== */
     .menfess-container {
         width: 100%; max-width: 1100px; margin: 0 auto 80px; padding: 0 20px;
         display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px;
@@ -357,7 +341,8 @@
         padding: 6px 15px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
     }
     .mf-ticket:hover .mf-from { border-color: var(--c-gold-3); color: var(--c-gold-2); }
-  
+
+    /* FILOSOFI BAR (3S) */
     .philosophy-bar {
         display: flex; justify-content: center; align-items: center; gap: 60px; margin: 80px 0 150px; 
         position: relative; padding: 30px 0;
@@ -386,7 +371,7 @@
         body { overflow-x: hidden !important; width: 100% !important; }
         .main-wrapper { padding: 0 15px 120px 15px !important; }
         
-    
+        /* BENTO GRID */
         .bento-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 15px !important; margin-bottom: 50px !important; }
         .b-quote {
             grid-column: span 2 !important; padding: 20px 15px !important; min-height: auto !important;
@@ -526,13 +511,6 @@
             <span class="stat-lbl">MAKASSAR TIME</span>
         </div>
     </div>
-
-    <div class="section-title">
-        <h2>MOMEN KELAS</h2>
-        <span></span>
-    </div>
-    <div class="event-scroll-container" id="eventContainer">
-        </div>
 
     <div class="section-title">
         <h2>QUOTES</h2>
@@ -757,7 +735,7 @@
     const db = app.firestore();
     const ADMIN_PW = "admin123"; 
 
-    // 2. DATA SISWA
+    // 2. nama siswa bebeng
     const students = [
       {name: "Ainun Mardiansyah", age: 16, hobby: "Gatahu", instagram: "4inunranii_", photo: "image/Ainun.jpg", religion: "Islam", organization: "Rahasia", gallery: [], birthDate: "03-13", description: "Najim hotspott 1", quote: "The best way to predict the future is to create it."},
       {name: "Akifa Naila", age: 16, hobby: "Minta hotspot", instagram: "akiipanaila", photo: "image/Naila.jpg", religion: "Islam", organization: "UNIONE", gallery: [], birthDate: "05-15", description: "Najim hotspot 2", quote: "Every moment is a fresh beginning."},
@@ -775,10 +753,10 @@
       {name: "Miftahul", age: 16, hobby: "Minta Hotspot", instagram: "miftahuljannah1507_", photo: "image/Mita.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: "07-15", description: "Najim hotspot 5", quote: "Learning is the key to opening the door to succes, make every lesson an opportunity to grow and develop."},
       {name: "Fathur Jibriel", age: 15, hobby: "Basket", instagram: "ndadapateuy", photo: "image/patur.jpg", religion: "Islam", organization: "Basket", gallery: [], birthDate: "", description: "Proplayer emel", quote: "Learn from the past, live in the present, and plan for the future"},
       {name: "Muh.Ibrahim", age: 15, hobby: "Takraw", instagram: "ibe_6610", photo: "image/Ibe.jpg", religion: "Islam", organization: "Paskibra", gallery: [], birthDate: "", description: "Pengganggu mati aja", quote: "Believe in yourself."}, 
-      {name: "Muh.Tsaqiff", age: 15, hobby: "Main epep", instagram: "muhtsaqiffal", photo: "image/Tsaqif.jpg", religion: "Islam", organization: "Smansa Voice", gallery: [], birthDate: "", description: "Kul, Proplayer epep", quote: "Don't give up, keep fighting"},
+      {name: "Muh.Tsaqiff", age: 15, hobby: "Main epep", instagram: "muhtsaqiffal", photo: "image/Tsaqif.jpg", religion: "Islam", organization: "Smansa Voice", gallery: [], birthDate: "12-11", description: "Kul, Proplayer epep", quote: "Don't give up, keep fighting"},
       {name: "Muh.Alif Falah Jordan", age: 15, hobby: "Basket", instagram: "_alipjrdan", photo: "image/Alip.jpg", religion: "Islam", organization: "Basket", gallery: [], birthDate: "", description: "Pro player basket. Sering dipanggil Alip Jordang.", quote: "No pain, no gain."},
       {name: "Muh.Faiz Aswin", age: 15, hobby: "Bewan sama Akil", instagram: "mhmmdfaizz28", photo: "image/Faiz.jpg", religion: "Islam", organization: "Tidak Ada", gallery: [], birthDate: "02-28", description: "Cool, Tampan, Berwibawa, Gantenk, Rival Akil", quote: "There is always a way for those who want to try."},
-      {name: "Kink Muflih", age: 15, hobby: "Nonton Anime", instagram: "muflih_zaky", photo: "image/Mupli.jpg", religion: "Islam", organization: "Volly", gallery: [], birthDate: "12-11", description: "Rapper, Coach ML", quote: "It is obligatory to be good in the eyes of God, it is not necessary to look good in the eyes of humans."},
+      {name: "Kink Muflih", age: 15, hobby: "Nonton Anime", instagram: "muflih_zaky", photo: "image/Mupli.jpg", religion: "Islam", organization: "Volly", gallery: [], birthDate: "", description: "Rapper, Coach ML", quote: "It is obligatory to be good in the eyes of God, it is not necessary to look good in the eyes of humans."},
       {name: "M.Raihaan", age: 15, hobby: "Topup Dm", instagram: "rhnzki_16", photo: "image/Rehan.jpg", religion: "Islam", organization: "Putra Putri Smansa", gallery: [], birthDate: "", description: "Multiteleng", quote: "Character is formed in the stormy waves of the world."},
       {name: "Nagym", age: 15, hobby: "Tidur", instagram: "nagymm_", photo: "image/Nagym.jpg", religion: "Islam", organization: "KITS", gallery: [], birthDate: "06-23", description: "Tidur adalah koentji'.", quote: "Be Yourself And Never Surrender."},
       {name: "Naufal Qawwiy", age: 15, hobby: "Tektok Gn", instagram: "naufalqawiyy", photo: "image/nopal.jpg", religion: "Islam", organization: "Wasipalah", gallery: [], birthDate: "04-23", description: "Setarboy, Multiteleng, Jenius, Anak Gunung", quote: "Believe you can and you're halfway there."},
@@ -803,31 +781,6 @@
         {text: "Jangan takut berjalan lambat, takutlah jika hanya berdiri diam.", author: "Pepatah"},
         {text: "Masa depan adalah milik mereka yang menyiapkannya hari ini.", author: "Unknown"},
         {text: "Pendidikan adalah senjata paling ampuh untuk mengubah dunia.", author: "Nelson Mandela"},
-    ];
-
-    /* ==========================================================
-       DATA BARU: GALLERY KEGIATAN (MOMEN KELAS)
-       Silakan ganti link fotonya di sini
-    ========================================================== */
-    const classEvents = [
-        {
-            title: "Classmeet Desember",
-            date: "15 DES 2024",
-            cover: "https://via.placeholder.com/400x300/0c2b30/bf953f?text=Classmeet", 
-            images: ["image/foto_lomba1.jpg", "image/foto_lomba2.jpg"] 
-        },
-        {
-            title: "Hari Guru Nasional",
-            date: "25 NOV 2024",
-            cover: "https://via.placeholder.com/400x300/300c15/bf953f?text=Hari+Guru", 
-            images: ["image/guru1.jpg", "image/guru2.jpg"]
-        },
-        {
-            title: "Batik Day",
-            date: "02 OKT 2024",
-            cover: "https://via.placeholder.com/400x300/061424/bf953f?text=Batik+Day",
-            images: ["image/batik1.jpg"]
-        }
     ];
 
     /* 3. LONTARA PARTICLE SYSTEM */
@@ -913,10 +866,6 @@
 
     function initContent() {
         renderStudents(); renderStats(); renderDailyQuote(); renderRunningQuotes();
-        
-        // --- PANGGIL FUNGSI RENDER EVENT DI SINI ---
-        renderEvents(); 
-        
         loadMenfess(); initSpotifyPlayer(); initScrollAnimations();
         const today = new Date();
         const m = String(today.getMonth()+1).padStart(2,'0');
@@ -929,34 +878,6 @@
              });
              document.getElementById('birthdayModalOverlay').classList.add('active');
         }
-    }
-
-    // --- FUNGSI RENDER EVENTS (Momen Kelas) ---
-    function renderEvents() {
-        const container = document.getElementById('eventContainer');
-        if(!container) return;
-        container.innerHTML = '';
-        classEvents.forEach((evt, index) => {
-            const card = document.createElement('div');
-            card.className = 'event-card';
-            card.style.opacity = '0';
-            // Animasi sederhana
-            card.style.animation = `fadeInUp 0.8s forwards ${index * 0.2}s`;
-
-            card.innerHTML = `
-                <div style="overflow:hidden; position:relative;">
-                    <span class="event-count"><i class="fas fa-camera"></i> ${evt.images.length}</span>
-                    <img src="${evt.cover}" class="event-thumb" alt="${evt.title}">
-                </div>
-                <div class="event-info">
-                    <span class="event-date">${evt.date}</span>
-                    <h3 class="event-title">${evt.title}</h3>
-                </div>
-            `;
-            // Gunakan Lightbox yang SUDAH ADA di kodemu
-            card.onclick = () => openLightboxGallery(evt.images, 0);
-            container.appendChild(card);
-        });
     }
 
     function updateClock() {
@@ -1232,13 +1153,17 @@
         const imgEl = document.getElementById('lbImg');
         const counterEl = document.getElementById('lbCounter');
         
+        // 1. Ganti gambar
         imgEl.src = currentGalleryImages[currentImageIndex];
 
+        // 2. Animasi POP UP (Zoom In + Elastic) menggunakan GSAP
+        // Foto mulai dari kecil (scale 0.5) dan transparan, lalu membesar memantul
         gsap.fromTo(imgEl, 
             { scale: 0.5, opacity: 0 }, 
             { scale: 1, opacity: 1, duration: 0.8, ease: "elastic.out(1, 0.6)" }
         );
 
+        // Update Text Counter (1 / 5)
         if(counterEl) counterEl.textContent = `${currentImageIndex + 1} / ${currentGalleryImages.length}`;
     }
     window.changeLightboxImage = (direction) => {
@@ -1344,14 +1269,5 @@
         gsap.from(".menfess-container", { scrollTrigger: { trigger: ".menfess-container", start: "top 80%" }, x: -100, opacity: 0, duration: 1.2, ease: "power2.out" });
     }
   </script>
-  <script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .then(reg => console.log('PWA Service Worker registered!', reg))
-        .catch(err => console.log('PWA registration failed:', err));
-    });
-  }
-</script>
 </body>
 </html>
