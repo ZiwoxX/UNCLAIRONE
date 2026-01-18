@@ -11,225 +11,171 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Plus+Jakarta+Sans:wght@200;400;500;700&display=swap" rel="stylesheet">
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
-    /* === CORE STYLE === */
     :root {
-        --main-bg: #0c2b30;
-        --c-void: #061424; 
         --c-gold-1: #bf953f;
         --c-gold-2: #fcf6ba;
         --c-gold-3: #b38728;
-        --c-maroon: #8c2131; 
-        --glass-bg: rgba(12, 43, 48, 0.75);
-        --glass-border: 1px solid rgba(191, 149, 63, 0.3);
-        --font-main: 'Plus Jakarta Sans', sans-serif;
+        --c-void: #061424;
         --font-header: 'Cinzel Decorative', cursive;
-        --font-serif: 'Cormorant Garamond', serif;
     }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; outline: none; -webkit-tap-highlight-color: transparent; }
 
     body {
-        background-color: var(--c-void);
-        background-image: 
-            radial-gradient(circle at 50% 0%, #1a3c45 0%, transparent 60%),
-            linear-gradient(180deg, #0c2b30 0%, #02050a 100%);
-        color: #e2e8f0;
-        font-family: var(--font-main);
-        min-height: 100vh;
-        overflow-x: hidden;
-        padding-bottom: 100px; 
+        background: radial-gradient(circle at 50% 30%, #1a3c45 0%, #061424 100%);
+        color: #e2e8f0; font-family: 'Plus Jakarta Sans', sans-serif;
+        min-height: 100vh; overflow-x: hidden; margin: 0; padding-bottom: 120px;
     }
 
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--c-void); }
-    ::-webkit-scrollbar-thumb { background: var(--c-gold-3); border-radius: 10px; }
-
-    /* DEKORASI BACKGROUND */
-    .royal-pattern {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23bf953f' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        z-index: -1; pointer-events: none;
-    }
-
-    /* HEADER */
-    .header-area {
-        text-align: center; padding: 60px 20px 30px;
-        position: relative; z-index: 2;
-    }
+    .header-area { text-align: center; padding: 60px 20px 20px; }
     .header-title {
-        font-family: var(--font-header); font-size: 2.5rem;
-        background: linear-gradient(to right, var(--c-gold-2), var(--c-gold-1), var(--c-gold-3));
-        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        margin-bottom: 5px; filter: drop-shadow(0 0 15px rgba(191,149,63,0.3));
-    }
-    .header-subtitle {
-        font-family: var(--font-serif); font-size: 1.2rem; color: #aaa; letter-spacing: 2px;
-        font-style: italic;
+        font-family: var(--font-header); font-size: 2.8rem; font-weight: 900;
+        background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fcf6ba, #bf953f);
+        background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        animation: shineText 5s linear infinite; filter: drop-shadow(0 0 15px rgba(191,149,63,0.4));
     }
 
-    /* NAV BACK */
-    .btn-back {
-        position: absolute; top: 30px; left: 20px;
-        color: var(--c-gold-1); font-size: 1.5rem; cursor: pointer;
-        background: rgba(0,0,0,0.3); width: 45px; height: 45px;
-        border-radius: 50%; display: flex; align-items: center; justify-content: center;
-        border: 1px solid var(--c-gold-3); transition: 0.3s;
-        text-decoration: none; z-index: 10;
+    /* === THE ROYAL SPOTLIGHT (ULTRA LUX) === */
+    .spotlight-container { padding: 40px 20px; display: flex; justify-content: center; position: relative; }
+    
+    /* Cahaya Aura di Belakang Kartu */
+    .royal-aura {
+        position: absolute; width: 350px; height: 350px;
+        background: radial-gradient(circle, rgba(191,149,63,0.2) 0%, transparent 70%);
+        filter: blur(40px); animation: auraPulse 4s ease-in-out infinite; z-index: 0;
     }
-    .btn-back:hover { background: var(--c-gold-1); color: #000; transform: scale(1.1); }
 
-    /* === SPOTLIGHT SECTION (NEXT BIRTHDAY) === */
-    .spotlight-container {
-        padding: 0 20px; display: flex; justify-content: center; margin-bottom: 50px;
-    }
     .royal-card {
-        background: rgba(12, 43, 48, 0.4);
-        border: 1px solid var(--c-gold-1);
-        border-radius: 20px; padding: 2px;
-        width: 100%; max-width: 500px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-        position: relative; overflow: hidden;
+        width: 100%; max-width: 550px; position: relative;
+        background: linear-gradient(135deg, rgba(191,149,63,0.5), transparent, rgba(179,135,40,0.5));
+        padding: 2px; border-radius: 40px; z-index: 1;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.8);
     }
+
     .royal-card-inner {
-        background: linear-gradient(160deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.6) 100%);
-        backdrop-filter: blur(10px); border-radius: 18px; padding: 30px;
-        text-align: center; position: relative; z-index: 1;
+        background: linear-gradient(165deg, rgba(12, 43, 48, 0.98), rgba(6, 20, 36, 0.99));
+        backdrop-filter: blur(30px); border-radius: 38px; padding: 50px 30px;
+        text-align: center; position: relative; overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.05);
     }
-    .royal-card::before {
-        content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-        background: linear-gradient(45deg, transparent, rgba(255,215,0,0.1), transparent);
-        transform: rotate(45deg); animation: shine 6s infinite; pointer-events: none;
-    }
-    
-    .crown-icon { font-size: 2rem; color: var(--c-gold-1); margin-bottom: 10px; filter: drop-shadow(0 0 10px var(--c-gold-3)); }
-    .spotlight-label { font-family: var(--font-main); font-size: 0.8rem; letter-spacing: 3px; color: var(--c-gold-2); text-transform: uppercase; margin-bottom: 15px; }
-    
-    .spotlight-img-box {
-        width: 130px; height: 130px; margin: 0 auto 20px; position: relative;
+
+    /* Victorian Filigree (Ornamen Sudut Mewah) */
+    .filigree { position: absolute; width: 60px; height: 60px; opacity: 0.7; pointer-events: none; }
+    .f-tl { top: 15px; left: 15px; border-top: 3px solid var(--c-gold-1); border-left: 3px solid var(--c-gold-1); border-radius: 15px 0 0 0; }
+    .f-tr { top: 15px; right: 15px; border-top: 3px solid var(--c-gold-1); border-right: 3px solid var(--c-gold-1); border-radius: 0 15px 0 0; }
+    .f-bl { bottom: 15px; left: 15px; border-bottom: 3px solid var(--c-gold-1); border-left: 3px solid var(--c-gold-1); border-radius: 0 0 0 15px; }
+    .f-br { bottom: 15px; right: 15px; border-bottom: 3px solid var(--c-gold-1); border-right: 3px solid var(--c-gold-1); border-radius: 0 0 15px 0; }
+
+    .spotlight-img-frame {
+        position: relative; width: 160px; height: 160px; margin: 0 auto 25px;
     }
     .spotlight-img {
         width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
-        border: 3px solid var(--c-gold-1); box-shadow: 0 0 25px rgba(191,149,63,0.4);
+        border: 4px solid var(--c-gold-1); box-shadow: 0 0 30px var(--c-gold-3);
     }
-    /* Zodiak removed here */
+    .royal-seal {
+        position: absolute; bottom: -10px; right: -10px; width: 50px; height: 50px;
+        background: var(--c-maroon); border: 2px solid var(--c-gold-2); border-radius: 50%;
+        display: flex; align-items: center; justify-content: center; color: var(--c-gold-2);
+        font-size: 1.2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        animation: sealRotate 10s linear infinite;
+    }
 
-    .spotlight-name { font-family: var(--font-header); font-size: 1.8rem; color: #fff; margin-bottom: 5px; }
-    .spotlight-date { font-family: var(--font-serif); font-size: 1.3rem; color: var(--c-gold-2); font-style: italic; }
-    
-    .countdown-box {
-        display: flex; justify-content: center; gap: 10px; margin: 20px 0;
+    .spotlight-name {
+        font-family: var(--font-header); font-size: 2.2rem; font-weight: 700;
+        background: linear-gradient(to bottom, #fff 30%, var(--c-gold-2) 100%);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        margin-bottom: 10px; letter-spacing: 2px;
     }
-    .cd-unit { background: rgba(0,0,0,0.4); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); min-width: 60px; }
-    .cd-num { display: block; font-size: 1.2rem; font-weight: bold; color: var(--c-gold-1); }
-    .cd-txt { font-size: 0.6rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
 
-    .btn-celebrate {
-        background: linear-gradient(45deg, var(--c-maroon), #50131d);
-        color: #fff; border: 1px solid var(--c-gold-3); padding: 10px 25px;
-        border-radius: 50px; font-family: var(--font-header); font-size: 1rem;
-        cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(140, 33, 49, 0.4);
+    /* COUNTDOWN & BUTTON */
+    .cd-lux { display: flex; justify-content: center; gap: 12px; margin: 25px 0; }
+    .cd-item { 
+        background: rgba(255,255,255,0.03); border: 1px solid rgba(191,149,63,0.2);
+        padding: 12px; border-radius: 15px; min-width: 75px;
+        box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
     }
-    .btn-celebrate:active { transform: scale(0.95); }
+    .btn-royal {
+        background: linear-gradient(45deg, var(--c-maroon), #b02639);
+        color: white; border: 1px solid var(--c-gold-1); padding: 15px 40px;
+        border-radius: 50px; font-family: var(--font-header); font-size: 0.8rem;
+        cursor: pointer; transition: 0.4s; box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+        text-transform: uppercase; letter-spacing: 2px;
+    }
+    .btn-royal:hover { transform: scale(1.05); box-shadow: 0 15px 30px rgba(140, 33, 49, 0.4); border-color: #fff; }
 
-    /* === SEARCH BAR === */
-    .search-wrapper {
-        max-width: 600px; margin: 0 auto 40px; padding: 0 20px; position: relative;
-    }
-    .search-input {
-        width: 100%; padding: 15px 50px 15px 20px;
-        background: rgba(255,255,255,0.05); border: 1px solid rgba(191,149,63,0.3);
-        border-radius: 12px; color: #fff; font-family: var(--font-main);
-        transition: 0.3s; backdrop-filter: blur(5px);
-    }
-    .search-input:focus { border-color: var(--c-gold-1); background: rgba(255,255,255,0.1); }
-    .search-icon { position: absolute; right: 35px; top: 50%; transform: translateY(-50%); color: var(--c-gold-3); }
-
-    /* === LIST GRID === */
+    /* LIST GRID */
     .bday-grid {
         display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 20px; padding: 0 20px; max-width: 1200px; margin: 0 auto;
+        gap: 25px; padding: 0 20px; max-width: 1200px; margin: 0 auto;
     }
-
     .card-student {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 15px; padding: 25px 15px; /* Padding ditambah sedikit agar seimbang */
-        text-align: center; position: relative;
-        transition: transform 0.3s, box-shadow 0.3s;
-        backdrop-filter: blur(5px);
+        background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 25px; padding: 30px 15px; text-align: center;
+        backdrop-filter: blur(10px); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    .card-student:hover {
-        border-color: var(--c-gold-3);
-        box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-    }
-    
-    .cs-img {
-        width: 80px; height: 80px; border-radius: 50%; object-fit: cover;
-        margin: 0 auto 15px; border: 2px solid rgba(255,255,255,0.2);
-        transition: 0.3s;
-    }
-    .card-student:hover .cs-img { border-color: var(--c-gold-1); transform: scale(1.05); }
+    .card-student:hover { border-color: var(--c-gold-1); transform: translateY(-10px); background: rgba(255,255,255,0.06); box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
+    .cs-img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(191,149,63,0.3); margin-bottom: 15px; }
 
-    .cs-name { font-family: var(--font-header); font-size: 0.95rem; color: #e2e8f0; margin-bottom: 8px; height: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; line-height: 1.2; }
-    .cs-date { font-family: var(--font-serif); font-size: 1rem; color: var(--c-gold-1); font-weight: bold; }
-    
-    /* MONTH SEPARATOR */
-    .month-separator {
-        grid-column: 1 / -1; margin: 30px 0 10px; padding-bottom: 10px;
-        border-bottom: 1px solid rgba(191,149,63,0.2);
-        display: flex; align-items: center; gap: 10px;
+    /* DOCK MENU (IDENTIK INDEX) */
+    .dock-container {
+        position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+        background: rgba(12, 43, 48, 0.9); backdrop-filter: blur(20px);
+        padding: 12px 35px; border-radius: 100px; border: 1px solid rgba(191,149,63,0.4);
+        display: flex; gap: 30px; z-index: 1000; box-shadow: 0 20px 40px rgba(0,0,0,0.6);
     }
-    .ms-text { font-family: var(--font-header); font-size: 1.5rem; color: var(--c-gold-2); }
-    .ms-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--c-gold-3), transparent); }
+    .dock-item { color: #fff; font-size: 1.4rem; text-decoration: none; transition: 0.3s; }
+    .dock-item.active { color: var(--c-gold-1); text-shadow: 0 0 15px var(--c-gold-1); }
 
-    .dock-placeholder { height: 80px; }
-
-    @keyframes shine { 0% { left: -100%; } 100% { left: 200%; } }
+    /* KEYFRAMES */
+    @keyframes shineText { to { background-position: 200% center; } }
+    @keyframes auraPulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.1); } }
+    @keyframes sealRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes happyPulse { 0%, 100% { opacity: 0.8; letter-spacing: 2px; } 50% { opacity: 1; letter-spacing: 5px; color: var(--c-gold-2); } }
 
     @media (max-width: 480px) {
         .header-title { font-size: 2rem; }
         .bday-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .cs-img { width: 60px; height: 60px; }
-        .cs-name { font-size: 0.8rem; }
+        .dock-container { width: 90%; justify-content: space-around; padding: 12px 10px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="royal-pattern"></div>
-
-  <a href="index.html" class="btn-back"><i class="fas fa-arrow-left"></i></a>
-
   <div class="header-area">
       <h1 class="header-title">ROYAL BIRTHDAYS</h1>
-      <p class="header-subtitle">"SELAMAT HBD"</p>
+      <p style="font-family:'Cormorant Garamond'; font-style:italic; font-size:1.3rem; color:rgba(255,255,255,0.6);">Magnificent Souls of 10 C.1</p>
   </div>
 
   <div class="spotlight-container">
-      <div class="royal-card" data-tilt data-tilt-glare data-tilt-max-glare="0.3">
+      <div class="royal-aura"></div>
+      <div class="royal-card" data-tilt data-tilt-max="5" data-tilt-glare data-tilt-max-glare="0.3">
           <div class="royal-card-inner" id="spotlightContent">
-              </div>
+              <p>Preparing the Imperial Throne...</p>
+          </div>
+          <div class="filigree f-tl"></div><div class="filigree f-tr"></div>
+          <div class="filigree f-bl"></div><div class="filigree f-br"></div>
       </div>
   </div>
 
-  <div class="search-wrapper">
-      <input type="text" id="searchInput" class="search-input" placeholder="Cari nama teman..." onkeyup="filterStudents()">
-      <i class="fas fa-search search-icon"></i>
+  <div style="max-width: 600px; margin: 0 auto 40px; padding: 0 20px;">
+      <input type="text" id="searchInput" placeholder="Search by name..." onkeyup="filterStudents()" 
+             style="width:100%; padding:15px 25px; background:rgba(255,255,255,0.03); border:1px solid rgba(191,149,63,0.3); border-radius:20px; color:#fff; font-family:inherit;">
   </div>
 
-  <div class="bday-grid" id="mainGrid">
-      </div>
+  <div class="bday-grid" id="mainGrid"></div>
 
-  <div class="dock-placeholder"></div>
+  <div class="dock-container">
+      <a href="index.html" class="dock-item" title="Home"><i class="fas fa-home"></i></a>
+      <div class="dock-item active" title="Birthdays"><i class="fas fa-birthday-cake"></i></div>
+      <div class="dock-item" onclick="fireConfetti()" style="cursor:pointer" title="Celebrate"><i class="fas fa-magic"></i></div>
+      <div class="dock-item" onclick="window.scrollTo({top:0, behavior:'smooth'})" style="cursor:pointer" title="Top"><i class="fas fa-arrow-up"></i></div>
+  </div>
 
   <script>
-    // --- 1. DATA SISWA ---
-const students = [
+    const students = [
       {name: "Ainun Mardiansyah", photo: "image/Ainun.jpg", birthDate: "03-13"},
       {name: "Akifa Naila", photo: "image/Naila.jpg", birthDate: "05-15"},
       {name: "Akil Maula S", photo: "image/Akil.jpg", birthDate: "12-31"},
@@ -256,8 +202,6 @@ const students = [
     ];
 
     const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-
-    // --- 2. INIT & RENDER ---
     let sortedStudents = [];
 
     function init() {
@@ -265,135 +209,101 @@ const students = [
         const currentYear = today.getFullYear();
 
         sortedStudents = students.map(s => {
-            if(!s.birthDate) return null;
             const [m, d] = s.birthDate.split('-').map(Number);
             let nextDate = new Date(currentYear, m - 1, d);
             if (nextDate < today.setHours(0,0,0,0)) nextDate.setFullYear(currentYear + 1);
-            
-            // Logic Zodiak dihapus disini
             return { ...s, m, d, nextDate };
-        }).filter(Boolean);
+        });
 
         renderSpotlight();
         renderGrid(sortedStudents.sort((a,b) => (a.m - b.m) || (a.d - b.d)));
-
-        // Init Tilt Effect
-        VanillaTilt.init(document.querySelectorAll(".card-student"), {
-            max: 15, speed: 400, glare: true, "max-glare": 0.2
-        });
     }
 
-    // --- 3. SPOTLIGHT LOGIC ---
     function renderSpotlight() {
         const upcoming = [...sortedStudents].sort((a, b) => a.nextDate - b.nextDate);
-        if(upcoming.length === 0) return;
-
         const star = upcoming[0];
-        const container = document.getElementById('spotlightContent');
-        
-        container.innerHTML = `
-            <div class="crown-icon"><i class="fas fa-crown"></i></div>
-            <div class="spotlight-label">NEXT CELEBRATION</div>
-            <div class="spotlight-img-box">
-                <img src="${star.photo}" class="spotlight-img">
+        const today = new Date();
+        const isToday = star.nextDate.getDate() === today.getDate() && star.nextDate.getMonth() === today.getMonth();
+
+        document.getElementById('spotlightContent').innerHTML = `
+            <div style="color:var(--c-gold-1); font-size:1.2rem; margin-bottom:15px; font-family:var(--font-header);">
+                <i class="fas ${isToday ? 'fa-cake-candles' : 'fa-crown'}"></i><br>
+                <span style="font-size:0.6rem; letter-spacing:4px;">${isToday ? 'TODAY\'S ROYALTY' : 'THE NEXT STAR'}</span>
             </div>
-            <h2 class="spotlight-name">${star.name}</h2>
-            <div class="spotlight-date">${star.d} ${monthNames[star.m-1]}</div>
             
-            <div class="countdown-box" id="cdBox">
-                <div class="cd-unit"><span class="cd-num" id="d">0</span><span class="cd-txt">Hari</span></div>
-                <div class="cd-unit"><span class="cd-num" id="h">0</span><span class="cd-txt">Jam</span></div>
-                <div class="cd-unit"><span class="cd-num" id="m">0</span><span class="cd-txt">Menit</span></div>
-                <div class="cd-unit"><span class="cd-num" id="s">0</span><span class="cd-txt">Detik</span></div>
+            <div class="spotlight-img-frame">
+                <img src="${star.photo}" class="spotlight-img">
+                ${isToday ? '<div class="royal-seal"><i class="fas fa-check-double"></i></div>' : ''}
             </div>
 
-            <button class="btn-celebrate" onclick="fireConfetti()">
-                <i class="fas fa-gift"></i> RAYAKAN
-            </button>
+            <h2 class="spotlight-name">${star.name}</h2>
+            <p style="font-family:'Cormorant Garamond'; font-size:1.5rem; color:var(--c-gold-1); font-style:italic;">${star.d} ${monthNames[star.m-1]}</p>
+            
+            <div id="statusArea">
+                ${isToday ? 
+                    `<div style="font-family:var(--font-header); font-size:1.5rem; color:var(--c-gold-2); margin:30px 0; animation:happyPulse 2s infinite;">✨ HAPPY BIRTHDAY ✨</div>` : 
+                    `<div class="cd-lux">
+                        <div class="cd-item"><span style="display:block; font-size:1.5rem; color:var(--c-gold-1); font-weight:900;" id="d">0</span><small style="font-size:0.5rem; color:#888;">DAYS</small></div>
+                        <div class="cd-item"><span style="display:block; font-size:1.5rem; color:var(--c-gold-1); font-weight:900;" id="h">0</span><small style="font-size:0.5rem; color:#888;">HOURS</small></div>
+                        <div class="cd-item"><span style="display:block; font-size:1.5rem; color:var(--c-gold-1); font-weight:900;" id="m">0</span><small style="font-size:0.5rem; color:#888;">MINS</small></div>
+                    </div>`
+                }
+            </div>
+
+            <button onclick="fireConfetti()" class="btn-royal">Celebrate Now</button>
         `;
 
-        startTimer(star.nextDate);
+        if (!isToday) startTimer(star.nextDate);
+        else setTimeout(fireConfetti, 1000);
     }
 
     function startTimer(target) {
         function update() {
-            const now = new Date();
-            const diff = target - now;
-            
-            if(diff <= 0) {
-                document.getElementById('cdBox').innerHTML = "<div style='color:var(--c-gold-1); font-size:1.5rem;'>HAPPY BIRTHDAY!</div>";
-                return;
-            }
-
-            document.getElementById('d').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-            document.getElementById('h').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById('m').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            document.getElementById('s').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+            const diff = target - new Date();
+            if (diff <= 0) { renderSpotlight(); return; }
+            if(document.getElementById('d')) document.getElementById('d').innerText = Math.floor(diff / 86400000);
+            if(document.getElementById('h')) document.getElementById('h').innerText = Math.floor((diff % 86400000) / 3600000);
+            if(document.getElementById('m')) document.getElementById('m').innerText = Math.floor((diff % 3600000) / 60000);
         }
         setInterval(update, 1000);
         update();
     }
 
-    // --- 4. GRID RENDER LOGIC ---
     function renderGrid(list) {
         const grid = document.getElementById('mainGrid');
         grid.innerHTML = '';
-        
-        let currentMonth = -1;
-
-        list.forEach((s, index) => {
-            if(s.m !== currentMonth) {
-                currentMonth = s.m;
-                grid.innerHTML += `
-                    <div class="month-separator">
-                        <span class="ms-text">${monthNames[currentMonth-1]}</span>
-                        <div class="ms-line"></div>
-                    </div>
-                `;
+        let curM = -1;
+        list.forEach(s => {
+            if(s.m !== curM) {
+                curM = s.m;
+                grid.innerHTML += `<div style="grid-column:1/-1; margin-top:40px; display:flex; align-items:center; gap:15px;">
+                    <span style="font-family:var(--font-header); color:var(--c-gold-1); font-size:1.5rem;">${monthNames[curM-1]}</span>
+                    <div style="flex:1; height:1px; background:linear-gradient(90deg, var(--c-gold-3), transparent);"></div>
+                </div>`;
             }
-
-            const html = `
+            grid.innerHTML += `
                 <div class="card-student" data-tilt>
-                    <img src="${s.photo}" class="cs-img" loading="lazy">
-                    <div class="cs-name">${s.name}</div>
-                    <div class="cs-date">${s.d} ${monthNames[s.m-1]}</div>
-                </div>
-            `;
-            grid.innerHTML += html;
+                    <img src="${s.photo}" class="cs-img" onerror="this.src='image/unclairone.png'">
+                    <div style="font-family:var(--font-header); font-size:0.9rem; color:#fff; height:40px;">${s.name}</div>
+                    <div style="color:var(--c-gold-1); font-weight:bold; font-size:1.1rem; margin-top:10px;">${s.d} ${monthNames[s.m-1].substr(0,3)}</div>
+                </div>`;
         });
-
-        if(window.VanillaTilt) {
-            VanillaTilt.init(document.querySelectorAll(".card-student"));
-        }
-        
-        gsap.from(".card-student", {
-            y: 30, opacity: 0, duration: 0.6, stagger: 0.05, ease: "power2.out"
-        });
+        VanillaTilt.init(document.querySelectorAll(".card-student, .royal-card"));
     }
 
-    // --- 5. SEARCH FILTER ---
     function filterStudents() {
-        const term = document.getElementById('searchInput').value.toLowerCase();
-        const filtered = sortedStudents.filter(s => s.name.toLowerCase().includes(term));
-        renderGrid(filtered);
+        const t = document.getElementById('searchInput').value.toLowerCase();
+        renderGrid(sortedStudents.filter(s => s.name.toLowerCase().includes(t)));
     }
 
-    // --- 6. CONFETTI EFFECT ---
     function fireConfetti() {
-        var duration = 3 * 1000;
-        var animationEnd = Date.now() + duration;
-        var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 999 };
-
-        function randomInRange(min, max) { return Math.random() * (max - min) + min; }
-
-        var interval = setInterval(function() {
-            var timeLeft = animationEnd - Date.now();
-            if (timeLeft <= 0) { return clearInterval(interval); }
-            var particleCount = 50 * (timeLeft / duration);
-            
-            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-        }, 250);
+        const duration = 3 * 1000;
+        const end = Date.now() + duration;
+        (function frame() {
+            confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#bf953f', '#fcf6ba'] });
+            confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#bf953f', '#fcf6ba'] });
+            if (Date.now() < end) requestAnimationFrame(frame);
+        }());
     }
 
     window.onload = init;
