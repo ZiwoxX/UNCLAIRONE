@@ -260,7 +260,7 @@
     .m-avatar-large { width: 150px; height: 150px; border-radius: 50%; border: 4px solid var(--c-gold-1); margin-bottom: 20px; object-fit: cover; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 1; transform: scale(0); transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s; flex-shrink: 0; aspect-ratio: 1 / 1; }
     .modal-overlay.active .m-avatar-large { transform: scale(1); }
     .m-name { font-family: 'Cinzel Decorative'; font-size: 1.6rem; color: var(--c-gold-2); margin-bottom: 5px; line-height: 1.2; z-index: 1; }
-    .m-tag { background: var(--c-maroon); color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; margin-bottom: 20px; z-index: 1; }
+    .m-tag { background: var(--c-maroon); color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-bottom: 20px; z-index: 1; }
     .tabe-badge { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--c-gold-3); margin-bottom: 10px; letter-spacing: 2px; font-size: 0.9rem; }
     .m-stats-row { display: flex; justify-content: center; gap: 20px; width: 100%; margin: 15px 0; padding: 10px 0; z-index: 1; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); }
     .ms-item { display: flex; flex-direction: column; align-items: center; }
@@ -367,6 +367,170 @@
     .philosophy-bar span:nth-child(2)::after { content: 'ᨔᨗᨄᨀᨕᨗᨂᨙ'; }    
     .philosophy-bar span:nth-child(3)::after { content: 'ᨔᨗᨄᨀᨒᨙᨅᨗ'; }    
 
+    /* === NEW BIRTHDAY LUXURY STYLES (FIXED & RESPONSIVE) === */
+    #birthdayModalOverlay {
+        z-index: 9999 !important; 
+        backdrop-filter: blur(10px); /* Blur lebih halus */
+        background: rgba(0, 0, 0, 0.85); /* Darken background */
+        display: flex; /* Flexbox untuk centering sempurna */
+        justify-content: center;
+        align-items: center;
+        padding: 20px; /* Jarak aman di HP */
+    }
+
+    /* Target ID khusus untuk kotak ultah agar tidak menimpa modal lain */
+    #bdayModalBox {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        max-width: 380px !important; /* Batasi lebar agar tidak meluber di PC */
+        height: auto !important;
+        max-height: 90vh !important;
+        background: linear-gradient(135deg, #050a10, #0c2b30);
+        border: 2px solid var(--c-gold-1);
+        box-shadow: 0 0 80px rgba(191, 149, 63, 0.4);
+        border-radius: 25px !important;
+        overflow-y: auto !important; /* Scroll jika konten panjang */
+        position: relative;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    .bday-crown-anim {
+        font-size: 3.5rem;
+        color: var(--c-gold-1);
+        margin-bottom: 15px;
+        animation: float 3s ease-in-out infinite, bdayShine 2s linear infinite;
+        filter: drop-shadow(0 0 25px rgba(191, 149, 63, 0.8));
+    }
+    @keyframes bdayShine {
+        0% { text-shadow: 0 0 10px var(--c-gold-1); }
+        50% { text-shadow: 0 0 40px var(--c-gold-2), 0 0 20px white; }
+        100% { text-shadow: 0 0 10px var(--c-gold-1); }
+    }
+    .bday-title {
+        font-family: 'Cinzel Decorative', cursive;
+        font-size: 2rem;
+        color: #fff;
+        margin: 0 0 30px;
+        letter-spacing: 2px;
+        background: linear-gradient(to right, #bf953f, #fcf6ba, #bf953f);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        text-align: center;
+    }
+    
+    /* Layout Kartu Ulang Tahun Baru */
+    .bday-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
+        margin-bottom: 30px;
+    }
+    
+    .bday-card-premium {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+        margin: 0;
+    }
+
+    .bday-img-wrapper {
+        position: relative;
+        width: 140px; /* Foto proporsional */
+        height: 140px;
+        margin-bottom: 20px;
+    }
+    
+    .bday-img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid var(--c-gold-1);
+        box-shadow: 0 0 40px rgba(191, 149, 63, 0.5); /* Glow effect */
+        position: relative;
+        z-index: 2;
+    }
+    
+    .bday-ring {
+        position: absolute; inset: -8px;
+        border: 2px dashed var(--c-gold-2);
+        border-radius: 50%;
+        animation: rotate-slow 15s linear infinite;
+        opacity: 0.6;
+    }
+
+    .bday-name { 
+        font-family: 'Cinzel Decorative'; 
+        color: var(--c-gold-2); 
+        font-size: 1.5rem; 
+        margin-bottom: 5px; 
+        text-align: center;
+        text-shadow: 0 0 20px rgba(191, 149, 63, 0.4);
+    }
+    
+    .bday-date { 
+        font-size: 0.9rem; 
+        color: #fff; 
+        font-family: 'Cormorant Garamond';
+        font-style: italic; 
+        letter-spacing: 1px;
+        opacity: 0.8;
+    }
+    
+    #bdayConfetti {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .celebrate-btn {
+        background: linear-gradient(45deg, var(--c-gold-1), var(--c-gold-3));
+        color: #000;
+        border: none;
+        padding: 12px 35px;
+        font-family: 'Cinzel Decorative';
+        font-size: 0.9rem;
+        font-weight: bold;
+        letter-spacing: 1px;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 0 30px rgba(191, 149, 63, 0.4);
+        transition: 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        position: relative;
+        z-index: 20;
+        width: auto;
+        margin: 0 auto; /* Tengah tombol */
+    }
+    
+    .celebrate-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 50px rgba(191, 149, 63, 0.8);
+        background: #fff;
+    }
+
+    .birthday-modal-content {
+        padding: 40px 30px; 
+        position: relative; 
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
     @media (max-width: 900px) {
         body { overflow-x: hidden !important; width: 100% !important; }
         .main-wrapper { padding: 0 15px 120px 15px !important; }
@@ -420,6 +584,9 @@
         /* MENFESS MOBILE */
         .menfess-container { grid-template-columns: 1fr; gap: 15px; padding-bottom: 20px; }
         .philosophy-bar { flex-direction: column; gap: 30px; margin-bottom: 120px; }
+        
+        /* FIX FONT SIZE MOBILE BDAY */
+        .bday-title { font-size: 1.8rem; }
     }
   </style>
 </head>
@@ -551,7 +718,9 @@
         <span>SIPAKALEBBI</span>
     </div>
 
-  </div> <div id="studentModalOverlay" class="modal-overlay">
+  </div> 
+
+  <div id="studentModalOverlay" class="modal-overlay">
     <div class="royal-modal">
         <span class="close-modal-btn" onclick="closeStudentModal()">×</span>
         
@@ -706,13 +875,22 @@
       <div id="lbCounter" style="position:absolute; bottom:20px; color:var(--c-gold-1); font-family:'Cinzel Decorative';"></div>
   </div>
   
-  <div id="birthdayModalOverlay" class="modal-overlay" style="z-index:1100;">
-    <div class="royal-modal" style="grid-template-columns: 1fr; max-width:400px; height:auto; padding:40px; text-align:center; display:flex; flex-direction:column; background:var(--c-depth);">
-        <span class="close-modal-btn" onclick="document.getElementById('birthdayModalOverlay').classList.remove('active')">×</span>
-        <i class="fas fa-crown" style="font-size:3rem; color:var(--c-gold-1); margin-bottom:20px;"></i>
-        <h3 style="color:#fff; font-family:'Cinzel Decorative';">SELAMAT ULANG TAHUN</h3>
-        <div id="birthdayContent" style="margin:20px 0;"></div>
-        <button onclick="document.getElementById('birthdayModalOverlay').classList.remove('active')" class="btn-detail" style="width:100%; justify-content:center;">RAYAKAN</button>
+  <div id="birthdayModalOverlay" class="modal-overlay">
+    <div id="bdayModalBox" class="royal-modal">
+        <canvas id="bdayConfetti"></canvas>
+        <span class="close-modal-btn" onclick="closeBirthdayModal()" style="z-index:50;">×</span>
+        <div class="birthday-modal-content">
+            <i class="fas fa-crown bday-crown-anim"></i>
+            <h3 class="bday-title">ROYAL BIRTHDAY</h3>
+            
+            <div id="birthdayContent" class="bday-grid"></div>
+
+            <p style="color:#aaa; font-style:italic; margin-bottom:30px; font-family:'Cormorant Garamond'; text-align:center;">"Semoga panjang umur & sukses selalu bersama kita semua."</p>
+
+            <button onclick="closeBirthdayModal()" class="celebrate-btn">
+            <i class="fa-solid fa-hands-praying"></i> RAYAKAN BERSAMA
+            </button>
+        </div>
     </div>
   </div>
 
@@ -735,7 +913,7 @@
     const db = app.firestore();
     const ADMIN_PW = "admin123"; 
 
-    // 2. nama siswa bebeng
+    // 2. DATA SISWA
     const students = [
       {name: "Ainun Mardiansyah", age: 16, hobby: "Gatahu", instagram: "4inunranii_", photo: "image/Ainun.jpg", religion: "Islam", organization: "Rahasia", gallery: [], birthDate: "03-13", description: "Najim hotspott 1", quote: "The best way to predict the future is to create it."},
       {name: "Akifa Naila", age: 16, hobby: "Minta hotspot", instagram: "akiipanaila", photo: "image/Naila.jpg", religion: "Islam", organization: "UNIONE", gallery: [], birthDate: "05-15", description: "Najim hotspot 2", quote: "Every moment is a fresh beginning."},
@@ -867,18 +1045,102 @@
     function initContent() {
         renderStudents(); renderStats(); renderDailyQuote(); renderRunningQuotes();
         loadMenfess(); initSpotifyPlayer(); initScrollAnimations();
+        
+        // BIRTHDAY CHECK
         const today = new Date();
         const m = String(today.getMonth()+1).padStart(2,'0');
         const d = String(today.getDate()).padStart(2,'0');
         const bdayKids = students.filter(s => s.birthDate === `${m}-${d}`);
+        
         if(bdayKids.length > 0) {
              const bdayDiv = document.getElementById('birthdayContent');
+             bdayDiv.innerHTML = ''; 
              bdayKids.forEach(k => {
-                 bdayDiv.innerHTML += `<div><img src="${k.photo}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid gold;margin:10px auto;"><h4 style="color:gold">${k.name}</h4></div>`;
+                 bdayDiv.innerHTML += `
+                    <div class="bday-card-premium">
+                        <div class="bday-img-wrapper">
+                            <img src="${k.photo}" class="bday-img">
+                            <div class="bday-ring"></div>
+                        </div>
+                        <h4 class="bday-name">${k.name}</h4>
+                        <span class="bday-date">Lahir: ${k.birthDate}</span>
+                    </div>
+                 `;
              });
              document.getElementById('birthdayModalOverlay').classList.add('active');
+             startConfetti(); 
         }
     }
+
+    // --- OPTIMIZED CONFETTI LOGIC (REQUEST ANIMATION FRAME) ---
+    let confettiAnimationId;
+    let confettis = [];
+    
+    function startConfetti() {
+        const cCanvas = document.getElementById('bdayConfetti');
+        if(!cCanvas) return;
+        const cCtx = cCanvas.getContext('2d');
+        
+        function resizeConfetti() {
+            cCanvas.width = cCanvas.clientWidth;
+            cCanvas.height = cCanvas.clientHeight;
+        }
+        window.addEventListener('resize', resizeConfetti);
+        resizeConfetti();
+        
+        confettis = [];
+        const colors = ['#bf953f', '#fcf6ba', '#ffffff', '#e2e8f0', '#d4af37'];
+        
+        // Reduce particle count on mobile for optimization
+        const isMobile = window.innerWidth < 768;
+        const particleCount = isMobile ? 50 : 100;
+        
+        for(let i=0; i<particleCount; i++) {
+            confettis.push({
+                x: Math.random() * cCanvas.width,
+                y: Math.random() * cCanvas.height - cCanvas.height,
+                w: Math.random() * 8 + 4,
+                h: Math.random() * 5 + 3,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                speed: Math.random() * 2 + 1, // Slower speed for elegance
+                angle: Math.random() * 360,
+                spin: Math.random() * 0.1 - 0.05
+            });
+        }
+        
+        function drawConfettiLoop() {
+            cCtx.clearRect(0,0,cCanvas.width, cCanvas.height);
+            
+            confettis.forEach(c => {
+                c.y += c.speed;
+                c.angle += c.spin;
+                
+                // Reset to top if out of screen
+                if(c.y > cCanvas.height) {
+                    c.y = -10;
+                    c.x = Math.random() * cCanvas.width;
+                }
+                
+                cCtx.save();
+                cCtx.translate(c.x, c.y);
+                cCtx.rotate(c.angle);
+                cCtx.fillStyle = c.color;
+                cCtx.fillRect(-c.w/2, -c.h/2, c.w, c.h);
+                cCtx.restore();
+            });
+            
+            confettiAnimationId = requestAnimationFrame(drawConfettiLoop);
+        }
+        
+        cancelAnimationFrame(confettiAnimationId);
+        drawConfettiLoop();
+    }
+    
+    window.closeBirthdayModal = () => {
+        document.getElementById('birthdayModalOverlay').classList.remove('active');
+        cancelAnimationFrame(confettiAnimationId); // Stop loop completely
+    }
+    // -------------------------
 
     function updateClock() {
         const now = new Date();
