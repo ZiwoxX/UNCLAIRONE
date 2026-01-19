@@ -112,61 +112,80 @@
         <button type="submit" class="btn-send"><i class="fas fa-paper-plane"></i></button>
     </form>
 
-    <script type="module">
-        import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+<script>
+    // API Key kamu
+    const API_KEY = "AIzaSyBjtjJsnHw8o3f0MGZ3i2xi3ywkNCYJI1s";
+    
+    // Gunakan v1 (Stable) agar tidak 404
+    const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
-        // CONFIG
-        const API_KEY = "AIzaSyBjtjJsnHw8o3f0MGZ3i2xi3ywkNCYJI1s";
-        const genAI = new GoogleGenerativeAI(API_KEY);
+    const chatForm = document.getElementById('chat-form');
+    const userInput = document.getElementById('user-input');
+    const chatWindow = document.getElementById('chat-window');
+    const typingIndicator = document.getElementById('typingIndicator');
 
-        const chatForm = document.getElementById('chat-form');
-        const userInput = document.getElementById('user-input');
-        const chatWindow = document.getElementById('chat-window');
-        const typingIndicator = document.getElementById('typingIndicator');
+    const systemPrompt = "Kamu adalah 'Oracle', asisten AI kelas 10 C.1 (UNCLAIRONE) SMAN 1 Parepare. Jawablah dengan cerdas, ramah, dan berikan aura positif. Selalu ingat pilar kita: Family, Achievement, dan Solidarity.";
 
-        const systemPrompt = "Kamu adalah 'Oracle', asisten AI resmi kelas 10 C.1 (UNCLAIRONE) SMAN 1 Parepare. Kamu sangat cerdas, suportif, dan bangga dengan pilar kelas: Family, Achievement, dan Solidarity. Gunakan bahasa Indonesia yang santai tapi sopan.";
+    chatForm.onsubmit = async (e) => {
+        e.preventDefault();
+        const text = userInput.value.trim();
+        if(!text) return;
 
-        chatForm.onsubmit = async (e) => {
-            e.preventDefault();
-            const text = userInput.value.trim();
-            if(!text) return;
+        // Tampilkan pesan user
+        appendMessage(text, 'user-msg');
+        userInput.value = '';
+        
+        // Tampilkan loading
+        typingIndicator.style.display = 'block';
+        chatWindow.scrollTo({ top: chatWindow.scrollHeight, behavior: 'smooth' });
 
-            appendMessage(text, 'user-msg');
-            userInput.value = '';
-            typingIndicator.style.display = 'block';
-            chatWindow.scrollTop = chatWindow.scrollHeight;
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{ 
+                            text: `${systemPrompt}\n\nPertanyaan User: ${text}` 
+                        }]
+                    }]
+                })
+            });
 
-            try {
-                // Menggunakan model gemini-1.5-flash
-                const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-                
-                const prompt = `${systemPrompt}\n\nUser: ${text}\nOracle:`;
-                const result = await model.generateContent(prompt);
-                const response = await result.response;
-                const aiText = response.text();
+            const data = await response.json();
 
-                typingIndicator.style.display = 'none';
-                appendMessage(aiText, 'ai-msg');
-            } catch (error) {
-                console.error(error);
-                typingIndicator.style.display = 'none';
-                appendMessage("Maaf, sepertinya ada gangguan teknis. Coba lagi ya! (Error: " + error.message + ")", 'ai-msg');
+            if (data.error) {
+                throw new Error(data.error.message);
             }
-        };
 
-        function appendMessage(text, type) {
-            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            // Format sederhana untuk bold (**) dan line break (\n)
-            const formattedText = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+            // Ambil jawaban dari struktur data Google
+            const aiText = data.candidates[0].content.parts[0].text;
             
-            const html = `
-                <div class="msg-container ${type}">
-                    <div class="bubble">${formattedText}</div>
-                    <div class="timestamp">${time}</div>
-                </div>`;
-            chatWindow.insertAdjacentHTML('beforeend', html);
-            chatWindow.scrollTo({ top: chatWindow.scrollHeight, behavior: 'smooth' });
+            typingIndicator.style.display = 'none';
+            appendMessage(aiText, 'ai-msg');
+
+        } catch (error) {
+            console.error("Oracle Error:", error);
+            typingIndicator.style.display = 'none';
+            appendMessage("Oracle butuh internet stabil (Error: " + error.message + ")", 'ai-msg');
         }
-    </script>
-</body>
-</html>
+    };
+
+    function appendMessage(text, type) {
+        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        
+        // Format teks untuk bold dan baris baru
+        const formattedText = text
+            .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+            .replace(/\n/g, '<br>');
+        
+        const html = `
+            <div class="msg-container ${type}">
+                <div class="bubble">${formattedText}</div>
+                <div class="timestamp">${time}</div>
+            </div>`;
+            
+        chatWindow.insertAdjacentHTML('beforeend', html);
+        chatWindow.scrollTo({ top: chatWindow.scrollHeight, behavior: 'smooth' });
+    }
+</script>
