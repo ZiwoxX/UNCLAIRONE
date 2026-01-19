@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROYAL WHISPER | Kirim Pesan Suara</title>
+    <link rel="icon" type="image/svg+xml" href="image/unclairone.png" /> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #061619; /* Deep Green-Black */
+            --bg-card: rgba(12, 43, 48, 0.7); /* Transparan Dark Teal */
+            --c-gold-1: #fcf6ba; /* Pale Gold */
+            --c-gold-2: #bf953f; /* Metallic Gold */
+            --c-gold-3: #8a6e2f; /* Dark Gold */
+            --c-accent: #00ffcc; /* Modern Accent */
+            --glass: rgba(255, 255, 255, 0.05);
+            --border-glass: rgba(191, 149, 63, 0.3);
+            --font-royal: 'Cinzel Decorative', cursive;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: #fff;
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            background: radial-gradient(circle at center, #0c2b30 0%, #061619 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Background Stars Animation */
+        .stars {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 500px;
+            width: 90%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .header-whisper {
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header-whisper h1 {
+            font-family: var(--font-royal);
+            font-size: 2.2rem;
+            background: linear-gradient(to bottom, var(--c-gold-1), var(--c-gold-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+        .header-whisper p {
+            font-size: 0.9rem;
+            color: #aaa;
+            letter-spacing: 1px;
+        }
+
+        #rec-status {
+            font-style: italic;
+            color: var(--c-gold-1);
+            margin-bottom: 20px;
+            min-height: 1.2em;
+            font-size: 1rem;
+        }
+
+        .rec-btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .rec-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s all;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn-start { background: #e74c3c; color: white; }
+        .btn-start:hover { background: #c0392b; transform: scale(1.05); }
+        
+        .btn-stop { background: #34495e; color: white; opacity: 0.5; cursor: not-allowed; }
+        
+        .rec-active {
+            animation: pulse-red 1.5s infinite;
+            box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+        }
+
+        @keyframes pulse-red {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+        }
+
+        .audio-preview-box {
+            margin-top: 20px;
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 15px;
+            display: none;
+            text-align: center;
+        }
+
+        .audio-preview-box audio {
+            width: 100%;
+            height: 40px;
+            background: #222;
+            border-radius: 8px;
+        }
+
+        .send-btn {
+            margin-top: 20px;
+            background: var(--c-gold-2);
+            color: #000;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+        }
+        .send-btn:hover { background: var(--c-gold-1); transform: translateY(-3px); }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 20;
+            padding: 10px 20px;
+            background: var(--glass);
+            border: 1px solid var(--c-gold-2);
+            color: var(--c-gold-1);
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            transition: 0.3s;
+            backdrop-filter: blur(10px);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            background: var(--c-gold-2);
+            color: var(--bg-dark);
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Kembali</a>
+
+    <canvas class="stars" id="starCanvas"></canvas>
+
+    <div class="container">
+        <div class="header-whisper">
+            <h1 style="font-size: 2.8rem;">ROYAL WHISPER</h1>
+            <p>Sampaikan pesan suaramu secara personal ke Admin.</p>
+        </div>
+
+        <p id="rec-status">Klik tombol rekam untuk memulai</p>
+        
+        <div class="rec-btn-container">
+            <button id="btnStart" class="rec-btn btn-start"><i class="fas fa-microphone"></i></button>
+            <button id="btnStop" class="rec-btn btn-stop" disabled><i class="fas fa-stop"></i></button>
+        </div>
+
+        <div id="audioBox" class="audio-preview-box">
+            <audio id="audioPlayback" controls></audio>
+            <button id="btnSend" class="send-btn">
+                <i class="fab fa-whatsapp"></i> Kirim Rekaman ke Admin
+            </button>
+            <p style="font-size: 0.75rem; color: #888; margin-top: 15px;">
+                *Rekaman akan di-download lalu dikirim manual via WhatsApp.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Background Stars Effect (from museum.html)
+        const canvas = document.getElementById('starCanvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        for(let i=0; i<200; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2,
+                opacity: Math.random(),
+                speed: Math.random() * 0.5
+            });
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(s => {
+                ctx.fillStyle = `rgba(252, 246, 186, ${s.opacity})`;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI*2);
+                ctx.fill();
+                s.y -= s.speed;
+                if(s.y < 0) s.y = canvas.height;
+            });
+            requestAnimationFrame(drawStars);
+        }
+        drawStars();
+
+
+        // Royal Whisper Recorder Logic
+        let mediaRecorder;
+        let audioChunks = [];
+        let audioBlob; // Deklarasi di scope global agar bisa diakses oleh btnSend
+
+        const btnStart = document.getElementById('btnStart');
+        const btnStop = document.getElementById('btnStop');
+        const btnSend = document.getElementById('btnSend');
+        const audioPlayback = document.getElementById('audioPlayback');
+        const audioBox = document.getElementById('audioBox');
+        const statusTxt = document.getElementById('rec-status');
+
+        // GANTI NOMOR WHATSAPP ADMIN DI SINI
+        const adminWhatsAppNumber = "6285333519127"; 
+
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            
+            btnStart.onclick = async () => {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+                    
+                    mediaRecorder.start();
+                    statusTxt.innerText = "🔴 Sedang merekam... (Bicara sekarang)";
+                    statusTxt.style.color = "#e74c3c";
+                    
+                    btnStart.classList.add('rec-active');
+                    btnStart.disabled = true;
+                    btnStop.disabled = false;
+                    btnStop.style.opacity = "1";
+                    btnStop.style.cursor = "pointer";
+                    audioBox.style.display = "none"; // Sembunyikan preview saat merekam
+
+                    audioChunks = [];
+                    mediaRecorder.ondataavailable = event => {
+                        audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        const audioUrl = URL.createObjectURL(audioBlob);
+                        audioPlayback.src = audioUrl;
+                        
+                        audioBox.style.display = "block"; // Tampilkan preview setelah selesai
+                        statusTxt.innerText = "✅ Rekaman selesai! Dengarkan atau Kirim.";
+                        statusTxt.style.color = "var(--c-gold-1)";
+                    };
+
+                } catch (err) {
+                    console.error("Error mic:", err);
+                    alert("Gagal mengakses mikrofon. Pastikan izin diberikan dan tidak ada aplikasi lain yang menggunakan mikrofon!");
+                }
+            };
+
+            btnStop.onclick = () => {
+                if (mediaRecorder && mediaRecorder.state === 'recording') {
+                    mediaRecorder.stop();
+                }
+                btnStart.classList.remove('rec-active');
+                btnStart.disabled = false;
+                btnStop.disabled = true;
+                btnStop.style.opacity = "0.5";
+                btnStop.style.cursor = "not-allowed";
+            };
+
+            btnSend.onclick = () => {
+                if (audioBlob) {
+                    // 1. Download file otomatis
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(audioBlob);
+                    a.download = `Voice_UNCLAIRONE_${new Date().getTime()}.webm`;
+                    a.click();
+
+                    // 2. Arahkan ke WA setelah download
+                    setTimeout(() => {
+                        const text = "Halo Admin, saya baru saja merekam pesan suara dari web Unclairone. Ini saya lampirkan filenya ya!";
+                        window.open(`https://wa.me/${adminWhatsAppNumber}?text=${encodeURIComponent(text)}`, '_blank');
+                    }, 1000); // Beri jeda sebentar agar download sempat berjalan
+                } else {
+                    alert("Belum ada rekaman yang siap dikirim!");
+                }
+            };
+
+        } else {
+            statusTxt.innerText = "Browser kamu tidak mendukung fitur rekam audio.";
+            btnStart.disabled = true;
+            btnStop.disabled = true;
+        }
+    </script>
+</body>
+</html>
