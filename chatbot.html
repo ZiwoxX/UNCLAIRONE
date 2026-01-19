@@ -29,42 +29,28 @@
             overflow: hidden;
         }
 
-        /* Header */
         .chat-header {
             padding: 15px 20px;
             background: var(--glass);
             border-bottom: 1px solid rgba(191, 149, 63, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            backdrop-filter: blur(15px);
-            z-index: 100;
+            display: flex; align-items: center; gap: 15px;
+            backdrop-filter: blur(15px); z-index: 100;
         }
 
         .header-info h1 {
-            font-family: var(--font-royal);
-            font-size: 1.1rem;
+            font-family: var(--font-royal); font-size: 1.1rem;
             background: linear-gradient(to right, var(--c-gold-light), var(--c-gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* Chat Area - Logo Tengah Sudah Dihapus */
         #chat-window {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            /* Background bersih tanpa logo mengganggu */
+            flex: 1; padding: 20px; overflow-y: auto;
+            display: flex; flex-direction: column; gap: 15px;
             background: transparent;
         }
 
         .msg-container {
-            display: flex;
-            flex-direction: column;
-            max-width: 85%;
+            display: flex; flex-direction: column; max-width: 85%;
             animation: slideUp 0.3s ease-out forwards;
         }
 
@@ -74,47 +60,23 @@
         .user-msg { align-self: flex-end; }
 
         .bubble {
-            padding: 12px 16px;
-            border-radius: 18px;
-            font-size: 0.95rem;
-            line-height: 1.4;
-            position: relative;
-            word-wrap: break-word;
+            padding: 12px 16px; border-radius: 18px; font-size: 0.95rem;
+            line-height: 1.4; position: relative; word-wrap: break-word;
         }
 
-        .ai-msg .bubble {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(191, 149, 63, 0.2);
-            border-bottom-left-radius: 2px;
-        }
-
-        .user-msg .bubble {
-            background: linear-gradient(135deg, var(--c-gold), #8a6e2f);
-            color: #000;
-            font-weight: 600;
-            border-bottom-right-radius: 2px;
-        }
+        .ai-msg .bubble { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(191, 149, 63, 0.2); border-bottom-left-radius: 2px; }
+        .user-msg .bubble { background: linear-gradient(135deg, var(--c-gold), #8a6e2f); color: #000; font-weight: 600; border-bottom-right-radius: 2px; }
 
         .timestamp { font-size: 0.65rem; color: rgba(255,255,255,0.4); margin-top: 5px; padding: 0 5px; }
 
-        /* Input Area */
         .input-form {
-            padding: 20px;
-            background: var(--glass);
-            border-top: 1px solid rgba(191, 149, 63, 0.2);
-            display: flex;
-            gap: 10px;
-            backdrop-filter: blur(10px);
+            padding: 20px; background: var(--glass); border-top: 1px solid rgba(191, 149, 63, 0.2);
+            display: flex; gap: 10px; backdrop-filter: blur(10px);
         }
 
         #user-input {
-            flex: 1;
-            background: rgba(0,0,0,0.4);
-            border: 1px solid var(--c-gold);
-            padding: 12px 20px;
-            border-radius: 30px;
-            color: white;
-            outline: none;
+            flex: 1; background: rgba(0,0,0,0.4); border: 1px solid var(--c-gold);
+            padding: 12px 20px; border-radius: 30px; color: white; outline: none;
         }
 
         .btn-send {
@@ -132,90 +94,79 @@
         <a href="index.html" style="color: var(--c-gold);"><i class="fas fa-arrow-left"></i></a>
         <img src="image/unclairone.png" width="40" height="40" style="border-radius: 50%;">
         <div class="header-info">
-            <h1>UNCLAIRONE AI</h1>
+            <h1>ORACLE AI</h1>
             <p style="font-size: 0.6rem; color: #888;">UNCLAIRONE DIGITAL PERSONA</p>
         </div>
     </header>
 
     <div id="chat-window">
         <div class="msg-container ai-msg">
-            <div class="bubble">Halo! Unclairone A.I siap membantu. Kamu bisa tanya soal kelas atau minta bantuan hitungan matematika dasar. ✨</div>
+            <div class="bubble">Salam Solidarity! Saya Oracle, AI dari UNCLAIRONE. Ada yang bisa saya bantu hari ini? ✨</div>
         </div>
     </div>
 
-    <div id="typingIndicator" class="typing">Unclairone sedang berpikir...</div>
+    <div id="typingIndicator" class="typing">Oracle sedang merangkai kata...</div>
 
     <form class="input-form" id="chat-form">
-        <input type="text" id="user-input" placeholder="Tanyakan sesuatu..." autocomplete="off">
+        <input type="text" id="user-input" placeholder="Tanyakan apa saja..." autocomplete="off">
         <button type="submit" class="btn-send"><i class="fas fa-paper-plane"></i></button>
     </form>
 
- <script type="module">
-    // Menggunakan library versi web
-    import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+    <script type="module">
+        import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
 
-    // 1. MASUKKAN API KEY GEMINI KAMU DI SINI
-    const API_KEY = "AIzaSyBjtjJsnHw8o3f0MGZ3i2xi3ywkNCYJI1s";
-    const genAI = new GoogleGenerativeAI(API_KEY);
+        // CONFIG
+        const API_KEY = "AIzaSyBjtjJsnHw8o3f0MGZ3i2xi3ywkNCYJI1s";
+        const genAI = new GoogleGenerativeAI(API_KEY);
 
-    const chatForm = document.getElementById('chat-form');
-    const userInput = document.getElementById('user-input');
-    const chatWindow = document.getElementById('chat-window');
-    const typingIndicator = document.getElementById('typingIndicator');
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+        const chatWindow = document.getElementById('chat-window');
+        const typingIndicator = document.getElementById('typingIndicator');
 
-    // 2. SETTING PERSONA (Instruksi agar AI tahu dia siapa)
-    const systemInstruction = `
-        Kamu adalah "Oracle", asisten AI resmi dari kelas 10 C.1 (UNCLAIRONE) SMAN 1 Parepare.
-        Kepribadianmu: Elegan, bijaksana, suportif, dan bangga dengan identitas Bugis/Parepare.
-        Pilar kelas kita: Family, Achievement, dan Solidarity.
-        Tugasmu: Membantu siswa UNCLAIRONE menjawab pertanyaan pelajaran, memberikan motivasi, 
-        atau sekadar ngobrol santai. Jika ditanya soal matematika, jawab dengan jelas.
-        Gunakan sesekali istilah kelas atau salam "Solidarity!".
-    `;
+        const systemPrompt = "Kamu adalah 'Oracle', asisten AI resmi kelas 10 C.1 (UNCLAIRONE) SMAN 1 Parepare. Kamu sangat cerdas, suportif, dan bangga dengan pilar kelas: Family, Achievement, dan Solidarity. Gunakan bahasa Indonesia yang santai tapi sopan.";
 
-    chatForm.onsubmit = async (e) => {
-        e.preventDefault();
-        const text = userInput.value.trim();
-        if(!text) return;
+        chatForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const text = userInput.value.trim();
+            if(!text) return;
 
-        // Tampilkan pesan user
-        appendMessage(text, 'user-msg');
-        userInput.value = '';
+            appendMessage(text, 'user-msg');
+            userInput.value = '';
+            typingIndicator.style.display = 'block';
+            chatWindow.scrollTop = chatWindow.scrollHeight;
 
-        // Tampilkan loading
-        typingIndicator.style.display = 'block';
-        chatWindow.scrollTop = chatWindow.scrollHeight;
+            try {
+                // Menggunakan model gemini-1.5-flash
+                const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+                
+                const prompt = `${systemPrompt}\n\nUser: ${text}\nOracle:`;
+                const result = await model.generateContent(prompt);
+                const response = await result.response;
+                const aiText = response.text();
 
-        try {
-            // Panggil Gemini AI
-            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+                typingIndicator.style.display = 'none';
+                appendMessage(aiText, 'ai-msg');
+            } catch (error) {
+                console.error(error);
+                typingIndicator.style.display = 'none';
+                appendMessage("Maaf, sepertinya ada gangguan teknis. Coba lagi ya! (Error: " + error.message + ")", 'ai-msg');
+            }
+        };
+
+        function appendMessage(text, type) {
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            // Format sederhana untuk bold (**) dan line break (\n)
+            const formattedText = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
             
-            // Gabungkan instruksi persona dengan input user
-            const prompt = `${systemInstruction} \n\n User bertanya: ${text}`;
-            
-            const result = await model.generateContent(prompt);
-            const response = await result.response;
-            const replyText = response.text();
-
-            typingIndicator.style.display = 'none';
-            appendMessage(replyText, 'ai-msg');
-
-        } catch (error) {
-            console.error(error);
-            typingIndicator.style.display = 'none';
-            appendMessage("Maaf, koneksi saya ke dimensi AI sedang terganggu. Coba lagi nanti ya, Solidarity!", 'ai-msg');
+            const html = `
+                <div class="msg-container ${type}">
+                    <div class="bubble">${formattedText}</div>
+                    <div class="timestamp">${time}</div>
+                </div>`;
+            chatWindow.insertAdjacentHTML('beforeend', html);
+            chatWindow.scrollTo({ top: chatWindow.scrollHeight, behavior: 'smooth' });
         }
-    };
-
-    function appendMessage(text, type) {
-        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        const html = `
-            <div class="msg-container ${type}">
-                <div class="bubble">${text}</div>
-                <div class="timestamp">${time}</div>
-            </div>
-        `;
-        chatWindow.insertAdjacentHTML('beforeend', html);
-        chatWindow.scrollTo({ top: chatWindow.scrollHeight, behavior: 'smooth' });
-    }
-</script>
+    </script>
+</body>
+</html>
