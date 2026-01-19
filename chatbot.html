@@ -105,122 +105,146 @@
     </form>
 
 <script>
-    // API KEY BARU DARI GOOGLE AI STUDIO
-    const API_KEY = "AAIzaSyDEFqEz8ivLnVv_GcmPjrczpMfYvVQKaM0";
+    // API Key yang benar
+    const API_KEY = "AIzaSyDEFqEz8ivLnVv_GcmPjrczpMfYvVQKaM0";
     
-    // ENDPOINT yang PALING STABIL untuk sekarang
-    const API_URL = `https://generativelanguage.googleapis.com/v1/models?key=AIzaSyDEFqEz8ivLnVv_GcmPjrczpMfYvVQKaM0`;
+    // Endpoint yang berhasil: v2 dengan gemini-2.5-flash
+    const API_URL = `https://generativelanguage.googleapis.com/v2/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
 
-    // Variabel DOM
     const chatForm = document.getElementById('chat-form');
     const userInput = document.getElementById('user-input');
     const chatWindow = document.getElementById('chat-window');
     const typingIndicator = document.getElementById('typingIndicator');
 
-    // Simple prompt
-    const systemPrompt = "Kamu adalah Oracle, asisten AI untuk siswa UNCLAIRONE kelas 10 C.1. Bersikaplah ramah, mendukung, dan selalu semangat!";
+    // System prompt untuk Oracle AI
+    const systemPrompt = `Kamu adalah Oracle AI, asisten digital untuk UNCLAIRONE kelas 10 C.1. 
+    Kamu ramah, mendukung, dan selalu menyemangati dengan slogan "Solidarity Forever". 
+    Jawablah dalam bahasa Indonesia yang natural dan santai.`;
 
-    // Handle form submission
+    // Untuk menyimpan riwayat percakapan (konteks)
+    let conversationHistory = [];
+
     chatForm.onsubmit = async (e) => {
         e.preventDefault();
-        const text = userInput.value.trim();
-        if(!text) return;
+        const userText = userInput.value.trim();
+        if (!userText) return;
 
         // Tampilkan pesan user
-        appendMessage(text, 'user-msg');
+        appendMessage(userText, 'user-msg');
         userInput.value = '';
         typingIndicator.style.display = 'block';
 
+        // Tambahkan pesan user ke riwayat
+        conversationHistory.push({
+            role: 'user',
+            parts: [{ text: userText }]
+        });
+
         try {
-            // Request ke Gemini API
+            // Siapkan konten untuk dikirim, termasuk system prompt dan riwayat
+            const contents = [
+                {
+                    role: 'user',
+                    parts: [{ text: systemPrompt }]
+                },
+                {
+                    role: 'model',
+                    parts: [{ text: "Mengerti! Saya Oracle AI, siap membantu dengan semangat Solidarity!" }]
+                },
+                ...conversationHistory
+            ];
+
             const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: { 
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
                 body: JSON.stringify({
-                    contents: [{
-                        parts: [{
-                            text: systemPrompt + "\n\nUser: " + text + "\nAssistant:"
-                        }]
-                    }],
+                    contents: contents,
                     generationConfig: {
                         temperature: 0.7,
-                        maxOutputTokens: 500,
-                    }
+                        topP: 0.8,
+                        topK: 40,
+                        maxOutputTokens: 1000,
+                    },
+                    safetySettings: [
+                        {
+                            category: "HARM_CATEGORY_HARASSMENT",
+                            threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                        }
+                    ]
                 })
             });
 
-            // Parse response
             const data = await response.json();
-            
-            // Debug: lihat response di console
             console.log("API Response:", data);
 
-            // Cek error
-            if (!response.ok || data.error) {
-                throw new Error(data.error?.message || `HTTP ${response.status}`);
+            if (data.error) {
+                throw new Error(data.error.message || "API Error");
             }
 
-            // Ambil teks respons AI
-            const aiText = data.candidates[0]?.content?.parts[0]?.text || 
-                          "Saya tidak bisa menghasilkan respons saat ini.";
-            
-            // Sembunyikan indikator typing
+            const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || 
+                          "Maaf, saya tidak bisa menghasilkan respons saat ini.";
+
+            // Tambahkan respons AI ke riwayat
+            conversationHistory.push({
+                role: 'model',
+                parts: [{ text: aiText }]
+            });
+
+            // Batasi riwayat agar tidak terlalu panjang (misalnya 6 pesan terakhir)
+            if (conversationHistory.length > 6) {
+                conversationHistory = conversationHistory.slice(-6);
+            }
+
             typingIndicator.style.display = 'none';
-            
-            // Tampilkan respons AI
             appendMessage(aiText, 'ai-msg');
 
         } catch (error) {
             console.error("Error:", error);
             typingIndicator.style.display = 'none';
-            
-            // Pesan error yang lebih user-friendly
-            let errorMsg = "Oracle sedang offline. Coba lagi nanti ya!";
-            
-            if (error.message.includes("quota")) {
-                errorMsg = "Quota API habis. Silakan coba besok atau gunakan API key lain.";
+
+            let errorMsg = "Oracle sedang mengalami gangguan. Coba lagi nanti!";
+
+            if (error.message.includes("429")) {
+                errorMsg = "Terlalu banyak permintaan. Silakan tunggu beberapa saat.";
             } else if (error.message.includes("403")) {
-                errorMsg = "Akses ditolak. API key mungkin tidak valid.";
-            } else if (error.message.includes("404")) {
-                errorMsg = "Model tidak ditemukan. Coba ganti model ke 'gemini-pro'.";
+                errorMsg = "Akses ditolak. Periksa API key dan restrictions.";
             }
-            
+
             appendMessage(errorMsg, 'ai-msg');
         }
     };
 
-    // Fungsi untuk menampilkan pesan
     function appendMessage(text, type) {
         const time = new Date().toLocaleTimeString([], { 
             hour: '2-digit', 
-            minute: '2-digit' 
+            minute: '2-digit',
+            hour12: true 
         });
-        
-        // Escape HTML untuk keamanan
-        const escapedText = text.replace(/[&<>"']/g, function(m) {
-            return {
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#39;'
-            }[m];
-        }).replace(/\n/g, '<br>');
-        
+
+        // Escape HTML dan ganti newline dengan <br>
+        const safeText = text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;')
+            .replace(/\n/g, '<br>');
+
         const html = `
             <div class="msg-container ${type}">
-                <div class="bubble">${escapedText}</div>
+                <div class="bubble">${safeText}</div>
                 <div class="timestamp">${time}</div>
             </div>
         `;
-        
+
         chatWindow.insertAdjacentHTML('beforeend', html);
         chatWindow.scrollTo({ top: chatWindow.scrollHeight, behavior: 'smooth' });
     }
 
-    // Event listener untuk Enter key
+    // Mengirim pesan dengan Enter
     userInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -229,7 +253,12 @@
     });
 
     // Auto-focus input
-    userInput.focus();
+    setTimeout(() => userInput.focus(), 500);
+
+    // Pesan pembuka
+    setTimeout(() => {
+        appendMessage("Salam Solidarity! Oracle AI siap membantu dengan model Gemini 2.5 Flash terbaru! ✨", 'ai-msg');
+    }, 1000);
 </script>
 
 </body>
