@@ -105,57 +105,131 @@
     </form>
 
 <script>
-    // Pastikan API Key ini benar dari Google AI Studio (akhiran ...4m3U)
-    const API_KEY = "AIzaSyAx6C-h_payxji4O0siJ2uxLkeVYin4m3U"; 
+    // API KEY BARU DARI GOOGLE AI STUDIO
+    const API_KEY = "AAIzaSyDEFqEz8ivLnVv_GcmPjrczpMfYvVQKaM0";
     
-    // Kita gunakan endpoint v1beta yang biasanya lebih 'terbuka' untuk akun baru
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+    // ENDPOINT yang PALING STABIL untuk sekarang
+    const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
+    // Variabel DOM
     const chatForm = document.getElementById('chat-form');
     const userInput = document.getElementById('user-input');
     const chatWindow = document.getElementById('chat-window');
+    const typingIndicator = document.getElementById('typingIndicator');
 
+    // Simple prompt
+    const systemPrompt = "Kamu adalah Oracle, asisten AI untuk siswa UNCLAIRONE kelas 10 C.1. Bersikaplah ramah, mendukung, dan selalu semangat!";
+
+    // Handle form submission
     chatForm.onsubmit = async (e) => {
         e.preventDefault();
         const text = userInput.value.trim();
         if(!text) return;
 
+        // Tampilkan pesan user
         appendMessage(text, 'user-msg');
         userInput.value = '';
+        typingIndicator.style.display = 'block';
 
         try {
+            // Request ke Gemini API
             const response = await fetch(API_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({
                     contents: [{
-                        parts: [{ text: "Kamu adalah Oracle, asisten UNCLAIRONE. Jawab dengan singkat: " + text }]
-                    }]
+                        parts: [{
+                            text: systemPrompt + "\n\nUser: " + text + "\nAssistant:"
+                        }]
+                    }],
+                    generationConfig: {
+                        temperature: 0.7,
+                        maxOutputTokens: 500,
+                    }
                 })
             });
 
+            // Parse response
             const data = await response.json();
+            
+            // Debug: lihat response di console
+            console.log("API Response:", data);
 
-            if (data.error) {
-                // Menampilkan pesan error spesifik dari Google di chat
-                throw new Error(data.error.message);
+            // Cek error
+            if (!response.ok || data.error) {
+                throw new Error(data.error?.message || `HTTP ${response.status}`);
             }
 
-            const aiText = data.candidates[0].content.parts[0].text;
+            // Ambil teks respons AI
+            const aiText = data.candidates[0]?.content?.parts[0]?.text || 
+                          "Saya tidak bisa menghasilkan respons saat ini.";
+            
+            // Sembunyikan indikator typing
+            typingIndicator.style.display = 'none';
+            
+            // Tampilkan respons AI
             appendMessage(aiText, 'ai-msg');
 
         } catch (error) {
-            console.error("Detail Error:", error);
-            appendMessage("Oracle butuh waktu sinkronisasi. (Error: " + error.message + ")", 'ai-msg');
+            console.error("Error:", error);
+            typingIndicator.style.display = 'none';
+            
+            // Pesan error yang lebih user-friendly
+            let errorMsg = "Oracle sedang offline. Coba lagi nanti ya!";
+            
+            if (error.message.includes("quota")) {
+                errorMsg = "Quota API habis. Silakan coba besok atau gunakan API key lain.";
+            } else if (error.message.includes("403")) {
+                errorMsg = "Akses ditolak. API key mungkin tidak valid.";
+            } else if (error.message.includes("404")) {
+                errorMsg = "Model tidak ditemukan. Coba ganti model ke 'gemini-pro'.";
+            }
+            
+            appendMessage(errorMsg, 'ai-msg');
         }
     };
 
+    // Fungsi untuk menampilkan pesan
     function appendMessage(text, type) {
-        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        const html = `<div class="msg-container ${type}"><div class="bubble">${text}</div><div class="timestamp">${time}</div></div>`;
+        const time = new Date().toLocaleTimeString([], { 
+            hour: '2-digit', 
+            minute: '2-digit' 
+        });
+        
+        // Escape HTML untuk keamanan
+        const escapedText = text.replace(/[&<>"']/g, function(m) {
+            return {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            }[m];
+        }).replace(/\n/g, '<br>');
+        
+        const html = `
+            <div class="msg-container ${type}">
+                <div class="bubble">${escapedText}</div>
+                <div class="timestamp">${time}</div>
+            </div>
+        `;
+        
         chatWindow.insertAdjacentHTML('beforeend', html);
         chatWindow.scrollTo({ top: chatWindow.scrollHeight, behavior: 'smooth' });
     }
+
+    // Event listener untuk Enter key
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            chatForm.dispatchEvent(new Event('submit'));
+        }
+    });
+
+    // Auto-focus input
+    userInput.focus();
 </script>
 
 </body>
