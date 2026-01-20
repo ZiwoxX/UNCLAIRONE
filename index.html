@@ -56,7 +56,30 @@
         --glass-border: 1px solid rgba(255, 255, 255, 0.08);
         --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
         --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    
+
+/* Variabel Baru untuk Mode Tidore */
+    --c-silver-1: #a8c0ff; /* Biru Perak */
+    --c-silver-2: #e2e8f0;
+    --c-night-bg: linear-gradient(180deg, #061424 0%, #02080f 100%);
     }
+
+/* Class khusus saat Mode Tidore aktif */
+body.tidore-mode {
+    --c-gold-1: var(--c-silver-1);
+    --c-gold-2: var(--c-silver-2);
+    --main-bg-gradient: var(--c-night-bg);
+}
+
+/* Efek Bintang (Opsional) */
+.star {
+    position: fixed;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+}
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
@@ -607,7 +630,7 @@
                 <ul style="list-style: none; padding: 0;">
                     <li style="margin-bottom: 10px;">
                         <i class="fas fa-robot" style="color: var(--c-gold-1); margin-right: 10px;"></i> 
-                        Fitur <strong>Chatbot</strong> telah hadir! <strong>(belum optimal)</strong>
+                        Fitur <strong>Chatbot AI</strong> telah hadir! <strong>(belum optimal)</strong>
                     </li>
                     <li style="margin-bottom: 10px;">
                         <i class="fas fa-calendar-alt" style="color: var(--c-gold-1); margin-right: 10px;"></i> 
@@ -654,6 +677,7 @@
   </div>
 
   <div class="dock-container">
+
     <div class="dock-item" onclick="toggleMusic()" title="Musik"><i class="fas fa-music"></i></div>
     <div class="dock-item" onclick="openMenfessModal()" title="Menfess"><i class="fas fa-leaf"></i></div>
     <div class="dock-item" onclick="openAdminModal()" title="Admin"><i class="fas fa-user"></i></div>
@@ -664,6 +688,10 @@
     <a href="whisper.html" class="dock-item" title="Voice Record" style="text-decoration:none;">
         <i class="fa-solid fa-microphone"></i> 
     </a>
+    <div class="dock-item" title="Mode Tidore" onclick="toggleTidoreMode()">
+        <i class="fas fa-moon"></i>
+    </div>
+</div>
 </div>
 
   <div class="main-wrapper">
@@ -1603,7 +1631,57 @@
       }, 1500); // Muncul setelah 1.5 detik agar tidak bentrok dengan loader
     }
   });
+
+function toggleTidoreMode() {
+    const body = document.body;
+    const isNight = body.classList.toggle('tidore-mode');
+    
+    // Ubah icon bulan ke matahari jika aktif
+    const icon = document.querySelector('.dock-item[title="Mode Tidore"] i');
+    icon.className = isNight ? 'fas fa-sun' : 'fas fa-moon';
+
+    // Animasi transisi warna menggunakan GSAP
+    gsap.to(":root", {
+        "--c-gold-1": isNight ? "#a8c0ff" : "#bf953f",
+        "--c-gold-2": isNight ? "#e2e8f0" : "#fcf6ba",
+        duration: 1.5,
+        ease: "power2.inOut"
+    });
+
+    if (isNight) {
+        createStars();
+    } else {
+        gsap.to(".star", { opacity: 0, duration: 1, onComplete: () => document.querySelectorAll('.star').forEach(s => s.remove()) });
+    }
+}
+
+// Fungsi tambahan untuk menciptakan efek bintang jatuh/berkedip
+function createStars() {
+    for (let i = 0; i < 50; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        document.body.appendChild(star);
+        
+        const size = Math.random() * 3;
+        gsap.set(star, {
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            width: size,
+            height: size
+        });
+
+        gsap.to(star, {
+            opacity: Math.random(),
+            duration: Math.random() * 2 + 1,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+    }
+}
+  
 </script>
+
 
 </body>
 </html> 
