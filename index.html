@@ -596,6 +596,33 @@
 </head>
 <body>
 
+<div id="update-modal" class="modal-overlay" style="z-index: 9999;">
+    <div class="royal-modal" style="display: block; height: auto; max-width: 500px;">
+        <div class="m-sidebar" style="border-right: none; padding: 30px;">
+            <div class="tabe-badge">APA YANG BARU?</div>
+            <h2 class="m-name">Update Unclairone</h2>
+            <div class="m-tag">Versi 1.2</div>
+            
+            <div style="text-align: left; margin: 20px 0; color: var(--c-text-main);">
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 10px;">
+                        <i class="fas fa-robot" style="color: var(--c-gold-1); margin-right: 10px;"></i> 
+                        Fitur <strong>Chatbot</strong> telah hadir! <strong>(belum optimal)</strong>
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <i class="fas fa-calendar-alt" style="color: var(--c-gold-1); margin-right: 10px;"></i> 
+                        <strong>Kalender Ulang Tahun</strong> anggota kelas.
+                    </li>
+                </ul>
+            </div>
+
+            <button onclick="closeUpdateModal()" class="btn-detail" style="width: 100%; justify-content: center;">
+                Siap, Jelajahi!
+            </button>
+        </div>
+    </div>
+</div>
+
   <a href="https://xcerdas1.vercel.app/" class="nav-btn nav-left">
       <i class="fas fa-home"></i> <span>BERANDA</span>
   </a>
@@ -1553,6 +1580,29 @@
       window.location.href = window.location.pathname + '?v=' + currentVersion;
     }
   })();
+</script>
+
+<script>
+  // Fungsi untuk menutup modal
+  function closeUpdateModal() {
+    const modal = document.getElementById('update-modal');
+    modal.classList.remove('active');
+    // Simpan status di localStorage agar tidak muncul lagi di browser yang sama
+    localStorage.setItem('lastUpdateSeen', '1.2'); 
+  }
+
+  // Cek saat halaman dimuat
+  window.addEventListener('load', function() {
+    const lastUpdateSeen = localStorage.getItem('lastUpdateSeen');
+    const currentVersion = "1.2"; // Sesuaikan dengan versi update kamu
+
+    // Jika user belum pernah lihat update versi ini
+    if (lastUpdateSeen !== currentVersion) {
+      setTimeout(() => {
+        document.getElementById('update-modal').classList.add('active');
+      }, 1500); // Muncul setelah 1.5 detik agar tidak bentrok dengan loader
+    }
+  });
 </script>
 
 </body>

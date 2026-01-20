@@ -8,6 +8,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    }
+  };
+</script>
+
     <style>
         :root {
             --bg-dark: #061424;
@@ -83,7 +94,7 @@
     </header>
 
     <div id="chat-window"></div>
-    <div id="typingIndicator" class="typing">Oracle sedang menenun pengetahuan...</div>
+    <div id="typingIndicator" class="typing">Oracle  mengetik...</div>
 
     <form class="input-form" id="chat-form">
         <input type="text" id="user-input" placeholder="Tanyakan sesuatu pada Oracle..." autocomplete="off">
@@ -101,16 +112,14 @@
 <script type="module">
     import { GoogleGenerativeAI } from "@google/generative-ai";
 
-    const API_KEY = "AIzaSyBqzDctQS4d4Id2zjkLne0ah9QbM_rfoYI"; 
+    const API_KEY = "AIzaSyAUxWWuPaSkOQnjCxBttTV4hTUEx9xNTYg"; 
     const genAI = new GoogleGenerativeAI(API_KEY); 
     
-const model = genAI.getGenerativeModel({ 
+    const model = genAI.getGenerativeModel({ 
         model: "gemini-2.5-flash", 
         systemInstruction: "Anda adalah Oracle AI, asisten virtual resmi untuk UNCLAIRONE. " +
-                           "Meskipun Anda adalah spesialis UNCLAIRONE, Anda juga memiliki pengetahuan luas " +
-                           "tentang musik, teknologi, dan pengetahuan umum lainnya. " +
-                           "Jika ditanya tentang hal di luar UNCLAIRONE, berikan jawaban terbaik Anda " +
-                           "sambil tetap menjaga gaya bahasa yang elegan dan profesional."
+                           "Anda memiliki pengetahuan luas tentang musik, teknologi, dan pengetahuan umum. " +
+                           "Gunakan gaya bahasa yang elegan, profesional, dan sedikit puitis."
     });
     let chatSession;
 
@@ -163,7 +172,12 @@ const model = genAI.getGenerativeModel({
         const chatWindow = document.getElementById('chat-window');
         chatWindow.insertAdjacentHTML('beforeend', msgHtml);
         chatWindow.scrollTo({ top: chatWindow.scrollHeight, behavior: 'smooth' });
+
+        if (window.MathJax) {
+        MathJax.typesetPromise();
     }
+}
+    
 
     const chatForm = document.getElementById('chat-form');
     const userInput = document.getElementById('user-input');
@@ -190,6 +204,7 @@ const model = genAI.getGenerativeModel({
             appendMessage("Oracle mengalami gangguan sinyal. Solidarity Forever!", 'ai-msg');
         }
     };
+
 
     window.addEventListener('DOMContentLoaded', () => {
         initChat();
