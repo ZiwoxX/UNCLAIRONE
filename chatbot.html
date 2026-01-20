@@ -16,67 +16,58 @@
             --glass: rgba(12, 43, 48, 0.9);
             --font-royal: 'Cinzel Decorative', cursive;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
         body {
             background: radial-gradient(circle at top, #0c2b30 0%, #061424 100%);
-            color: #fff;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            height: 100dvh;
-            display: flex; flex-direction: column; overflow: hidden;
+            color: #fff; font-family: 'Plus Jakarta Sans', sans-serif;
+            height: 100dvh; display: flex; flex-direction: column; overflow: hidden;
         }
-
         .chat-header {
             padding: 15px 20px; background: var(--glass);
             border-bottom: 1px solid rgba(191, 149, 63, 0.3);
             display: flex; align-items: center; gap: 15px;
             backdrop-filter: blur(15px); z-index: 100;
         }
-
         .header-info h1 {
             font-family: var(--font-royal); font-size: 1.1rem;
             background: linear-gradient(to right, var(--c-gold-light), var(--c-gold));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-
         #chat-window {
             flex: 1; padding: 20px; overflow-y: auto;
             display: flex; flex-direction: column; gap: 15px;
         }
-
-        .msg-container { display: flex; flex-direction: column; max-width: 85%; animation: slideUp 0.3s ease-out forwards; }
+        .msg-container { display: flex; flex-direction: column; max-width: 90%; animation: slideUp 0.3s ease-out forwards; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .ai-msg { align-self: flex-start; }
+        .ai-msg { align-self: flex-start; width: 100%; }
         .user-msg { align-self: flex-end; }
-
         .bubble {
             padding: 12px 16px; border-radius: 18px; font-size: 0.95rem;
-            line-height: 1.4; word-wrap: break-word;
+            line-height: 1.6; word-wrap: break-word; white-space: pre-wrap;
+            overflow-x: auto; /* Mengatasi tabel yang meluber */
         }
-
-        .ai-msg .bubble { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(191, 149, 63, 0.2); border-bottom-left-radius: 2px; }
+        .ai-msg .bubble { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(191, 149, 63, 0.2); border-bottom-left-radius: 2px; color: #e0e0e0; }
         .user-msg .bubble { background: linear-gradient(135deg, var(--c-gold), #8a6e2f); color: #000; font-weight: 600; border-bottom-right-radius: 2px; }
+        
+        /* Gaya Khusus untuk Tabel AI agar Rapi */
+        table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.85rem; background: rgba(0,0,0,0.2); }
+        th, td { border: 1px solid rgba(191, 149, 63, 0.3); padding: 8px; text-align: left; }
+        th { background: rgba(191, 149, 63, 0.2); color: var(--c-gold-light); }
 
         .timestamp { font-size: 0.65rem; color: rgba(255,255,255,0.4); margin-top: 5px; padding: 0 5px; }
-
         .input-form {
             padding: 20px; background: var(--glass); border-top: 1px solid rgba(191, 149, 63, 0.2);
             display: flex; gap: 10px; backdrop-filter: blur(10px);
         }
-
         #user-input {
             flex: 1; background: rgba(0,0,0,0.4); border: 1px solid var(--c-gold);
             padding: 12px 20px; border-radius: 30px; color: white; outline: none;
         }
-
         .btn-send {
             width: 48px; height: 48px; border-radius: 50%; border: none;
             background: var(--c-gold); color: #000; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
         }
-
         .typing { font-size: 0.8rem; color: var(--c-gold-light); display: none; margin: 10px 25px; font-style: italic; }
     </style>
 </head>
@@ -84,182 +75,128 @@
 
     <header class="chat-header">
         <a href="index.html" style="color: var(--c-gold);"><i class="fas fa-arrow-left"></i></a>
-        <img src="image/unclairone.png" width="40" height="40" style="border-radius: 50%;">
+        <img src="image/unclairone.png" width="40" height="40" style="border-radius: 50%;" onerror="this.src='https://via.placeholder.com/40'">
         <div class="header-info">
             <h1>ORACLE AI</h1>
             <p style="font-size: 0.6rem; color: #888;">UNCLAIRONE DIGITAL PERSONA</p>
         </div>
     </header>
 
-    <div id="chat-window">
-        <div class="msg-container ai-msg">
-            <div class="bubble">Salam Solidarity! Sistem Oracle telah dioptimalkan. Ada yang bisa saya bantu? ✨</div>
-        </div>
-    </div>
-
-    <div id="typingIndicator" class="typing">Oracle sedang berpikir...</div>
+    <div id="chat-window"></div>
+    <div id="typingIndicator" class="typing">Oracle sedang menenun pengetahuan...</div>
 
     <form class="input-form" id="chat-form">
-        <input type="text" id="user-input" placeholder="Ketik pesan..." autocomplete="off">
+        <input type="text" id="user-input" placeholder="Tanyakan sesuatu pada Oracle..." autocomplete="off">
         <button type="submit" class="btn-send"><i class="fas fa-paper-plane"></i></button>
     </form>
 
-<script>
-    // API Key yang benar
-    const API_KEY = "AIzaSyDEFqEz8ivLnVv_GcmPjrczpMfYvVQKaM0";
-    
-    // Endpoint yang berhasil: v2 dengan gemini-2.5-flash
-    const API_URL = `https://generativelanguage.googleapis.com/v2/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
-
-    const chatForm = document.getElementById('chat-form');
-    const userInput = document.getElementById('user-input');
-    const chatWindow = document.getElementById('chat-window');
-    const typingIndicator = document.getElementById('typingIndicator');
-
-    // System prompt untuk Oracle AI
-    const systemPrompt = `Kamu adalah Oracle AI, asisten digital untuk UNCLAIRONE kelas 10 C.1. 
-    Kamu ramah, mendukung, dan selalu menyemangati dengan slogan "Solidarity Forever". 
-    Jawablah dalam bahasa Indonesia yang natural dan santai.`;
-
-    // Untuk menyimpan riwayat percakapan (konteks)
-    let conversationHistory = [];
-
-    chatForm.onsubmit = async (e) => {
-        e.preventDefault();
-        const userText = userInput.value.trim();
-        if (!userText) return;
-
-        // Tampilkan pesan user
-        appendMessage(userText, 'user-msg');
-        userInput.value = '';
-        typingIndicator.style.display = 'block';
-
-        // Tambahkan pesan user ke riwayat
-        conversationHistory.push({
-            role: 'user',
-            parts: [{ text: userText }]
-        });
-
-        try {
-            // Siapkan konten untuk dikirim, termasuk system prompt dan riwayat
-            const contents = [
-                {
-                    role: 'user',
-                    parts: [{ text: systemPrompt }]
-                },
-                {
-                    role: 'model',
-                    parts: [{ text: "Mengerti! Saya Oracle AI, siap membantu dengan semangat Solidarity!" }]
-                },
-                ...conversationHistory
-            ];
-
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    contents: contents,
-                    generationConfig: {
-                        temperature: 0.7,
-                        topP: 0.8,
-                        topK: 40,
-                        maxOutputTokens: 1000,
-                    },
-                    safetySettings: [
-                        {
-                            category: "HARM_CATEGORY_HARASSMENT",
-                            threshold: "BLOCK_MEDIUM_AND_ABOVE"
-                        }
-                    ]
-                })
-            });
-
-            const data = await response.json();
-            console.log("API Response:", data);
-
-            if (data.error) {
-                throw new Error(data.error.message || "API Error");
-            }
-
-            const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || 
-                          "Maaf, saya tidak bisa menghasilkan respons saat ini.";
-
-            // Tambahkan respons AI ke riwayat
-            conversationHistory.push({
-                role: 'model',
-                parts: [{ text: aiText }]
-            });
-
-            // Batasi riwayat agar tidak terlalu panjang (misalnya 6 pesan terakhir)
-            if (conversationHistory.length > 6) {
-                conversationHistory = conversationHistory.slice(-6);
-            }
-
-            typingIndicator.style.display = 'none';
-            appendMessage(aiText, 'ai-msg');
-
-        } catch (error) {
-            console.error("Error:", error);
-            typingIndicator.style.display = 'none';
-
-            let errorMsg = "Oracle sedang mengalami gangguan. Coba lagi nanti!";
-
-            if (error.message.includes("429")) {
-                errorMsg = "Terlalu banyak permintaan. Silakan tunggu beberapa saat.";
-            } else if (error.message.includes("403")) {
-                errorMsg = "Akses ditolak. Periksa API key dan restrictions.";
-            }
-
-            appendMessage(errorMsg, 'ai-msg');
+    <script type="importmap">
+      {
+        "imports": {
+          "@google/generative-ai": "https://esm.run/@google/generative-ai@0.17.1"
         }
-    };
+      }
+    </script>
+
+<script type="module">
+    import { GoogleGenerativeAI } from "@google/generative-ai";
+
+    const API_KEY = "AIzaSyBqzDctQS4d4Id2zjkLne0ah9QbM_rfoYI"; 
+    const genAI = new GoogleGenerativeAI(API_KEY); 
+    
+const model = genAI.getGenerativeModel({ 
+        model: "gemini-2.5-flash", 
+        systemInstruction: "Anda adalah Oracle AI, asisten virtual resmi untuk UNCLAIRONE. " +
+                           "Meskipun Anda adalah spesialis UNCLAIRONE, Anda juga memiliki pengetahuan luas " +
+                           "tentang musik, teknologi, dan pengetahuan umum lainnya. " +
+                           "Jika ditanya tentang hal di luar UNCLAIRONE, berikan jawaban terbaik Anda " +
+                           "sambil tetap menjaga gaya bahasa yang elegan dan profesional."
+    });
+    let chatSession;
+
+    function initChat() {
+        chatSession = model.startChat({
+            history: [],
+            generationConfig: {
+                maxOutputTokens: 2500, 
+                temperature: 0.5,
+                topP: 0.9
+            },
+        });
+    }
+
+    // Fungsi canggih untuk memproses Markdown mentah dari AI menjadi HTML rapi
+    function parseMarkdown(text) {
+        let html = text
+            // 1. Handle Tabel (Sangat Penting untuk gambar 4 Anda)
+            .replace(/\|(.+)\|/g, (match) => {
+                const rows = match.trim().split('\n');
+                let tableHtml = '<table>';
+                rows.forEach((row, index) => {
+                    if (row.includes('---')) return;
+                    const cols = row.split('|').filter(c => c.trim() !== '');
+                    const tag = index === 0 ? 'th' : 'td';
+                    tableHtml += '<tr>' + cols.map(c => `<${tag}>${c.trim()}</${tag}>`).join('') + '</tr>';
+                });
+                return tableHtml + '</table>';
+            })
+            // 2. Teks Tebal
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            // 3. List/Poin
+            .replace(/^\s*[\*•-]\s+/gm, '• ')
+            // 4. Baris Baru
+            .replace(/\n/g, '<br>');
+        
+        return html;
+    }
 
     function appendMessage(text, type) {
-        const time = new Date().toLocaleTimeString([], { 
-            hour: '2-digit', 
-            minute: '2-digit',
-            hour12: true 
-        });
+        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const formattedText = parseMarkdown(text);
 
-        // Escape HTML dan ganti newline dengan <br>
-        const safeText = text
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#039;')
-            .replace(/\n/g, '<br>');
-
-        const html = `
+        const msgHtml = `
             <div class="msg-container ${type}">
-                <div class="bubble">${safeText}</div>
+                <div class="bubble">${formattedText}</div>
                 <div class="timestamp">${time}</div>
             </div>
         `;
-
-        chatWindow.insertAdjacentHTML('beforeend', html);
+        const chatWindow = document.getElementById('chat-window');
+        chatWindow.insertAdjacentHTML('beforeend', msgHtml);
         chatWindow.scrollTo({ top: chatWindow.scrollHeight, behavior: 'smooth' });
     }
 
-    // Mengirim pesan dengan Enter
-    userInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            chatForm.dispatchEvent(new Event('submit'));
+    const chatForm = document.getElementById('chat-form');
+    const userInput = document.getElementById('user-input');
+    const typingIndicator = document.getElementById('typingIndicator');
+
+    chatForm.onsubmit = async (e) => {
+        e.preventDefault();
+        const message = userInput.value.trim();
+        if (!message) return;
+
+        appendMessage(message, 'user-msg');
+        userInput.value = '';
+        typingIndicator.style.display = 'block';
+
+        try {
+            if (!chatSession) initChat();
+            const result = await chatSession.sendMessage(message);
+            const response = await result.response;
+            typingIndicator.style.display = 'none';
+            appendMessage(response.text(), 'ai-msg');
+        } catch (error) {
+            console.error(error);
+            typingIndicator.style.display = 'none';
+            appendMessage("Oracle mengalami gangguan sinyal. Solidarity Forever!", 'ai-msg');
         }
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+        initChat();
+        setTimeout(() => {
+            appendMessage("Halo! saya Oracle, AI khusus yang dibuat untuk bertanya apa saja. Apa yang ingin Anda tanyakan hari ini?", 'ai-msg');
+        }, 500);
     });
-
-    // Auto-focus input
-    setTimeout(() => userInput.focus(), 500);
-
-    // Pesan pembuka
-    setTimeout(() => {
-        appendMessage("Salam Solidarity! Oracle AI siap membantu dengan model Gemini 2.5 Flash terbaru! ✨", 'ai-msg');
-    }, 1000);
 </script>
-
 </body>
 </html>
