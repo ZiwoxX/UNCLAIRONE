@@ -602,9 +602,10 @@ body.tidore-mode {
         .input-bar { flex: 0 0 auto !important; margin-top: 0 !important; }
         .ornament-corner, .music-widget { display: none !important; }
         .close-modal-btn { top: 10px !important; right: 15px !important; font-size: 1.5rem !important; }
-        .dock-container { bottom: 20px !important; width: 100% !important; border:none !important; background: transparent !important; box-shadow: none !important; justify-content: center !important; gap: 15px !important; }
-        .dock-item { width: 45px !important; height: 45px !important; border: 1px solid var(--c-gold-3) !important; }
+        .dock-container { bottom: 10px !important; width: 100% !important; border:none !important; background: transparent !important; box-shadow: none !important; justify-content: flex-start !important; gap: 20px !important; overflow-x: auto !important; padding: 10px 20px !important; left: 0 !important; transform: none !important; }
+        .dock-item { width: 50px !important; height: 50px !important; border: 1px solid var(--c-gold-3) !important; flex-shrink: 0 !important; }
         .dock-item::after { display: none !important; }
+        .dock-container::-webkit-scrollbar { display: none !important; }
         .search-dock { position: relative !important; top: 0 !important; margin-bottom: 20px !important; padding:0 !important; box-shadow:none !important;}
         .jewel-card::after { animation: mattappa-pulse 3s infinite alternate; }
         
@@ -614,6 +615,19 @@ body.tidore-mode {
         
         /* FIX FONT SIZE MOBILE BDAY */
         .bday-title { font-size: 1.8rem; }
+    }
+
+    @media (max-width: 480px) {
+        h1.mega-title { font-size: 2.8rem !important; }
+        .subtitle { font-size: 1.2rem !important; }
+        .bento-grid { grid-template-columns: 1fr !important; }
+        .b-quote, .b-stat, .b-stat:last-child { grid-column: span 1 !important; }
+        .b-stat:last-child { flex-direction: column !important; gap: 10px !important; }
+        .grid-jewels { grid-template-columns: 1fr; gap: 20px; }
+        .jewel-card { padding: 30px 15px; }
+        .m-name { font-size: 1rem !important; }
+        .tab-btn { padding: 10px !important; font-size: 0.7rem !important; }
+        .philosophy-bar { gap: 20px; }
     }
   </style>
 </head>
