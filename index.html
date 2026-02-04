@@ -580,9 +580,10 @@ body.tidore-mode {
         }
         .b-stat:last-child .stat-icon-circle { margin-bottom: 0 !important; }
 
-        /* MODAL */
-        .royal-modal { display: flex !important; flex-direction: column !important; width: 92% !important; height: 85vh !important; margin: 5vh auto !important; background: #0b101a !important; border: 1px solid var(--c-gold-3) !important; border-radius: 20px !important; overflow: hidden !important; }
-        .m-sidebar { flex: 0 0 auto !important; width: 100% !important; padding: 15px !important; border-right: none !important; border-bottom: 2px dashed var(--c-gold-3) !important; display: flex !important; flex-direction: column !important; align-items: center !important; background: #0b101a !important; z-index: 2; }
+        /* MODAL FIX: Height set to auto to avoid empty space */
+        .royal-modal { display: flex !important; flex-direction: column !important; width: 92% !important; height: auto !important; max-height: 85vh !important; margin: 5vh auto !important; background: #0b101a !important; border: 1px solid var(--c-gold-3) !important; border-radius: 20px !important; overflow: hidden !important; }
+        
+        .m-sidebar { flex: 0 0 auto !important; width: 100% !important; padding: 15px !important; border-right: none !important; border-bottom: 2px dashed var(--c-gold-3) !important; display: flex !important; flex-direction: column !important; align-items: center !important; background: #0b101a !important; z-index: 2; height: auto !important; }
         
         /* FIX MOBILE LIKE: HAPUS #likeBtnAction DARI SINI */
         .m-sidebar .lontara-bg-char, .m-sidebar .tabe-badge { display: none !important; }
@@ -1701,4 +1702,4 @@ function createStars() {
 
 
 </body>
-</html> 
+</html>
