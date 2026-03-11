@@ -8,16 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-<script>
-  window.MathJax = {
-    tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']],
-      displayMath: [['$$', '$$'], ['\\[', '\\]']],
-    }
-  };
-</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        }
+      };
+    </script>
 
     <style>
         :root {
@@ -54,11 +56,19 @@
         .user-msg { align-self: flex-end; }
         .bubble {
             padding: 12px 16px; border-radius: 18px; font-size: 0.95rem;
-            line-height: 1.6; word-wrap: break-word; white-space: pre-wrap;
-            overflow-x: auto; /* Mengatasi tabel yang meluber */
+            line-height: 1.6; word-wrap: break-word; white-space: normal; /* Diubah agar paragraf Marked.js mengalir normal */
+            overflow-x: auto; 
         }
         .ai-msg .bubble { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(191, 149, 63, 0.2); border-bottom-left-radius: 2px; color: #e0e0e0; }
         .user-msg .bubble { background: linear-gradient(135deg, var(--c-gold), #8a6e2f); color: #000; font-weight: 600; border-bottom-right-radius: 2px; }
+        
+        /* Gaya Markdown dari Marked.js */
+        .bubble p { margin-bottom: 10px; }
+        .bubble p:last-child { margin-bottom: 0; }
+        .bubble ul, .bubble ol { margin-left: 20px; margin-bottom: 10px; }
+        .bubble code { background: rgba(0,0,0,0.3); padding: 2px 5px; border-radius: 4px; font-family: monospace; }
+        .bubble pre { background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; overflow-x: auto; margin: 10px 0; }
+        .bubble pre code { background: transparent; padding: 0; }
         
         /* Gaya Khusus untuk Tabel AI agar Rapi */
         table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.85rem; background: rgba(0,0,0,0.2); }
@@ -94,7 +104,7 @@
     </header>
 
     <div id="chat-window"></div>
-    <div id="typingIndicator" class="typing">Oracle  mengetik...</div>
+    <div id="typingIndicator" class="typing">Oracle mengetik...</div>
 
     <form class="input-form" id="chat-form">
         <input type="text" id="user-input" placeholder="Tanyakan sesuatu pada Oracle..." autocomplete="off">
@@ -112,14 +122,15 @@
 <script type="module">
     import { GoogleGenerativeAI } from "@google/generative-ai";
 
+    // PENTING: Untuk produksi, jangan mempublikasikan API Key ini di kode HTML/JS frontend yang bisa dilihat publik.
     const API_KEY = "AIzaSyBMI5QBL_YkLX2YmAjyg1JJe3QZxtmLhlg"; 
     const genAI = new GoogleGenerativeAI(API_KEY); 
     
     const model = genAI.getGenerativeModel({ 
-        model: "gemini-3.1-pro-preview", 
+        model: "gemini-1.5-pro", // Diperbarui ke model publik yang valid
         systemInstruction: "Anda adalah Oracle AI, asisten virtual resmi untuk UNCLAIRONE. " +
                            "Anda memiliki pengetahuan luas tentang musik, teknologi, dan pengetahuan umum. " +
-                           "Gunakan gaya bahasa yang elegan, profesional, dan sedikit puitis."
+                           "Gunakan gaya bahasa yang elegan, profesional, dan sedikit puitis. " + // Perbaikan Sintaks: Tambah '+'
                            "Jika kamu ditanya siapa pembuatmu, maka jawablah saya dibuat oleh Najim Al Haqoni yang ganteng."
     });
     let chatSession;
@@ -135,51 +146,30 @@
         });
     }
 
-    // Fungsi canggih untuk memproses Markdown mentah dari AI menjadi HTML rapi
-    function parseMarkdown(text) {
-        let html = text
-            // 1. Handle Tabel (Sangat Penting untuk gambar 4 Anda)
-            .replace(/\|(.+)\|/g, (match) => {
-                const rows = match.trim().split('\n');
-                let tableHtml = '<table>';
-                rows.forEach((row, index) => {
-                    if (row.includes('---')) return;
-                    const cols = row.split('|').filter(c => c.trim() !== '');
-                    const tag = index === 0 ? 'th' : 'td';
-                    tableHtml += '<tr>' + cols.map(c => `<${tag}>${c.trim()}</${tag}>`).join('') + '</tr>';
-                });
-                return tableHtml + '</table>';
-            })
-            // 2. Teks Tebal
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            // 3. List/Poin
-            .replace(/^\s*[\*•-]\s+/gm, '• ')
-            // 4. Baris Baru
-            .replace(/\n/g, '<br>');
-        
-        return html;
-    }
-
     function appendMessage(text, type) {
         const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        const formattedText = parseMarkdown(text);
+        
+        // Menggunakan Marked.js untuk parsing yang jauh lebih stabil daripada Regex manual
+        const formattedText = marked.parse(text);
 
-        const msgHtml = `
-            <div class="msg-container ${type}">
-                <div class="bubble">${formattedText}</div>
-                <div class="timestamp">${time}</div>
-            </div>
+        // Membuat container pembungkus pesan
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `msg-container ${type}`;
+        msgDiv.innerHTML = `
+            <div class="bubble">${formattedText}</div>
+            <div class="timestamp">${time}</div>
         `;
+
         const chatWindow = document.getElementById('chat-window');
-        chatWindow.insertAdjacentHTML('beforeend', msgHtml);
+        chatWindow.appendChild(msgDiv);
         chatWindow.scrollTo({ top: chatWindow.scrollHeight, behavior: 'smooth' });
 
+        // MathJax: Hanya merender elemen yang baru ditambahkan (Mencegah Lag)
         if (window.MathJax) {
-        MathJax.typesetPromise();
+            MathJax.typesetPromise([msgDiv]).catch((err) => console.error(err));
+        }
     }
-}
     
-
     const chatForm = document.getElementById('chat-form');
     const userInput = document.getElementById('user-input');
     const typingIndicator = document.getElementById('typingIndicator');
@@ -206,11 +196,10 @@
         }
     };
 
-
     window.addEventListener('DOMContentLoaded', () => {
         initChat();
         setTimeout(() => {
-            appendMessage("Halo! saya Oracle, AI khusus yang dibuat untuk bertanya apa saja. Apa yang ingin Anda tanyakan hari ini?", 'ai-msg');
+            appendMessage("Halo! Saya Oracle, AI khusus yang dibuat untuk menjawab pertanyaan Anda. Apa yang ingin Anda tanyakan hari ini?", 'ai-msg');
         }, 500);
     });
 </script>
