@@ -21,12 +21,14 @@
         --c-gold-3: #b38728;
         --c-void: #061424;
         --font-header: 'Cinzel Decorative', cursive;
+        --c-maroon: #8c2131;
     }
 
     body {
         background: radial-gradient(circle at 50% 30%, #1a3c45 0%, #061424 100%);
         color: #e2e8f0; font-family: 'Plus Jakarta Sans', sans-serif;
         min-height: 100vh; overflow-x: hidden; margin: 0; padding-bottom: 120px;
+        transition: background 0.8s ease;
     }
 
     .header-area { text-align: center; padding: 60px 20px 20px; }
@@ -37,10 +39,8 @@
         animation: shineText 5s linear infinite; filter: drop-shadow(0 0 15px rgba(191,149,63,0.4));
     }
 
-    /* === THE ROYAL SPOTLIGHT (ULTRA LUX) === */
-    .spotlight-container { padding: 40px 20px; display: flex; justify-content: center; position: relative; }
+    .spotlight-container { padding: 40px 20px; display: flex; justify-content: center; position: relative; transition: all 0.5s ease; }
     
-    /* Cahaya Aura di Belakang Kartu */
     .royal-aura {
         position: absolute; width: 350px; height: 350px;
         background: radial-gradient(circle, rgba(191,149,63,0.2) 0%, transparent 70%);
@@ -52,6 +52,7 @@
         background: linear-gradient(135deg, rgba(191,149,63,0.5), transparent, rgba(179,135,40,0.5));
         padding: 2px; border-radius: 40px; z-index: 1;
         box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+        transition: transform 0.5s ease;
     }
 
     .royal-card-inner {
@@ -61,7 +62,6 @@
         border: 1px solid rgba(255,255,255,0.05);
     }
 
-    /* Victorian Filigree (Ornamen Sudut Mewah) */
     .filigree { position: absolute; width: 60px; height: 60px; opacity: 0.7; pointer-events: none; }
     .f-tl { top: 15px; left: 15px; border-top: 3px solid var(--c-gold-1); border-left: 3px solid var(--c-gold-1); border-radius: 15px 0 0 0; }
     .f-tr { top: 15px; right: 15px; border-top: 3px solid var(--c-gold-1); border-right: 3px solid var(--c-gold-1); border-radius: 0 15px 0 0; }
@@ -90,7 +90,6 @@
         margin-bottom: 10px; letter-spacing: 2px;
     }
 
-    /* COUNTDOWN & BUTTON */
     .cd-lux { display: flex; justify-content: center; gap: 12px; margin: 25px 0; }
     .cd-item { 
         background: rgba(255,255,255,0.03); border: 1px solid rgba(191,149,63,0.2);
@@ -99,14 +98,13 @@
     }
     .btn-royal {
         background: linear-gradient(45deg, var(--c-maroon), #b02639);
-        color: white; border: 1px solid var(--c-gold-1); padding: 15px 40px;
+        color: white; border: 1px solid var(--c-gold-1); padding: 10px 15px;
         border-radius: 50px; font-family: var(--font-header); font-size: 0.8rem;
         cursor: pointer; transition: 0.4s; box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-        text-transform: uppercase; letter-spacing: 2px;
+        text-transform: uppercase; letter-spacing: 1px; font-weight: bold;
     }
     .btn-royal:hover { transform: scale(1.05); box-shadow: 0 15px 30px rgba(140, 33, 49, 0.4); border-color: #fff; }
 
-    /* LIST GRID */
     .bday-grid {
         display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
         gap: 25px; padding: 0 20px; max-width: 1200px; margin: 0 auto;
@@ -119,7 +117,6 @@
     .card-student:hover { border-color: var(--c-gold-1); transform: translateY(-10px); background: rgba(255,255,255,0.06); box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
     .cs-img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(191,149,63,0.3); margin-bottom: 15px; }
 
-    /* DOCK MENU (IDENTIK INDEX) */
     .dock-container {
         position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
         background: rgba(12, 43, 48, 0.9); backdrop-filter: blur(20px);
@@ -129,7 +126,137 @@
     .dock-item { color: #fff; font-size: 1.4rem; text-decoration: none; transition: 0.3s; }
     .dock-item.active { color: var(--c-gold-1); text-shadow: 0 0 15px var(--c-gold-1); }
 
-    /* KEYFRAMES */
+    /* --- FITUR STORY MODE (SCREENSHOT) --- */
+    .story-mode-active .dock-container,
+    .story-mode-active #searchContainer,
+    .story-mode-active .bday-grid,
+    .story-mode-active .header-area,
+    .story-mode-active .action-buttons {
+        display: none !important;
+    }
+    
+    .story-mode-active body { padding-bottom: 0; }
+    .story-mode-active .spotlight-container { height: 100vh; align-items: center; padding: 0; }
+    .story-mode-active .royal-card { transform: scale(1.05); }
+
+    .watermark {
+        display: none; position: absolute; bottom: 20px; left: 50%;
+        transform: translateX(-50%); font-family: var(--font-header);
+        color: rgba(191, 149, 63, 0.6); font-size: 0.9rem;
+        letter-spacing: 3px; white-space: nowrap; z-index: 10;
+    }
+    .story-mode-active .watermark { display: block; }
+
+    /* --- TEMA COWO (PRINCE) --- */
+    .story-boy { background: radial-gradient(circle at 50% 30%, #0f2027 0%, #203a43 50%, #2c5364 100%) !important; }
+    .story-boy .royal-card { background: linear-gradient(135deg, rgba(79, 172, 254, 0.7), transparent, rgba(0, 242, 254, 0.7)); }
+    .story-boy .royal-card-inner { background: rgba(15, 32, 39, 0.85) !important; border-color: #4facfe; }
+    .story-boy .spotlight-name { background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%) !important; -webkit-background-clip: text !important; background-clip: text !important; -webkit-text-fill-color: transparent !important; }
+    .story-boy .spotlight-img { border-color: #4facfe; box-shadow: 0 0 40px rgba(0, 242, 254, 0.6); }
+    .story-boy .filigree { border-color: #4facfe !important; }
+
+    /* --- TEMA CEWE (PRINCESS) --- */
+    .story-girl { background: radial-gradient(circle at 50% 30%, #ff9a9e 0%, #fecfef 50%, #fecfef 100%) !important; }
+    .story-girl .royal-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), transparent, rgba(255, 117, 140, 0.6)); }
+    .story-girl .royal-card-inner { background: rgba(255, 255, 255, 0.25) !important; backdrop-filter: blur(25px); border-color: #fff; }
+    .story-girl .spotlight-name { background: linear-gradient(to right, #ff477e, #ff7eb3) !important; -webkit-background-clip: text !important; background-clip: text !important; -webkit-text-fill-color: transparent !important; }
+    .story-girl .spotlight-img { border-color: #fff; box-shadow: 0 0 40px rgba(255, 117, 140, 0.6); }
+    .story-girl .filigree { border-color: #fff !important; }
+
+    .floating-sticker {
+        position: absolute; font-size: 3rem; z-index: 5;
+        animation: floatSticker 4s ease-in-out infinite; pointer-events: none;
+    }
+    @keyframes floatSticker { 0%, 100% { transform: translateY(0) rotate(-5deg); } 50% { transform: translateY(-25px) rotate(5deg); } }
+
+    .gacha-result {
+        margin-top: 15px; font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 0.9rem; color: #fcf6ba; background: rgba(191,149,63,0.1);
+        border: 1px dashed var(--c-gold-1); padding: 10px;
+        border-radius: 10px; display: none; animation: auraPulse 2s infinite;
+    }
+
+    /* --- MINIGAME BALON --- */
+    .modal-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(6, 20, 36, 0.95); backdrop-filter: blur(15px);
+        display: none; justify-content: center; align-items: center; z-index: 2000;
+        opacity: 0; transition: opacity 0.3s ease;
+    }
+    .modal-overlay.active { display: flex; opacity: 1; }
+    
+    .game-board {
+        position: relative; width: 100%; height: 250px;
+        background: rgba(0, 0, 0, 0.3); border: 2px solid var(--c-gold-1);
+        border-radius: 20px; overflow: hidden; margin: 15px 0;
+        box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+    }
+    
+    .balloon {
+        position: absolute; bottom: -60px; width: 40px; height: 50px;
+        border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+        cursor: crosshair; box-shadow: inset -5px -5px 10px rgba(0,0,0,0.2);
+        animation: floatUp linear forwards; z-index: 10;
+        display: flex; justify-content: center; align-items: center;
+    }
+    .balloon::after {
+        content: ''; position: absolute; bottom: -8px; left: 50%;
+        transform: translateX(-50%);
+        border-left: 4px solid transparent; border-right: 4px solid transparent;
+        border-bottom: 8px solid inherit;
+    }
+    
+    @keyframes floatUp { to { bottom: 120%; } }
+    
+    .game-hud { display: flex; justify-content: space-between; font-family: var(--font-header); font-size: 1.2rem; color: var(--c-gold-2); }
+    .prize-content { display: none; text-align: center; }
+
+    /* --- CUTE PHOTO DESIGN --- */
+    .cute-photo-container {
+        position: relative;
+        width: 130px;
+        height: 130px;
+        margin: 20px auto;
+        animation: bounceIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    }
+    .cute-photo {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px dashed var(--c-gold-1);
+        background: rgba(255,255,255,0.1);
+        box-shadow: 0 0 25px rgba(191,149,63,0.6);
+        animation: floatSticker 3.5s ease-in-out infinite;
+        position: relative;
+        z-index: 2;
+    }
+    .cute-crown {
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%) rotate(15deg);
+        font-size: 3.5rem;
+        z-index: 5;
+        animation: floatSticker 3s ease-in-out infinite reverse;
+        text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+    .sparkle {
+        position: absolute;
+        font-size: 1.8rem;
+        z-index: 1;
+        animation: auraPulse 1.5s infinite alternate;
+    }
+    .s1 { top: 10%; left: -25px; }
+    .s2 { bottom: 10%; right: -25px; animation-delay: 0.5s; }
+
+    @keyframes bounceIn {
+        0% { transform: scale(0); opacity: 0; }
+        80% { transform: scale(1.1); opacity: 1; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+    /* ------------------------- */
+
     @keyframes shineText { to { background-position: 200% center; } }
     @keyframes auraPulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.1); } }
     @keyframes sealRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -138,7 +265,6 @@
     @media (max-width: 480px) {
         .header-title { font-size: 2rem; }
         .bday-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .dock-container { width: 90%; justify-content: space-around; padding: 12px 10px; }
     }
   </style>
 </head>
@@ -149,7 +275,7 @@
       <p style="font-family:'Cormorant Garamond'; font-style:italic; font-size:1.3rem; color:rgba(255,255,255,0.6);">Magnificent Souls of 10 C.1</p>
   </div>
 
-  <div class="spotlight-container">
+  <div class="spotlight-container" id="spotlightContainer">
       <div class="royal-aura"></div>
       <div class="royal-card" data-tilt data-tilt-max="5" data-tilt-glare data-tilt-max-glare="0.3">
           <div class="royal-card-inner" id="spotlightContent">
@@ -157,10 +283,11 @@
           </div>
           <div class="filigree f-tl"></div><div class="filigree f-tr"></div>
           <div class="filigree f-bl"></div><div class="filigree f-br"></div>
+          <div class="watermark" id="watermarkText">✨ UNCLAIRONE • 10 CERDAS 1 ✨</div>
       </div>
   </div>
 
-  <div style="max-width: 600px; margin: 0 auto 40px; padding: 0 20px;">
+  <div id="searchContainer" style="max-width: 600px; margin: 0 auto 40px; padding: 0 20px;">
       <input type="text" id="searchInput" placeholder="Search by name..." onkeyup="filterStudents()" 
              style="width:100%; padding:15px 25px; background:rgba(255,255,255,0.03); border:1px solid rgba(191,149,63,0.3); border-radius:20px; color:#fff; font-family:inherit;">
   </div>
@@ -174,6 +301,45 @@
       <div class="dock-item" onclick="window.scrollTo({top:0, behavior:'smooth'})" style="cursor:pointer" title="Top"><i class="fas fa-arrow-up"></i></div>
   </div>
 
+  <div class="modal-overlay" id="balloonModal">
+      <div class="royal-card" style="max-width: 450px; margin: 0 20px; transform: scale(1) !important;">
+          <div class="royal-card-inner" style="padding: 30px 20px;">
+              
+              <div id="gameMenu">
+                  <h3 style="font-family: var(--font-header); color: var(--c-gold-1); margin-top: 0; font-size: 1.5rem;" id="gameTitle">Tantangan Balon!</h3>
+                  <p style="color: rgba(255,255,255,0.8);" id="gameDesc">Pecahkan <strong style="color:var(--c-gold-2);">15 Balon</strong> dalam waktu <strong style="color:var(--c-gold-2);">15 Detik</strong> untuk membuka kado rahasia!</p>
+                  <button class="btn-royal" onclick="startGame()" style="width: 100%; margin-top: 15px; font-size: 1rem;"><i class="fas fa-play"></i> Mulai Main</button>
+                  <button class="btn-royal" onclick="closeGame()" style="width: 100%; margin-top: 10px; background: transparent; border-color: rgba(255,255,255,0.3);">Batal</button>
+              </div>
+
+              <div id="gameActive" style="display: none;">
+                  <div class="game-hud">
+                      <div>🎯 Skor: <span id="scoreText">0</span>/15</div>
+                      <div>⏱️ Waktu: <span id="timeText">15</span>s</div>
+                  </div>
+                  <div class="game-board" id="gameBoard"></div>
+              </div>
+
+              <div id="prizePhase" class="prize-content">
+                  <h3 style="font-family: var(--font-header); font-size: 1.8rem; color: var(--c-gold-2); margin-top: 0; margin-bottom: 5px;">Selamat! 🎉</h3>
+                  
+                  <div class="cute-photo-container">
+                      <div class="cute-crown">👑</div>
+                      <img id="prizePhoto" class="cute-photo" src="" alt="Birthday Star" />
+                      <div class="sparkle s1">✨</div>
+                      <div class="sparkle s2">✨</div>
+                  </div>
+                  
+                  <p id="prizeText" style="color: #fff; font-size: 1.1rem; line-height: 1.5; margin-bottom: 25px; margin-top: 15px;"></p>
+                  <button class="btn-royal" onclick="closeGame()" style="width: 100%;">Tutup</button>
+              </div>
+
+          </div>
+          <div class="filigree f-tl"></div><div class="filigree f-tr"></div>
+          <div class="filigree f-bl"></div><div class="filigree f-br"></div>
+      </div>
+  </div>
+
   <script>
     const students = [
       {name: "Ainun Mardiansyah", photo: "image/Ainun.jpg", birthDate: "03-13"},
@@ -184,7 +350,7 @@
       {name: "Anindya Ainun", photo: "image/Ainun purba.jpg", birthDate: "03-15"},
       {name: "Annisa Maylafaiza", photo: "image/Anisa.jpg", birthDate: "05-05"},
       {name: "Aprilia Hastikasari", photo: "image/April.jpg", birthDate: "04-29"},
-      {name: "Clarinta Amabel", photo: "image/Aring.jpeg", birthDate: "03-29"},
+      {name: "Clarinta Amabel", photo: "image/Aring.jpeg", birthDate: "05-29"},
       {name: "Dhia Syarafana", photo: "image/Dhiaa.jpeg", birthDate: "06-06"},
       {name: "Fitri", photo: "image/Titi.jpg", birthDate: "01-11"},
       {name: "Hodia", photo: "image/Odi.jpg", birthDate: "08-26"},
@@ -192,7 +358,7 @@
       {name: "Miftahul", photo: "image/Mita.jpg", birthDate: "07-15"},
       {name: "Muh.Alif Falah Jordan", photo: "image/Alip.jpg", birthDate: "12-11"},
       {name: "Muh.Faiz Aswin", photo: "image/Faiz.jpg", birthDate: "02-28"},
-      {name: "Nagym", photo: "image/Nagym.jpg", birthDate: "06-23"},
+      {name: "Najim Al Haqoni", photo: "image/Nagym.jpg", birthDate: "06-23"},
       {name: "Naufal Qawwiy", photo: "image/nopal.jpg", birthDate: "04-23"},
       {name: "Nurfadillah Quinsya", photo: "image/Nyonyo.jpg", birthDate: "12-24"},
       {name: "Rafailah Andini", photo: "image/dini.jpg", birthDate: "04-02"},
@@ -203,6 +369,17 @@
 
     const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
     let sortedStudents = [];
+    
+    // Variabel Global untuk menyimpan data bintang ulang tahun saat ini
+    let currentStar = null;
+
+    // --- VARIABEL GAME BALON ---
+    let score = 0;
+    let timeLeft = 15;
+    let gameInterval;
+    let spawnInterval;
+    const targetScore = 15;
+    const balloonColors = ['#ff477e', '#4facfe', '#fcf6ba', '#9b5de5', '#00f5d4'];
 
     function init() {
         const today = new Date();
@@ -222,26 +399,28 @@
     function renderSpotlight() {
         const upcoming = [...sortedStudents].sort((a, b) => a.nextDate - b.nextDate);
         const star = upcoming[0];
+        currentStar = star; // Simpan star saat ini ke variabel global
+        
         const today = new Date();
         const isToday = star.nextDate.getDate() === today.getDate() && star.nextDate.getMonth() === today.getMonth();
 
         document.getElementById('spotlightContent').innerHTML = `
-            <div style="color:var(--c-gold-1); font-size:1.2rem; margin-bottom:15px; font-family:var(--font-header);">
+            <div id="spotlightTopText" style="color:var(--c-gold-1); font-size:1.2rem; margin-bottom:15px; font-family:var(--font-header);">
                 <i class="fas ${isToday ? 'fa-cake-candles' : 'fa-crown'}"></i><br>
-                <span style="font-size:0.6rem; letter-spacing:4px;">${isToday ? 'TODAY\'S ROYALTY' : 'THE NEXT STAR'}</span>
+                <span id="spotlightSubtitle" style="font-size:0.6rem; letter-spacing:4px;">${isToday ? 'TODAY\'S ROYALTY' : 'THE NEXT STAR'}</span>
             </div>
             
             <div class="spotlight-img-frame">
-                <img src="${star.photo}" class="spotlight-img">
+                <img src="${star.photo}" class="spotlight-img" onerror="this.src='image/unclairone.png'">
                 ${isToday ? '<div class="royal-seal"><i class="fas fa-check-double"></i></div>' : ''}
             </div>
 
             <h2 class="spotlight-name">${star.name}</h2>
-            <p style="font-family:'Cormorant Garamond'; font-size:1.5rem; color:var(--c-gold-1); font-style:italic;">${star.d} ${monthNames[star.m-1]}</p>
+            <p class="spotlight-date" style="font-family:'Cormorant Garamond'; font-size:1.5rem; color:var(--c-gold-1); font-style:italic;">${star.d} ${monthNames[star.m-1]}</p>
             
             <div id="statusArea">
                 ${isToday ? 
-                    `<div style="font-family:var(--font-header); font-size:1.5rem; color:var(--c-gold-2); margin:30px 0; animation:happyPulse 2s infinite;">✨ HAPPY BIRTHDAY ✨</div>` : 
+                    `<div style="font-family:var(--font-header); font-size:1.5rem; color:var(--c-gold-2); margin:20px 0; animation:happyPulse 2s infinite;">✨ HAPPY BIRTHDAY ✨</div>` : 
                     `<div class="cd-lux">
                         <div class="cd-item"><span style="display:block; font-size:1.5rem; color:var(--c-gold-1); font-weight:900;" id="d">0</span><small style="font-size:0.5rem; color:#888;">DAYS</small></div>
                         <div class="cd-item"><span style="display:block; font-size:1.5rem; color:var(--c-gold-1); font-weight:900;" id="h">0</span><small style="font-size:0.5rem; color:#888;">HOURS</small></div>
@@ -250,12 +429,144 @@
                 }
             </div>
 
-            <button onclick="fireConfetti()" class="btn-royal">Celebrate Now</button>
+            <div id="gachaText" class="gacha-result"></div>
+
+            <div class="action-buttons" style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 15px;">
+                <button onclick="fireConfetti()" class="btn-royal" style="padding: 10px 15px;" title="Confetti"><i class="fas fa-magic"></i></button>
+                ${isToday ? `
+                    <button onclick="drawGacha()" class="btn-royal" style="padding: 10px 15px; background: #0c2b30;"><i class="fas fa-dice"></i> Titah</button>
+                    <button onclick="openGameMenu()" class="btn-royal" style="padding: 10px 15px; background: #b38728;"><i class="fas fa-gamepad"></i> Game</button>
+                ` : ''}
+                <button onclick="toggleStoryMode('boy')" class="btn-royal" style="padding: 10px 15px; background: linear-gradient(45deg, #141e30, #243b55); border-color: #4facfe;"><i class="fas fa-mars"></i> Cowo</button>
+                <button onclick="toggleStoryMode('girl')" class="btn-royal" style="padding: 10px 15px; background: linear-gradient(45deg, #ff758c, #ff7eb3); border-color: #fff;"><i class="fas fa-venus"></i> Cewe</button>
+            </div>
         `;
 
         if (!isToday) startTimer(star.nextDate);
         else setTimeout(fireConfetti, 1000);
     }
+
+    // --- LOGIKA GAME BALON ---
+    function openGameMenu() {
+        document.getElementById('balloonModal').classList.add('active');
+        document.getElementById('gameMenu').style.display = 'block';
+        document.getElementById('gameActive').style.display = 'none';
+        document.getElementById('prizePhase').style.display = 'none';
+        document.body.style.overflow = 'hidden';
+        
+        // Reset text kalau abis kalah
+        document.getElementById('gameTitle').innerText = "Tantangan Balon!";
+        document.getElementById('gameTitle').style.color = "var(--c-gold-1)";
+        document.getElementById('gameDesc').innerHTML = `Pecahkan <strong style="color:var(--c-gold-2);">15 Balon</strong> dalam waktu <strong style="color:var(--c-gold-2);">15 Detik</strong> untuk membuka kado rahasia!`;
+    }
+
+    function closeGame() {
+        document.getElementById('balloonModal').classList.remove('active');
+        document.body.style.overflow = 'auto';
+        clearInterval(gameInterval);
+        clearInterval(spawnInterval);
+        document.getElementById('gameBoard').innerHTML = ''; // bersihkan balon
+    }
+
+    function startGame() {
+        score = 0;
+        timeLeft = 15;
+        document.getElementById('scoreText').innerText = score;
+        document.getElementById('timeText').innerText = timeLeft;
+        
+        document.getElementById('gameMenu').style.display = 'none';
+        document.getElementById('gameActive').style.display = 'block';
+        document.getElementById('gameBoard').innerHTML = '';
+
+        // Timer berjalan
+        gameInterval = setInterval(() => {
+            timeLeft--;
+            document.getElementById('timeText').innerText = timeLeft;
+            if(timeLeft <= 0) endGame(false);
+        }, 1000);
+
+        // Munculin balon tiap 400ms
+        spawnInterval = setInterval(spawnBalloon, 400);
+    }
+
+    function spawnBalloon() {
+        const board = document.getElementById('gameBoard');
+        const balloon = document.createElement('div');
+        balloon.className = 'balloon';
+        
+        // Random warna, posisi x, dan kecepatan terbang
+        const color = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+        const leftPos = Math.random() * 80; // 0% - 80% left
+        const animDuration = 2 + Math.random() * 2; // 2s - 4s
+        
+        balloon.style.backgroundColor = color;
+        balloon.style.borderBottomColor = color; // buat ikatan bawah
+        balloon.style.left = leftPos + '%';
+        balloon.style.animationDuration = animDuration + 's';
+
+        // Event pecah
+        balloon.onclick = function() {
+            if(timeLeft > 0) {
+                score++;
+                document.getElementById('scoreText').innerText = score;
+                // Efek visual pecah sederhana
+                this.style.transform = 'scale(2)';
+                this.style.opacity = '0';
+                setTimeout(() => this.remove(), 200);
+                
+                if(score >= targetScore) endGame(true);
+            }
+        };
+
+        board.appendChild(balloon);
+
+        // Bersihkan balon yang lewat layar biar ga memori bocor
+        setTimeout(() => {
+            if(balloon.parentNode) balloon.remove();
+        }, animDuration * 1000);
+    }
+
+    function endGame(isWin) {
+        clearInterval(gameInterval);
+        clearInterval(spawnInterval);
+        
+        if(isWin) {
+            document.getElementById('gameActive').style.display = 'none';
+            document.getElementById('prizePhase').style.display = 'block';
+            
+            // Masukkan Foto Yang Sedang Ulang Tahun
+            if(currentStar && currentStar.photo) {
+                const prizePhotoEl = document.getElementById('prizePhoto');
+                prizePhotoEl.src = currentStar.photo;
+                prizePhotoEl.onerror = function() { this.src = 'image/unclairone.png'; };
+            }
+            
+            const prizes = [
+                "Hadiahmu adalah: <br><strong style='color:var(--c-gold-2)'>Minta ke Aco</strong> Humph💢",
+                "Hadiahmu adalah: <br><strong style='color:var(--c-gold-2)'>Ditraktir sama bendahara</strong> nyam nyammm 🍢",
+                "Selamat! Hari ini kamu resmi jadi <strong style='color:var(--c-gold-2)'>Gausah bayar kas</strong>. nanti dibayarin inun! 👑",
+                "Wah, kamu dapet <strong style='color:var(--c-gold-2)'>Pengecualian ngerjain PR!</strong><br><small>(Syarat & Ketentuan berlaku, tanggung jawab sendiri sama guru wkwk)</small> 🤣"
+            ];
+            document.getElementById('prizeText').innerHTML = prizes[Math.floor(Math.random() * prizes.length)];
+            
+            // Ledakan Confetti
+            let duration = 3 * 1000;
+            let end = Date.now() + duration;
+            (function frame() {
+                confetti({ particleCount: 15, angle: 60, spread: 55, origin: { x: 0 }, zIndex: 3000 });
+                confetti({ particleCount: 15, angle: 120, spread: 55, origin: { x: 1 }, zIndex: 3000 });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+        } else {
+            // Kalah, balik ke menu awal
+            document.getElementById('gameActive').style.display = 'none';
+            document.getElementById('gameMenu').style.display = 'block';
+            document.getElementById('gameTitle').innerText = "Waktu Habis!";
+            document.getElementById('gameTitle').style.color = "#ff477e";
+            document.getElementById('gameDesc').innerHTML = `Sayang sekali kamu cuma pecahin <strong style="color:var(--c-gold-2);">${score} balon</strong>. Coba lagi yuk!`;
+        }
+    }
+    // ----------------------------
 
     function startTimer(target) {
         function update() {
@@ -305,6 +616,99 @@
             if (Date.now() < end) requestAnimationFrame(frame);
         }());
     }
+
+    function drawGacha() {
+        const fortunes = [
+            "Titah Raja: Auto MVP Valorant seharian! 🎮",
+            "Titah Raja: Berkah OSN Astronomi, auto paham koordinat langit! 🌌",
+            "Titah Raja: Semua warga 10 C.1 wajib bilang 'Maballo' pas ketemu! 👑",
+            "Titah Raja: Bebas pajak kas kelas hari ini! 💰",
+            "Titah Raja: Hoki nemu diamond di Minecraft tanpa gali dalam! ⛏️",
+            "Titah Raja: Dilarang dikasih tugas kelompok sosiologi & biologi hari ini! 🛑",
+            "Titah Raja: Wajib di-treat minuman dingin di kantin sama teman sebangku! 🥤",
+            "Titah Raja: Aura Main Character meningkat 1000% ✨"
+        ];
+        const gachaEl = document.getElementById('gachaText');
+        gachaEl.style.display = 'block';
+        gachaEl.innerHTML = "<i>sabar yawh...</i>";
+        setTimeout(() => {
+            const randomFate = fortunes[Math.floor(Math.random() * fortunes.length)];
+            gachaEl.innerHTML = `<strong>${randomFate}</strong>`;
+            fireConfetti();
+        }, 1000);
+    }
+
+    function generateStickers(emojis) {
+        const oldLayer = document.getElementById('floatingStickersLayer');
+        if(oldLayer) oldLayer.remove();
+
+        const container = document.createElement('div');
+        container.id = 'floatingStickersLayer';
+        document.querySelector('.spotlight-container').appendChild(container);
+
+        const positions = [
+            {top: '5%', left: '5%'}, {top: '15%', right: '10%'}, 
+            {bottom: '15%', left: '10%'}, {bottom: '25%', right: '5%'},
+            {top: '45%', left: '-5%'}, {top: '50%', right: '-5%'}
+        ];
+
+        positions.forEach((pos, i) => {
+            if(i < emojis.length) {
+                const el = document.createElement('div');
+                el.className = 'floating-sticker';
+                el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                Object.assign(el.style, pos);
+                el.style.animationDelay = `${Math.random() * 2}s`;
+                container.appendChild(el);
+            }
+        });
+    }
+
+    function toggleStoryMode(gender) {
+        const body = document.body;
+        body.classList.add('story-mode-active');
+        body.classList.remove('story-boy', 'story-girl');
+        
+        const subtitle = document.getElementById('spotlightSubtitle');
+        const watermark = document.getElementById('watermarkText');
+        const topText = document.getElementById('spotlightTopText');
+
+        if (gender === 'boy') {
+            body.classList.add('story-boy');
+            subtitle.innerText = "👑 THE ROYAL PRINCE 👑";
+            watermark.innerText = "✨ UNCLAIRONE • PRINCE ✨";
+            topText.style.color = "#4facfe";
+            generateStickers(['🥶', '😎', '🎮', '🔥', '👑', '⚽', '🏆', '💎']);
+        } else {
+            body.classList.add('story-girl');
+            subtitle.innerText = "🌸 THE ROYAL PRINCESS 🌸";
+            watermark.innerText = "✨ UNCLAIRONE • PRINCESS ✨";
+            topText.style.color = "#fff";
+            generateStickers(['💅', '✨', '🎀', '💖', '👑', '🧸', '🦋', '🌸']);
+        }
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        setTimeout(() => {
+            alert("Siap di-screenshot! 📸\nKlik layar di mana saja untuk kembali normal.");
+        }, 300);
+    }
+
+    document.addEventListener('click', function(e) {
+        if (document.body.classList.contains('story-mode-active') && !e.target.closest('.btn-royal')) {
+            document.body.classList.remove('story-mode-active', 'story-boy', 'story-girl');
+            const stickers = document.getElementById('floatingStickersLayer');
+            if(stickers) stickers.remove();
+
+            const today = new Date();
+            const upcoming = [...sortedStudents].sort((a, b) => a.nextDate - b.nextDate);
+            const isToday = upcoming[0].nextDate.getDate() === today.getDate() && upcoming[0].nextDate.getMonth() === today.getMonth();
+            
+            document.getElementById('spotlightSubtitle').innerText = isToday ? "TODAY'S ROYALTY" : "THE NEXT STAR";
+            document.getElementById('watermarkText').innerText = "✨ UNCLAIRONE • 10 CERDAS 1 ✨";
+            document.getElementById('spotlightTopText').style.color = "var(--c-gold-1)";
+        }
+    });
 
     window.onload = init;
   </script>
