@@ -984,7 +984,7 @@ const firebaseConfig = {
             bdayStudents.forEach(s => {
                 const dateOnly = s.birthDate.split('-')[1]; // Ambil tanggalnya saja
                 // Ambil nama depan saja agar muat
-                const shortName = s.name.split(' ')[0]; 
+                const shortName = s.name.split('    ')[0]; 
                 
                 html += `
                 <div class="bday-item-compact">
