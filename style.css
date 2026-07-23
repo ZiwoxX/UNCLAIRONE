@@ -1,7 +1,10 @@
-    /* ========================================
-    1. ROYAL ATLANTIS THEME VARIABLES
-    ========================================
-    */
+    html, body {
+    background-color: #121212;
+    color: #ffd700;             
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;        
+    }
     :root {
         /* Palette Kerajaan Laut Dalam */
         --ocean-deep: #000910;       /* Abyss (Hitam Kebiruan) */
