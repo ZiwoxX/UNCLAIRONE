@@ -16,8 +16,8 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -294,8 +294,8 @@
     .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 100px; }
     .bento-card {
         background: linear-gradient(135deg, rgba(2, 28, 46, 0.4) 0%, rgba(0, 9, 16, 0.6) 100%);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         border: 1px solid rgba(212, 175, 55, 0.4);
         border-top: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 16px; 
@@ -375,8 +375,8 @@
     .grid-jewels { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 35px; }
     .jewel-card {
         background: linear-gradient(180deg, rgba(2, 28, 46, 0.5) 0%, rgba(0,0,0,0.8) 100%);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
         border: 1px solid rgba(212, 175, 55, 0.3);
         border-top: 1px solid rgba(255, 255, 255, 0.15);
         border-radius: 20px 20px 0 0;
@@ -413,7 +413,7 @@
     .btn-detail:hover { color: #000; box-shadow: 0 0 15px var(--c-gold-1); }
 
     /* MENFESS (Message in Bottle) */
-    .menfess-container { width: 100%; max-width: 1000px; margin: 0 auto 80px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; content-visibility: auto; contain-intrinsic-size: 600px; }
+    .menfess-container { width: 100%; max-width: 1000px; margin: 0 auto 80px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
     .mf-ticket {
         background: rgba(2, 20, 35, 0.7); 
         border: 1px solid rgba(212, 175, 55, 0.2); border-left: 4px solid var(--c-gold-1);
@@ -718,7 +718,7 @@
   <div id="menfessModalOverlay" class="modal-overlay">
     <div class="royal-modal" style="grid-template-columns: 1fr; max-width:500px; height:auto; padding:30px; display:flex; flex-direction:column;">
         <span class="close-modal-btn" onclick="closeMenfessModal()">×</span>
-        <h3 style="text-align:center; color:var(--c-gold-1); margin-bottom:20px; font-family:'Cinzel Decorative';">Kirim ke siapa?</h3>
+        <h3 style="text-align:center; color:var(--c-gold-1); margin-bottom:20px; font-family:'Cinzel Decorative';">Hanyutkan Pesan</h3>
         <form id="menfessForm" style="display:flex; flex-direction:column; gap:15px;">
             <input type="text" id="mfTo" class="search-input" placeholder="Kepada..." required>
             <textarea id="mfContent" class="search-input" rows="4" placeholder="Isi pesan rahasia..." required style="border-radius:15px;"></textarea>
@@ -831,39 +831,17 @@ const firebaseConfig = {
         {text: "Masa depan adalah milik mereka yang menyiapkannya hari ini.", author: "Unknown"},
     ];
 
-    // 3. IMPROVED CANVAS PARTICLES (BIOLUMINESCENCE BUBBLES) - OPTIMIZED
+    // 3. IMPROVED CANVAS PARTICLES (BIOLUMINESCENCE BUBBLES)
     const canvas = document.getElementById('canvas-bg');
     const ctx = canvas.getContext('2d');
     let particles = [];
-    let particlesPaused = false;
 
     function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
-    window.addEventListener('resize', resizeCanvas, { passive: true });
+    window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
-
-    // Pre-render sprite glow SEKALI ke canvas offscreen.
-    // Jauh lebih murah daripada ctx.shadowBlur yang dihitung ulang tiap frame per partikel.
-    function createGlowSprite(color) {
-        const size = 32;
-        const off = document.createElement('canvas');
-        off.width = off.height = size;
-        const octx = off.getContext('2d');
-        const grad = octx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
-        grad.addColorStop(0, color);
-        grad.addColorStop(1, 'rgba(0,0,0,0)');
-        octx.fillStyle = grad;
-        octx.fillRect(0, 0, size, size);
-        return off;
-    }
-    const glowSpriteGold = createGlowSprite('rgba(212, 175, 55, 0.9)');
-    const glowSpriteCyan = createGlowSprite('rgba(0, 255, 255, 0.9)');
-
-    // Jumlah partikel tetap sama seperti versi asli (120) — beban berat sebelumnya
-    // berasal dari ctx.shadowBlur per-frame, bukan dari jumlah partikelnya.
-    const PARTICLE_COUNT = 120;
 
     class Bubble {
         constructor() { this.reset(); }
@@ -879,8 +857,9 @@ const firebaseConfig = {
             
             // 30% kemungkinan partikel menjadi 'magic plankton' emas/cyan
             this.isMagic = Math.random() > 0.7;
-            this.sprite = this.isMagic ? (Math.random() > 0.5 ? glowSpriteGold : glowSpriteCyan) : null;
-            this.color = `rgba(173, 216, 230, ${this.alpha * 0.5})`;
+            this.color = this.isMagic ? 
+                (Math.random() > 0.5 ? `rgba(212, 175, 55, ${this.alpha})` : `rgba(0, 255, 255, ${this.alpha})`) : 
+                `rgba(173, 216, 230, ${this.alpha * 0.5})`;
         }
         update() {
             this.y -= this.speedY;
@@ -890,40 +869,34 @@ const firebaseConfig = {
             if(this.y < -50) this.reset();
         }
         draw() {
-            if (this.isMagic && this.sprite) {
-                // Gambar sprite glow yang sudah jadi (drawImage jauh lebih murah dari shadowBlur)
-                const s = this.size * 9;
-                ctx.globalAlpha = this.alpha;
-                ctx.drawImage(this.sprite, this.drawX - s / 2, this.y - s / 2, s, s);
-                ctx.globalAlpha = 1;
+            ctx.beginPath();
+            ctx.arc(this.drawX, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+            
+            // Tambahkan efek glow (cahaya) untuk partikel magis
+            if (this.isMagic) {
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = this.color;
             } else {
-                ctx.beginPath();
-                ctx.arc(this.drawX, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
+                ctx.shadowBlur = 0;
             }
         }
     }
 
     function initParticles() {
         particles = [];
-        for(let i=0; i<PARTICLE_COUNT; i++) particles.push(new Bubble());
+        // Ditambah agar efek bioluminescence lebih terasa di bawah laut
+        for(let i=0; i<120; i++) particles.push(new Bubble());
     }
     
     function animateParticles() {
-        if (!particlesPaused) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-        }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => { p.update(); p.draw(); });
         requestAnimationFrame(animateParticles);
     }
     initParticles();
     animateParticles();
-
-    // Hentikan animasi saat tab tidak aktif (hemat CPU & baterai, terutama HP)
-    document.addEventListener('visibilitychange', () => {
-        particlesPaused = document.hidden;
-    });
 
     // 4. SUBTITLE ROTATOR
     const greetingWords = ["Aga Kareba?", "The Royal Family of 10 C.1", "Family, Achievement, & Solidarity"];
@@ -942,22 +915,16 @@ const firebaseConfig = {
 
     // 5. MAIN LOGIC ON LOAD
     window.addEventListener('load', () => {
-        // Loader ditutup segera setelah konten utama siap (bukan menunggu waktu tetap),
-        // dengan fallback timeout sebagai jaring pengaman.
+        // Loader timeout logic (fallback)
         const loader = document.getElementById('loader');
-        let loaderHidden = false;
         const hideLoader = () => {
-             if (loaderHidden) return;
-             loaderHidden = true;
              loader.style.opacity = '0';
              setTimeout(() => { loader.style.display = 'none'; }, 800);
-             if (window.ScrollTrigger) ScrollTrigger.refresh();
+             ScrollTrigger.refresh();
         };
-
+        setTimeout(hideLoader, 2000); // Max load time
+        
         initContent();
-        // Beri 2 frame agar DOM sempat ter-render sebelum loader hilang (transisi mulus)
-        requestAnimationFrame(() => requestAnimationFrame(hideLoader));
-        setTimeout(hideLoader, 1500); // fallback jika sesuatu lambat
     });
 
     function initContent() {
@@ -1033,34 +1000,22 @@ const firebaseConfig = {
     function renderStudents() {
         const cont = document.getElementById('studentContainer');
         cont.innerHTML = '';
-        // Bangun semua kartu dalam DocumentFragment dulu supaya browser hanya
-        // melakukan satu kali reflow/layout, bukan 36 kali (satu per kartu).
-        const fragment = document.createDocumentFragment();
-        const cardEls = [];
         students.forEach((s) => {
             const el = document.createElement('div');
             el.className = 'jewel-card';
             el.innerHTML = `
-                <div class="avatar-wrapper"><img src="${s.photo}" loading="lazy" decoding="async" class="avatar-img"></div>
+                <div class="avatar-wrapper"><img src="${s.photo}" loading="lazy" class="avatar-img"></div>
                 <h3 class="jewel-name">${s.name}</h3>
                 <span class="jewel-role">${s.organization || 'SISWA'}</span>
                 <p class="jewel-desc">${s.description}</p>
                 <button class="btn-detail" onclick="openStudentModal('${s.name}')"><i class="fas fa-eye"></i> Profil</button>
             `;
-            fragment.appendChild(el);
-            cardEls.push(el);
+            cont.appendChild(el);
+            if(window.innerWidth > 900 && VanillaTilt) VanillaTilt.init(el, { max: 5, speed: 400, glare:true, "max-glare":0.1 });
         });
-        cont.appendChild(fragment);
-
-        // Inisialisasi VanillaTilt setelah semua kartu masuk DOM (desktop saja)
-        if (window.innerWidth > 900 && window.VanillaTilt) {
-            cardEls.forEach(el => VanillaTilt.init(el, { max: 5, speed: 400, glare: true, "max-glare": 0.1 }));
-        }
         
         // GSAP Animation
-        if (window.gsap) {
-            gsap.to(".jewel-card", { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, scrollTrigger: { trigger: ".grid-jewels", start: "top 85%" } });
-        }
+        gsap.to(".jewel-card", { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, scrollTrigger: { trigger: ".grid-jewels", start: "top 85%" } });
     }
 
     function renderMarquee() {
