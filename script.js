@@ -88,7 +88,11 @@ const firebaseConfig = {
     const glowSpriteGold = createGlowSprite('rgba(212, 175, 55, 0.9)');
     const glowSpriteCyan = createGlowSprite('rgba(0, 255, 255, 0.9)');
 
-    const PARTICLE_COUNT = 120;
+    // Kurangi jumlah partikel di layar sempit/HP & untuk pengguna yang minta
+    // reduced motion di OS-nya. Ini beban utama yang jalan di main thread
+    // tiap frame, jadi paling berpengaruh ke skor performa mobile.
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const PARTICLE_COUNT = prefersReducedMotion ? 0 : (window.innerWidth < 768 ? 45 : 120);
 
     class Bubble {
         constructor() { this.reset(); }
@@ -143,7 +147,8 @@ const firebaseConfig = {
         requestAnimationFrame(animateParticles);
     }
     initParticles();
-    animateParticles();
+    // Kalau reduced motion aktif, tidak perlu loop rAF sama sekali (hemat CPU penuh)
+    if (PARTICLE_COUNT > 0) animateParticles();
 
     // Hentikan animasi saat tab tidak aktif (hemat CPU & baterai, terutama HP)
     document.addEventListener('visibilitychange', () => {

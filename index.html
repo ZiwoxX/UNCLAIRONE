@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg/xml" href="image/unclairone.png" />     
+  <link rel="icon" type="image/png" href="image/unclairone.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#000910">
   <meta name="description" content="Portal Kelas 10 C.1 - SMAN 1 PAREPARE">
@@ -14,14 +14,22 @@
   <meta property="og:description" content="Portal Kelas 10 C.1 SMAN 1 Parepare. Family, Achievement, & Solidarity.">
   <meta property="og:image" content="https://unclairone.vercel.app/image/10X1.jpg">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Buka koneksi lebih awal ke semua origin eksternal yang dipakai -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Plus+Jakarta+Sans:wght@200;400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome dimuat non-blocking: didownload paralel, baru diaktifkan saat siap,
+       jadi tidak lagi menahan first paint. Fallback <noscript> untuk browser tanpa JS. -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Plus+Jakarta+Sans:wght@200;400;500;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
 </head>
@@ -285,13 +293,12 @@
       <img id="lbImg" src="" style="max-width:90%; max-height:80vh; border:2px solid var(--c-gold-1); box-shadow:0 0 30px rgba(255,215,0,0.3);">
   </div>
 
-  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+  <!-- defer supaya SDK Firebase (yang berukuran besar) tidak menahan parsing HTML.
+       Urutan eksekusi antar script defer tetap terjaga sesuai urutan di DOM,
+       jadi script.js tetap jalan setelah kedua SDK ini siap. -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js" defer></script>
   <script src="script.js" defer></script>
 
-</body>
-</html>
-
-  </script>
 </body>
 </html>
