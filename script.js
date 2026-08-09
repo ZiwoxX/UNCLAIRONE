@@ -73,8 +73,6 @@ const firebaseConfig = {
     window.addEventListener('resize', resizeCanvas, { passive: true });
     resizeCanvas();
 
-    // Pre-render sprite glow SEKALI ke canvas offscreen.
-    // Jauh lebih murah daripada ctx.shadowBlur yang dihitung ulang tiap frame per partikel.
     function createGlowSprite(color) {
         const size = 32;
         const off = document.createElement('canvas');
@@ -90,8 +88,6 @@ const firebaseConfig = {
     const glowSpriteGold = createGlowSprite('rgba(212, 175, 55, 0.9)');
     const glowSpriteCyan = createGlowSprite('rgba(0, 255, 255, 0.9)');
 
-    // Jumlah partikel tetap sama seperti versi asli (120) — beban berat sebelumnya
-    // berasal dari ctx.shadowBlur per-frame, bukan dari jumlah partikelnya.
     const PARTICLE_COUNT = 120;
 
     class Bubble {
