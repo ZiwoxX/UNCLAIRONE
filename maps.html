@@ -14,7 +14,7 @@
                 const lon = position.coords.longitude;
 
                 // Kirim koordinat ke backend API Vercel
-                await fetch('/api/save-location', {
+                await fetch('/api/save-locations', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ lat, lon })
